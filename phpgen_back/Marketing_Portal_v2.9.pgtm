@@ -1,4 +1,4 @@
-<Project version="18.3.0.12" edition="pro" localizationFileName="C:\Program Files (x86)\SQL Maestro Group\PHP Generator for MySQL Professional\lang.en.php" phpDriver="1" outputPath="C:\Program Files\Ampps\www\mportal" copySystemFiles="true" generateModifiedDataOnly="true" outputFilesExtension="php" colorSchemeName="default-compact">
+<Project version="18.3.0.12" edition="pro" localizationFileName="C:\Program Files (x86)\SQL Maestro Group\PHP Generator for MySQL Professional\lang.en.php" phpDriver="1" outputPath="C:\Program Files\Ampps\www\mportal" copySystemFiles="true" generateModifiedDataOnly="false" outputFilesExtension="php" colorSchemeName="default-compact">
   <ConnectionOptions host="marketing-portal.cdbvvuxawpkp.eu-west-2.rds.amazonaws.com" port="3306" login="marketing_portal" password="S_WT^_?U_:JHJ:&amp;Y" database="marketing_portal_v2" client_encoding="utf8" allow_old_password="false">
     <ssh_secure secure="false" port="22" authentication_mode="0"/>
     <http_tunnel tunneling="false" url="">
