@@ -1,4 +1,4 @@
-<Project version="18.3.0.12" edition="pro" localizationFileName="C:\Program Files (x86)\SQL Maestro Group\PHP Generator for MySQL Professional\lang.en.php" phpDriver="1" outputPath="C:\Program Files\Ampps\www\mportal" copySystemFiles="true" generateModifiedDataOnly="false" outputFilesExtension="php" colorSchemeName="default-compact">
+<Project version="18.3.0.12" edition="pro" localizationFileName="C:\Program Files (x86)\SQL Maestro Group\PHP Generator for MySQL Professional\lang.en.php" phpDriver="1" outputPath="C:\Program Files\Ampps\www\mportal" copySystemFiles="false" generateModifiedDataOnly="true" outputFilesExtension="php" colorSchemeName="default-compact">
   <ConnectionOptions host="marketing-portal.cdbvvuxawpkp.eu-west-2.rds.amazonaws.com" port="3306" login="marketing_portal" password="S_WT^_?U_:JHJ:&amp;Y" database="marketing_portal_v2" client_encoding="utf8" allow_old_password="false">
     <ssh_secure secure="false" port="22" authentication_mode="0"/>
     <http_tunnel tunneling="false" url="">
@@ -8298,7 +8298,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             </ViewProperties>
             <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="master_campaign_id" caption="Master Campaign Id" selectedFilterOperators="1573119">
+          <ColumnPresentation fieldName="master_campaign_id" caption="Campaign Request" readOnly="true" selectedFilterOperators="1573119">
             <Lookup tableName="brief" linkFieldName="master_campaign_id" displayFieldName="campaign_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" displayLookupRecord="true">
               <LookupRecordViewForm numberByDataSource="0" fileName="brief" caption="Brief" shortCaption="Brief" addSeparator="false" horizontalFilterCondition="" isLookupRecordViewForm="true" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
                 <BeforeGridText/>
@@ -8735,33 +8735,184 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <ViewProperties type="text"/>
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="industry" caption="Industry" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="industry" caption="Industry" canSetNull="true" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_industries" linkFieldName="Industry_ID" displayFieldName="Industry_Name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
             <ViewProperties type="text" maxLength="75"/>
-            <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="region" caption="Region" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
             <ViewProperties type="text"/>
             <EditProperties type="textBox" maxLength="50"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="sub_region" caption="Sub Region" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="sub_region" caption="Sub Region" canSetNull="true" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_sub_regions" linkFieldName="Sub_Region_ID" displayFieldName="Sub_Region" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
             <ViewProperties type="text"/>
-            <EditProperties type="textBox" maxLength="30"/>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="territory" caption="Territory" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="territory" caption="Territory" canSetNull="true" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_territory" linkFieldName="Territory_ID" displayFieldName="Territory" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
             <ViewProperties type="text" maxLength="75"/>
-            <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="country" caption="Country" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="country" caption="Country" canSetNull="true" selectedFilterOperators="1589247">
+            <Lookup tableName="country_list" linkFieldName="Country_ID" displayFieldName="Country_Name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" displayLookupRecord="true">
+              <LookupRecordViewForm numberByDataSource="0" fileName="country_list" caption="Country List" shortCaption="Country List" addSeparator="false" horizontalFilterCondition="" isLookupRecordViewForm="true" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
+                <BeforeGridText/>
+                <DetailedDescription/>
+                <ColumnPresentations>
+                  <ColumnPresentation fieldName="Country_ID" caption="Country ID" showColumnFilter="false" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="Country_Name" caption="Country Name" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="44"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="Dialing_Code" caption="Dialing Code" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="22"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="2_ISO" caption="2 ISO" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="2"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="Preferred_Langauge" caption="Preferred Langauge" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="10"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="c_Region" caption="Region" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="8"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="Sub_Region" caption="Sub Region" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="23"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="Territories" caption="Territories" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="7"/>
+                  </ColumnPresentation>
+                </ColumnPresentations>
+                <Columns>
+                  <List>
+                    <Column fieldName="Country_ID"/>
+                    <Column fieldName="Country_Name"/>
+                    <Column fieldName="Dialing_Code"/>
+                    <Column fieldName="2_ISO"/>
+                    <Column fieldName="Preferred_Langauge"/>
+                    <Column fieldName="c_Region"/>
+                    <Column fieldName="Sub_Region"/>
+                    <Column fieldName="Territories"/>
+                  </List>
+                  <View>
+                    <Column fieldName="Country_ID" visible="false"/>
+                    <Column fieldName="Country_Name"/>
+                    <Column fieldName="Dialing_Code"/>
+                    <Column fieldName="2_ISO"/>
+                    <Column fieldName="Preferred_Langauge"/>
+                    <Column fieldName="c_Region"/>
+                    <Column fieldName="Sub_Region"/>
+                    <Column fieldName="Territories"/>
+                  </View>
+                  <Edit>
+                    <Column fieldName="Country_ID" visible="false"/>
+                    <Column fieldName="Country_Name"/>
+                    <Column fieldName="Dialing_Code"/>
+                    <Column fieldName="2_ISO"/>
+                    <Column fieldName="Preferred_Langauge"/>
+                    <Column fieldName="c_Region"/>
+                    <Column fieldName="Sub_Region"/>
+                    <Column fieldName="Territories"/>
+                  </Edit>
+                  <Insert>
+                    <Column fieldName="Country_ID" visible="false"/>
+                    <Column fieldName="Country_Name"/>
+                    <Column fieldName="Dialing_Code"/>
+                    <Column fieldName="2_ISO"/>
+                    <Column fieldName="Preferred_Langauge"/>
+                    <Column fieldName="c_Region"/>
+                    <Column fieldName="Sub_Region"/>
+                    <Column fieldName="Territories"/>
+                  </Insert>
+                  <QuickFilter>
+                    <Column fieldName="Country_ID"/>
+                    <Column fieldName="Country_Name"/>
+                    <Column fieldName="Dialing_Code"/>
+                    <Column fieldName="2_ISO"/>
+                    <Column fieldName="Preferred_Langauge"/>
+                    <Column fieldName="c_Region"/>
+                    <Column fieldName="Sub_Region"/>
+                    <Column fieldName="Territories"/>
+                  </QuickFilter>
+                  <FilterBuilder>
+                    <Column fieldName="Country_ID"/>
+                    <Column fieldName="Country_Name"/>
+                    <Column fieldName="Dialing_Code"/>
+                    <Column fieldName="2_ISO"/>
+                    <Column fieldName="Preferred_Langauge"/>
+                    <Column fieldName="c_Region"/>
+                    <Column fieldName="Sub_Region"/>
+                    <Column fieldName="Territories"/>
+                  </FilterBuilder>
+                  <Print>
+                    <Column fieldName="Country_ID"/>
+                    <Column fieldName="Country_Name"/>
+                    <Column fieldName="Dialing_Code"/>
+                    <Column fieldName="2_ISO"/>
+                    <Column fieldName="Preferred_Langauge"/>
+                    <Column fieldName="c_Region"/>
+                    <Column fieldName="Sub_Region"/>
+                    <Column fieldName="Territories"/>
+                  </Print>
+                  <Export>
+                    <Column fieldName="Country_ID"/>
+                    <Column fieldName="Country_Name"/>
+                    <Column fieldName="Dialing_Code"/>
+                    <Column fieldName="2_ISO"/>
+                    <Column fieldName="Preferred_Langauge"/>
+                    <Column fieldName="c_Region"/>
+                    <Column fieldName="Sub_Region"/>
+                    <Column fieldName="Territories"/>
+                  </Export>
+                  <Compare>
+                    <Column fieldName="Country_ID" visible="false"/>
+                    <Column fieldName="Country_Name"/>
+                    <Column fieldName="Dialing_Code"/>
+                    <Column fieldName="2_ISO"/>
+                    <Column fieldName="Preferred_Langauge"/>
+                    <Column fieldName="c_Region"/>
+                    <Column fieldName="Sub_Region"/>
+                    <Column fieldName="Territories"/>
+                  </Compare>
+                  <MultiEdit>
+                    <Column fieldName="Country_ID" visible="false"/>
+                    <Column fieldName="Country_Name" visible="false"/>
+                    <Column fieldName="Dialing_Code"/>
+                    <Column fieldName="2_ISO"/>
+                    <Column fieldName="Preferred_Langauge"/>
+                    <Column fieldName="c_Region"/>
+                    <Column fieldName="Sub_Region"/>
+                    <Column fieldName="Territories"/>
+                  </MultiEdit>
+                </Columns>
+                <Details/>
+                <RecordPermissions useRecordPermissions="false"/>
+                <PartitionNavigators/>
+              </LookupRecordViewForm>
+            </Lookup>
             <ViewProperties type="text"/>
-            <EditProperties type="textBox" maxLength="50"/>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="product" caption="Product" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="product" caption="Product" canSetNull="true" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_products" linkFieldName="Product_ID" displayFieldName="Product" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
             <ViewProperties type="text"/>
-            <EditProperties type="textBox" maxLength="10"/>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="m_ID" caption="M ID" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
             <ViewProperties type="text"/>
-            <EditProperties type="textBox" maxLength="11"/>
+            <EditProperties type="textBox" maxLength="11" prefix="FORM ID" suffix="Marketo"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="start_date" caption="Start Date" canSetNull="true" selectedFilterOperators="2031871">
             <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1"/>
@@ -8775,17 +8926,16 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1"/>
             <EditProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1" firstDayOfWeek="0"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="campaign_type" caption="Campaign Type" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
-            <ViewProperties type="text">
-              <Format type="number" thousandSeparator=","/>
-            </ViewProperties>
-            <EditProperties type="textBox" maxLength="0"/>
+          <ColumnPresentation fieldName="campaign_type" caption="Campaign Type" canSetNull="true" readOnly="true" selectedFilterOperators="1573119">
+            <Lookup tableName="lookup_event_type" linkFieldName="Event_Type_ID" displayFieldName="Event_Type" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
+            <ViewProperties type="text"/>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="deployed_by" caption="Deployed By" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="deployed_by" caption="Deployed By" showColumnFilter="false" canSetNull="true" readOnly="true" selectedFilterOperators="1589247">
             <ViewProperties type="text"/>
             <EditProperties type="textBox" maxLength="50"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="deployed_date" caption="Deployed Date" selectedFilterOperators="2031871">
+          <ColumnPresentation fieldName="deployed_date" caption="Deployed Date" readOnly="true" selectedFilterOperators="2031871">
             <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
             <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
           </ColumnPresentation>
@@ -8837,19 +8987,20 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <ViewProperties type="text" maxLength="75"/>
             <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Publish_Live" caption="Publish Live" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="Publish_Live" caption="Publish Live" canSetNull="true" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_status_types" linkFieldName="Status_Type_ID" displayFieldName="Status_Type" lookupFilter="Status_Filters='website_listing'" useLookupOrdering="true" lookupOrdering="0"/>
             <ViewProperties type="text"/>
-            <EditProperties type="textBox" maxLength="20"/>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Publish_Live_Date" caption="Publish Live Date" canSetNull="true" selectedFilterOperators="2031871">
             <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1"/>
             <EditProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1" firstDayOfWeek="0"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="modified_by" caption="Modified By" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="modified_by" caption="Modified By" showColumnFilter="false" canSetNull="true" readOnly="true" defaultInsertValue="%CURRENT_USER_NAME%" selectedFilterOperators="1589247">
             <ViewProperties type="text"/>
             <EditProperties type="textBox" maxLength="45"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="modified_date" caption="Modified Date" canSetNull="true" selectedFilterOperators="2031871">
+          <ColumnPresentation fieldName="modified_date" caption="Modified Date" canSetNull="true" readOnly="true" defaultInsertValue="%CURRENT_DATETIME%" selectedFilterOperators="2031871">
             <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
             <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
           </ColumnPresentation>
@@ -8858,16 +9009,16 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
           <List>
             <Column fieldName="campaign_tracker_ID" visible="false"/>
             <Column fieldName="master_campaign_id"/>
-            <Column fieldName="industry"/>
-            <Column fieldName="region"/>
-            <Column fieldName="sub_region"/>
-            <Column fieldName="territory"/>
-            <Column fieldName="country"/>
-            <Column fieldName="product"/>
+            <Column fieldName="industry" visible="false"/>
+            <Column fieldName="region" visible="false"/>
+            <Column fieldName="sub_region" visible="false"/>
+            <Column fieldName="territory" visible="false"/>
+            <Column fieldName="country" visible="false"/>
+            <Column fieldName="product" visible="false"/>
             <Column fieldName="m_ID"/>
             <Column fieldName="start_date"/>
             <Column fieldName="end_date"/>
-            <Column fieldName="campaign_publish_date"/>
+            <Column fieldName="campaign_publish_date" visible="false"/>
             <Column fieldName="campaign_type"/>
             <Column fieldName="deployed_by"/>
             <Column fieldName="deployed_date"/>
@@ -8884,8 +9035,8 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <Column fieldName="listing_url" visible="false"/>
             <Column fieldName="Publish_Live"/>
             <Column fieldName="Publish_Live_Date"/>
-            <Column fieldName="modified_by"/>
-            <Column fieldName="modified_date"/>
+            <Column fieldName="modified_by" visible="false"/>
+            <Column fieldName="modified_date" visible="false"/>
           </List>
           <View>
             <Column fieldName="campaign_tracker_ID"/>
@@ -9177,8 +9328,47 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
           </MultiEdit>
         </Columns>
         <Details/>
+        <EventHandlers>
+          <OnGetCustomFormLayout enabled="true">
+$layout-&gt;setMode(FormLayoutMode::VERTICAL);
+
+$briefGroup = $layout-&gt;addGroup('Request Overview', 12);
+$briefGroup-&gt;addRow()-&gt;addCol($columns['master_campaign_id'], 12);
+$briefGroup-&gt;addRow()-&gt;addCol($columns['deployed_by'], 12);
+$briefGroup-&gt;addRow()-&gt;addCol($columns['deployed_date'], 12);
+$briefGroup-&gt;addRow()-&gt;addCol($columns['campaign_type'], 12);
+
+
+          </OnGetCustomFormLayout>
+          <CustomDrawRow_SimpleHandler enabled="true">
+$today = date(&quot;Y-m-d&quot;);
+
+if ($rowData['end_date'] &lt;= $today) {
+     $cellBgColor['end_date'] = '#FF0000';
+     $cellBoldAttr['end_date'] = true;
+}
+else {
+     $cellFontColor['end_date'] = '#228B22';
+     $cellBoldAttr['end_date'] = true;
+}          </CustomDrawRow_SimpleHandler>
+        </EventHandlers>
         <RecordPermissions useRecordPermissions="false"/>
-        <PartitionNavigators/>
+        <PartitionNavigators>
+          <PartitionNavigator type="listBased" name="partition" caption="Filter by Status" allowViewAllRecords="true" expression="Publish_Live">
+            <Partition caption="Publish Live">
+              <Values>
+                <Value>
+'19'                </Value>
+              </Values>
+            </Partition>
+            <Partition caption="Expired">
+              <Values>
+                <Value>
+'21'                </Value>
+              </Values>
+            </Partition>
+          </PartitionNavigator>
+        </PartitionNavigators>
       </Page>
       <Page type="table" tableName="campaign_tracker_comms" numberByDataSource="0" fileName="campaign_tracker_comms" caption="Campaign Tracker: Comms" shortCaption="Campaign Tracker Comms" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText/>
