@@ -1,4 +1,4 @@
-<Project version="18.3.0.12" edition="pro" localizationFileName="C:\Program Files (x86)\SQL Maestro Group\PHP Generator for MySQL Professional\lang.en.php" phpDriver="1" outputPath="C:\Program Files\Ampps\www\mportal" copySystemFiles="false" generateModifiedDataOnly="true" outputFilesExtension="php" colorSchemeName="default-compact">
+<Project version="18.3.0.12" edition="pro" localizationFileName="C:\Program Files (x86)\SQL Maestro Group\PHP Generator for MySQL Professional\lang.en.php" phpDriver="1" outputPath="C:\Program Files\Ampps\www\mportal" copySystemFiles="true" generateModifiedDataOnly="false" outputFilesExtension="php" colorSchemeName="default-compact">
   <ConnectionOptions host="marketing-portal.cdbvvuxawpkp.eu-west-2.rds.amazonaws.com" port="3306" login="marketing_portal" password="S_WT^_?U_:JHJ:&amp;Y" database="marketing_portal_v2" client_encoding="utf8" allow_old_password="false">
     <ssh_secure secure="false" port="22" authentication_mode="0"/>
     <http_tunnel tunneling="false" url="">
@@ -111,6 +111,8 @@ FROM brief      </SelectStatement>
     <DataSource name="campaign_tracker_design"/>
     <DataSource name="lookup_design_types" createTopLevelPage="false"/>
     <DataSource name="live_website_listing" createTopLevelPage="false"/>
+    <DataSource name="lookup_tracker_tactics"/>
+    <DataSource name="lookup_tactic" createTopLevelPage="false"/>
   </DataSources>
   <Presentation disableMagicQuotesRuntime="false" showEnvironmentVariables="false" showExecutedQueries="false" showPHPErrorsAndWarnings="false" enableInactivityTimeout="true" inactivityTimeoutInterval="20">
     <Pages>
@@ -8274,7 +8276,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
-                &lt;a href=&quot;http://localhost/mportal/apps/website_listing.php&quot; class=&quot;stretched-link&quot;&gt;View Live Lists&lt;/a&gt;
+                &lt;a href=&quot;http://localhost/mportal/campaign_tracker_design.php&quot; class=&quot;stretched-link&quot;&gt;View Live Lists&lt;/a&gt;
               &lt;/div&gt;
             &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
@@ -9738,6 +9740,175 @@ else {
         <RecordPermissions useRecordPermissions="false"/>
         <PartitionNavigators/>
       </Page>
+      <Page type="table" tableName="campaign_tracker_design" numberByDataSource="0" fileName="campaign_tracker_design" caption="Campaign Tracker: Design" shortCaption="Campaign Tracker Design" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
+        <BeforeGridText>
+&lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/icons/design-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-media-body&quot;&gt;
+                &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
+                &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
+                &lt;a href=&quot;/apps/website_listing.php&quot; class=&quot;stretched-link&quot;&gt;View Live Lists&lt;/a&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;        </BeforeGridText>
+        <DetailedDescription/>
+        <homePageDescription>
+&lt;a href=&quot;http://mktportal.mscsoftware.com/campaign_tracker_website.php&quot; style=&quot;text-decoration:none;&quot;&gt;
+&lt;div class=&quot;card&quot;&gt;
+    &lt;div class=&quot;card-circle&quot;&gt;
+      &lt;img src=&quot;http://mktportal.mscsoftware.com/icons/design.png&quot; class=&quot;icon-size&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;text-content&quot;&gt;
+    &lt;span class=card-title&gt;&lt;strong&gt;Graphic Design&lt;/strong&gt;&lt;/span&gt;
+    &lt;p&gt;Approved campaigns, lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/a&gt;        </homePageDescription>
+        <ColumnPresentations>
+          <ColumnPresentation fieldName="campaign_tracker_ID" caption="Campaign Tracker ID" showColumnFilter="false" selectedFilterOperators="1573119">
+            <ViewProperties type="text">
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="0"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="master_campaign_id" caption="Master Campaign Id" showColumnFilter="false" selectedFilterOperators="1573119">
+            <ViewProperties type="text">
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="0"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="campaign_program_name" caption="Campaign Program Name" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+            <ViewProperties type="text" maxLength="75"/>
+            <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="channel_type" caption="Channel Type" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+            <ViewProperties type="text"/>
+            <EditProperties type="textBox" maxLength="3"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="product" caption="Product" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+            <ViewProperties type="text"/>
+            <EditProperties type="textBox" maxLength="10"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="campaign_publish_date" caption="Campaign Publish Date" canSetNull="true" selectedFilterOperators="2031871">
+            <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1"/>
+            <EditProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1" firstDayOfWeek="0"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="campaign_description" caption="Campaign Description" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+            <ViewProperties type="text" maxLength="75"/>
+            <EditProperties type="textBox" maxLength="100"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="campaign_type" caption="Campaign Type" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+            <ViewProperties type="text">
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="0"/>
+          </ColumnPresentation>
+        </ColumnPresentations>
+        <Columns>
+          <List>
+            <Column fieldName="campaign_tracker_ID"/>
+            <Column fieldName="master_campaign_id"/>
+            <Column fieldName="campaign_program_name"/>
+            <Column fieldName="channel_type"/>
+            <Column fieldName="product"/>
+            <Column fieldName="campaign_publish_date"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="campaign_type"/>
+          </List>
+          <View>
+            <Column fieldName="campaign_tracker_ID"/>
+            <Column fieldName="master_campaign_id"/>
+            <Column fieldName="campaign_program_name"/>
+            <Column fieldName="channel_type"/>
+            <Column fieldName="product"/>
+            <Column fieldName="campaign_publish_date"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="campaign_type"/>
+          </View>
+          <Edit>
+            <Column fieldName="campaign_tracker_ID" visible="false"/>
+            <Column fieldName="master_campaign_id"/>
+            <Column fieldName="campaign_program_name"/>
+            <Column fieldName="channel_type"/>
+            <Column fieldName="product"/>
+            <Column fieldName="campaign_publish_date"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="campaign_type"/>
+          </Edit>
+          <Insert>
+            <Column fieldName="campaign_tracker_ID" visible="false"/>
+            <Column fieldName="master_campaign_id"/>
+            <Column fieldName="campaign_program_name"/>
+            <Column fieldName="channel_type"/>
+            <Column fieldName="product"/>
+            <Column fieldName="campaign_publish_date"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="campaign_type"/>
+          </Insert>
+          <QuickFilter>
+            <Column fieldName="campaign_tracker_ID"/>
+            <Column fieldName="master_campaign_id"/>
+            <Column fieldName="campaign_program_name"/>
+            <Column fieldName="channel_type"/>
+            <Column fieldName="product"/>
+            <Column fieldName="campaign_publish_date"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="campaign_type"/>
+          </QuickFilter>
+          <FilterBuilder>
+            <Column fieldName="campaign_tracker_ID"/>
+            <Column fieldName="master_campaign_id"/>
+            <Column fieldName="campaign_program_name"/>
+            <Column fieldName="channel_type"/>
+            <Column fieldName="product"/>
+            <Column fieldName="campaign_publish_date"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="campaign_type"/>
+          </FilterBuilder>
+          <Print>
+            <Column fieldName="campaign_tracker_ID"/>
+            <Column fieldName="master_campaign_id"/>
+            <Column fieldName="campaign_program_name"/>
+            <Column fieldName="channel_type"/>
+            <Column fieldName="product"/>
+            <Column fieldName="campaign_publish_date"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="campaign_type"/>
+          </Print>
+          <Export>
+            <Column fieldName="campaign_tracker_ID"/>
+            <Column fieldName="master_campaign_id"/>
+            <Column fieldName="campaign_program_name"/>
+            <Column fieldName="channel_type"/>
+            <Column fieldName="product"/>
+            <Column fieldName="campaign_publish_date"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="campaign_type"/>
+          </Export>
+          <Compare>
+            <Column fieldName="campaign_tracker_ID" visible="false"/>
+            <Column fieldName="master_campaign_id"/>
+            <Column fieldName="campaign_program_name"/>
+            <Column fieldName="channel_type"/>
+            <Column fieldName="product"/>
+            <Column fieldName="campaign_publish_date"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="campaign_type"/>
+          </Compare>
+          <MultiEdit>
+            <Column fieldName="campaign_tracker_ID" visible="false"/>
+            <Column fieldName="master_campaign_id"/>
+            <Column fieldName="campaign_program_name"/>
+            <Column fieldName="channel_type"/>
+            <Column fieldName="product"/>
+            <Column fieldName="campaign_publish_date"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="campaign_type"/>
+          </MultiEdit>
+        </Columns>
+        <Details/>
+        <RecordPermissions useRecordPermissions="false"/>
+        <PartitionNavigators/>
+      </Page>
       <Page type="table" tableName="campaign_tracker_content" numberByDataSource="0" fileName="campaign_tracker_content" caption="Campaign Tracker: Content" shortCaption="Campaign Tracker Content" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText/>
         <DetailedDescription/>
@@ -10043,157 +10214,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis m
             <Column fieldName="SFDC_child_campaign"/>
             <Column fieldName="icon"/>
             <Column fieldName="master_campaign_id"/>
-          </MultiEdit>
-        </Columns>
-        <Details/>
-        <RecordPermissions useRecordPermissions="false"/>
-        <PartitionNavigators/>
-      </Page>
-      <Page type="table" tableName="campaign_tracker_design" numberByDataSource="0" fileName="campaign_tracker_design" caption="Campaign Tracker: Design" shortCaption="Campaign Tracker Design" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
-        <BeforeGridText/>
-        <DetailedDescription/>
-        <homePageDescription>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.        </homePageDescription>
-        <ColumnPresentations>
-          <ColumnPresentation fieldName="campaign_tracker_ID" caption="Campaign Tracker ID" showColumnFilter="false" selectedFilterOperators="1573119">
-            <ViewProperties type="text">
-              <Format type="number" thousandSeparator=","/>
-            </ViewProperties>
-            <EditProperties type="textBox" maxLength="0"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="master_campaign_id" caption="Master Campaign Id" showColumnFilter="false" selectedFilterOperators="1573119">
-            <ViewProperties type="text">
-              <Format type="number" thousandSeparator=","/>
-            </ViewProperties>
-            <EditProperties type="textBox" maxLength="0"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="campaign_program_name" caption="Campaign Program Name" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text" maxLength="75"/>
-            <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="channel_type" caption="Channel Type" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text"/>
-            <EditProperties type="textBox" maxLength="3"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="product" caption="Product" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text"/>
-            <EditProperties type="textBox" maxLength="10"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="campaign_publish_date" caption="Campaign Publish Date" canSetNull="true" selectedFilterOperators="2031871">
-            <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1"/>
-            <EditProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1" firstDayOfWeek="0"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="campaign_description" caption="Campaign Description" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text" maxLength="75"/>
-            <EditProperties type="textBox" maxLength="100"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="campaign_type" caption="Campaign Type" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
-            <ViewProperties type="text">
-              <Format type="number" thousandSeparator=","/>
-            </ViewProperties>
-            <EditProperties type="textBox" maxLength="0"/>
-          </ColumnPresentation>
-        </ColumnPresentations>
-        <Columns>
-          <List>
-            <Column fieldName="campaign_tracker_ID"/>
-            <Column fieldName="master_campaign_id"/>
-            <Column fieldName="campaign_program_name"/>
-            <Column fieldName="channel_type"/>
-            <Column fieldName="product"/>
-            <Column fieldName="campaign_publish_date"/>
-            <Column fieldName="campaign_description"/>
-            <Column fieldName="campaign_type"/>
-          </List>
-          <View>
-            <Column fieldName="campaign_tracker_ID"/>
-            <Column fieldName="master_campaign_id"/>
-            <Column fieldName="campaign_program_name"/>
-            <Column fieldName="channel_type"/>
-            <Column fieldName="product"/>
-            <Column fieldName="campaign_publish_date"/>
-            <Column fieldName="campaign_description"/>
-            <Column fieldName="campaign_type"/>
-          </View>
-          <Edit>
-            <Column fieldName="campaign_tracker_ID" visible="false"/>
-            <Column fieldName="master_campaign_id"/>
-            <Column fieldName="campaign_program_name"/>
-            <Column fieldName="channel_type"/>
-            <Column fieldName="product"/>
-            <Column fieldName="campaign_publish_date"/>
-            <Column fieldName="campaign_description"/>
-            <Column fieldName="campaign_type"/>
-          </Edit>
-          <Insert>
-            <Column fieldName="campaign_tracker_ID" visible="false"/>
-            <Column fieldName="master_campaign_id"/>
-            <Column fieldName="campaign_program_name"/>
-            <Column fieldName="channel_type"/>
-            <Column fieldName="product"/>
-            <Column fieldName="campaign_publish_date"/>
-            <Column fieldName="campaign_description"/>
-            <Column fieldName="campaign_type"/>
-          </Insert>
-          <QuickFilter>
-            <Column fieldName="campaign_tracker_ID"/>
-            <Column fieldName="master_campaign_id"/>
-            <Column fieldName="campaign_program_name"/>
-            <Column fieldName="channel_type"/>
-            <Column fieldName="product"/>
-            <Column fieldName="campaign_publish_date"/>
-            <Column fieldName="campaign_description"/>
-            <Column fieldName="campaign_type"/>
-          </QuickFilter>
-          <FilterBuilder>
-            <Column fieldName="campaign_tracker_ID"/>
-            <Column fieldName="master_campaign_id"/>
-            <Column fieldName="campaign_program_name"/>
-            <Column fieldName="channel_type"/>
-            <Column fieldName="product"/>
-            <Column fieldName="campaign_publish_date"/>
-            <Column fieldName="campaign_description"/>
-            <Column fieldName="campaign_type"/>
-          </FilterBuilder>
-          <Print>
-            <Column fieldName="campaign_tracker_ID"/>
-            <Column fieldName="master_campaign_id"/>
-            <Column fieldName="campaign_program_name"/>
-            <Column fieldName="channel_type"/>
-            <Column fieldName="product"/>
-            <Column fieldName="campaign_publish_date"/>
-            <Column fieldName="campaign_description"/>
-            <Column fieldName="campaign_type"/>
-          </Print>
-          <Export>
-            <Column fieldName="campaign_tracker_ID"/>
-            <Column fieldName="master_campaign_id"/>
-            <Column fieldName="campaign_program_name"/>
-            <Column fieldName="channel_type"/>
-            <Column fieldName="product"/>
-            <Column fieldName="campaign_publish_date"/>
-            <Column fieldName="campaign_description"/>
-            <Column fieldName="campaign_type"/>
-          </Export>
-          <Compare>
-            <Column fieldName="campaign_tracker_ID" visible="false"/>
-            <Column fieldName="master_campaign_id"/>
-            <Column fieldName="campaign_program_name"/>
-            <Column fieldName="channel_type"/>
-            <Column fieldName="product"/>
-            <Column fieldName="campaign_publish_date"/>
-            <Column fieldName="campaign_description"/>
-            <Column fieldName="campaign_type"/>
-          </Compare>
-          <MultiEdit>
-            <Column fieldName="campaign_tracker_ID" visible="false"/>
-            <Column fieldName="master_campaign_id"/>
-            <Column fieldName="campaign_program_name"/>
-            <Column fieldName="channel_type"/>
-            <Column fieldName="product"/>
-            <Column fieldName="campaign_publish_date"/>
-            <Column fieldName="campaign_description"/>
-            <Column fieldName="campaign_type"/>
           </MultiEdit>
         </Columns>
         <Details/>
@@ -11783,6 +11803,111 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis m
           </PartitionNavigator>
         </PartitionNavigators>
       </Page>
+      <Page type="table" tableName="lookup_tracker_tactics" numberByDataSource="0" fileName="lookup_tracker_tactics" caption="Tactic Template Builder" shortCaption="Tactic Template" groupName="Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
+        <BeforeGridText>
+&lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/icons/globe-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-media-body&quot;&gt;
+                &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
+                &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
+                &lt;a href=&quot;http://mktportal.mscsoftware.com/master_campaign_global.php&quot; class=&quot;stretched-link&quot;&gt;Go to Master Campaign&lt;/a&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;        </BeforeGridText>
+        <DetailedDescription/>
+        <ColumnPresentations>
+          <ColumnPresentation fieldName="lookup_tracker_tactics_id" caption="Lookup Tracker Tactics Id" showColumnFilter="false" selectedFilterOperators="1573119">
+            <ViewProperties type="text">
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="0"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="channel_name" caption="Channel Name" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_channels" linkFieldName="channnel_name" displayFieldName="channnel_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
+            <ViewProperties type="text">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="dynamicCombobox"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="campaign_description" caption="Campaign Description" showColumnFilter="false" selectedFilterOperators="1589247">
+            <ViewProperties type="text" maxLength="75">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="100"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="tactic_name" caption="Tactic Name" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_tactic" linkFieldName="lookup_tactic_ID" displayFieldName="tactic_description" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
+            <ViewProperties type="text">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="dynamicCombobox"/>
+          </ColumnPresentation>
+        </ColumnPresentations>
+        <Columns>
+          <List>
+            <Column fieldName="lookup_tracker_tactics_id" visible="false"/>
+            <Column fieldName="channel_name"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="tactic_name"/>
+          </List>
+          <View>
+            <Column fieldName="lookup_tracker_tactics_id"/>
+            <Column fieldName="channel_name"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="tactic_name"/>
+          </View>
+          <Edit>
+            <Column fieldName="lookup_tracker_tactics_id" visible="false"/>
+            <Column fieldName="channel_name"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="tactic_name"/>
+          </Edit>
+          <Insert>
+            <Column fieldName="lookup_tracker_tactics_id" visible="false"/>
+            <Column fieldName="channel_name"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="tactic_name"/>
+          </Insert>
+          <QuickFilter>
+            <Column fieldName="lookup_tracker_tactics_id"/>
+            <Column fieldName="channel_name"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="tactic_name"/>
+          </QuickFilter>
+          <FilterBuilder>
+            <Column fieldName="lookup_tracker_tactics_id"/>
+            <Column fieldName="channel_name"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="tactic_name"/>
+          </FilterBuilder>
+          <Print>
+            <Column fieldName="lookup_tracker_tactics_id"/>
+            <Column fieldName="channel_name"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="tactic_name"/>
+          </Print>
+          <Export>
+            <Column fieldName="lookup_tracker_tactics_id"/>
+            <Column fieldName="channel_name"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="tactic_name"/>
+          </Export>
+          <Compare>
+            <Column fieldName="lookup_tracker_tactics_id" visible="false"/>
+            <Column fieldName="channel_name"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="tactic_name"/>
+          </Compare>
+          <MultiEdit>
+            <Column fieldName="lookup_tracker_tactics_id" visible="false"/>
+            <Column fieldName="channel_name"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="tactic_name"/>
+          </MultiEdit>
+        </Columns>
+        <Details/>
+        <RecordPermissions useRecordPermissions="false"/>
+        <PartitionNavigators/>
+      </Page>
     </Pages>
     <UserAuthorization type="tableBased" tableName="phpgen_users" userIdField="user_id" userNameField="user_name" passwordField="user_password" userEmailField="user_email" userTokenField="user_token" userStatusField="user_status" allowUserToChangePassword="true" recoveringPasswordEnabled="true"/>
     <UserGrants enableGuestAccess="true" storageType="table">
@@ -12024,6 +12149,8 @@ label {
   <AdditionalOutputPaths>
     <Path>
 C:\Users\lspurgeon\Documents\GitHub\lances    </Path>
+    <Path>
+\\10.59.32.155\mktportal    </Path>
   </AdditionalOutputPaths>
   <DefaultPageProperties recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1"/>
   <DefaultDataFormats numberAfterDecimal="2" DecimalSeparator="." ThousandSeparator="," DateTimeFormat="d-m-Y H:i:s" DateFormat="d-m-Y" firstDayOfWeek="1"/>

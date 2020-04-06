@@ -163,14 +163,25 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
+    $result[] = array('caption' => 'Campaign Tracker Design', 'short_caption' => 'Campaign Tracker: Design', 'filename' => 'campaign_tracker_design.php', 'name' => 'campaign_tracker_design', 'group_name' => 'Campaign Planner', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/campaign_tracker_website.php" style="text-decoration:none;">
+    <div class="card">
+        <div class="card-circle">
+          <img src="http://mktportal.mscsoftware.com/icons/design.png" class="icon-size">
+      </div>
+      <div class="text-content">
+        <span class=card-title><strong>Graphic Design</strong></span>
+        <p>Approved campaigns, lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. </p>
+      </div>
+    </div>
+    </a>');
     $result[] = array('caption' => 'Campaign Tracker Content', 'short_caption' => 'Campaign Tracker: Content', 'filename' => 'campaign_tracker_content.php', 'name' => 'campaign_tracker_content', 'group_name' => 'Campaign Planner', 'add_separator' => false, 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.');
-    $result[] = array('caption' => 'Campaign Tracker Design', 'short_caption' => 'Campaign Tracker: Design', 'filename' => 'campaign_tracker_design.php', 'name' => 'campaign_tracker_design', 'group_name' => 'Campaign Planner', 'add_separator' => false, 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.');
     $result[] = array('caption' => 'Campaign Tracker Social', 'short_caption' => 'Campaign Tracker: Social', 'filename' => 'campaign_tracker_social.php', 'name' => 'campaign_tracker_social', 'group_name' => 'Campaign Planner', 'add_separator' => false, 'description' => '');
     $result[] = array('caption' => 'Campaign Tracker Paid', 'short_caption' => 'Campaign Tracker: Paid', 'filename' => 'campaign_tracker_paid.php', 'name' => 'campaign_tracker_paid', 'group_name' => 'Campaign Planner', 'add_separator' => false, 'description' => '');
     $result[] = array('caption' => 'Campaign Tracker Partner', 'short_caption' => 'Campaign Tracker: Partner', 'filename' => 'campaign_tracker_partner.php', 'name' => 'campaign_tracker_partner', 'group_name' => 'Campaign Planner', 'add_separator' => false, 'description' => '');
     $result[] = array('caption' => 'Campaign Tracker Pr', 'short_caption' => 'Campaign Tracker: Pr', 'filename' => 'campaign_tracker_pr.php', 'name' => 'campaign_tracker_pr', 'group_name' => 'Campaign Planner', 'add_separator' => false, 'description' => '');
     $result[] = array('caption' => 'User Roles', 'short_caption' => 'User Roles', 'filename' => 'phpgen_user_roles.php', 'name' => 'phpgen_user_roles', 'group_name' => 'Tools', 'add_separator' => false, 'description' => '');
     $result[] = array('caption' => 'Country List', 'short_caption' => 'Country List', 'filename' => 'country_list.php', 'name' => 'country_list', 'group_name' => 'Tools', 'add_separator' => false, 'description' => '');
+    $result[] = array('caption' => 'Tactic Template', 'short_caption' => 'Tactic Template Builder', 'filename' => 'lookup_tracker_tactics.php', 'name' => 'lookup_tracker_tactics', 'group_name' => 'Tools', 'add_separator' => false, 'description' => '');
     return $result;
 }
 

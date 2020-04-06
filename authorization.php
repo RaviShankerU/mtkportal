@@ -40,14 +40,15 @@ $tableCaptions = array('campaign_calendar' => 'Campaign & Events Calendar',
 'campaign_group' => 'Campaign Tracker',
 'campaign_tracker_website' => 'Campaign Tracker Website',
 'campaign_tracker_comms' => 'Campaign Tracker Comms',
-'campaign_tracker_content' => 'Campaign Tracker Content',
 'campaign_tracker_design' => 'Campaign Tracker Design',
+'campaign_tracker_content' => 'Campaign Tracker Content',
 'campaign_tracker_social' => 'Campaign Tracker Social',
 'campaign_tracker_paid' => 'Campaign Tracker Paid',
 'campaign_tracker_partner' => 'Campaign Tracker Partner',
 'campaign_tracker_pr' => 'Campaign Tracker Pr',
 'phpgen_user_roles' => 'User Roles',
-'country_list' => 'Country List');
+'country_list' => 'Country List',
+'lookup_tracker_tactics' => 'Tactic Template');
 
 $usersTableInfo = array(
     'TableName' => 'phpgen_users',
