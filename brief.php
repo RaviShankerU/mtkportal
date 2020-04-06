@@ -4162,11 +4162,7 @@
        
         protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
         { 
-            if ($fieldName == 'data_field')
-            {
-               $customText = '<a href="dosomething.php?id=' .$rowData['master_campaign_id'] .'">Do something</a>';
-               $handled = true;
-            }
+    
         }
     
         protected function doCustomRenderPrintColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
@@ -4305,13 +4301,11 @@
                 $this->GetConnection()->ExecSQL($sql);  
                 $lastInsertedEventId = '1';
                 
-                while( $record = mysqli_fetch_assoc($this) ) {
-                
                 if (strpos($aChannels,$event) !== false) {
             
                     $message = '<p>Record processed successfully. Your event' .
                     ' has been update, we need more information. Click on ' .
-                    '<a class="alert-link" href="campaign_events.php?operation=edit&pk0='. $record['@LID'] .'">my event</a> to complete your event setup.</p>';
+                    '<a class="alert-link" href="campaign_events.php?operation=edit&pk0='. $lastInsertedEventId .'">my event</a> to complete your event setup.</p>';
                 } else{
                     $message = '<p>Record processed successfully. ' .
                     'Your request has been submitted.</p>';

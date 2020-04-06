@@ -1140,19 +1140,16 @@
                 )
             );
             
-            $main_editor = new TextEdit('deploy_website_edit');
+            $main_editor = new ComboBox('deploy_website');
+            $main_editor->SetAllowNullValue(false);
+            $main_editor->addChoice(true, $this->GetLocalizerCaptions()->GetMessageString('True'));
+            $main_editor->addChoice(false, $this->GetLocalizerCaptions()->GetMessageString('False'));
             
             $filterBuilder->addColumn(
                 $columns['deploy_website'],
                 array(
                     FilterConditionOperator::EQUALS => $main_editor,
                     FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -1254,6 +1251,7 @@
             );
             
             $main_editor = new TextEdit('listing_cta_edit');
+            $main_editor->SetPrefix('Action Required');
             $main_editor->SetMaxLength(45);
             
             $filterBuilder->addColumn(
@@ -1278,7 +1276,7 @@
                 )
             );
             
-            $main_editor = new TextEdit('listing_banner');
+            $main_editor = new TextEdit('listing_banner_edit');
             
             $filterBuilder->addColumn(
                 $columns['listing_banner'],
@@ -1352,25 +1350,22 @@
                 )
             );
             
-            $main_editor = new TextEdit('listing_show_form_edit');
+            $main_editor = new ComboBox('listing_show_form');
+            $main_editor->SetAllowNullValue(false);
+            $main_editor->addChoice(true, $this->GetLocalizerCaptions()->GetMessageString('True'));
+            $main_editor->addChoice(false, $this->GetLocalizerCaptions()->GetMessageString('False'));
             
             $filterBuilder->addColumn(
                 $columns['listing_show_form'],
                 array(
                     FilterConditionOperator::EQUALS => $main_editor,
                     FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
             );
             
-            $main_editor = new TextEdit('listing_url');
+            $main_editor = new TextEdit('listing_url_edit');
             
             $filterBuilder->addColumn(
                 $columns['listing_url'],
@@ -1624,11 +1619,9 @@
             //
             // View column for deploy_website field
             //
-            $column = new NumberViewColumn('deploy_website', 'deploy_website', 'Deploy Website', $this->dataset);
+            $column = new CheckboxViewColumn('deploy_website', 'deploy_website', 'Deploy Website', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $column->setDisplayValues('Yes', 'No');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1810,11 +1803,9 @@
             //
             // View column for deploy_website field
             //
-            $column = new NumberViewColumn('deploy_website', 'deploy_website', 'Deploy Website', $this->dataset);
+            $column = new CheckboxViewColumn('deploy_website', 'deploy_website', 'Deploy Website', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $column->setDisplayValues('Yes', 'No');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1881,11 +1872,9 @@
             //
             // View column for listing_show_form field
             //
-            $column = new NumberViewColumn('listing_show_form', 'listing_show_form', 'Listing Show Form', $this->dataset);
+            $column = new CheckboxViewColumn('listing_show_form', 'listing_show_form', 'Listing Show Form', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $column->setDisplayValues('Show', 'Hide');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -2197,7 +2186,7 @@
             //
             // Edit column for deploy_website field
             //
-            $editor = new TextEdit('deploy_website_edit');
+            $editor = new CheckBox('deploy_website_edit');
             $editColumn = new CustomEditColumn('Deploy Website', 'deploy_website', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -2209,6 +2198,7 @@
             $editor = new TextEdit('deploy_website_status_edit');
             $editor->SetMaxLength(45);
             $editColumn = new CustomEditColumn('Deploy Website Status', 'deploy_website_status', $editor, $this->dataset);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -2245,6 +2235,7 @@
             // Edit column for listing_cta field
             //
             $editor = new TextEdit('listing_cta_edit');
+            $editor->SetPrefix('Action Required');
             $editor->SetMaxLength(45);
             $editColumn = new CustomEditColumn('Listing Cta', 'listing_cta', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
@@ -2254,7 +2245,7 @@
             //
             // Edit column for listing_banner field
             //
-            $editor = new TextAreaEdit('listing_banner_edit', 50, 8);
+            $editor = new TextEdit('listing_banner_edit');
             $editColumn = new CustomEditColumn('Listing Banner', 'listing_banner', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -2283,7 +2274,7 @@
             //
             // Edit column for listing_show_form field
             //
-            $editor = new TextEdit('listing_show_form_edit');
+            $editor = new CheckBox('listing_show_form_edit');
             $editColumn = new CustomEditColumn('Listing Show Form', 'listing_show_form', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -2292,9 +2283,11 @@
             //
             // Edit column for listing_url field
             //
-            $editor = new TextAreaEdit('listing_url_edit', 50, 8);
+            $editor = new TextEdit('listing_url_edit');
             $editColumn = new CustomEditColumn('Listing Url', 'listing_url', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
+            $validator = new UrlValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('UrlValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
@@ -2623,7 +2616,7 @@
             //
             // Edit column for deploy_website field
             //
-            $editor = new TextEdit('deploy_website_edit');
+            $editor = new CheckBox('deploy_website_edit');
             $editColumn = new CustomEditColumn('Deploy Website', 'deploy_website', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -2635,6 +2628,7 @@
             $editor = new TextEdit('deploy_website_status_edit');
             $editor->SetMaxLength(45);
             $editColumn = new CustomEditColumn('Deploy Website Status', 'deploy_website_status', $editor, $this->dataset);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -2671,6 +2665,7 @@
             // Edit column for listing_cta field
             //
             $editor = new TextEdit('listing_cta_edit');
+            $editor->SetPrefix('Action Required');
             $editor->SetMaxLength(45);
             $editColumn = new CustomEditColumn('Listing Cta', 'listing_cta', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
@@ -2680,7 +2675,7 @@
             //
             // Edit column for listing_banner field
             //
-            $editor = new TextAreaEdit('listing_banner_edit', 50, 8);
+            $editor = new TextEdit('listing_banner_edit');
             $editColumn = new CustomEditColumn('Listing Banner', 'listing_banner', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -2709,7 +2704,7 @@
             //
             // Edit column for listing_show_form field
             //
-            $editor = new TextEdit('listing_show_form_edit');
+            $editor = new CheckBox('listing_show_form_edit');
             $editColumn = new CustomEditColumn('Listing Show Form', 'listing_show_form', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -2718,9 +2713,11 @@
             //
             // Edit column for listing_url field
             //
-            $editor = new TextAreaEdit('listing_url_edit', 50, 8);
+            $editor = new TextEdit('listing_url_edit');
             $editColumn = new CustomEditColumn('Listing Url', 'listing_url', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
+            $validator = new UrlValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('UrlValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
             
@@ -3049,7 +3046,7 @@
             //
             // Edit column for deploy_website field
             //
-            $editor = new TextEdit('deploy_website_edit');
+            $editor = new CheckBox('deploy_website_edit');
             $editColumn = new CustomEditColumn('Deploy Website', 'deploy_website', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -3061,6 +3058,7 @@
             $editor = new TextEdit('deploy_website_status_edit');
             $editor->SetMaxLength(45);
             $editColumn = new CustomEditColumn('Deploy Website Status', 'deploy_website_status', $editor, $this->dataset);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -3097,6 +3095,7 @@
             // Edit column for listing_cta field
             //
             $editor = new TextEdit('listing_cta_edit');
+            $editor->SetPrefix('Action Required');
             $editor->SetMaxLength(45);
             $editColumn = new CustomEditColumn('Listing Cta', 'listing_cta', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
@@ -3106,7 +3105,7 @@
             //
             // Edit column for listing_banner field
             //
-            $editor = new TextAreaEdit('listing_banner_edit', 50, 8);
+            $editor = new TextEdit('listing_banner_edit');
             $editColumn = new CustomEditColumn('Listing Banner', 'listing_banner', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -3135,7 +3134,7 @@
             //
             // Edit column for listing_show_form field
             //
-            $editor = new TextEdit('listing_show_form_edit');
+            $editor = new CheckBox('listing_show_form_edit');
             $editColumn = new CustomEditColumn('Listing Show Form', 'listing_show_form', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -3144,9 +3143,11 @@
             //
             // Edit column for listing_url field
             //
-            $editor = new TextAreaEdit('listing_url_edit', 50, 8);
+            $editor = new TextEdit('listing_url_edit');
             $editColumn = new CustomEditColumn('Listing Url', 'listing_url', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
+            $validator = new UrlValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('UrlValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
             
@@ -3335,11 +3336,9 @@
             //
             // View column for deploy_website field
             //
-            $column = new NumberViewColumn('deploy_website', 'deploy_website', 'Deploy Website', $this->dataset);
+            $column = new CheckboxViewColumn('deploy_website', 'deploy_website', 'Deploy Website', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $column->setDisplayValues('Yes', 'No');
             $grid->AddPrintColumn($column);
             
             //
@@ -3385,6 +3384,7 @@
             //
             $column = new TextViewColumn('listing_banner', 'listing_banner', 'Listing Banner', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_tracker_website_listing_banner_handler_print');
             $grid->AddPrintColumn($column);
@@ -3406,11 +3406,9 @@
             //
             // View column for listing_show_form field
             //
-            $column = new NumberViewColumn('listing_show_form', 'listing_show_form', 'Listing Show Form', $this->dataset);
+            $column = new CheckboxViewColumn('listing_show_form', 'listing_show_form', 'Listing Show Form', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $column->setDisplayValues('Show', 'Hide');
             $grid->AddPrintColumn($column);
             
             //
@@ -3574,11 +3572,9 @@
             //
             // View column for deploy_website field
             //
-            $column = new NumberViewColumn('deploy_website', 'deploy_website', 'Deploy Website', $this->dataset);
+            $column = new CheckboxViewColumn('deploy_website', 'deploy_website', 'Deploy Website', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $column->setDisplayValues('Yes', 'No');
             $grid->AddExportColumn($column);
             
             //
@@ -3624,6 +3620,7 @@
             //
             $column = new TextViewColumn('listing_banner', 'listing_banner', 'Listing Banner', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_tracker_website_listing_banner_handler_export');
             $grid->AddExportColumn($column);
@@ -3645,11 +3642,9 @@
             //
             // View column for listing_show_form field
             //
-            $column = new NumberViewColumn('listing_show_form', 'listing_show_form', 'Listing Show Form', $this->dataset);
+            $column = new CheckboxViewColumn('listing_show_form', 'listing_show_form', 'Listing Show Form', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $column->setDisplayValues('Show', 'Hide');
             $grid->AddExportColumn($column);
             
             //
@@ -3803,11 +3798,9 @@
             //
             // View column for deploy_website field
             //
-            $column = new NumberViewColumn('deploy_website', 'deploy_website', 'Deploy Website', $this->dataset);
+            $column = new CheckboxViewColumn('deploy_website', 'deploy_website', 'Deploy Website', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $column->setDisplayValues('Yes', 'No');
             $grid->AddCompareColumn($column);
             
             //
@@ -3853,6 +3846,7 @@
             //
             $column = new TextViewColumn('listing_banner', 'listing_banner', 'Listing Banner', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_tracker_website_listing_banner_handler_compare');
             $grid->AddCompareColumn($column);
@@ -3874,11 +3868,9 @@
             //
             // View column for listing_show_form field
             //
-            $column = new NumberViewColumn('listing_show_form', 'listing_show_form', 'Listing Show Form', $this->dataset);
+            $column = new CheckboxViewColumn('listing_show_form', 'listing_show_form', 'Listing Show Form', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $column->setDisplayValues('Show', 'Hide');
             $grid->AddCompareColumn($column);
             
             //
@@ -4080,6 +4072,7 @@
             //
             $column = new TextViewColumn('listing_banner', 'listing_banner', 'Listing Banner', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_website_listing_banner_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
@@ -4120,6 +4113,7 @@
             //
             $column = new TextViewColumn('listing_banner', 'listing_banner', 'Listing Banner', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_website_listing_banner_handler_compare', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
@@ -4905,9 +4899,49 @@
             $briefGroup->addRow()->addCol($columns['master_campaign_id'], 12);
             $briefGroup->addRow()->addCol($columns['deployed_by'], 12);
             $briefGroup->addRow()->addCol($columns['deployed_date'], 12);
-            $briefGroup->addRow()->addCol($columns['campaign_type'], 12);
             
             
+            $storageGroup = $layout->addGroup('Event Content', 12);
+            $storageGroup->addRow()
+                ->addCol($columns['listing_title'], 12);
+            $storageGroup->addRow()
+                ->addCol($columns['listing_content'], 12);
+            $storageGroup->addRow()
+                ->addCol($columns['listing_url'], 12);
+            $storageGroup->addRow()
+                ->addCol($columns['listing_banner'], 12);
+            $storageGroup->addRow()
+                ->addCol($columns['listing_SEO_title'], 12);
+            $storageGroup->addRow()
+                ->addCol($columns['listing_SEO_keywords'], 12);
+            $storageGroup->addRow()
+                ->addCol($columns['listing_cta'], 6)
+                ->addCol($columns['listing_show_form'], 6);
+            $storageGroup->addRow()
+                ->addCol($columns['m_ID'], 12);
+            
+            $storageGroup = $layout->addGroup('Target Audience', 12);
+            $storageGroup->addRow()
+                ->addCol($columns['country'], 3)
+                ->addCol($columns['region'], 3)
+                ->addCol($columns['sub_region'], 3)
+                ->addCol($columns['territory'], 3);
+            $storageGroup->addRow()
+                ->addCol($columns['campaign_type'], 4)
+                ->addCol($columns['product'], 4)
+                ->addCol($columns['industry'], 4);    
+            
+            $storageGroup = $layout->addGroup('Event Listing Admin', 12);
+            $storageGroup->addRow()
+                ->addCol($columns['start_date'], 6)
+                ->addCol($columns['end_date'], 6);
+            $storageGroup->addRow()
+                ->addCol($columns['deploy_website_status'], 6)
+                ->addCol($columns['deploy_website_date'], 6);
+            $storageGroup->addRow()
+                ->addCol($columns['deploy_website'], 4)
+                ->addCol($columns['Publish_Live'], 4)
+                ->addCol($columns['Publish_Live_Date'], 4);
         }
     
         protected function doGetCustomColumnGroup(FixedKeysArray $columns, ViewColumnGroup $columnGroup)

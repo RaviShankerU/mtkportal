@@ -78,7 +78,7 @@
                     new StringField('Updated_by'),
                     new DateTimeField('Updated_Date', true),
                     new StringField('Marketo_Campaign'),
-                    new BlobField('Banner'),
+                    new StringField('Banner'),
                     new StringField('Publish_Live'),
                     new DateField('Publish_Live_Date'),
                     new StringField('Event_Title'),
@@ -1018,7 +1018,7 @@
                 )
             );
             
-            $main_editor = new TextEdit('Banner');
+            $main_editor = new TextEdit('banner_edit');
             
             $filterBuilder->addColumn(
                 $columns['Banner'],
@@ -1604,7 +1604,7 @@
             //
             // View column for Banner field
             //
-            $column = new DownloadDataColumn('Banner', 'Banner', 'Banner', $this->dataset);
+            $column = new TextViewColumn('Banner', 'Banner', 'Banner', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
             
@@ -2103,9 +2103,8 @@
             //
             // Edit column for Banner field
             //
-            $editor = new ImageUploader('banner_edit');
-            $editor->SetShowImage(false);
-            $editColumn = new FileUploadingColumn('Banner', 'Banner', $editor, $this->dataset, false, false, 'campaign_events_Banner_handler_edit');
+            $editor = new TextEdit('banner_edit');
+            $editColumn = new CustomEditColumn('Banner', 'Banner', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -2626,9 +2625,8 @@
             //
             // Edit column for Banner field
             //
-            $editor = new ImageUploader('banner_edit');
-            $editor->SetShowImage(false);
-            $editColumn = new FileUploadingColumn('Banner', 'Banner', $editor, $this->dataset, false, false, 'campaign_events_Banner_handler_multi_edit');
+            $editor = new TextEdit('banner_edit');
+            $editColumn = new CustomEditColumn('Banner', 'Banner', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -3157,9 +3155,8 @@
             //
             // Edit column for Banner field
             //
-            $editor = new ImageUploader('banner_edit');
-            $editor->SetShowImage(false);
-            $editColumn = new FileUploadingColumn('Banner', 'Banner', $editor, $this->dataset, false, false, 'campaign_events_Banner_handler_insert');
+            $editor = new TextEdit('banner_edit');
+            $editColumn = new CustomEditColumn('Banner', 'Banner', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -3506,7 +3503,7 @@
             //
             // View column for Banner field
             //
-            $column = new DownloadDataColumn('Banner', 'Banner', 'Banner', $this->dataset);
+            $column = new TextViewColumn('Banner', 'Banner', 'Banner', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddPrintColumn($column);
             
@@ -3823,7 +3820,7 @@
             //
             // View column for Banner field
             //
-            $column = new DownloadDataColumn('Banner', 'Banner', 'Banner', $this->dataset);
+            $column = new TextViewColumn('Banner', 'Banner', 'Banner', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddExportColumn($column);
             
@@ -4130,7 +4127,7 @@
             //
             // View column for Banner field
             //
-            $column = new DownloadDataColumn('Banner', 'Banner', 'Banner', $this->dataset);
+            $column = new TextViewColumn('Banner', 'Banner', 'Banner', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddCompareColumn($column);
             
@@ -4245,7 +4242,7 @@
         {
             $result = new Grid($this, $this->dataset);
             if ($this->GetSecurityInfo()->HasDeleteGrant())
-               $result->SetAllowDeleteSelected(false);
+               $result->SetAllowDeleteSelected(true);
             else
                $result->SetAllowDeleteSelected(false);   
             
@@ -4254,6 +4251,7 @@
             $result->SetUseImagesForActions(true);
             $result->SetUseFixedHeader(false);
             $result->SetShowLineNumbers(true);
+            $result->SetShowKeyColumnsImagesInHeader(false);
             $result->SetViewMode(ViewMode::TABLE);
             $result->setEnableRuntimeCustomization(true);
             $result->setAllowCompare(true);
@@ -4558,9 +4556,6 @@
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Updated_by_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $handler = new DownloadHTTPHandler($this->dataset, 'Banner', 'Banner_handler', '', '', true);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
             //
             // View column for Event_Title field
             //
@@ -4676,9 +4671,6 @@
             $column = new TextViewColumn('Updated_by', 'Updated_by', 'Updated By', $this->dataset);
             $column->SetOrderable(true);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Updated_by_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            $handler = new DownloadHTTPHandler($this->dataset, 'Banner', 'Banner_handler', '', '', true);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -4868,9 +4860,6 @@
             $valuesDataset->setOrderByField('Industry_Name', 'ASC');
             $valuesDataset->addDistinct('Industry_ID');
             $handler = new DynamicSearchHandler($valuesDataset, $this, 'insert_Industry_Industry_ID_Industry_Name_search', 'Industry_ID', 'Industry_Name', null, 20);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            $handler = new ImageHTTPHandler($this->dataset, 'Banner', 'campaign_events_Banner_handler_insert', new NullFilter());
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -5208,9 +5197,6 @@
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Updated_by_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $handler = new DownloadHTTPHandler($this->dataset, 'Banner', 'Banner_handler', '', '', true);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
             //
             // View column for Event_Title field
             //
@@ -5398,9 +5384,6 @@
             $valuesDataset->setOrderByField('Industry_Name', 'ASC');
             $valuesDataset->addDistinct('Industry_ID');
             $handler = new DynamicSearchHandler($valuesDataset, $this, 'edit_Industry_Industry_ID_Industry_Name_search', 'Industry_ID', 'Industry_Name', null, 20);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            $handler = new ImageHTTPHandler($this->dataset, 'Banner', 'campaign_events_Banner_handler_edit', new NullFilter());
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -5591,9 +5574,6 @@
             $valuesDataset->setOrderByField('Industry_Name', 'ASC');
             $valuesDataset->addDistinct('Industry_ID');
             $handler = new DynamicSearchHandler($valuesDataset, $this, 'multi_edit_Industry_Industry_ID_Industry_Name_search', 'Industry_ID', 'Industry_Name', null, 20);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            $handler = new ImageHTTPHandler($this->dataset, 'Banner', 'campaign_events_Banner_handler_multi_edit', new NullFilter());
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(

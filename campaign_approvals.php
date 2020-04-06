@@ -3689,6 +3689,7 @@
             $result->SetUseImagesForActions(true);
             $result->SetUseFixedHeader(false);
             $result->SetShowLineNumbers(true);
+            $result->SetShowKeyColumnsImagesInHeader(false);
             $result->SetViewMode(ViewMode::TABLE);
             $result->setEnableRuntimeCustomization(true);
             $result->setAllowCompare(true);

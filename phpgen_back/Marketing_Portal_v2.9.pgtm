@@ -1049,20 +1049,18 @@ if ($success) {
     $this-&gt;GetConnection()-&gt;ExecSQL($sql);  
     $lastInsertedEventId = '1';
     
-    while( $record = mysqli_fetch_assoc($this) ) {
-    
     if (strpos($aChannels,$event) !== false) {
 
         $message = '&lt;p&gt;Record processed successfully. Your event' .
         ' has been update, we need more information. Click on ' .
-        '&lt;a class=&quot;alert-link&quot; href=&quot;campaign_events.php?operation=edit&amp;pk0='. $record['@LID'] .'&quot;&gt;my event&lt;/a&gt; to complete your event setup.&lt;/p&gt;';
+        '&lt;a class=&quot;alert-link&quot; href=&quot;campaign_events.php?operation=edit&amp;pk0='. $lastInsertedEventId .'&quot;&gt;my event&lt;/a&gt; to complete your event setup.&lt;/p&gt;';
     } else{
         $message = '&lt;p&gt;Record processed successfully. ' .
         'Your request has been submitted.&lt;/p&gt;';
     }
 
 }          </AfterUpdateRecord>
-          <CustomRenderColumnHandlerText enabled="true">
+          <CustomRenderColumnHandlerText enabled="false">
 if ($fieldName == 'data_field')
 {
    $customText = '&lt;a href=&quot;dosomething.php?id=' .$rowData['master_campaign_id'] .'&quot;&gt;Do something&lt;/a&gt;';
@@ -1152,7 +1150,7 @@ else {
         </RecordPermissions>
         <PartitionNavigators/>
       </Page>
-      <Page type="table" tableName="campaign_approvals" numberByDataSource="0" fileName="campaign_approvals" caption="Campaign: Brief Approvals" shortCaption="Campaign Approvals" groupName="New Campaign" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="2">
+      <Page type="table" tableName="campaign_approvals" numberByDataSource="0" fileName="campaign_approvals" caption="Campaign: Brief Approvals" shortCaption="Campaign Approvals" groupName="New Campaign" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="2">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/icons/approve-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -5724,7 +5722,7 @@ else
           </PartitionNavigator>
         </PartitionNavigators>
       </Page>
-      <Page type="table" tableName="campaign_events" numberByDataSource="0" fileName="campaign_events" caption="Event List" shortCaption="Event List" groupName="Campaign Manager" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="0" viewAbilityMode="3" editAbilityMode="3" copyAbilityMode="0" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
+      <Page type="table" tableName="campaign_events" numberByDataSource="0" fileName="campaign_events" caption="Event List" shortCaption="Event List" groupName="Campaign Manager" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="0" viewAbilityMode="3" editAbilityMode="3" copyAbilityMode="0" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
    &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/icons/event-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -5897,8 +5895,8 @@ else
             <EditProperties type="textBox" maxLength="5"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Banner" caption="Banner" canSetNull="true" selectedFilterOperators="1572864">
-            <ViewProperties type="download"/>
-            <EditProperties type="fileUpload"/>
+            <ViewProperties type="text"/>
+            <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Approval" caption="List on Website?" showColumnFilter="false" canSetNull="true" defaultInsertValue="0" selectedFilterOperators="1589247">
             <ViewProperties type="text"/>
@@ -8940,12 +8938,10 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="deploy_website" caption="Deploy Website" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
-            <ViewProperties type="text">
-              <Format type="number" thousandSeparator=","/>
-            </ViewProperties>
-            <EditProperties type="textBox" maxLength="0"/>
+            <ViewProperties type="checkBox" displayType="text" trueValue="Yes" falseValue="No"/>
+            <EditProperties type="checkBox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="deploy_website_status" caption="Deploy Website Status" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="deploy_website_status" caption="Deploy Website Status" showColumnFilter="false" canSetNull="true" controlVisible="false" selectedFilterOperators="1589247">
             <ViewProperties type="text"/>
             <EditProperties type="textBox" maxLength="45"/>
           </ColumnPresentation>
@@ -8963,11 +8959,13 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
           </ColumnPresentation>
           <ColumnPresentation fieldName="listing_cta" caption="Listing Cta" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
             <ViewProperties type="text"/>
-            <EditProperties type="textBox" maxLength="45"/>
+            <EditProperties type="textBox" maxLength="45" prefix="Action Required"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="listing_banner" caption="Listing Banner" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text" maxLength="75"/>
-            <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+            <ViewProperties type="text" maxLength="75">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="listing_SEO_title" caption="Listing SEO Title" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
             <ViewProperties type="text"/>
@@ -8978,14 +8976,15 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <EditProperties type="textBox" maxLength="45"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="listing_show_form" caption="Listing Show Form" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
-            <ViewProperties type="text">
-              <Format type="number" thousandSeparator=","/>
-            </ViewProperties>
-            <EditProperties type="textBox" maxLength="0"/>
+            <ViewProperties type="checkBox" displayType="text" trueValue="Show" falseValue="Hide"/>
+            <EditProperties type="checkBox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="listing_url" caption="Listing Url" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
             <ViewProperties type="text" maxLength="75"/>
-            <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+            <EditProperties type="textBox" maxLength="0"/>
+            <Validators>
+              <UrlClientValidatorInfo enabled="true"/>
+            </Validators>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Publish_Live" caption="Publish Live" canSetNull="true" selectedFilterOperators="1589247">
             <Lookup tableName="lookup_status_types" linkFieldName="Status_Type_ID" displayFieldName="Status_Type" lookupFilter="Status_Filters='website_listing'" useLookupOrdering="true" lookupOrdering="0"/>
@@ -9336,10 +9335,49 @@ $briefGroup = $layout-&gt;addGroup('Request Overview', 12);
 $briefGroup-&gt;addRow()-&gt;addCol($columns['master_campaign_id'], 12);
 $briefGroup-&gt;addRow()-&gt;addCol($columns['deployed_by'], 12);
 $briefGroup-&gt;addRow()-&gt;addCol($columns['deployed_date'], 12);
-$briefGroup-&gt;addRow()-&gt;addCol($columns['campaign_type'], 12);
 
 
-          </OnGetCustomFormLayout>
+$storageGroup = $layout-&gt;addGroup('Event Content', 12);
+$storageGroup-&gt;addRow()
+    -&gt;addCol($columns['listing_title'], 12);
+$storageGroup-&gt;addRow()
+    -&gt;addCol($columns['listing_content'], 12);
+$storageGroup-&gt;addRow()
+    -&gt;addCol($columns['listing_url'], 12);
+$storageGroup-&gt;addRow()
+    -&gt;addCol($columns['listing_banner'], 12);
+$storageGroup-&gt;addRow()
+    -&gt;addCol($columns['listing_SEO_title'], 12);
+$storageGroup-&gt;addRow()
+    -&gt;addCol($columns['listing_SEO_keywords'], 12);
+$storageGroup-&gt;addRow()
+    -&gt;addCol($columns['listing_cta'], 6)
+    -&gt;addCol($columns['listing_show_form'], 6);
+$storageGroup-&gt;addRow()
+    -&gt;addCol($columns['m_ID'], 12);
+
+$storageGroup = $layout-&gt;addGroup('Target Audience', 12);
+$storageGroup-&gt;addRow()
+    -&gt;addCol($columns['country'], 3)
+    -&gt;addCol($columns['region'], 3)
+    -&gt;addCol($columns['sub_region'], 3)
+    -&gt;addCol($columns['territory'], 3);
+$storageGroup-&gt;addRow()
+    -&gt;addCol($columns['campaign_type'], 4)
+    -&gt;addCol($columns['product'], 4)
+    -&gt;addCol($columns['industry'], 4);    
+
+$storageGroup = $layout-&gt;addGroup('Event Listing Admin', 12);
+$storageGroup-&gt;addRow()
+    -&gt;addCol($columns['start_date'], 6)
+    -&gt;addCol($columns['end_date'], 6);
+$storageGroup-&gt;addRow()
+    -&gt;addCol($columns['deploy_website_status'], 6)
+    -&gt;addCol($columns['deploy_website_date'], 6);
+$storageGroup-&gt;addRow()
+    -&gt;addCol($columns['deploy_website'], 4)
+    -&gt;addCol($columns['Publish_Live'], 4)
+    -&gt;addCol($columns['Publish_Live_Date'], 4);          </OnGetCustomFormLayout>
           <CustomDrawRow_SimpleHandler enabled="true">
 $today = date(&quot;Y-m-d&quot;);
 
