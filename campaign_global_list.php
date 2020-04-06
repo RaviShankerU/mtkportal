@@ -37,7 +37,7 @@
         protected function DoBeforeCreate()
         {
             $this->SetTitle('Marketo Campaigns: Comms Tracker');
-            $this->SetMenuLabel('Marketo Campaigns');
+            $this->SetMenuLabel('Comms Tracker');
             $this->SetHeader(GetPagesHeader());
             $this->SetFooter(GetPagesFooter());
     
@@ -19293,7 +19293,7 @@
             //
             // View column for brief01_campaign_tracker_comms detail
             //
-            $column = new DetailColumn(array('master_campaign_id'), 'brief01.campaign_tracker_comms', 'brief01_campaign_tracker_comms_handler', $this->dataset, 'Marketo Campaigns');
+            $column = new DetailColumn(array('master_campaign_id'), 'brief01.campaign_tracker_comms', 'brief01_campaign_tracker_comms_handler', $this->dataset, 'Comms Tracker');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $grid->AddViewColumn($column);
             }

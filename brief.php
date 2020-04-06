@@ -4299,7 +4299,8 @@
                 "$aOwner_person, '$aStart_date', '$aEnd_date', '$aCreated_by', '$aCreated_date', @LID);";
             
                 $this->GetConnection()->ExecSQL($sql);  
-                $lastInsertedEventId = '1';
+                $lastInsertedEventId = '1';   
+                
                 
                 if (strpos($aChannels,$event) !== false) {
             

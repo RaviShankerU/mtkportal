@@ -1047,7 +1047,8 @@ if ($success) {
     &quot;$aOwner_person, '$aStart_date', '$aEnd_date', '$aCreated_by', '$aCreated_date', @LID);&quot;;
 
     $this-&gt;GetConnection()-&gt;ExecSQL($sql);  
-    $lastInsertedEventId = '1';
+    $lastInsertedEventId = '1';   
+    
     
     if (strpos($aChannels,$event) !== false) {
 
@@ -2995,7 +2996,7 @@ else {
         </Columns>
         <Details>
           <Detail caption="Marketo Campaigns: Comms Tracker">
-            <Page type="table" tableName="campaign_tracker_comms" numberByDataSource="0" fileName="" caption="Marketo Campaigns: Comms Tracker" shortCaption="Marketo Campaigns" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
+            <Page type="table" tableName="campaign_tracker_comms" numberByDataSource="0" fileName="" caption="Marketo Campaigns: Comms Tracker" shortCaption="Comms Tracker" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
               <BeforeGridText/>
               <DetailedDescription/>
               <ColumnPresentations>
@@ -9409,10 +9410,28 @@ else {
         </PartitionNavigators>
       </Page>
       <Page type="table" tableName="campaign_tracker_comms" numberByDataSource="0" fileName="campaign_tracker_comms" caption="Campaign Tracker: Comms" shortCaption="Campaign Tracker Comms" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
-        <BeforeGridText/>
+        <BeforeGridText>
+&lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
+	&lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/icons/comms-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;mark-media-body&quot;&gt;
+		&lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
+		&lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
+		&lt;a href=&quot;http://mktportal.mscsoftware.com/campaign_global_list.php&quot; class=&quot;stretched-link&quot;&gt;View Live Lists&lt;/a&gt;
+	&lt;/div&gt;
+&lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
         <homePageDescription>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.        </homePageDescription>
+&lt;a href=&quot;http://mktportal.mscsoftware.com/campaign_global_list.php&quot; style=&quot;text-decoration:none;&quot;&gt;
+&lt;div class=&quot;card&quot;&gt;
+    &lt;div class=&quot;card-circle&quot;&gt;
+      &lt;img src=&quot;http://mktportal.mscsoftware.com/icons/comms.png&quot; class=&quot;icon-size&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;text-content&quot;&gt;
+    &lt;span class=card-title&gt;&lt;strong&gt;Comms Tracker (Marketo)&lt;/strong&gt;&lt;/span&gt;
+    &lt;p&gt;Approved campaigns, lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/a&gt;        </homePageDescription>
         <ColumnPresentations>
           <ColumnPresentation fieldName="campaign_tracker_ID" caption="Campaign Tracker ID" showColumnFilter="false" selectedFilterOperators="1573119">
             <ViewProperties type="text">
