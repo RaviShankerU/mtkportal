@@ -22,6 +22,7 @@ $dataSourceRecordPermissions = array('brief' => new DataSourceRecordPermission('
 
 $tableCaptions = array('campaign_calendar' => 'Campaign & Events Calendar',
 'brief' => 'Campaign Brief',
+'campaign_events' => 'Event List',
 'campaign_approvals' => 'Campaign Approvals',
 'brief01' => 'Campaigns',
 'brief01.campaign_tracker_comms' => 'Campaigns->Comms Tracker',
@@ -32,10 +33,8 @@ $tableCaptions = array('campaign_calendar' => 'Campaign & Events Calendar',
 'brief01.campaign_tracker_pr' => 'Campaigns->Public Relations',
 'brief01.campaign_tracker_partner' => 'Campaigns->Partner Program',
 'brief01.campaign_tracker_design' => 'Campaigns->Campaign Tracker Design',
-'campaign_events' => 'Event List',
 'campaign_ROI_Tracker' => 'Campaign ROI Tracker',
 'campaign_analysis' => 'Campaign Analysis',
-'campaign_utm' => 'Campaign Utm',
 'utm_tracker' => 'Utm Tracker',
 'campaign_group' => 'Campaign Tracker',
 'campaign_tracker_website' => 'Campaign Tracker Website',
@@ -48,7 +47,8 @@ $tableCaptions = array('campaign_calendar' => 'Campaign & Events Calendar',
 'campaign_tracker_pr' => 'Campaign Tracker Pr',
 'phpgen_user_roles' => 'User Roles',
 'country_list' => 'Country List',
-'lookup_tracker_tactics' => 'Tactic Template');
+'lookup_tracker_tactics' => 'Tactic Template',
+'campaign_tracker_utm' => 'Campaign Tracker Utm');
 
 $usersTableInfo = array(
     'TableName' => 'phpgen_users',

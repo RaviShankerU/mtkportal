@@ -26,6 +26,223 @@
 
     
     
+    class lookup_tracker_tactics_channel_nameNestedPage extends NestedFormPage
+    {
+        protected function DoBeforeCreate()
+        {
+            $this->dataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_channels`');
+            $this->dataset->addFields(
+                array(
+                    new IntegerField('channel_ID', true, true, true),
+                    new StringField('channnel_name')
+                )
+            );
+            $this->dataset->AddLookupField('channnel_name', 'lookup_channels', new IntegerField('channel_ID'), new StringField('channnel_name', false, false, false, false, 'channnel_name_channnel_name', 'channnel_name_channnel_name_lookup_channels'), 'channnel_name_channnel_name_lookup_channels');
+        }
+    
+        protected function DoPrepare() {
+    
+        }
+    
+        protected function AddInsertColumns(Grid $grid)
+        {
+            //
+            // Edit column for channnel_name field
+            //
+            $editor = new DynamicCombobox('channnel_name_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_channels`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('channel_ID', true, true, true),
+                    new StringField('channnel_name')
+                )
+            );
+            $lookupDataset->setOrderByField('channnel_name', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Channnel Name', 'channnel_name', 'channnel_name_channnel_name', 'insert_lookup_tracker_tactics_channel_nameNestedPage_channnel_name_search', $editor, $this->dataset, $lookupDataset, 'channel_ID', 'channnel_name', '');
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+        }
+    
+        function GetCustomClientScript()
+        {
+            return ;
+        }
+        
+        function GetOnPageLoadedClientScript()
+        {
+            return ;
+        }
+    
+        protected function setClientSideEvents(Grid $grid) {
+    
+        }
+    
+        protected function ApplyCommonColumnEditProperties(CustomEditColumn $column)
+        {
+            $column->SetDisplaySetToNullCheckBox(false);
+            $column->SetDisplaySetToDefaultCheckBox(false);
+            $column->SetVariableContainer($this->GetColumnVariableContainer());
+        }
+    
+       static public function getNestedInsertHandlerName()
+        {
+            return get_class() . '_form_insert';
+        }
+    
+        public function GetGridInsertHandler()
+        {
+            return self::getNestedInsertHandlerName();
+        }
+    
+        protected function doGetCustomTemplate($type, $part, $mode, &$result, &$params)
+        {
+    
+        }
+    
+        protected function doGetCustomFormLayout($mode, FixedKeysArray $columns, FormLayout $layout)
+        {
+    
+        }
+    
+        protected function doFileUpload($fieldName, $rowData, &$result, &$accept, $originalFileName, $originalFileExtension, $fileSize, $tempFileName)
+        {
+    
+        }
+    
+        public function doCustomDefaultValues(&$values, &$handled) 
+        {
+    
+        }
+    
+        protected function doBeforeInsertRecord($page, &$rowData, $tableName, &$cancel, &$message, &$messageDisplayTime)
+        {
+    
+        }
+    
+        protected function doAfterInsertRecord($page, $rowData, $tableName, &$success, &$message, &$messageDisplayTime)
+        {
+    
+        }
+    
+    }
+    
+    class lookup_tracker_tactics_tactic_nameNestedPage extends NestedFormPage
+    {
+        protected function DoBeforeCreate()
+        {
+            $this->dataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_tactic`');
+            $this->dataset->addFields(
+                array(
+                    new IntegerField('lookup_tactic_ID', true, true, true),
+                    new StringField('tactic_description')
+                )
+            );
+            $this->dataset->AddLookupField('tactic_description', 'lookup_tactic', new IntegerField('lookup_tactic_ID'), new StringField('tactic_description', false, false, false, false, 'tactic_description_tactic_description', 'tactic_description_tactic_description_lookup_tactic'), 'tactic_description_tactic_description_lookup_tactic');
+        }
+    
+        protected function DoPrepare() {
+    
+        }
+    
+        protected function AddInsertColumns(Grid $grid)
+        {
+            //
+            // Edit column for tactic_description field
+            //
+            $editor = new DynamicCombobox('tactic_description_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_tactic`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('lookup_tactic_ID', true, true, true),
+                    new StringField('tactic_description')
+                )
+            );
+            $lookupDataset->setOrderByField('tactic_description', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Tactic Description', 'tactic_description', 'tactic_description_tactic_description', 'insert_lookup_tracker_tactics_tactic_nameNestedPage_tactic_description_search', $editor, $this->dataset, $lookupDataset, 'lookup_tactic_ID', 'tactic_description', '');
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+        }
+    
+        function GetCustomClientScript()
+        {
+            return ;
+        }
+        
+        function GetOnPageLoadedClientScript()
+        {
+            return ;
+        }
+    
+        protected function setClientSideEvents(Grid $grid) {
+    
+        }
+    
+        protected function ApplyCommonColumnEditProperties(CustomEditColumn $column)
+        {
+            $column->SetDisplaySetToNullCheckBox(false);
+            $column->SetDisplaySetToDefaultCheckBox(false);
+            $column->SetVariableContainer($this->GetColumnVariableContainer());
+        }
+    
+       static public function getNestedInsertHandlerName()
+        {
+            return get_class() . '_form_insert';
+        }
+    
+        public function GetGridInsertHandler()
+        {
+            return self::getNestedInsertHandlerName();
+        }
+    
+        protected function doGetCustomTemplate($type, $part, $mode, &$result, &$params)
+        {
+    
+        }
+    
+        protected function doGetCustomFormLayout($mode, FixedKeysArray $columns, FormLayout $layout)
+        {
+    
+        }
+    
+        protected function doFileUpload($fieldName, $rowData, &$result, &$accept, $originalFileName, $originalFileExtension, $fileSize, $tempFileName)
+        {
+    
+        }
+    
+        public function doCustomDefaultValues(&$values, &$handled) 
+        {
+    
+        }
+    
+        protected function doBeforeInsertRecord($page, &$rowData, $tableName, &$cancel, &$message, &$messageDisplayTime)
+        {
+    
+        }
+    
+        protected function doAfterInsertRecord($page, $rowData, $tableName, &$success, &$message, &$messageDisplayTime)
+        {
+    
+        }
+    
+    }
     
     // OnBeforePageExecute event handler
     
@@ -52,7 +269,7 @@
                     new StringField('tactic_name')
                 )
             );
-            $this->dataset->AddLookupField('channel_name', 'lookup_channels', new StringField('channnel_name'), new StringField('channnel_name', false, false, false, false, 'channel_name_channnel_name', 'channel_name_channnel_name_lookup_channels'), 'channel_name_channnel_name_lookup_channels');
+            $this->dataset->AddLookupField('channel_name', 'lookup_channels', new IntegerField('channel_ID'), new StringField('channnel_name', false, false, false, false, 'channel_name_channnel_name', 'channel_name_channnel_name_lookup_channels'), 'channel_name_channnel_name_lookup_channels');
             $this->dataset->AddLookupField('tactic_name', 'lookup_tactic', new IntegerField('lookup_tactic_ID'), new StringField('tactic_description', false, false, false, false, 'tactic_name_tactic_description', 'tactic_name_tactic_description_lookup_tactic'), 'tactic_name_tactic_description_lookup_tactic');
         }
     
@@ -63,6 +280,13 @@
         protected function CreatePageNavigator()
         {
             $result = new CompositePageNavigator($this);
+            
+            $partitionNavigator = new CustomPageNavigator('partition', $this, $this->dataset, 'Filter by Channel Names', $result);
+            $partitionNavigator->OnGetPartitionCondition->AddListener('partition' . '_GetPartitionConditionHandler', $this);
+            $partitionNavigator->OnGetPartitions->AddListener('partition' . '_GetPartitionsHandler', $this);
+            $partitionNavigator->SetAllowViewAllRecords(true);
+            $partitionNavigator->SetNavigationStyle(NS_LIST);
+            $result->AddPageNavigator($partitionNavigator);
             
             $partitionNavigator = new PageNavigator('pnav', $this, $this->dataset);
             $partitionNavigator->SetRowsPerPage(20);
@@ -364,7 +588,10 @@
                 )
             );
             $lookupDataset->setOrderByField('channnel_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Channel Name', 'channel_name', 'channel_name_channnel_name', 'edit_lookup_tracker_tactics_channel_name_search', $editor, $this->dataset, $lookupDataset, 'channnel_name', 'channnel_name', '');
+            $editColumn = new DynamicLookupEditColumn('Channel Name', 'channel_name', 'channel_name_channnel_name', 'edit_lookup_tracker_tactics_channel_name_search', $editor, $this->dataset, $lookupDataset, 'channel_ID', 'channnel_name', '');
+            $editColumn->setNestedInsertFormLink(
+                $this->GetHandlerLink(lookup_tracker_tactics_channel_nameNestedPage::getNestedInsertHandlerName())
+            );
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -398,7 +625,10 @@
                 )
             );
             $lookupDataset->setOrderByField('tactic_description', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Tactic Name', 'tactic_name', 'tactic_name_tactic_description', 'edit_lookup_tracker_tactics_tactic_name_search', $editor, $this->dataset, $lookupDataset, 'lookup_tactic_ID', 'tactic_description', '');
+            $editColumn = new DynamicLookupEditColumn('Tactic Name', 'tactic_name', 'tactic_name_tactic_description', '_lookup_tracker_tactics_tactic_name_search', $editor, $this->dataset, $lookupDataset, 'lookup_tactic_ID', 'tactic_description', '');
+            $editColumn->setNestedInsertFormLink(
+                $this->GetHandlerLink(lookup_tracker_tactics_tactic_nameNestedPage::getNestedInsertHandlerName())
+            );
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -424,7 +654,10 @@
                 )
             );
             $lookupDataset->setOrderByField('channnel_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Channel Name', 'channel_name', 'channel_name_channnel_name', 'multi_edit_lookup_tracker_tactics_channel_name_search', $editor, $this->dataset, $lookupDataset, 'channnel_name', 'channnel_name', '');
+            $editColumn = new DynamicLookupEditColumn('Channel Name', 'channel_name', 'channel_name_channnel_name', 'multi_edit_lookup_tracker_tactics_channel_name_search', $editor, $this->dataset, $lookupDataset, 'channel_ID', 'channnel_name', '');
+            $editColumn->setNestedInsertFormLink(
+                $this->GetHandlerLink(lookup_tracker_tactics_channel_nameNestedPage::getNestedInsertHandlerName())
+            );
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -459,6 +692,9 @@
             );
             $lookupDataset->setOrderByField('tactic_description', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Tactic Name', 'tactic_name', 'tactic_name_tactic_description', 'multi_edit_lookup_tracker_tactics_tactic_name_search', $editor, $this->dataset, $lookupDataset, 'lookup_tactic_ID', 'tactic_description', '');
+            $editColumn->setNestedInsertFormLink(
+                $this->GetHandlerLink(lookup_tracker_tactics_tactic_nameNestedPage::getNestedInsertHandlerName())
+            );
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -484,7 +720,10 @@
                 )
             );
             $lookupDataset->setOrderByField('channnel_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Channel Name', 'channel_name', 'channel_name_channnel_name', 'insert_lookup_tracker_tactics_channel_name_search', $editor, $this->dataset, $lookupDataset, 'channnel_name', 'channnel_name', '');
+            $editColumn = new DynamicLookupEditColumn('Channel Name', 'channel_name', 'channel_name_channnel_name', 'insert_lookup_tracker_tactics_channel_name_search', $editor, $this->dataset, $lookupDataset, 'channel_ID', 'channnel_name', '');
+            $editColumn->setNestedInsertFormLink(
+                $this->GetHandlerLink(lookup_tracker_tactics_channel_nameNestedPage::getNestedInsertHandlerName())
+            );
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -519,6 +758,9 @@
             );
             $lookupDataset->setOrderByField('tactic_description', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Tactic Name', 'tactic_name', 'tactic_name_tactic_description', 'insert_lookup_tracker_tactics_tactic_name_search', $editor, $this->dataset, $lookupDataset, 'lookup_tactic_ID', 'tactic_description', '');
+            $editColumn->setNestedInsertFormLink(
+                $this->GetHandlerLink(lookup_tracker_tactics_tactic_nameNestedPage::getNestedInsertHandlerName())
+            );
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -678,6 +920,23 @@
         protected function GetEnableModalGridDelete() { return true; }
         
         public function GetEnableModalGridCopy() { return true; }
+        
+        private $partitions = array(1 => array('\'12\''), 2 => array('\'6\''), 3 => array('\'11\''));
+        
+        function partition_GetPartitionsHandler(&$partitions)
+        {
+            $partitions[1] = '12';
+            $partitions[2] = '6';
+            $partitions[3] = '11';
+        }
+        
+        function partition_GetPartitionConditionHandler($partitionName, &$condition)
+        {
+            $condition = '';
+            if (isset($partitionName) && isset($this->partitions[$partitionName]))
+                foreach ($this->partitions[$partitionName] as $value)
+                    AddStr($condition, sprintf('(channel_name = %s)', $this->PrepareTextForSQL($value)), ' OR ');
+        }
     
         protected function CreateGrid()
         {
@@ -727,13 +986,13 @@
             $this->setExportListRecordAvailable(array());
             $this->setExportOneRecordAvailable(array('pdf', 'excel', 'word', 'xml', 'csv'));
             $this->setDescription('<div class="mark-media mark-position-relative">
-                          <div class="mark-bd-placeholder-img mr-3"><img src="http://mktportal.mscsoftware.com/icons/globe-color.png" width="80" height="79"></div>
-                          <div class="mark-media-body">
-                            <h5 class="mt-0 h5">What will you find here</h5>
-                            <p class="mark-p">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-                            <a href="http://mktportal.mscsoftware.com/master_campaign_global.php" class="stretched-link">Go to Master Campaign</a>
-                          </div>
-                        </div>');
+                <div class="mark-bd-placeholder-img mr-3"><img src="/icons/website-list-color.png" width="80" height="79"></div>
+                <div class="mark-media-body">
+                <h5 class="mt-0 h5">What will you find here</h5>
+                    <p class="mark-p">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+                    <a href="http://mktportal.mscsoftware.com/" class="stretched-link">Go to Master Campaign</a>
+                </div>
+            </div>');
             $this->SetHidePageListByDefault(true);
             $this->setShowFormErrorsOnTop(true);
             $this->setShowFormErrorsAtBottom(false);
@@ -784,7 +1043,7 @@
                 )
             );
             $lookupDataset->setOrderByField('channnel_name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_lookup_tracker_tactics_channel_name_search', 'channnel_name', 'channnel_name', null, 20);
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_lookup_tracker_tactics_channel_name_search', 'channel_ID', 'channnel_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -812,7 +1071,7 @@
                 )
             );
             $lookupDataset->setOrderByField('channnel_name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_lookup_tracker_tactics_channel_name_search', 'channnel_name', 'channnel_name', null, 20);
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_lookup_tracker_tactics_channel_name_search', 'channel_ID', 'channnel_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -848,7 +1107,7 @@
                 )
             );
             $lookupDataset->setOrderByField('channnel_name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_lookup_tracker_tactics_channel_name_search', 'channnel_name', 'channnel_name', null, 20);
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_lookup_tracker_tactics_channel_name_search', 'channel_ID', 'channnel_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -862,7 +1121,7 @@
                 )
             );
             $lookupDataset->setOrderByField('tactic_description', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_lookup_tracker_tactics_tactic_name_search', 'lookup_tactic_ID', 'tactic_description', null, 20);
+            $handler = new DynamicSearchHandler($lookupDataset, $this, '_lookup_tracker_tactics_tactic_name_search', 'lookup_tactic_ID', 'tactic_description', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -876,7 +1135,7 @@
                 )
             );
             $lookupDataset->setOrderByField('channnel_name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_lookup_tracker_tactics_channel_name_search', 'channnel_name', 'channnel_name', null, 20);
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_lookup_tracker_tactics_channel_name_search', 'channel_ID', 'channnel_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -892,6 +1151,38 @@
             $lookupDataset->setOrderByField('tactic_description', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_lookup_tracker_tactics_tactic_name_search', 'lookup_tactic_ID', 'tactic_description', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_channels`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('channel_ID', true, true, true),
+                    new StringField('channnel_name')
+                )
+            );
+            $lookupDataset->setOrderByField('channnel_name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_lookup_tracker_tactics_channel_nameNestedPage_channnel_name_search', 'channel_ID', 'channnel_name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_tactic`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('lookup_tactic_ID', true, true, true),
+                    new StringField('tactic_description')
+                )
+            );
+            $lookupDataset->setOrderByField('tactic_description', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_lookup_tracker_tactics_tactic_nameNestedPage_tactic_description_search', 'lookup_tactic_ID', 'tactic_description', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            
+            new lookup_tracker_tactics_channel_nameNestedPage($this, GetCurrentUserPermissionSetForDataSource('lookup_tracker_tactics.channel_name'));
+            new lookup_tracker_tactics_tactic_nameNestedPage($this, GetCurrentUserPermissionSetForDataSource('lookup_tracker_tactics.tactic_name'));
         }
        
         protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)

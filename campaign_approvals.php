@@ -298,6 +298,8 @@
                 )
             );
             $this->dataset->AddLookupField('campaign_type', 'lookup_brief_campaign_types', new IntegerField('brief_campaign_types_ID'), new StringField('campaign_types', false, false, false, false, 'campaign_type_campaign_types', 'campaign_type_campaign_types_lookup_brief_campaign_types'), 'campaign_type_campaign_types_lookup_brief_campaign_types');
+            $this->dataset->AddLookupField('b_region', 'lookup_region', new IntegerField('Region_ID'), new StringField('Region', false, false, false, false, 'b_region_Region', 'b_region_Region_lookup_region'), 'b_region_Region_lookup_region');
+            $this->dataset->AddLookupField('b_country', 'country_list', new IntegerField('Country_ID'), new StringField('Country_Name', false, false, false, false, 'b_country_Country_Name', 'b_country_Country_Name_country_list'), 'b_country_Country_Name_country_list');
             $this->dataset->AddLookupField('owner_person', 'phpgen_users', new IntegerField('user_id'), new StringField('user_name', false, false, false, false, 'owner_person_user_name', 'owner_person_user_name_phpgen_users'), 'owner_person_user_name_phpgen_users');
         }
     
@@ -341,21 +343,21 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for b_region field
+            // View column for Region field
             //
-            $column = new TextViewColumn('b_region', 'b_region', 'Region', $this->dataset);
+            $column = new TextViewColumn('b_region', 'b_region_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_approvals_master_campaign_idModalViewPage_b_region_handler_');
+            $column->SetFullTextWindowHandlerName('campaign_approvals_master_campaign_idModalViewPage_b_region_Region_handler_');
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for b_country field
+            // View column for Country_Name field
             //
-            $column = new TextViewColumn('b_country', 'b_country', 'Country', $this->dataset);
+            $column = new TextViewColumn('b_country', 'b_country_Country_Name', 'Country', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_approvals_master_campaign_idModalViewPage_b_country_handler_');
+            $column->SetFullTextWindowHandlerName('campaign_approvals_master_campaign_idModalViewPage_b_country_Country_Name_handler_');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -365,6 +367,66 @@
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_approvals_master_campaign_idModalViewPage_industry_handler_');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for est_opportunity_value_in_euros field
+            //
+            $column = new NumberViewColumn('est_opportunity_value_in_euros', 'est_opportunity_value_in_euros', 'Est Opportunity Value In Euros', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for campaign_cost field
+            //
+            $column = new NumberViewColumn('campaign_cost', 'campaign_cost', 'Campaign Cost', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for expected_roi_enquiries field
+            //
+            $column = new NumberViewColumn('expected_roi_enquiries', 'expected_roi_enquiries', 'Expected Roi Enquiries', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for expected_roi_ots field
+            //
+            $column = new NumberViewColumn('expected_roi_ots', 'expected_roi_ots', 'Expected Roi Ots', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for post_enquiries field
+            //
+            $column = new NumberViewColumn('post_enquiries', 'post_enquiries', 'Post Enquiries', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for new_opportunities field
+            //
+            $column = new NumberViewColumn('new_opportunities', 'new_opportunities', 'New Opportunities', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -389,28 +451,6 @@
             $column = new DateTimeViewColumn('end_date', 'end_date', 'End Date', $this->dataset);
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y H:i:s');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for file_upload field
-            //
-            $column = new TextViewColumn('file_upload', 'file_upload', 'File Upload', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setHrefTemplate('%file_upload%');
-            $column->setTarget('');
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_approvals_master_campaign_idModalViewPage_file_upload_handler_');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for asset_upload field
-            //
-            $column = new TextViewColumn('asset_upload', 'asset_upload', 'Asset Upload', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setHrefTemplate('%asset_upload%');
-            $column->setTarget('');
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_approvals_master_campaign_idModalViewPage_asset_upload_handler_');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -463,19 +503,19 @@
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for b_region field
+            // View column for Region field
             //
-            $column = new TextViewColumn('b_region', 'b_region', 'Region', $this->dataset);
+            $column = new TextViewColumn('b_region', 'b_region_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_approvals_master_campaign_idModalViewPage_b_region_handler_', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_approvals_master_campaign_idModalViewPage_b_region_Region_handler_', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for b_country field
+            // View column for Country_Name field
             //
-            $column = new TextViewColumn('b_country', 'b_country', 'Country', $this->dataset);
+            $column = new TextViewColumn('b_country', 'b_country_Country_Name', 'Country', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_approvals_master_campaign_idModalViewPage_b_country_handler_', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_approvals_master_campaign_idModalViewPage_b_country_Country_Name_handler_', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -484,26 +524,6 @@
             $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
             $column->SetOrderable(true);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_approvals_master_campaign_idModalViewPage_industry_handler_', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for file_upload field
-            //
-            $column = new TextViewColumn('file_upload', 'file_upload', 'File Upload', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setHrefTemplate('%file_upload%');
-            $column->setTarget('');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_approvals_master_campaign_idModalViewPage_file_upload_handler_', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for asset_upload field
-            //
-            $column = new TextViewColumn('asset_upload', 'asset_upload', 'Asset Upload', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setHrefTemplate('%asset_upload%');
-            $column->setTarget('');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_approvals_master_campaign_idModalViewPage_asset_upload_handler_', $column);
             GetApplication()->RegisterHTTPHandler($handler);
         }
     
@@ -690,8 +710,8 @@
                     new IntegerField('new_opportunities'),
                     new DateTimeField('start_date'),
                     new DateTimeField('end_date'),
-                    new BlobField('file_upload'),
-                    new BlobField('asset_upload'),
+                    new StringField('file_upload'),
+                    new StringField('asset_upload'),
                     new IntegerField('send_note'),
                     new StringField('send_message'),
                     new StringField('requested_by'),
@@ -1188,7 +1208,7 @@
                 )
             );
             
-            $main_editor = new TextEdit('file_upload');
+            $main_editor = new TextEdit('file_upload_edit');
             
             $filterBuilder->addColumn(
                 $columns['file_upload'],
@@ -1198,7 +1218,7 @@
                 )
             );
             
-            $main_editor = new TextEdit('asset_upload');
+            $main_editor = new TextEdit('asset_upload_edit');
             
             $filterBuilder->addColumn(
                 $columns['asset_upload'],
@@ -1658,8 +1678,6 @@
             //
             $column = new TextViewColumn('channel_types', 'channel_types', 'Channel Types', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_approvals_channel_types_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1741,15 +1759,23 @@
             //
             // View column for file_upload field
             //
-            $column = new DownloadDataColumn('file_upload', 'file_upload', 'File Upload', $this->dataset);
+            $column = new TextViewColumn('file_upload', 'file_upload', 'File Upload', $this->dataset);
             $column->SetOrderable(true);
+            $column->setHrefTemplate('%file_upload%');
+            $column->setTarget('_blank');
+            $column->SetEscapeHTMLSpecialChars(true);
+            $column->SetWordWrap(false);
             $grid->AddSingleRecordViewColumn($column);
             
             //
             // View column for asset_upload field
             //
-            $column = new DownloadDataColumn('asset_upload', 'asset_upload', 'Asset Upload', $this->dataset);
+            $column = new TextViewColumn('asset_upload', 'asset_upload', 'Asset Upload', $this->dataset);
             $column->SetOrderable(true);
+            $column->setHrefTemplate('%asset_upload%');
+            $column->setTarget('');
+            $column->SetEscapeHTMLSpecialChars(true);
+            $column->SetWordWrap(false);
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -2058,22 +2084,24 @@
             //
             // Edit column for file_upload field
             //
-            $editor = new ImageUploader('file_upload_edit');
-            $editor->SetShowImage(false);
-            $editColumn = new FileUploadingColumn('File Upload', 'file_upload', $editor, $this->dataset, false, false, 'campaign_approvals_file_upload_handler_edit');
-            $editColumn->setVisible(false);
+            $editor = new TextEdit('file_upload_edit');
+            $editColumn = new CustomEditColumn('File Upload', 'file_upload', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
+            $validator = new UrlValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('UrlValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
             //
             // Edit column for asset_upload field
             //
-            $editor = new ImageUploader('asset_upload_edit');
-            $editor->SetShowImage(false);
-            $editColumn = new FileUploadingColumn('Asset Upload', 'asset_upload', $editor, $this->dataset, false, false, 'campaign_approvals_asset_upload_handler_edit');
-            $editColumn->setVisible(false);
+            $editor = new TextEdit('asset_upload_edit');
+            $editColumn = new CustomEditColumn('Asset Upload', 'asset_upload', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
+            $validator = new UrlValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('UrlValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
@@ -2453,22 +2481,24 @@
             //
             // Edit column for file_upload field
             //
-            $editor = new ImageUploader('file_upload_edit');
-            $editor->SetShowImage(false);
-            $editColumn = new FileUploadingColumn('File Upload', 'file_upload', $editor, $this->dataset, false, false, 'campaign_approvals_file_upload_handler_multi_edit');
-            $editColumn->setVisible(false);
+            $editor = new TextEdit('file_upload_edit');
+            $editColumn = new CustomEditColumn('File Upload', 'file_upload', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
+            $validator = new UrlValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('UrlValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
             
             //
             // Edit column for asset_upload field
             //
-            $editor = new ImageUploader('asset_upload_edit');
-            $editor->SetShowImage(false);
-            $editColumn = new FileUploadingColumn('Asset Upload', 'asset_upload', $editor, $this->dataset, false, false, 'campaign_approvals_asset_upload_handler_multi_edit');
-            $editColumn->setVisible(false);
+            $editor = new TextEdit('asset_upload_edit');
+            $editColumn = new CustomEditColumn('Asset Upload', 'asset_upload', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
+            $validator = new UrlValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('UrlValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
             
@@ -2814,22 +2844,24 @@
             //
             // Edit column for file_upload field
             //
-            $editor = new ImageUploader('file_upload_edit');
-            $editor->SetShowImage(false);
-            $editColumn = new FileUploadingColumn('File Upload', 'file_upload', $editor, $this->dataset, false, false, 'campaign_approvals_file_upload_handler_insert');
-            $editColumn->setVisible(false);
+            $editor = new TextEdit('file_upload_edit');
+            $editColumn = new CustomEditColumn('File Upload', 'file_upload', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
+            $validator = new UrlValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('UrlValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
             
             //
             // Edit column for asset_upload field
             //
-            $editor = new ImageUploader('asset_upload_edit');
-            $editor->SetShowImage(false);
-            $editColumn = new FileUploadingColumn('Asset Upload', 'asset_upload', $editor, $this->dataset, false, false, 'campaign_approvals_asset_upload_handler_insert');
-            $editColumn->setVisible(false);
+            $editor = new TextEdit('asset_upload_edit');
+            $editColumn = new CustomEditColumn('Asset Upload', 'asset_upload', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
+            $validator = new UrlValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('UrlValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
             
@@ -3050,8 +3082,6 @@
             //
             $column = new TextViewColumn('channel_types', 'channel_types', 'Channel Types', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_approvals_channel_types_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -3134,15 +3164,23 @@
             //
             // View column for file_upload field
             //
-            $column = new DownloadDataColumn('file_upload', 'file_upload', 'File Upload', $this->dataset);
+            $column = new TextViewColumn('file_upload', 'file_upload', 'File Upload', $this->dataset);
             $column->SetOrderable(true);
+            $column->setHrefTemplate('%file_upload%');
+            $column->setTarget('_blank');
+            $column->SetEscapeHTMLSpecialChars(true);
+            $column->SetWordWrap(false);
             $grid->AddPrintColumn($column);
             
             //
             // View column for asset_upload field
             //
-            $column = new DownloadDataColumn('asset_upload', 'asset_upload', 'Asset Upload', $this->dataset);
+            $column = new TextViewColumn('asset_upload', 'asset_upload', 'Asset Upload', $this->dataset);
             $column->SetOrderable(true);
+            $column->setHrefTemplate('%asset_upload%');
+            $column->setTarget('');
+            $column->SetEscapeHTMLSpecialChars(true);
+            $column->SetWordWrap(false);
             $grid->AddPrintColumn($column);
             
             //
@@ -3266,8 +3304,6 @@
             //
             $column = new TextViewColumn('channel_types', 'channel_types', 'Channel Types', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_approvals_channel_types_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -3350,15 +3386,23 @@
             //
             // View column for file_upload field
             //
-            $column = new DownloadDataColumn('file_upload', 'file_upload', 'File Upload', $this->dataset);
+            $column = new TextViewColumn('file_upload', 'file_upload', 'File Upload', $this->dataset);
             $column->SetOrderable(true);
+            $column->setHrefTemplate('%file_upload%');
+            $column->setTarget('_blank');
+            $column->SetEscapeHTMLSpecialChars(true);
+            $column->SetWordWrap(false);
             $grid->AddExportColumn($column);
             
             //
             // View column for asset_upload field
             //
-            $column = new DownloadDataColumn('asset_upload', 'asset_upload', 'Asset Upload', $this->dataset);
+            $column = new TextViewColumn('asset_upload', 'asset_upload', 'Asset Upload', $this->dataset);
             $column->SetOrderable(true);
+            $column->setHrefTemplate('%asset_upload%');
+            $column->setTarget('');
+            $column->SetEscapeHTMLSpecialChars(true);
+            $column->SetWordWrap(false);
             $grid->AddExportColumn($column);
             
             //
@@ -3472,8 +3516,6 @@
             //
             $column = new TextViewColumn('channel_types', 'channel_types', 'Channel Types', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_approvals_channel_types_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -3556,15 +3598,23 @@
             //
             // View column for file_upload field
             //
-            $column = new DownloadDataColumn('file_upload', 'file_upload', 'File Upload', $this->dataset);
+            $column = new TextViewColumn('file_upload', 'file_upload', 'File Upload', $this->dataset);
             $column->SetOrderable(true);
+            $column->setHrefTemplate('%file_upload%');
+            $column->setTarget('_blank');
+            $column->SetEscapeHTMLSpecialChars(true);
+            $column->SetWordWrap(false);
             $grid->AddCompareColumn($column);
             
             //
             // View column for asset_upload field
             //
-            $column = new DownloadDataColumn('asset_upload', 'asset_upload', 'Asset Upload', $this->dataset);
+            $column = new TextViewColumn('asset_upload', 'asset_upload', 'Asset Upload', $this->dataset);
             $column->SetOrderable(true);
+            $column->setHrefTemplate('%asset_upload%');
+            $column->setTarget('');
+            $column->SetEscapeHTMLSpecialChars(true);
+            $column->SetWordWrap(false);
             $grid->AddCompareColumn($column);
             
             //
@@ -3725,11 +3775,11 @@
             $this->setExportListRecordAvailable(array());
             $this->setExportOneRecordAvailable(array('pdf', 'excel', 'word', 'xml', 'csv'));
             $this->setDescription('<div class="mark-media mark-position-relative">
-                          <div class="mark-bd-placeholder-img mr-3"><img src="http://mktportal.mscsoftware.com/icons/approve-color.png" width="80" height="79"></div>
+                          <div class="mark-bd-placeholder-img mr-3"><img src="http://localhost/mportal/apps/icons/approve-color.png" width="80" height="79"></div>
                           <div class="mark-media-body">
                             <h5 class="mt-0 h5">What will you find here</h5>
                             <p class="mark-p">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-                            <a href="http://mktportal.mscsoftware.com/" class="stretched-link">Go to Master Campaign</a>
+                            <a href="http://localhost/mportal" class="stretched-link">Go to Master Campaign</a>
                           </div>
                         </div>');
             $this->SetHidePageListByDefault(true);
@@ -3816,20 +3866,6 @@
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for channel_types field
-            //
-            $column = new TextViewColumn('channel_types', 'channel_types', 'Channel Types', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_approvals_channel_types_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            $handler = new DownloadHTTPHandler($this->dataset, 'file_upload', 'file_upload_handler', '', '', true);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            $handler = new DownloadHTTPHandler($this->dataset, 'asset_upload', 'asset_upload_handler', '', '', true);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
             // View column for user_name field
             //
             $column = new TextViewColumn('owner_person', 'owner_person_user_name', 'Owner Person', $this->dataset);
@@ -3854,20 +3890,6 @@
             $column->setHrefTemplate('%campaign_type%');
             $column->setTarget('');
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_approvals_campaign_period_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for channel_types field
-            //
-            $column = new TextViewColumn('channel_types', 'channel_types', 'Channel Types', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_approvals_channel_types_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            $handler = new DownloadHTTPHandler($this->dataset, 'file_upload', 'file_upload_handler', '', '', true);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            $handler = new DownloadHTTPHandler($this->dataset, 'asset_upload', 'asset_upload_handler', '', '', true);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -3959,12 +3981,6 @@
             $valuesDataset->setOrderByField('channnel_name', 'ASC');
             $valuesDataset->addDistinct('channel_ID');
             $handler = new DynamicSearchHandler($valuesDataset, $this, 'insert_channel_types_channel_ID_channnel_name_search', 'channel_ID', 'channnel_name', null, 20);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            $handler = new ImageHTTPHandler($this->dataset, 'file_upload', 'campaign_approvals_file_upload_handler_insert', new NullFilter());
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            $handler = new ImageHTTPHandler($this->dataset, 'asset_upload', 'campaign_approvals_asset_upload_handler_insert', new NullFilter());
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -4225,20 +4241,6 @@
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for channel_types field
-            //
-            $column = new TextViewColumn('channel_types', 'channel_types', 'Channel Types', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_approvals_channel_types_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            $handler = new DownloadHTTPHandler($this->dataset, 'file_upload', 'file_upload_handler', '', '', true);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            $handler = new DownloadHTTPHandler($this->dataset, 'asset_upload', 'asset_upload_handler', '', '', true);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
             // View column for send_message field
             //
             $column = new TextViewColumn('send_message', 'send_message', 'Send Message', $this->dataset);
@@ -4335,12 +4337,6 @@
             $valuesDataset->setOrderByField('channnel_name', 'ASC');
             $valuesDataset->addDistinct('channel_ID');
             $handler = new DynamicSearchHandler($valuesDataset, $this, 'edit_channel_types_channel_ID_channnel_name_search', 'channel_ID', 'channnel_name', null, 20);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            $handler = new ImageHTTPHandler($this->dataset, 'file_upload', 'campaign_approvals_file_upload_handler_edit', new NullFilter());
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            $handler = new ImageHTTPHandler($this->dataset, 'asset_upload', 'campaign_approvals_asset_upload_handler_edit', new NullFilter());
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -4483,12 +4479,6 @@
             $handler = new DynamicSearchHandler($valuesDataset, $this, 'multi_edit_channel_types_channel_ID_channnel_name_search', 'channel_ID', 'channnel_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $handler = new ImageHTTPHandler($this->dataset, 'file_upload', 'campaign_approvals_file_upload_handler_multi_edit', new NullFilter());
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            $handler = new ImageHTTPHandler($this->dataset, 'asset_upload', 'campaign_approvals_asset_upload_handler_multi_edit', new NullFilter());
-            GetApplication()->RegisterHTTPHandler($handler);
-            
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
@@ -4614,33 +4604,54 @@
         protected function doAfterUpdateRecord($page, $oldRowData, $rowData, $tableName, &$success, &$message, &$messageDisplayTime)
         {
             if ($success) {
-            
-              // Check if record data was modified
-            
-              $dataMofified  = 
-                $oldRowData['b_campaign_status'] !== $rowData['b_campaign_status'];
-            
-              if ($dataMofified) {
-                $userName = $page->GetEnvVar('CURRENT_USER_NAME');    
-                $currentDateTime = SMDateTime::Now();
-                $_b_campaign_status = $rowData['b_campaign_status'];
-                $_master_campaign_id = $rowData['master_campaign_id'];
-                $_approved_by = $rowData['approved_by'];
+                        
+                          // Check if record data was modified
+                        
+                          $dataMofified  = 
+                            $oldRowData['b_campaign_status'] !== $rowData['b_campaign_status'];
+                        
+                          if ($dataMofified) {
+                            $userName = $page->GetEnvVar('CURRENT_USER_NAME');    
+                            $currentDateTime = SMDateTime::Now();
+                            $_b_campaign_status = $rowData['b_campaign_status'];
+                            $_master_campaign_id = $rowData['master_campaign_id'];
+                            $_approved_by = $rowData['approved_by'];
+                           
+                            $sql =
+                                "UPDATE `marketing_portal_v2`.`brief` " .
+                                "SET " .
+                                "`campaign_status` = $_b_campaign_status, ".
+                                "`updated_by` = '$_approved_by', " .
+                                "`updated_date` = '$currentDateTime' " .
+                                "WHERE `master_campaign_id` = $_master_campaign_id;";  
+                            $this->GetConnection()->ExecSQL($sql);
+                          }                                    
+                        }
+                        
+                        if ($success) {
+                        
+                            // Check if record data was modified
                 
-                //$sql = 
-                //  "UPDATE `brief` SET `campaign_status`='$_b_campaign_status',`updated_by`='$userName', `updated_date`='$currentDateTime' WHERE `master_campaign_id` = _master_campaign_id;";
-                // $this->GetConnection()->ExecSQL($sql);
+                             $aMaster_campaign_id = $rowData['master_campaign_id'];
+                            
+                               $dataMofified  = 
+                            
+                                $oldRowData['b_campaign_status'] !== $rowData['b_campaign_status'] ||
+                                $rowData['b_campaign_status'] == 10;
                 
-                $sql =
-                    "UPDATE `marketing_portal_v2`.`brief` " .
-                    "SET " .
-                    "`campaign_status` = $_b_campaign_status, ".
-                    "`updated_by` = '$_approved_by', " .
-                    "`updated_date` = '$currentDateTime' " .
-                    "WHERE `master_campaign_id` = $_master_campaign_id;";  
-                $this->GetConnection()->ExecSQL($sql);
-              }                                    
-            }
+                            
+                              if ($dataMofified) {
+                                           
+                              $sql = 
+                                
+                                "CALL campaingTacticsDeploy($aMaster_campaign_id);";
+                                $this->GetConnection()->ExecSQL($sql); 
+                                
+                                
+                                $message = '<p>Your tactics have been deployed processed successfully. Your request has been submitted.</p>';
+                            
+                            }
+                        }
         }
     
         protected function doAfterDeleteRecord($page, $rowData, $tableName, &$success, &$message, &$messageDisplayTime)

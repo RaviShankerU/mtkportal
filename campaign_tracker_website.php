@@ -4024,11 +4024,11 @@
             $this->setExportListRecordAvailable(array());
             $this->setExportOneRecordAvailable(array('pdf', 'excel', 'word', 'xml', 'csv'));
             $this->setDescription('<div class="mark-media mark-position-relative">
-                          <div class="mark-bd-placeholder-img mr-3"><img src="http://mktportal.mscsoftware.com/icons/website-list-color.png" width="80" height="79"></div>
+                          <div class="mark-bd-placeholder-img mr-3"><img src="http://localhost/mportal/apps/icons/website-list-color.png" width="80" height="79"></div>
                           <div class="mark-media-body">
                             <h5 class="mt-0 h5">What will you find here</h5>
                             <p class="mark-p">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-                            <a href="http://localhost/mportal/campaign_tracker_design.php" class="stretched-link">View Live Lists</a>
+                            <a href="http://localhost/mportal/apps/website_listing.php" class="stretched-link">View Live Lists</a>
                           </div>
                         </div>');
             $this->SetHidePageListByDefault(true);

@@ -31,40 +31,41 @@
     
     
     
-    class campaign_tracker_partnerPage extends Page
+    class campaign_tracker_utmPage extends Page
     {
         protected function DoBeforeCreate()
         {
-            $this->SetTitle('Campaign Tracker: Partner');
-            $this->SetMenuLabel('Campaign Tracker Partner');
+            $this->SetTitle('Campaign Tracker Utm');
+            $this->SetMenuLabel('Campaign Tracker Utm');
             $this->SetHeader(GetPagesHeader());
             $this->SetFooter(GetPagesFooter());
     
             $this->dataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
-                '`campaign_tracker_partner`');
+                '`campaign_tracker_utm`');
             $this->dataset->addFields(
                 array(
-                    new IntegerField('campaign_tracker_ID', true, true, true),
-                    new IntegerField('master_campaign_id', true),
-                    new StringField('campaign_program_name'),
-                    new StringField('industry'),
-                    new StringField('region'),
-                    new StringField('sub_region'),
-                    new StringField('territory'),
-                    new StringField('country'),
-                    new IntegerField('job_function'),
-                    new StringField('channel_type'),
-                    new StringField('product'),
-                    new StringField('m_ID'),
+                    new IntegerField('Campaign_UTM_ID', true, true, true),
+                    new IntegerField('Campaign_Name'),
+                    new IntegerField('Campaign_Detail_ID'),
+                    new StringField('Campaign'),
+                    new StringField('Medium'),
+                    new StringField('Source'),
+                    new StringField('Term'),
+                    new StringField('Content'),
+                    new StringField('Custom_Parameters'),
+                    new StringField('Notes'),
+                    new StringField('Type_of_Page'),
+                    new StringField('Marketo_Page'),
+                    new StringField('Marketo_Page_Name'),
+                    new StringField('URL'),
+                    new StringField('Full_URL'),
+                    new StringField('Created_By'),
+                    new DateTimeField('Created_Date'),
                     new DateField('campaign_publish_date'),
                     new StringField('campaign_description'),
-                    new IntegerField('campaign_type'),
-                    new IntegerField('tracker_status'),
-                    new IntegerField('event_type'),
-                    new StringField('deployed_by'),
-                    new StringField('SFDC_child_campaign')
+                    new StringField('master_campaign_id')
                 )
             );
         }
@@ -97,24 +98,25 @@
         protected function getFiltersColumns()
         {
             return array(
-                new FilterColumn($this->dataset, 'campaign_tracker_ID', 'campaign_tracker_ID', 'Campaign Tracker ID'),
-                new FilterColumn($this->dataset, 'campaign_program_name', 'campaign_program_name', 'Campaign Program Name'),
-                new FilterColumn($this->dataset, 'industry', 'industry', 'Industry'),
-                new FilterColumn($this->dataset, 'region', 'region', 'Region'),
-                new FilterColumn($this->dataset, 'sub_region', 'sub_region', 'Sub Region'),
-                new FilterColumn($this->dataset, 'territory', 'territory', 'Territory'),
-                new FilterColumn($this->dataset, 'country', 'country', 'Country'),
-                new FilterColumn($this->dataset, 'job_function', 'job_function', 'Job Function'),
-                new FilterColumn($this->dataset, 'channel_type', 'channel_type', 'Channel Type'),
-                new FilterColumn($this->dataset, 'product', 'product', 'Product'),
-                new FilterColumn($this->dataset, 'm_ID', 'm_ID', 'M ID'),
+                new FilterColumn($this->dataset, 'Campaign_UTM_ID', 'Campaign_UTM_ID', 'Campaign UTM ID'),
+                new FilterColumn($this->dataset, 'Campaign_Name', 'Campaign_Name', 'Campaign Name'),
+                new FilterColumn($this->dataset, 'Campaign_Detail_ID', 'Campaign_Detail_ID', 'Campaign Detail ID'),
+                new FilterColumn($this->dataset, 'Campaign', 'Campaign', 'Campaign'),
+                new FilterColumn($this->dataset, 'Medium', 'Medium', 'Medium'),
+                new FilterColumn($this->dataset, 'Source', 'Source', 'Source'),
+                new FilterColumn($this->dataset, 'Term', 'Term', 'Term'),
+                new FilterColumn($this->dataset, 'Content', 'Content', 'Content'),
+                new FilterColumn($this->dataset, 'Custom_Parameters', 'Custom_Parameters', 'Custom Parameters'),
+                new FilterColumn($this->dataset, 'Notes', 'Notes', 'Notes'),
+                new FilterColumn($this->dataset, 'Type_of_Page', 'Type_of_Page', 'Type Of Page'),
+                new FilterColumn($this->dataset, 'Marketo_Page', 'Marketo_Page', 'Marketo Page'),
+                new FilterColumn($this->dataset, 'Marketo_Page_Name', 'Marketo_Page_Name', 'Marketo Page Name'),
+                new FilterColumn($this->dataset, 'URL', 'URL', 'URL'),
+                new FilterColumn($this->dataset, 'Full_URL', 'Full_URL', 'Full URL'),
+                new FilterColumn($this->dataset, 'Created_By', 'Created_By', 'Created By'),
+                new FilterColumn($this->dataset, 'Created_Date', 'Created_Date', 'Created Date'),
                 new FilterColumn($this->dataset, 'campaign_publish_date', 'campaign_publish_date', 'Campaign Publish Date'),
                 new FilterColumn($this->dataset, 'campaign_description', 'campaign_description', 'Campaign Description'),
-                new FilterColumn($this->dataset, 'campaign_type', 'campaign_type', 'Campaign Type'),
-                new FilterColumn($this->dataset, 'tracker_status', 'tracker_status', 'Tracker Status'),
-                new FilterColumn($this->dataset, 'event_type', 'event_type', 'Event Type'),
-                new FilterColumn($this->dataset, 'deployed_by', 'deployed_by', 'Deployed By'),
-                new FilterColumn($this->dataset, 'SFDC_child_campaign', 'SFDC_child_campaign', 'SFDC Child Campaign'),
                 new FilterColumn($this->dataset, 'master_campaign_id', 'master_campaign_id', 'Master Campaign Id')
             );
         }
@@ -122,39 +124,41 @@
         protected function setupQuickFilter(QuickFilter $quickFilter, FixedKeysArray $columns)
         {
             $quickFilter
-                ->addColumn($columns['campaign_tracker_ID'])
-                ->addColumn($columns['campaign_program_name'])
-                ->addColumn($columns['industry'])
-                ->addColumn($columns['region'])
-                ->addColumn($columns['sub_region'])
-                ->addColumn($columns['territory'])
-                ->addColumn($columns['country'])
-                ->addColumn($columns['job_function'])
-                ->addColumn($columns['channel_type'])
-                ->addColumn($columns['product'])
-                ->addColumn($columns['m_ID'])
+                ->addColumn($columns['Campaign_UTM_ID'])
+                ->addColumn($columns['Campaign_Name'])
+                ->addColumn($columns['Campaign_Detail_ID'])
+                ->addColumn($columns['Campaign'])
+                ->addColumn($columns['Medium'])
+                ->addColumn($columns['Source'])
+                ->addColumn($columns['Term'])
+                ->addColumn($columns['Content'])
+                ->addColumn($columns['Custom_Parameters'])
+                ->addColumn($columns['Notes'])
+                ->addColumn($columns['Type_of_Page'])
+                ->addColumn($columns['Marketo_Page'])
+                ->addColumn($columns['Marketo_Page_Name'])
+                ->addColumn($columns['URL'])
+                ->addColumn($columns['Full_URL'])
+                ->addColumn($columns['Created_By'])
+                ->addColumn($columns['Created_Date'])
                 ->addColumn($columns['campaign_publish_date'])
                 ->addColumn($columns['campaign_description'])
-                ->addColumn($columns['campaign_type'])
-                ->addColumn($columns['tracker_status'])
-                ->addColumn($columns['event_type'])
-                ->addColumn($columns['deployed_by'])
-                ->addColumn($columns['SFDC_child_campaign'])
                 ->addColumn($columns['master_campaign_id']);
         }
     
         protected function setupColumnFilter(ColumnFilter $columnFilter)
         {
             $columnFilter
+                ->setOptionsFor('Created_Date')
                 ->setOptionsFor('campaign_publish_date');
         }
     
         protected function setupFilterBuilder(FilterBuilder $filterBuilder, FixedKeysArray $columns)
         {
-            $main_editor = new TextEdit('campaign_tracker_id_edit');
+            $main_editor = new TextEdit('campaign_utm_id_edit');
             
             $filterBuilder->addColumn(
-                $columns['campaign_tracker_ID'],
+                $columns['Campaign_UTM_ID'],
                 array(
                     FilterConditionOperator::EQUALS => $main_editor,
                     FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
@@ -169,10 +173,10 @@
                 )
             );
             
-            $main_editor = new TextEdit('campaign_program_name');
+            $main_editor = new TextEdit('campaign_name_edit');
             
             $filterBuilder->addColumn(
-                $columns['campaign_program_name'],
+                $columns['Campaign_Name'],
                 array(
                     FilterConditionOperator::EQUALS => $main_editor,
                     FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
@@ -182,21 +186,15 @@
                     FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
                     FilterConditionOperator::IS_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::CONTAINS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
-                    FilterConditionOperator::BEGINS_WITH => $main_editor,
-                    FilterConditionOperator::ENDS_WITH => $main_editor,
-                    FilterConditionOperator::IS_LIKE => $main_editor,
-                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
             );
             
-            $main_editor = new TextEdit('industry');
+            $main_editor = new TextEdit('campaign_detail_id_edit');
             
             $filterBuilder->addColumn(
-                $columns['industry'],
+                $columns['Campaign_Detail_ID'],
                 array(
                     FilterConditionOperator::EQUALS => $main_editor,
                     FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
@@ -206,22 +204,16 @@
                     FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
                     FilterConditionOperator::IS_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::CONTAINS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
-                    FilterConditionOperator::BEGINS_WITH => $main_editor,
-                    FilterConditionOperator::ENDS_WITH => $main_editor,
-                    FilterConditionOperator::IS_LIKE => $main_editor,
-                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
             );
             
-            $main_editor = new TextEdit('region_edit');
-            $main_editor->SetMaxLength(50);
+            $main_editor = new TextEdit('campaign_edit');
+            $main_editor->SetMaxLength(20);
             
             $filterBuilder->addColumn(
-                $columns['region'],
+                $columns['Campaign'],
                 array(
                     FilterConditionOperator::EQUALS => $main_editor,
                     FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
@@ -242,128 +234,11 @@
                 )
             );
             
-            $main_editor = new TextEdit('sub_region_edit');
-            $main_editor->SetMaxLength(30);
-            
-            $filterBuilder->addColumn(
-                $columns['sub_region'],
-                array(
-                    FilterConditionOperator::EQUALS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::CONTAINS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
-                    FilterConditionOperator::BEGINS_WITH => $main_editor,
-                    FilterConditionOperator::ENDS_WITH => $main_editor,
-                    FilterConditionOperator::IS_LIKE => $main_editor,
-                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
-                    FilterConditionOperator::IS_BLANK => null,
-                    FilterConditionOperator::IS_NOT_BLANK => null
-                )
-            );
-            
-            $main_editor = new TextEdit('territory');
-            
-            $filterBuilder->addColumn(
-                $columns['territory'],
-                array(
-                    FilterConditionOperator::EQUALS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::CONTAINS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
-                    FilterConditionOperator::BEGINS_WITH => $main_editor,
-                    FilterConditionOperator::ENDS_WITH => $main_editor,
-                    FilterConditionOperator::IS_LIKE => $main_editor,
-                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
-                    FilterConditionOperator::IS_BLANK => null,
-                    FilterConditionOperator::IS_NOT_BLANK => null
-                )
-            );
-            
-            $main_editor = new TextEdit('country_edit');
-            $main_editor->SetMaxLength(50);
-            
-            $filterBuilder->addColumn(
-                $columns['country'],
-                array(
-                    FilterConditionOperator::EQUALS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::CONTAINS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
-                    FilterConditionOperator::BEGINS_WITH => $main_editor,
-                    FilterConditionOperator::ENDS_WITH => $main_editor,
-                    FilterConditionOperator::IS_LIKE => $main_editor,
-                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
-                    FilterConditionOperator::IS_BLANK => null,
-                    FilterConditionOperator::IS_NOT_BLANK => null
-                )
-            );
-            
-            $main_editor = new TextEdit('job_function_edit');
-            
-            $filterBuilder->addColumn(
-                $columns['job_function'],
-                array(
-                    FilterConditionOperator::EQUALS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_BLANK => null,
-                    FilterConditionOperator::IS_NOT_BLANK => null
-                )
-            );
-            
-            $main_editor = new TextEdit('channel_type_edit');
-            $main_editor->SetMaxLength(3);
-            
-            $filterBuilder->addColumn(
-                $columns['channel_type'],
-                array(
-                    FilterConditionOperator::EQUALS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::CONTAINS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
-                    FilterConditionOperator::BEGINS_WITH => $main_editor,
-                    FilterConditionOperator::ENDS_WITH => $main_editor,
-                    FilterConditionOperator::IS_LIKE => $main_editor,
-                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
-                    FilterConditionOperator::IS_BLANK => null,
-                    FilterConditionOperator::IS_NOT_BLANK => null
-                )
-            );
-            
-            $main_editor = new TextEdit('product_edit');
+            $main_editor = new TextEdit('medium_edit');
             $main_editor->SetMaxLength(10);
             
             $filterBuilder->addColumn(
-                $columns['product'],
+                $columns['Medium'],
                 array(
                     FilterConditionOperator::EQUALS => $main_editor,
                     FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
@@ -384,11 +259,11 @@
                 )
             );
             
-            $main_editor = new TextEdit('m_id_edit');
-            $main_editor->SetMaxLength(11);
+            $main_editor = new TextEdit('source_edit');
+            $main_editor->SetMaxLength(10);
             
             $filterBuilder->addColumn(
-                $columns['m_ID'],
+                $columns['Source'],
                 array(
                     FilterConditionOperator::EQUALS => $main_editor,
                     FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
@@ -404,6 +279,272 @@
                     FilterConditionOperator::ENDS_WITH => $main_editor,
                     FilterConditionOperator::IS_LIKE => $main_editor,
                     FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('term_edit');
+            $main_editor->SetMaxLength(50);
+            
+            $filterBuilder->addColumn(
+                $columns['Term'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('content_edit');
+            $main_editor->SetMaxLength(50);
+            
+            $filterBuilder->addColumn(
+                $columns['Content'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('custom_parameters_edit');
+            $main_editor->SetMaxLength(50);
+            
+            $filterBuilder->addColumn(
+                $columns['Custom_Parameters'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('Notes');
+            
+            $filterBuilder->addColumn(
+                $columns['Notes'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('type_of_page_edit');
+            $main_editor->SetMaxLength(10);
+            
+            $filterBuilder->addColumn(
+                $columns['Type_of_Page'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('Marketo_Page');
+            
+            $filterBuilder->addColumn(
+                $columns['Marketo_Page'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('Marketo_Page_Name');
+            
+            $filterBuilder->addColumn(
+                $columns['Marketo_Page_Name'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('URL');
+            
+            $filterBuilder->addColumn(
+                $columns['URL'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('Full_URL');
+            
+            $filterBuilder->addColumn(
+                $columns['Full_URL'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('created_by_edit');
+            $main_editor->SetMaxLength(100);
+            
+            $filterBuilder->addColumn(
+                $columns['Created_By'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new DateTimeEdit('created_date_edit', false, 'd-m-Y H:i:s');
+            
+            $filterBuilder->addColumn(
+                $columns['Created_Date'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::DATE_EQUALS => $main_editor,
+                    FilterConditionOperator::DATE_DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::TODAY => null,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -431,7 +572,7 @@
             );
             
             $main_editor = new TextEdit('campaign_description_edit');
-            $main_editor->SetMaxLength(100);
+            $main_editor->SetMaxLength(45);
             
             $filterBuilder->addColumn(
                 $columns['campaign_description'],
@@ -455,111 +596,8 @@
                 )
             );
             
-            $main_editor = new TextEdit('campaign_type_edit');
-            
-            $filterBuilder->addColumn(
-                $columns['campaign_type'],
-                array(
-                    FilterConditionOperator::EQUALS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_BLANK => null,
-                    FilterConditionOperator::IS_NOT_BLANK => null
-                )
-            );
-            
-            $main_editor = new TextEdit('tracker_status_edit');
-            
-            $filterBuilder->addColumn(
-                $columns['tracker_status'],
-                array(
-                    FilterConditionOperator::EQUALS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_BLANK => null,
-                    FilterConditionOperator::IS_NOT_BLANK => null
-                )
-            );
-            
-            $main_editor = new TextEdit('event_type_edit');
-            
-            $filterBuilder->addColumn(
-                $columns['event_type'],
-                array(
-                    FilterConditionOperator::EQUALS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_BLANK => null,
-                    FilterConditionOperator::IS_NOT_BLANK => null
-                )
-            );
-            
-            $main_editor = new TextEdit('deployed_by_edit');
-            $main_editor->SetMaxLength(50);
-            
-            $filterBuilder->addColumn(
-                $columns['deployed_by'],
-                array(
-                    FilterConditionOperator::EQUALS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::CONTAINS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
-                    FilterConditionOperator::BEGINS_WITH => $main_editor,
-                    FilterConditionOperator::ENDS_WITH => $main_editor,
-                    FilterConditionOperator::IS_LIKE => $main_editor,
-                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
-                    FilterConditionOperator::IS_BLANK => null,
-                    FilterConditionOperator::IS_NOT_BLANK => null
-                )
-            );
-            
-            $main_editor = new TextEdit('sfdc_child_campaign_edit');
-            $main_editor->SetMaxLength(18);
-            
-            $filterBuilder->addColumn(
-                $columns['SFDC_child_campaign'],
-                array(
-                    FilterConditionOperator::EQUALS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::CONTAINS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
-                    FilterConditionOperator::BEGINS_WITH => $main_editor,
-                    FilterConditionOperator::ENDS_WITH => $main_editor,
-                    FilterConditionOperator::IS_LIKE => $main_editor,
-                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
-                    FilterConditionOperator::IS_BLANK => null,
-                    FilterConditionOperator::IS_NOT_BLANK => null
-                )
-            );
-            
             $main_editor = new TextEdit('master_campaign_id_edit');
+            $main_editor->SetMaxLength(45);
             
             $filterBuilder->addColumn(
                 $columns['master_campaign_id'],
@@ -572,6 +610,12 @@
                     FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
                     FilterConditionOperator::IS_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -629,9 +673,9 @@
         protected function AddFieldColumns(Grid $grid, $withDetails = true)
         {
             //
-            // View column for campaign_tracker_ID field
+            // View column for Campaign_UTM_ID field
             //
-            $column = new NumberViewColumn('campaign_tracker_ID', 'campaign_tracker_ID', 'Campaign Tracker ID', $this->dataset);
+            $column = new NumberViewColumn('Campaign_UTM_ID', 'Campaign_UTM_ID', 'Campaign UTM ID', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -642,75 +686,9 @@
             $grid->AddViewColumn($column);
             
             //
-            // View column for campaign_program_name field
+            // View column for Campaign_Name field
             //
-            $column = new TextViewColumn('campaign_program_name', 'campaign_program_name', 'Campaign Program Name', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_campaign_program_name_handler_list');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for industry field
-            //
-            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_industry_handler_list');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for region field
-            //
-            $column = new TextViewColumn('region', 'region', 'Region', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for sub_region field
-            //
-            $column = new TextViewColumn('sub_region', 'sub_region', 'Sub Region', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for territory field
-            //
-            $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_territory_handler_list');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for country field
-            //
-            $column = new TextViewColumn('country', 'country', 'Country', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for job_function field
-            //
-            $column = new NumberViewColumn('job_function', 'job_function', 'Job Function', $this->dataset);
+            $column = new NumberViewColumn('Campaign_Name', 'Campaign_Name', 'Campaign Name', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -721,9 +699,22 @@
             $grid->AddViewColumn($column);
             
             //
-            // View column for channel_type field
+            // View column for Campaign_Detail_ID field
             //
-            $column = new TextViewColumn('channel_type', 'channel_type', 'Channel Type', $this->dataset);
+            $column = new NumberViewColumn('Campaign_Detail_ID', 'Campaign_Detail_ID', 'Campaign Detail ID', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Campaign field
+            //
+            $column = new TextViewColumn('Campaign', 'Campaign', 'Campaign', $this->dataset);
             $column->SetOrderable(true);
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
@@ -731,9 +722,9 @@
             $grid->AddViewColumn($column);
             
             //
-            // View column for product field
+            // View column for Medium field
             //
-            $column = new TextViewColumn('product', 'product', 'Product', $this->dataset);
+            $column = new TextViewColumn('Medium', 'Medium', 'Medium', $this->dataset);
             $column->SetOrderable(true);
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
@@ -741,10 +732,133 @@
             $grid->AddViewColumn($column);
             
             //
-            // View column for m_ID field
+            // View column for Source field
             //
-            $column = new TextViewColumn('m_ID', 'm_ID', 'M ID', $this->dataset);
+            $column = new TextViewColumn('Source', 'Source', 'Source', $this->dataset);
             $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Term field
+            //
+            $column = new TextViewColumn('Term', 'Term', 'Term', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Content field
+            //
+            $column = new TextViewColumn('Content', 'Content', 'Content', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Custom_Parameters field
+            //
+            $column = new TextViewColumn('Custom_Parameters', 'Custom_Parameters', 'Custom Parameters', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Notes field
+            //
+            $column = new TextViewColumn('Notes', 'Notes', 'Notes', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Notes_handler_list');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Type_of_Page field
+            //
+            $column = new TextViewColumn('Type_of_Page', 'Type_of_Page', 'Type Of Page', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Marketo_Page field
+            //
+            $column = new TextViewColumn('Marketo_Page', 'Marketo_Page', 'Marketo Page', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Marketo_Page_handler_list');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Marketo_Page_Name field
+            //
+            $column = new TextViewColumn('Marketo_Page_Name', 'Marketo_Page_Name', 'Marketo Page Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Marketo_Page_Name_handler_list');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for URL field
+            //
+            $column = new TextViewColumn('URL', 'URL', 'URL', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_URL_handler_list');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Full_URL field
+            //
+            $column = new TextViewColumn('Full_URL', 'Full_URL', 'Full URL', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Full_URL_handler_list');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Created_By field
+            //
+            $column = new TextViewColumn('Created_By', 'Created_By', 'Created By', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Created_By_handler_list');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Created_Date field
+            //
+            $column = new DateTimeViewColumn('Created_Date', 'Created_Date', 'Created Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -766,67 +880,6 @@
             //
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_campaign_description_handler_list');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for campaign_type field
-            //
-            $column = new NumberViewColumn('campaign_type', 'campaign_type', 'Campaign Type', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for tracker_status field
-            //
-            $column = new NumberViewColumn('tracker_status', 'tracker_status', 'Tracker Status', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for event_type field
-            //
-            $column = new NumberViewColumn('event_type', 'event_type', 'Event Type', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for deployed_by field
-            //
-            $column = new TextViewColumn('deployed_by', 'deployed_by', 'Deployed By', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for SFDC_child_campaign field
-            //
-            $column = new TextViewColumn('SFDC_child_campaign', 'SFDC_child_campaign', 'SFDC Child Campaign', $this->dataset);
-            $column->SetOrderable(true);
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -835,11 +888,8 @@
             //
             // View column for master_campaign_id field
             //
-            $column = new NumberViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -849,9 +899,9 @@
         protected function AddSingleRecordViewColumns(Grid $grid)
         {
             //
-            // View column for campaign_tracker_ID field
+            // View column for Campaign_UTM_ID field
             //
-            $column = new NumberViewColumn('campaign_tracker_ID', 'campaign_tracker_ID', 'Campaign Tracker ID', $this->dataset);
+            $column = new NumberViewColumn('Campaign_UTM_ID', 'Campaign_UTM_ID', 'Campaign UTM ID', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -859,57 +909,9 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for campaign_program_name field
+            // View column for Campaign_Name field
             //
-            $column = new TextViewColumn('campaign_program_name', 'campaign_program_name', 'Campaign Program Name', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_campaign_program_name_handler_view');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for industry field
-            //
-            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_industry_handler_view');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for region field
-            //
-            $column = new TextViewColumn('region', 'region', 'Region', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for sub_region field
-            //
-            $column = new TextViewColumn('sub_region', 'sub_region', 'Sub Region', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for territory field
-            //
-            $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_territory_handler_view');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for country field
-            //
-            $column = new TextViewColumn('country', 'country', 'Country', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for job_function field
-            //
-            $column = new NumberViewColumn('job_function', 'job_function', 'Job Function', $this->dataset);
+            $column = new NumberViewColumn('Campaign_Name', 'Campaign_Name', 'Campaign Name', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -917,24 +919,124 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for channel_type field
+            // View column for Campaign_Detail_ID field
             //
-            $column = new TextViewColumn('channel_type', 'channel_type', 'Channel Type', $this->dataset);
+            $column = new NumberViewColumn('Campaign_Detail_ID', 'Campaign_Detail_ID', 'Campaign Detail ID', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for Campaign field
+            //
+            $column = new TextViewColumn('Campaign', 'Campaign', 'Campaign', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for product field
+            // View column for Medium field
             //
-            $column = new TextViewColumn('product', 'product', 'Product', $this->dataset);
+            $column = new TextViewColumn('Medium', 'Medium', 'Medium', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for m_ID field
+            // View column for Source field
             //
-            $column = new TextViewColumn('m_ID', 'm_ID', 'M ID', $this->dataset);
+            $column = new TextViewColumn('Source', 'Source', 'Source', $this->dataset);
             $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for Term field
+            //
+            $column = new TextViewColumn('Term', 'Term', 'Term', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for Content field
+            //
+            $column = new TextViewColumn('Content', 'Content', 'Content', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for Custom_Parameters field
+            //
+            $column = new TextViewColumn('Custom_Parameters', 'Custom_Parameters', 'Custom Parameters', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for Notes field
+            //
+            $column = new TextViewColumn('Notes', 'Notes', 'Notes', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Notes_handler_view');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for Type_of_Page field
+            //
+            $column = new TextViewColumn('Type_of_Page', 'Type_of_Page', 'Type Of Page', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for Marketo_Page field
+            //
+            $column = new TextViewColumn('Marketo_Page', 'Marketo_Page', 'Marketo Page', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Marketo_Page_handler_view');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for Marketo_Page_Name field
+            //
+            $column = new TextViewColumn('Marketo_Page_Name', 'Marketo_Page_Name', 'Marketo Page Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Marketo_Page_Name_handler_view');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for URL field
+            //
+            $column = new TextViewColumn('URL', 'URL', 'URL', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_URL_handler_view');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for Full_URL field
+            //
+            $column = new TextViewColumn('Full_URL', 'Full_URL', 'Full URL', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Full_URL_handler_view');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for Created_By field
+            //
+            $column = new TextViewColumn('Created_By', 'Created_By', 'Created By', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Created_By_handler_view');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for Created_Date field
+            //
+            $column = new DateTimeViewColumn('Created_Date', 'Created_Date', 'Created Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -950,160 +1052,168 @@
             //
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_campaign_description_handler_view');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for campaign_type field
-            //
-            $column = new NumberViewColumn('campaign_type', 'campaign_type', 'Campaign Type', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for tracker_status field
-            //
-            $column = new NumberViewColumn('tracker_status', 'tracker_status', 'Tracker Status', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for event_type field
-            //
-            $column = new NumberViewColumn('event_type', 'event_type', 'Event Type', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for deployed_by field
-            //
-            $column = new TextViewColumn('deployed_by', 'deployed_by', 'Deployed By', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for SFDC_child_campaign field
-            //
-            $column = new TextViewColumn('SFDC_child_campaign', 'SFDC_child_campaign', 'SFDC Child Campaign', $this->dataset);
-            $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
             
             //
             // View column for master_campaign_id field
             //
-            $column = new NumberViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
             $grid->AddSingleRecordViewColumn($column);
         }
     
         protected function AddEditColumns(Grid $grid)
         {
             //
-            // Edit column for campaign_program_name field
+            // Edit column for Campaign_Name field
             //
-            $editor = new TextAreaEdit('campaign_program_name_edit', 50, 8);
-            $editColumn = new CustomEditColumn('Campaign Program Name', 'campaign_program_name', $editor, $this->dataset);
+            $editor = new TextEdit('campaign_name_edit');
+            $editColumn = new CustomEditColumn('Campaign Name', 'Campaign_Name', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
             //
-            // Edit column for industry field
+            // Edit column for Campaign_Detail_ID field
             //
-            $editor = new TextAreaEdit('industry_edit', 50, 8);
-            $editColumn = new CustomEditColumn('Industry', 'industry', $editor, $this->dataset);
+            $editor = new TextEdit('campaign_detail_id_edit');
+            $editColumn = new CustomEditColumn('Campaign Detail ID', 'Campaign_Detail_ID', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
             //
-            // Edit column for region field
+            // Edit column for Campaign field
             //
-            $editor = new TextEdit('region_edit');
-            $editor->SetMaxLength(50);
-            $editColumn = new CustomEditColumn('Region', 'region', $editor, $this->dataset);
+            $editor = new TextEdit('campaign_edit');
+            $editor->SetMaxLength(20);
+            $editColumn = new CustomEditColumn('Campaign', 'Campaign', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
             //
-            // Edit column for sub_region field
+            // Edit column for Medium field
             //
-            $editor = new TextEdit('sub_region_edit');
-            $editor->SetMaxLength(30);
-            $editColumn = new CustomEditColumn('Sub Region', 'sub_region', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for territory field
-            //
-            $editor = new TextAreaEdit('territory_edit', 50, 8);
-            $editColumn = new CustomEditColumn('Territory', 'territory', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for country field
-            //
-            $editor = new TextEdit('country_edit');
-            $editor->SetMaxLength(50);
-            $editColumn = new CustomEditColumn('Country', 'country', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for job_function field
-            //
-            $editor = new TextEdit('job_function_edit');
-            $editColumn = new CustomEditColumn('Job Function', 'job_function', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for channel_type field
-            //
-            $editor = new TextEdit('channel_type_edit');
-            $editor->SetMaxLength(3);
-            $editColumn = new CustomEditColumn('Channel Type', 'channel_type', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for product field
-            //
-            $editor = new TextEdit('product_edit');
+            $editor = new TextEdit('medium_edit');
             $editor->SetMaxLength(10);
-            $editColumn = new CustomEditColumn('Product', 'product', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('Medium', 'Medium', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
             //
-            // Edit column for m_ID field
+            // Edit column for Source field
             //
-            $editor = new TextEdit('m_id_edit');
-            $editor->SetMaxLength(11);
-            $editColumn = new CustomEditColumn('M ID', 'm_ID', $editor, $this->dataset);
+            $editor = new TextEdit('source_edit');
+            $editor->SetMaxLength(10);
+            $editColumn = new CustomEditColumn('Source', 'Source', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for Term field
+            //
+            $editor = new TextEdit('term_edit');
+            $editor->SetMaxLength(50);
+            $editColumn = new CustomEditColumn('Term', 'Term', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for Content field
+            //
+            $editor = new TextEdit('content_edit');
+            $editor->SetMaxLength(50);
+            $editColumn = new CustomEditColumn('Content', 'Content', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for Custom_Parameters field
+            //
+            $editor = new TextEdit('custom_parameters_edit');
+            $editor->SetMaxLength(50);
+            $editColumn = new CustomEditColumn('Custom Parameters', 'Custom_Parameters', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for Notes field
+            //
+            $editor = new TextAreaEdit('notes_edit', 50, 8);
+            $editColumn = new CustomEditColumn('Notes', 'Notes', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for Type_of_Page field
+            //
+            $editor = new TextEdit('type_of_page_edit');
+            $editor->SetMaxLength(10);
+            $editColumn = new CustomEditColumn('Type Of Page', 'Type_of_Page', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for Marketo_Page field
+            //
+            $editor = new TextAreaEdit('marketo_page_edit', 50, 8);
+            $editColumn = new CustomEditColumn('Marketo Page', 'Marketo_Page', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for Marketo_Page_Name field
+            //
+            $editor = new TextAreaEdit('marketo_page_name_edit', 50, 8);
+            $editColumn = new CustomEditColumn('Marketo Page Name', 'Marketo_Page_Name', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for URL field
+            //
+            $editor = new TextAreaEdit('url_edit', 50, 8);
+            $editColumn = new CustomEditColumn('URL', 'URL', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for Full_URL field
+            //
+            $editor = new TextAreaEdit('full_url_edit', 50, 8);
+            $editColumn = new CustomEditColumn('Full URL', 'Full_URL', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for Created_By field
+            //
+            $editor = new TextEdit('created_by_edit');
+            $editor->SetMaxLength(100);
+            $editColumn = new CustomEditColumn('Created By', 'Created_By', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for Created_Date field
+            //
+            $editor = new DateTimeEdit('created_date_edit', false, 'd-m-Y H:i:s');
+            $editColumn = new CustomEditColumn('Created Date', 'Created_Date', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $editColumn->SetAllowSetToDefault(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
@@ -1120,55 +1230,8 @@
             // Edit column for campaign_description field
             //
             $editor = new TextEdit('campaign_description_edit');
-            $editor->SetMaxLength(100);
+            $editor->SetMaxLength(45);
             $editColumn = new CustomEditColumn('Campaign Description', 'campaign_description', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for campaign_type field
-            //
-            $editor = new TextEdit('campaign_type_edit');
-            $editColumn = new CustomEditColumn('Campaign Type', 'campaign_type', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for tracker_status field
-            //
-            $editor = new TextEdit('tracker_status_edit');
-            $editColumn = new CustomEditColumn('Tracker Status', 'tracker_status', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for event_type field
-            //
-            $editor = new TextEdit('event_type_edit');
-            $editColumn = new CustomEditColumn('Event Type', 'event_type', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for deployed_by field
-            //
-            $editor = new TextEdit('deployed_by_edit');
-            $editor->SetMaxLength(50);
-            $editColumn = new CustomEditColumn('Deployed By', 'deployed_by', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for SFDC_child_campaign field
-            //
-            $editor = new TextEdit('sfdc_child_campaign_edit');
-            $editor->SetMaxLength(18);
-            $editColumn = new CustomEditColumn('SFDC Child Campaign', 'SFDC_child_campaign', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -1177,9 +1240,9 @@
             // Edit column for master_campaign_id field
             //
             $editor = new TextEdit('master_campaign_id_edit');
+            $editor->SetMaxLength(45);
             $editColumn = new CustomEditColumn('Master Campaign Id', 'master_campaign_id', $editor, $this->dataset);
-            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
-            $editor->GetValidatorCollection()->AddValidator($validator);
+            $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
         }
@@ -1187,98 +1250,155 @@
         protected function AddMultiEditColumns(Grid $grid)
         {
             //
-            // Edit column for campaign_program_name field
+            // Edit column for Campaign_Name field
             //
-            $editor = new TextAreaEdit('campaign_program_name_edit', 50, 8);
-            $editColumn = new CustomEditColumn('Campaign Program Name', 'campaign_program_name', $editor, $this->dataset);
+            $editor = new TextEdit('campaign_name_edit');
+            $editColumn = new CustomEditColumn('Campaign Name', 'Campaign_Name', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
             
             //
-            // Edit column for industry field
+            // Edit column for Campaign_Detail_ID field
             //
-            $editor = new TextAreaEdit('industry_edit', 50, 8);
-            $editColumn = new CustomEditColumn('Industry', 'industry', $editor, $this->dataset);
+            $editor = new TextEdit('campaign_detail_id_edit');
+            $editColumn = new CustomEditColumn('Campaign Detail ID', 'Campaign_Detail_ID', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
             
             //
-            // Edit column for region field
+            // Edit column for Campaign field
             //
-            $editor = new TextEdit('region_edit');
-            $editor->SetMaxLength(50);
-            $editColumn = new CustomEditColumn('Region', 'region', $editor, $this->dataset);
+            $editor = new TextEdit('campaign_edit');
+            $editor->SetMaxLength(20);
+            $editColumn = new CustomEditColumn('Campaign', 'Campaign', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
             
             //
-            // Edit column for sub_region field
+            // Edit column for Medium field
             //
-            $editor = new TextEdit('sub_region_edit');
-            $editor->SetMaxLength(30);
-            $editColumn = new CustomEditColumn('Sub Region', 'sub_region', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for territory field
-            //
-            $editor = new TextAreaEdit('territory_edit', 50, 8);
-            $editColumn = new CustomEditColumn('Territory', 'territory', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for country field
-            //
-            $editor = new TextEdit('country_edit');
-            $editor->SetMaxLength(50);
-            $editColumn = new CustomEditColumn('Country', 'country', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for job_function field
-            //
-            $editor = new TextEdit('job_function_edit');
-            $editColumn = new CustomEditColumn('Job Function', 'job_function', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for channel_type field
-            //
-            $editor = new TextEdit('channel_type_edit');
-            $editor->SetMaxLength(3);
-            $editColumn = new CustomEditColumn('Channel Type', 'channel_type', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for product field
-            //
-            $editor = new TextEdit('product_edit');
+            $editor = new TextEdit('medium_edit');
             $editor->SetMaxLength(10);
-            $editColumn = new CustomEditColumn('Product', 'product', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('Medium', 'Medium', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
             
             //
-            // Edit column for m_ID field
+            // Edit column for Source field
             //
-            $editor = new TextEdit('m_id_edit');
-            $editor->SetMaxLength(11);
-            $editColumn = new CustomEditColumn('M ID', 'm_ID', $editor, $this->dataset);
+            $editor = new TextEdit('source_edit');
+            $editor->SetMaxLength(10);
+            $editColumn = new CustomEditColumn('Source', 'Source', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for Term field
+            //
+            $editor = new TextEdit('term_edit');
+            $editor->SetMaxLength(50);
+            $editColumn = new CustomEditColumn('Term', 'Term', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for Content field
+            //
+            $editor = new TextEdit('content_edit');
+            $editor->SetMaxLength(50);
+            $editColumn = new CustomEditColumn('Content', 'Content', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for Custom_Parameters field
+            //
+            $editor = new TextEdit('custom_parameters_edit');
+            $editor->SetMaxLength(50);
+            $editColumn = new CustomEditColumn('Custom Parameters', 'Custom_Parameters', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for Notes field
+            //
+            $editor = new TextAreaEdit('notes_edit', 50, 8);
+            $editColumn = new CustomEditColumn('Notes', 'Notes', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for Type_of_Page field
+            //
+            $editor = new TextEdit('type_of_page_edit');
+            $editor->SetMaxLength(10);
+            $editColumn = new CustomEditColumn('Type Of Page', 'Type_of_Page', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for Marketo_Page field
+            //
+            $editor = new TextAreaEdit('marketo_page_edit', 50, 8);
+            $editColumn = new CustomEditColumn('Marketo Page', 'Marketo_Page', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for Marketo_Page_Name field
+            //
+            $editor = new TextAreaEdit('marketo_page_name_edit', 50, 8);
+            $editColumn = new CustomEditColumn('Marketo Page Name', 'Marketo_Page_Name', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for URL field
+            //
+            $editor = new TextAreaEdit('url_edit', 50, 8);
+            $editColumn = new CustomEditColumn('URL', 'URL', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for Full_URL field
+            //
+            $editor = new TextAreaEdit('full_url_edit', 50, 8);
+            $editColumn = new CustomEditColumn('Full URL', 'Full_URL', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for Created_By field
+            //
+            $editor = new TextEdit('created_by_edit');
+            $editor->SetMaxLength(100);
+            $editColumn = new CustomEditColumn('Created By', 'Created_By', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for Created_Date field
+            //
+            $editor = new DateTimeEdit('created_date_edit', false, 'd-m-Y H:i:s');
+            $editColumn = new CustomEditColumn('Created Date', 'Created_Date', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $editColumn->SetAllowSetToDefault(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
             
@@ -1295,55 +1415,8 @@
             // Edit column for campaign_description field
             //
             $editor = new TextEdit('campaign_description_edit');
-            $editor->SetMaxLength(100);
+            $editor->SetMaxLength(45);
             $editColumn = new CustomEditColumn('Campaign Description', 'campaign_description', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for campaign_type field
-            //
-            $editor = new TextEdit('campaign_type_edit');
-            $editColumn = new CustomEditColumn('Campaign Type', 'campaign_type', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for tracker_status field
-            //
-            $editor = new TextEdit('tracker_status_edit');
-            $editColumn = new CustomEditColumn('Tracker Status', 'tracker_status', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for event_type field
-            //
-            $editor = new TextEdit('event_type_edit');
-            $editColumn = new CustomEditColumn('Event Type', 'event_type', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for deployed_by field
-            //
-            $editor = new TextEdit('deployed_by_edit');
-            $editor->SetMaxLength(50);
-            $editColumn = new CustomEditColumn('Deployed By', 'deployed_by', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for SFDC_child_campaign field
-            //
-            $editor = new TextEdit('sfdc_child_campaign_edit');
-            $editor->SetMaxLength(18);
-            $editColumn = new CustomEditColumn('SFDC Child Campaign', 'SFDC_child_campaign', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -1352,9 +1425,9 @@
             // Edit column for master_campaign_id field
             //
             $editor = new TextEdit('master_campaign_id_edit');
+            $editor->SetMaxLength(45);
             $editColumn = new CustomEditColumn('Master Campaign Id', 'master_campaign_id', $editor, $this->dataset);
-            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
-            $editor->GetValidatorCollection()->AddValidator($validator);
+            $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
         }
@@ -1362,98 +1435,155 @@
         protected function AddInsertColumns(Grid $grid)
         {
             //
-            // Edit column for campaign_program_name field
+            // Edit column for Campaign_Name field
             //
-            $editor = new TextAreaEdit('campaign_program_name_edit', 50, 8);
-            $editColumn = new CustomEditColumn('Campaign Program Name', 'campaign_program_name', $editor, $this->dataset);
+            $editor = new TextEdit('campaign_name_edit');
+            $editColumn = new CustomEditColumn('Campaign Name', 'Campaign_Name', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
             
             //
-            // Edit column for industry field
+            // Edit column for Campaign_Detail_ID field
             //
-            $editor = new TextAreaEdit('industry_edit', 50, 8);
-            $editColumn = new CustomEditColumn('Industry', 'industry', $editor, $this->dataset);
+            $editor = new TextEdit('campaign_detail_id_edit');
+            $editColumn = new CustomEditColumn('Campaign Detail ID', 'Campaign_Detail_ID', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
             
             //
-            // Edit column for region field
+            // Edit column for Campaign field
             //
-            $editor = new TextEdit('region_edit');
-            $editor->SetMaxLength(50);
-            $editColumn = new CustomEditColumn('Region', 'region', $editor, $this->dataset);
+            $editor = new TextEdit('campaign_edit');
+            $editor->SetMaxLength(20);
+            $editColumn = new CustomEditColumn('Campaign', 'Campaign', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
             
             //
-            // Edit column for sub_region field
+            // Edit column for Medium field
             //
-            $editor = new TextEdit('sub_region_edit');
-            $editor->SetMaxLength(30);
-            $editColumn = new CustomEditColumn('Sub Region', 'sub_region', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for territory field
-            //
-            $editor = new TextAreaEdit('territory_edit', 50, 8);
-            $editColumn = new CustomEditColumn('Territory', 'territory', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for country field
-            //
-            $editor = new TextEdit('country_edit');
-            $editor->SetMaxLength(50);
-            $editColumn = new CustomEditColumn('Country', 'country', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for job_function field
-            //
-            $editor = new TextEdit('job_function_edit');
-            $editColumn = new CustomEditColumn('Job Function', 'job_function', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for channel_type field
-            //
-            $editor = new TextEdit('channel_type_edit');
-            $editor->SetMaxLength(3);
-            $editColumn = new CustomEditColumn('Channel Type', 'channel_type', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for product field
-            //
-            $editor = new TextEdit('product_edit');
+            $editor = new TextEdit('medium_edit');
             $editor->SetMaxLength(10);
-            $editColumn = new CustomEditColumn('Product', 'product', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('Medium', 'Medium', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
             
             //
-            // Edit column for m_ID field
+            // Edit column for Source field
             //
-            $editor = new TextEdit('m_id_edit');
-            $editor->SetMaxLength(11);
-            $editColumn = new CustomEditColumn('M ID', 'm_ID', $editor, $this->dataset);
+            $editor = new TextEdit('source_edit');
+            $editor->SetMaxLength(10);
+            $editColumn = new CustomEditColumn('Source', 'Source', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for Term field
+            //
+            $editor = new TextEdit('term_edit');
+            $editor->SetMaxLength(50);
+            $editColumn = new CustomEditColumn('Term', 'Term', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for Content field
+            //
+            $editor = new TextEdit('content_edit');
+            $editor->SetMaxLength(50);
+            $editColumn = new CustomEditColumn('Content', 'Content', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for Custom_Parameters field
+            //
+            $editor = new TextEdit('custom_parameters_edit');
+            $editor->SetMaxLength(50);
+            $editColumn = new CustomEditColumn('Custom Parameters', 'Custom_Parameters', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for Notes field
+            //
+            $editor = new TextAreaEdit('notes_edit', 50, 8);
+            $editColumn = new CustomEditColumn('Notes', 'Notes', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for Type_of_Page field
+            //
+            $editor = new TextEdit('type_of_page_edit');
+            $editor->SetMaxLength(10);
+            $editColumn = new CustomEditColumn('Type Of Page', 'Type_of_Page', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for Marketo_Page field
+            //
+            $editor = new TextAreaEdit('marketo_page_edit', 50, 8);
+            $editColumn = new CustomEditColumn('Marketo Page', 'Marketo_Page', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for Marketo_Page_Name field
+            //
+            $editor = new TextAreaEdit('marketo_page_name_edit', 50, 8);
+            $editColumn = new CustomEditColumn('Marketo Page Name', 'Marketo_Page_Name', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for URL field
+            //
+            $editor = new TextAreaEdit('url_edit', 50, 8);
+            $editColumn = new CustomEditColumn('URL', 'URL', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for Full_URL field
+            //
+            $editor = new TextAreaEdit('full_url_edit', 50, 8);
+            $editColumn = new CustomEditColumn('Full URL', 'Full_URL', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for Created_By field
+            //
+            $editor = new TextEdit('created_by_edit');
+            $editor->SetMaxLength(100);
+            $editColumn = new CustomEditColumn('Created By', 'Created_By', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for Created_Date field
+            //
+            $editor = new DateTimeEdit('created_date_edit', false, 'd-m-Y H:i:s');
+            $editColumn = new CustomEditColumn('Created Date', 'Created_Date', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $editColumn->SetAllowSetToDefault(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
             
@@ -1470,55 +1600,8 @@
             // Edit column for campaign_description field
             //
             $editor = new TextEdit('campaign_description_edit');
-            $editor->SetMaxLength(100);
+            $editor->SetMaxLength(45);
             $editColumn = new CustomEditColumn('Campaign Description', 'campaign_description', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for campaign_type field
-            //
-            $editor = new TextEdit('campaign_type_edit');
-            $editColumn = new CustomEditColumn('Campaign Type', 'campaign_type', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for tracker_status field
-            //
-            $editor = new TextEdit('tracker_status_edit');
-            $editColumn = new CustomEditColumn('Tracker Status', 'tracker_status', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for event_type field
-            //
-            $editor = new TextEdit('event_type_edit');
-            $editColumn = new CustomEditColumn('Event Type', 'event_type', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for deployed_by field
-            //
-            $editor = new TextEdit('deployed_by_edit');
-            $editor->SetMaxLength(50);
-            $editColumn = new CustomEditColumn('Deployed By', 'deployed_by', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for SFDC_child_campaign field
-            //
-            $editor = new TextEdit('sfdc_child_campaign_edit');
-            $editor->SetMaxLength(18);
-            $editColumn = new CustomEditColumn('SFDC Child Campaign', 'SFDC_child_campaign', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -1527,9 +1610,9 @@
             // Edit column for master_campaign_id field
             //
             $editor = new TextEdit('master_campaign_id_edit');
+            $editor->SetMaxLength(45);
             $editColumn = new CustomEditColumn('Master Campaign Id', 'master_campaign_id', $editor, $this->dataset);
-            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
-            $editor->GetValidatorCollection()->AddValidator($validator);
+            $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
             $grid->SetShowAddButton(true && $this->GetSecurityInfo()->HasAddGrant());
@@ -1543,9 +1626,9 @@
         protected function AddPrintColumns(Grid $grid)
         {
             //
-            // View column for campaign_tracker_ID field
+            // View column for Campaign_UTM_ID field
             //
-            $column = new NumberViewColumn('campaign_tracker_ID', 'campaign_tracker_ID', 'Campaign Tracker ID', $this->dataset);
+            $column = new NumberViewColumn('Campaign_UTM_ID', 'Campaign_UTM_ID', 'Campaign UTM ID', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -1553,57 +1636,9 @@
             $grid->AddPrintColumn($column);
             
             //
-            // View column for campaign_program_name field
+            // View column for Campaign_Name field
             //
-            $column = new TextViewColumn('campaign_program_name', 'campaign_program_name', 'Campaign Program Name', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_campaign_program_name_handler_print');
-            $grid->AddPrintColumn($column);
-            
-            //
-            // View column for industry field
-            //
-            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_industry_handler_print');
-            $grid->AddPrintColumn($column);
-            
-            //
-            // View column for region field
-            //
-            $column = new TextViewColumn('region', 'region', 'Region', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddPrintColumn($column);
-            
-            //
-            // View column for sub_region field
-            //
-            $column = new TextViewColumn('sub_region', 'sub_region', 'Sub Region', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddPrintColumn($column);
-            
-            //
-            // View column for territory field
-            //
-            $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_territory_handler_print');
-            $grid->AddPrintColumn($column);
-            
-            //
-            // View column for country field
-            //
-            $column = new TextViewColumn('country', 'country', 'Country', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddPrintColumn($column);
-            
-            //
-            // View column for job_function field
-            //
-            $column = new NumberViewColumn('job_function', 'job_function', 'Job Function', $this->dataset);
+            $column = new NumberViewColumn('Campaign_Name', 'Campaign_Name', 'Campaign Name', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -1611,24 +1646,124 @@
             $grid->AddPrintColumn($column);
             
             //
-            // View column for channel_type field
+            // View column for Campaign_Detail_ID field
             //
-            $column = new TextViewColumn('channel_type', 'channel_type', 'Channel Type', $this->dataset);
+            $column = new NumberViewColumn('Campaign_Detail_ID', 'Campaign_Detail_ID', 'Campaign Detail ID', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for Campaign field
+            //
+            $column = new TextViewColumn('Campaign', 'Campaign', 'Campaign', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddPrintColumn($column);
             
             //
-            // View column for product field
+            // View column for Medium field
             //
-            $column = new TextViewColumn('product', 'product', 'Product', $this->dataset);
+            $column = new TextViewColumn('Medium', 'Medium', 'Medium', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddPrintColumn($column);
             
             //
-            // View column for m_ID field
+            // View column for Source field
             //
-            $column = new TextViewColumn('m_ID', 'm_ID', 'M ID', $this->dataset);
+            $column = new TextViewColumn('Source', 'Source', 'Source', $this->dataset);
             $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for Term field
+            //
+            $column = new TextViewColumn('Term', 'Term', 'Term', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for Content field
+            //
+            $column = new TextViewColumn('Content', 'Content', 'Content', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for Custom_Parameters field
+            //
+            $column = new TextViewColumn('Custom_Parameters', 'Custom_Parameters', 'Custom Parameters', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for Notes field
+            //
+            $column = new TextViewColumn('Notes', 'Notes', 'Notes', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Notes_handler_print');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for Type_of_Page field
+            //
+            $column = new TextViewColumn('Type_of_Page', 'Type_of_Page', 'Type Of Page', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for Marketo_Page field
+            //
+            $column = new TextViewColumn('Marketo_Page', 'Marketo_Page', 'Marketo Page', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Marketo_Page_handler_print');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for Marketo_Page_Name field
+            //
+            $column = new TextViewColumn('Marketo_Page_Name', 'Marketo_Page_Name', 'Marketo Page Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Marketo_Page_Name_handler_print');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for URL field
+            //
+            $column = new TextViewColumn('URL', 'URL', 'URL', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_URL_handler_print');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for Full_URL field
+            //
+            $column = new TextViewColumn('Full_URL', 'Full_URL', 'Full URL', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Full_URL_handler_print');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for Created_By field
+            //
+            $column = new TextViewColumn('Created_By', 'Created_By', 'Created By', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Created_By_handler_print');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for Created_Date field
+            //
+            $column = new DateTimeViewColumn('Created_Date', 'Created_Date', 'Created Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddPrintColumn($column);
             
             //
@@ -1644,71 +1779,22 @@
             //
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_campaign_description_handler_print');
-            $grid->AddPrintColumn($column);
-            
-            //
-            // View column for campaign_type field
-            //
-            $column = new NumberViewColumn('campaign_type', 'campaign_type', 'Campaign Type', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $grid->AddPrintColumn($column);
-            
-            //
-            // View column for tracker_status field
-            //
-            $column = new NumberViewColumn('tracker_status', 'tracker_status', 'Tracker Status', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $grid->AddPrintColumn($column);
-            
-            //
-            // View column for event_type field
-            //
-            $column = new NumberViewColumn('event_type', 'event_type', 'Event Type', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $grid->AddPrintColumn($column);
-            
-            //
-            // View column for deployed_by field
-            //
-            $column = new TextViewColumn('deployed_by', 'deployed_by', 'Deployed By', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddPrintColumn($column);
-            
-            //
-            // View column for SFDC_child_campaign field
-            //
-            $column = new TextViewColumn('SFDC_child_campaign', 'SFDC_child_campaign', 'SFDC Child Campaign', $this->dataset);
-            $column->SetOrderable(true);
             $grid->AddPrintColumn($column);
             
             //
             // View column for master_campaign_id field
             //
-            $column = new NumberViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
             $grid->AddPrintColumn($column);
         }
     
         protected function AddExportColumns(Grid $grid)
         {
             //
-            // View column for campaign_tracker_ID field
+            // View column for Campaign_UTM_ID field
             //
-            $column = new NumberViewColumn('campaign_tracker_ID', 'campaign_tracker_ID', 'Campaign Tracker ID', $this->dataset);
+            $column = new NumberViewColumn('Campaign_UTM_ID', 'Campaign_UTM_ID', 'Campaign UTM ID', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -1716,57 +1802,9 @@
             $grid->AddExportColumn($column);
             
             //
-            // View column for campaign_program_name field
+            // View column for Campaign_Name field
             //
-            $column = new TextViewColumn('campaign_program_name', 'campaign_program_name', 'Campaign Program Name', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_campaign_program_name_handler_export');
-            $grid->AddExportColumn($column);
-            
-            //
-            // View column for industry field
-            //
-            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_industry_handler_export');
-            $grid->AddExportColumn($column);
-            
-            //
-            // View column for region field
-            //
-            $column = new TextViewColumn('region', 'region', 'Region', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddExportColumn($column);
-            
-            //
-            // View column for sub_region field
-            //
-            $column = new TextViewColumn('sub_region', 'sub_region', 'Sub Region', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddExportColumn($column);
-            
-            //
-            // View column for territory field
-            //
-            $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_territory_handler_export');
-            $grid->AddExportColumn($column);
-            
-            //
-            // View column for country field
-            //
-            $column = new TextViewColumn('country', 'country', 'Country', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddExportColumn($column);
-            
-            //
-            // View column for job_function field
-            //
-            $column = new NumberViewColumn('job_function', 'job_function', 'Job Function', $this->dataset);
+            $column = new NumberViewColumn('Campaign_Name', 'Campaign_Name', 'Campaign Name', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -1774,24 +1812,124 @@
             $grid->AddExportColumn($column);
             
             //
-            // View column for channel_type field
+            // View column for Campaign_Detail_ID field
             //
-            $column = new TextViewColumn('channel_type', 'channel_type', 'Channel Type', $this->dataset);
+            $column = new NumberViewColumn('Campaign_Detail_ID', 'Campaign_Detail_ID', 'Campaign Detail ID', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for Campaign field
+            //
+            $column = new TextViewColumn('Campaign', 'Campaign', 'Campaign', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddExportColumn($column);
             
             //
-            // View column for product field
+            // View column for Medium field
             //
-            $column = new TextViewColumn('product', 'product', 'Product', $this->dataset);
+            $column = new TextViewColumn('Medium', 'Medium', 'Medium', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddExportColumn($column);
             
             //
-            // View column for m_ID field
+            // View column for Source field
             //
-            $column = new TextViewColumn('m_ID', 'm_ID', 'M ID', $this->dataset);
+            $column = new TextViewColumn('Source', 'Source', 'Source', $this->dataset);
             $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for Term field
+            //
+            $column = new TextViewColumn('Term', 'Term', 'Term', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for Content field
+            //
+            $column = new TextViewColumn('Content', 'Content', 'Content', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for Custom_Parameters field
+            //
+            $column = new TextViewColumn('Custom_Parameters', 'Custom_Parameters', 'Custom Parameters', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for Notes field
+            //
+            $column = new TextViewColumn('Notes', 'Notes', 'Notes', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Notes_handler_export');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for Type_of_Page field
+            //
+            $column = new TextViewColumn('Type_of_Page', 'Type_of_Page', 'Type Of Page', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for Marketo_Page field
+            //
+            $column = new TextViewColumn('Marketo_Page', 'Marketo_Page', 'Marketo Page', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Marketo_Page_handler_export');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for Marketo_Page_Name field
+            //
+            $column = new TextViewColumn('Marketo_Page_Name', 'Marketo_Page_Name', 'Marketo Page Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Marketo_Page_Name_handler_export');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for URL field
+            //
+            $column = new TextViewColumn('URL', 'URL', 'URL', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_URL_handler_export');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for Full_URL field
+            //
+            $column = new TextViewColumn('Full_URL', 'Full_URL', 'Full URL', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Full_URL_handler_export');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for Created_By field
+            //
+            $column = new TextViewColumn('Created_By', 'Created_By', 'Created By', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Created_By_handler_export');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for Created_Date field
+            //
+            $column = new DateTimeViewColumn('Created_Date', 'Created_Date', 'Created Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddExportColumn($column);
             
             //
@@ -1807,119 +1945,22 @@
             //
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_campaign_description_handler_export');
-            $grid->AddExportColumn($column);
-            
-            //
-            // View column for campaign_type field
-            //
-            $column = new NumberViewColumn('campaign_type', 'campaign_type', 'Campaign Type', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $grid->AddExportColumn($column);
-            
-            //
-            // View column for tracker_status field
-            //
-            $column = new NumberViewColumn('tracker_status', 'tracker_status', 'Tracker Status', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $grid->AddExportColumn($column);
-            
-            //
-            // View column for event_type field
-            //
-            $column = new NumberViewColumn('event_type', 'event_type', 'Event Type', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $grid->AddExportColumn($column);
-            
-            //
-            // View column for deployed_by field
-            //
-            $column = new TextViewColumn('deployed_by', 'deployed_by', 'Deployed By', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddExportColumn($column);
-            
-            //
-            // View column for SFDC_child_campaign field
-            //
-            $column = new TextViewColumn('SFDC_child_campaign', 'SFDC_child_campaign', 'SFDC Child Campaign', $this->dataset);
-            $column->SetOrderable(true);
             $grid->AddExportColumn($column);
             
             //
             // View column for master_campaign_id field
             //
-            $column = new NumberViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
             $grid->AddExportColumn($column);
         }
     
         private function AddCompareColumns(Grid $grid)
         {
             //
-            // View column for campaign_program_name field
+            // View column for Campaign_Name field
             //
-            $column = new TextViewColumn('campaign_program_name', 'campaign_program_name', 'Campaign Program Name', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_campaign_program_name_handler_compare');
-            $grid->AddCompareColumn($column);
-            
-            //
-            // View column for industry field
-            //
-            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_industry_handler_compare');
-            $grid->AddCompareColumn($column);
-            
-            //
-            // View column for region field
-            //
-            $column = new TextViewColumn('region', 'region', 'Region', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddCompareColumn($column);
-            
-            //
-            // View column for sub_region field
-            //
-            $column = new TextViewColumn('sub_region', 'sub_region', 'Sub Region', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddCompareColumn($column);
-            
-            //
-            // View column for territory field
-            //
-            $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_territory_handler_compare');
-            $grid->AddCompareColumn($column);
-            
-            //
-            // View column for country field
-            //
-            $column = new TextViewColumn('country', 'country', 'Country', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddCompareColumn($column);
-            
-            //
-            // View column for job_function field
-            //
-            $column = new NumberViewColumn('job_function', 'job_function', 'Job Function', $this->dataset);
+            $column = new NumberViewColumn('Campaign_Name', 'Campaign_Name', 'Campaign Name', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -1927,24 +1968,124 @@
             $grid->AddCompareColumn($column);
             
             //
-            // View column for channel_type field
+            // View column for Campaign_Detail_ID field
             //
-            $column = new TextViewColumn('channel_type', 'channel_type', 'Channel Type', $this->dataset);
+            $column = new NumberViewColumn('Campaign_Detail_ID', 'Campaign_Detail_ID', 'Campaign Detail ID', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for Campaign field
+            //
+            $column = new TextViewColumn('Campaign', 'Campaign', 'Campaign', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddCompareColumn($column);
             
             //
-            // View column for product field
+            // View column for Medium field
             //
-            $column = new TextViewColumn('product', 'product', 'Product', $this->dataset);
+            $column = new TextViewColumn('Medium', 'Medium', 'Medium', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddCompareColumn($column);
             
             //
-            // View column for m_ID field
+            // View column for Source field
             //
-            $column = new TextViewColumn('m_ID', 'm_ID', 'M ID', $this->dataset);
+            $column = new TextViewColumn('Source', 'Source', 'Source', $this->dataset);
             $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for Term field
+            //
+            $column = new TextViewColumn('Term', 'Term', 'Term', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for Content field
+            //
+            $column = new TextViewColumn('Content', 'Content', 'Content', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for Custom_Parameters field
+            //
+            $column = new TextViewColumn('Custom_Parameters', 'Custom_Parameters', 'Custom Parameters', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for Notes field
+            //
+            $column = new TextViewColumn('Notes', 'Notes', 'Notes', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Notes_handler_compare');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for Type_of_Page field
+            //
+            $column = new TextViewColumn('Type_of_Page', 'Type_of_Page', 'Type Of Page', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for Marketo_Page field
+            //
+            $column = new TextViewColumn('Marketo_Page', 'Marketo_Page', 'Marketo Page', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Marketo_Page_handler_compare');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for Marketo_Page_Name field
+            //
+            $column = new TextViewColumn('Marketo_Page_Name', 'Marketo_Page_Name', 'Marketo Page Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Marketo_Page_Name_handler_compare');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for URL field
+            //
+            $column = new TextViewColumn('URL', 'URL', 'URL', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_URL_handler_compare');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for Full_URL field
+            //
+            $column = new TextViewColumn('Full_URL', 'Full_URL', 'Full URL', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Full_URL_handler_compare');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for Created_By field
+            //
+            $column = new TextViewColumn('Created_By', 'Created_By', 'Created By', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_Created_By_handler_compare');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for Created_Date field
+            //
+            $column = new DateTimeViewColumn('Created_Date', 'Created_Date', 'Created Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddCompareColumn($column);
             
             //
@@ -1960,62 +2101,13 @@
             //
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_campaign_description_handler_compare');
-            $grid->AddCompareColumn($column);
-            
-            //
-            // View column for campaign_type field
-            //
-            $column = new NumberViewColumn('campaign_type', 'campaign_type', 'Campaign Type', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $grid->AddCompareColumn($column);
-            
-            //
-            // View column for tracker_status field
-            //
-            $column = new NumberViewColumn('tracker_status', 'tracker_status', 'Tracker Status', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $grid->AddCompareColumn($column);
-            
-            //
-            // View column for event_type field
-            //
-            $column = new NumberViewColumn('event_type', 'event_type', 'Event Type', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $grid->AddCompareColumn($column);
-            
-            //
-            // View column for deployed_by field
-            //
-            $column = new TextViewColumn('deployed_by', 'deployed_by', 'Deployed By', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddCompareColumn($column);
-            
-            //
-            // View column for SFDC_child_campaign field
-            //
-            $column = new TextViewColumn('SFDC_child_campaign', 'SFDC_child_campaign', 'SFDC Child Campaign', $this->dataset);
-            $column->SetOrderable(true);
             $grid->AddCompareColumn($column);
             
             //
             // View column for master_campaign_id field
             //
-            $column = new NumberViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
             $grid->AddCompareColumn($column);
         }
     
@@ -2120,131 +2212,195 @@
     
         protected function doRegisterHandlers() {
             //
-            // View column for campaign_program_name field
+            // View column for Notes field
             //
-            $column = new TextViewColumn('campaign_program_name', 'campaign_program_name', 'Campaign Program Name', $this->dataset);
+            $column = new TextViewColumn('Notes', 'Notes', 'Notes', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_campaign_program_name_handler_list', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_Notes_handler_list', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for industry field
+            // View column for Marketo_Page field
             //
-            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
+            $column = new TextViewColumn('Marketo_Page', 'Marketo_Page', 'Marketo Page', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_industry_handler_list', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_Marketo_Page_handler_list', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for territory field
+            // View column for Marketo_Page_Name field
             //
-            $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
+            $column = new TextViewColumn('Marketo_Page_Name', 'Marketo_Page_Name', 'Marketo Page Name', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_territory_handler_list', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_Marketo_Page_Name_handler_list', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for campaign_description field
+            // View column for URL field
             //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
+            $column = new TextViewColumn('URL', 'URL', 'URL', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_campaign_description_handler_list', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_URL_handler_list', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for campaign_program_name field
+            // View column for Full_URL field
             //
-            $column = new TextViewColumn('campaign_program_name', 'campaign_program_name', 'Campaign Program Name', $this->dataset);
+            $column = new TextViewColumn('Full_URL', 'Full_URL', 'Full URL', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_campaign_program_name_handler_print', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_Full_URL_handler_list', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for industry field
+            // View column for Created_By field
             //
-            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
+            $column = new TextViewColumn('Created_By', 'Created_By', 'Created By', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_industry_handler_print', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_Created_By_handler_list', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for territory field
+            // View column for Notes field
             //
-            $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
+            $column = new TextViewColumn('Notes', 'Notes', 'Notes', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_territory_handler_print', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_Notes_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for campaign_description field
+            // View column for Marketo_Page field
             //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
+            $column = new TextViewColumn('Marketo_Page', 'Marketo_Page', 'Marketo Page', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_campaign_description_handler_print', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_Marketo_Page_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for campaign_program_name field
+            // View column for Marketo_Page_Name field
             //
-            $column = new TextViewColumn('campaign_program_name', 'campaign_program_name', 'Campaign Program Name', $this->dataset);
+            $column = new TextViewColumn('Marketo_Page_Name', 'Marketo_Page_Name', 'Marketo Page Name', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_campaign_program_name_handler_compare', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_Marketo_Page_Name_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for industry field
+            // View column for URL field
             //
-            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
+            $column = new TextViewColumn('URL', 'URL', 'URL', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_industry_handler_compare', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_URL_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for territory field
+            // View column for Full_URL field
             //
-            $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
+            $column = new TextViewColumn('Full_URL', 'Full_URL', 'Full URL', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_territory_handler_compare', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_Full_URL_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for campaign_description field
+            // View column for Created_By field
             //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
+            $column = new TextViewColumn('Created_By', 'Created_By', 'Created By', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_campaign_description_handler_compare', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_Created_By_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for campaign_program_name field
+            // View column for Notes field
             //
-            $column = new TextViewColumn('campaign_program_name', 'campaign_program_name', 'Campaign Program Name', $this->dataset);
+            $column = new TextViewColumn('Notes', 'Notes', 'Notes', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_campaign_program_name_handler_view', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_Notes_handler_compare', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for industry field
+            // View column for Marketo_Page field
             //
-            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
+            $column = new TextViewColumn('Marketo_Page', 'Marketo_Page', 'Marketo Page', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_industry_handler_view', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_Marketo_Page_handler_compare', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for territory field
+            // View column for Marketo_Page_Name field
             //
-            $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
+            $column = new TextViewColumn('Marketo_Page_Name', 'Marketo_Page_Name', 'Marketo Page Name', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_territory_handler_view', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_Marketo_Page_Name_handler_compare', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for campaign_description field
+            // View column for URL field
             //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
+            $column = new TextViewColumn('URL', 'URL', 'URL', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_campaign_description_handler_view', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_URL_handler_compare', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for Full_URL field
+            //
+            $column = new TextViewColumn('Full_URL', 'Full_URL', 'Full URL', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_Full_URL_handler_compare', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for Created_By field
+            //
+            $column = new TextViewColumn('Created_By', 'Created_By', 'Created By', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_Created_By_handler_compare', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for Notes field
+            //
+            $column = new TextViewColumn('Notes', 'Notes', 'Notes', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_Notes_handler_view', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for Marketo_Page field
+            //
+            $column = new TextViewColumn('Marketo_Page', 'Marketo_Page', 'Marketo Page', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_Marketo_Page_handler_view', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for Marketo_Page_Name field
+            //
+            $column = new TextViewColumn('Marketo_Page_Name', 'Marketo_Page_Name', 'Marketo Page Name', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_Marketo_Page_Name_handler_view', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for URL field
+            //
+            $column = new TextViewColumn('URL', 'URL', 'URL', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_URL_handler_view', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for Full_URL field
+            //
+            $column = new TextViewColumn('Full_URL', 'Full_URL', 'Full URL', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_Full_URL_handler_view', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for Created_By field
+            //
+            $column = new TextViewColumn('Created_By', 'Created_By', 'Created By', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_Created_By_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);
         }
        
@@ -2394,8 +2550,8 @@
 
     try
     {
-        $Page = new campaign_tracker_partnerPage("campaign_tracker_partner", "campaign_tracker_partner.php", GetCurrentUserPermissionSetForDataSource("campaign_tracker_partner"), 'UTF-8');
-        $Page->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource("campaign_tracker_partner"));
+        $Page = new campaign_tracker_utmPage("campaign_tracker_utm", "campaign_tracker_utm.php", GetCurrentUserPermissionSetForDataSource("campaign_tracker_utm"), 'UTF-8');
+        $Page->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource("campaign_tracker_utm"));
         GetApplication()->SetMainPage($Page);
         GetApplication()->Run();
     }

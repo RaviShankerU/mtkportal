@@ -1453,8 +1453,7 @@
             );
             $lookupDataset->setOrderByField('c_Region', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Region', 'b_region', 'b_region_c_Region', 'edit_brief_b_region_search', $editor, $this->dataset, $lookupDataset, 'c_Region', 'c_Region', '');
-            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
-            $editor->GetValidatorCollection()->AddValidator($validator);
+            $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
@@ -1813,8 +1812,7 @@
             );
             $lookupDataset->setOrderByField('c_Region', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Region', 'b_region', 'b_region_c_Region', 'multi_edit_brief_b_region_search', $editor, $this->dataset, $lookupDataset, 'c_Region', 'c_Region', '');
-            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
-            $editor->GetValidatorCollection()->AddValidator($validator);
+            $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
             
@@ -2195,8 +2193,7 @@
             );
             $lookupDataset->setOrderByField('c_Region', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Region', 'b_region', 'b_region_c_Region', 'insert_brief_b_region_search', $editor, $this->dataset, $lookupDataset, 'c_Region', 'c_Region', '');
-            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
-            $editor->GetValidatorCollection()->AddValidator($validator);
+            $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
             
@@ -3307,11 +3304,11 @@
             $this->setExportListRecordAvailable(array());
             $this->setExportOneRecordAvailable(array('pdf', 'excel', 'word', 'xml', 'csv'));
             $this->setDescription('<div class="mark-media mark-position-relative">
-                          <div class="mark-bd-placeholder-img mr-3"><img src="http://mktportal.mscsoftware.com/icons/add-color.png" width="80" height="79"></div>
+                          <div class="mark-bd-placeholder-img mr-3"><img src="http://localhost/mportal/apps/icons/add-color.png" width="80" height="79"></div>
                           <div class="mark-media-body">
                             <h5 class="mt-0 h5">What will you find here</h5>
                             <p class="mark-p">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-                            <a href="http://mktportal.mscsoftware.com/" class="stretched-link">Go to Master Campaign</a>
+                            <a href="http://localhost/mportal/index.php" class="stretched-link">Go to Master Campaign</a>
                           </div>
                         </div>');
             $this->SetHidePageListByDefault(true);
