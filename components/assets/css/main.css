@@ -12151,11 +12151,17 @@ thead .details .link-icon {
 .breadcrumb {
   margin-top: 20px;
 }
+.well .description {
+  padding-top: 10px !important;
+}
 .navbar-nav {
   padding-top: 11px;
 }
 .icon-size {
   width: 105%;
+}
+[class^="icon-size-desk"] {
+  height: 37.8px;
 }
 fieldset {
   border: 1px solid #006184 !important;
@@ -12255,7 +12261,7 @@ i {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 92%;
+  width: 92% !important;
   height: auto;
   position: relative;
   border-radius: 2px;

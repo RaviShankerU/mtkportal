@@ -120,19 +120,19 @@ FROM brief      </SelectStatement>
       <Page type="table" tableName="campaign_calendar" numberByDataSource="0" fileName="campaign_calendar" caption="Campaign &amp; Events Calendar" shortCaption="Campaign &amp; Events Calendar" groupName="New Campaign" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="0" viewAbilityMode="0" editAbilityMode="0" multiEditAbility="0" copyAbilityMode="0" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://localhost/mportal/apps/icons/event_cal-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/event_cal-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
-                &lt;a href=&quot;http://localhost/mportal/index.php&quot; class=&quot;stretched-link&quot;&gt;Go to Master Campaign&lt;/a&gt;
+                &lt;a href=&quot;http://mktportal.mscsoftware.com/index.php&quot; class=&quot;stretched-link&quot;&gt;Go to Master Campaign&lt;/a&gt;
               &lt;/div&gt;
             &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
         <homePageDescription>
-&lt;a href=&quot;http://localhost/mportal/campaign_calendar.php&quot; style=&quot;text-decoration:none;&quot;&gt;
+&lt;a href=&quot;http://mktportal.mscsoftware.com/campaign_calendar.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://localhost/mportal/apps/icons/event_cal.png&quot; class=&quot;icon-size&quot;&gt;
+      &lt;img src=&quot;apps/icons/event_cal.png&quot; class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Campaign Calendar&lt;/strong&gt;&lt;/span&gt;
@@ -327,19 +327,19 @@ if ($part == PagePart::Grid &amp;&amp; $mode == PageMode::ViewAll) {
         </CompareHeaderColumns>
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://localhost/mportal/apps/icons/add-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/add-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
-                &lt;a href=&quot;http://localhost/mportal/index.php&quot; class=&quot;stretched-link&quot;&gt;Go to Master Campaign&lt;/a&gt;
+                &lt;a href=&quot;http://mktportal.mscsoftware.com/index.php&quot; class=&quot;stretched-link&quot;&gt;Go to Master Campaign&lt;/a&gt;
               &lt;/div&gt;
             &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
         <homePageDescription>
-&lt;a href=&quot;http://localhost/mportal/brief.php&quot; style=&quot;text-decoration:none;&quot;&gt;
+&lt;a href=&quot;http://mktportal.mscsoftware.com/brief.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://localhost/mportal/apps/icons/add.png&quot; class=&quot;icon-size&quot;&gt;
+      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/add.png&quot;  class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Campaign Request&lt;/strong&gt;&lt;/span&gt;
@@ -1157,19 +1157,19 @@ else {
       <Page type="table" tableName="campaign_events" numberByDataSource="0" fileName="campaign_events" caption="Event List" shortCaption="Event List" groupName="New Campaign" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="0" viewAbilityMode="3" editAbilityMode="3" copyAbilityMode="0" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-   &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://localhost/mportal/apps/icons/event-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+   &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/event-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
    &lt;div class=&quot;mark-media-body&quot;&gt;
        &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
        &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
-       &lt;a href=&quot;http://localhost/mportal/&quot; class=&quot;stretched-link&quot;&gt;Go to Dashboard&lt;/a&gt;
+       &lt;a href=&quot;http://mktportal.mscsoftware.com/&quot; class=&quot;stretched-link&quot;&gt;Go to Dashboard&lt;/a&gt;
    &lt;/div&gt;
 &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
         <homePageDescription>
-&lt;a href=&quot;http://localhost/mportal/campaign_events.php&quot; style=&quot;text-decoration:none;&quot;&gt;
+&lt;a href=&quot;http://mktportal.mscsoftware.com/campaign_events.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://localhost/mportal/apps/icons/event.png&quot; class=&quot;icon-size&quot;&gt;
+      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/event.png&quot; class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Events&lt;/strong&gt;&lt;/span&gt;
@@ -2000,11 +2000,11 @@ else {
       <Page type="table" tableName="campaign_approvals" numberByDataSource="0" fileName="campaign_approvals" caption="Campaign: Brief Approvals" shortCaption="Campaign Approvals" groupName="Campaign Manager" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="2">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://localhost/mportal/apps/icons/approve-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/approve-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
-                &lt;a href=&quot;http://localhost/mportal&quot; class=&quot;stretched-link&quot;&gt;Go to Master Campaign&lt;/a&gt;
+                &lt;a href=&quot;http://mktportal.mscsoftware.com/&quot; class=&quot;stretched-link&quot;&gt;Go to Master Campaign&lt;/a&gt;
               &lt;/div&gt;
             &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
@@ -2012,7 +2012,7 @@ else {
 &lt;a href=&quot;http://localhost/mportal/campaign_approvals.php&quot; style=&quot;text-decoration:none;&quot;&gt;
   &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://localhost/mportal/apps/icons/approve.png&quot; class=&quot;icon-size&quot;&gt;
+      &lt;img src=&quot;http://localhost/mportal/apps/icons/approve.png&quot; class=&quot;icon-size-desk&quot;&gt;
     &lt;/div&gt;
     &lt;div class=&quot;text-content&quot;&gt;
       &lt;span class=card-title&gt;&lt;strong&gt;Approve &amp; Deploy&lt;/strong&gt;&lt;/span&gt;
@@ -3418,19 +3418,19 @@ else {
         </DefaultSortedColumns>
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;localhost/mportal/apps/icons/campaign-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/campaign-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
-                &lt;a href=&quot;http://localhost/mportal/master_campaign_global.php&quot; class=&quot;stretched-link&quot;&gt;Go to Master Campaign&lt;/a&gt;
+                &lt;a href=&quot;http://mktportal.mscsoftware.com/master_campaign_global.php&quot; class=&quot;stretched-link&quot;&gt;Go to Master Campaign&lt;/a&gt;
               &lt;/div&gt;
             &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
         <homePageDescription>
-&lt;a href=&quot;http://localhost/mportal/campaign_global_list.php&quot; style=&quot;text-decoration:none;&quot;&gt;
+&lt;a href=&quot;http://mktportal.mscsoftware.com/campaign_global_list.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://localhost/mportal/apps/icons/campaign.png&quot; class=&quot;icon-size&quot;&gt;
+      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/campaign.png&quot; class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Campaigns&lt;/strong&gt;&lt;/span&gt;
@@ -6673,19 +6673,19 @@ else
       <Page type="query" queryName="campaign_ROI_Tracker" numberByDataSource="0" fileName="campaign_ROI_Tracker" caption="Campaign ROI Tracker" shortCaption="Campaign ROI Tracker" groupName="Campaign Manager" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="0" viewAbilityMode="3" editAbilityMode="0" multiEditAbility="0" copyAbilityMode="0" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://localhost/mportal/apps/icons/roi-tracker-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/roi-tracker-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
-                &lt;a href=&quot;http://localhost/mportal/master_campaign_global.php&quot; class=&quot;stretched-link&quot;&gt;Go to Master Campaign&lt;/a&gt;
+                &lt;a href=&quot;http://mktportal.mscsoftware.com/master_campaign_global.php&quot; class=&quot;stretched-link&quot;&gt;Go to Master Campaign&lt;/a&gt;
               &lt;/div&gt;
             &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
         <homePageDescription>
-&lt;a href=&quot;http://localhost/mportal/campaign_ROI_Tracker.php&quot; style=&quot;text-decoration:none;&quot;&gt;
+&lt;a href=&quot;http://mktportal.mscsoftware.com/campaign_ROI_Tracker.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://localhost/mportal/apps/icons/roi-tracker.png&quot; class=&quot;icon-size&quot;&gt;
+      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/roi-tracker.png&quot; class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;ROI Tracker&lt;/strong&gt;&lt;/span&gt;
@@ -6694,11 +6694,442 @@ else
 &lt;/div&gt;
 &lt;/a&gt;        </homePageDescription>
         <ColumnPresentations>
-          <ColumnPresentation fieldName="master_campaign_id" caption="Master Campaign Id" showColumnFilter="false" selectedFilterOperators="1573119">
-            <ViewProperties type="text">
-              <Format type="number" thousandSeparator=","/>
-            </ViewProperties>
-            <EditProperties type="spinEdit" maxValue="100" minValue="0" useConstraints="false" step="1"/>
+          <ColumnPresentation fieldName="master_campaign_id" caption="Master Campaign Id" selectedFilterOperators="1573119">
+            <Lookup tableName="brief" linkFieldName="master_campaign_id" displayFieldName="campaign_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" displayLookupRecord="true">
+              <LookupRecordViewForm numberByDataSource="0" fileName="brief" caption="Brief" shortCaption="Brief" addSeparator="false" horizontalFilterCondition="" isLookupRecordViewForm="true" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
+                <BeforeGridText/>
+                <DetailedDescription/>
+                <ColumnPresentations>
+                  <ColumnPresentation fieldName="master_campaign_id" caption="Master Campaign Id" showColumnFilter="false" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="campaign_name" caption="Campaign Name" showColumnFilter="false" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textBox" maxLength="100"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="objective" caption="Objective" showColumnFilter="false" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="short_description" caption="Short Description" showColumnFilter="false" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="50"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="campaign_type" caption="Campaign Type" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="campaign_tier" caption="Campaign Tier" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="channel_types" caption="Channel Types" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="50"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="campaign_status" caption="Campaign Status" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="event_type" caption="Event Type" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="b_region" caption="B Region" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="b_country" caption="B Country" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="industry" caption="Industry" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textBox" maxLength="100"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="est_opportunity_value_in_euros" caption="Est Opportunity Value In Euros" showColumnFilter="false" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="campaign_cost" caption="Campaign Cost" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="expected_roi_enquiries" caption="Expected Roi Enquiries" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="expected_roi_ots" caption="Expected Roi Ots" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="post_enquiries" caption="Post Enquiries" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="new_opportunities" caption="New Opportunities" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="owner_person" caption="Owner Person" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textBox" maxLength="100"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="start_date" caption="Start Date" selectedFilterOperators="2031871">
+                    <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1"/>
+                    <EditProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1" firstDayOfWeek="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="end_date" caption="End Date" canSetNull="true" selectedFilterOperators="2031871">
+                    <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1"/>
+                    <EditProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1" firstDayOfWeek="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="file_upload" caption="File Upload" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="asset_upload" caption="Asset Upload" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="created_by" caption="Created By" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="50"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="created_date" caption="Created Date" canSetNull="true" selectedFilterOperators="2031871">
+                    <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
+                    <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="updated_by" caption="Updated By" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="50"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="updated_date" caption="Updated Date" canSetNull="true" selectedFilterOperators="2031871">
+                    <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
+                    <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
+                  </ColumnPresentation>
+                </ColumnPresentations>
+                <Columns>
+                  <List>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="campaign_name"/>
+                    <Column fieldName="objective"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="campaign_tier"/>
+                    <Column fieldName="channel_types"/>
+                    <Column fieldName="campaign_status"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="b_region"/>
+                    <Column fieldName="b_country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="est_opportunity_value_in_euros"/>
+                    <Column fieldName="campaign_cost"/>
+                    <Column fieldName="expected_roi_enquiries"/>
+                    <Column fieldName="expected_roi_ots"/>
+                    <Column fieldName="post_enquiries"/>
+                    <Column fieldName="new_opportunities"/>
+                    <Column fieldName="owner_person"/>
+                    <Column fieldName="start_date"/>
+                    <Column fieldName="end_date"/>
+                    <Column fieldName="file_upload"/>
+                    <Column fieldName="asset_upload"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="updated_by"/>
+                    <Column fieldName="updated_date"/>
+                  </List>
+                  <View>
+                    <Column fieldName="master_campaign_id" visible="false"/>
+                    <Column fieldName="campaign_name"/>
+                    <Column fieldName="objective"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="campaign_tier"/>
+                    <Column fieldName="channel_types"/>
+                    <Column fieldName="campaign_status"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="b_region"/>
+                    <Column fieldName="b_country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="est_opportunity_value_in_euros"/>
+                    <Column fieldName="campaign_cost"/>
+                    <Column fieldName="expected_roi_enquiries"/>
+                    <Column fieldName="expected_roi_ots"/>
+                    <Column fieldName="post_enquiries"/>
+                    <Column fieldName="new_opportunities"/>
+                    <Column fieldName="owner_person"/>
+                    <Column fieldName="start_date"/>
+                    <Column fieldName="end_date"/>
+                    <Column fieldName="file_upload"/>
+                    <Column fieldName="asset_upload"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="updated_by"/>
+                    <Column fieldName="updated_date"/>
+                  </View>
+                  <Edit>
+                    <Column fieldName="master_campaign_id" visible="false"/>
+                    <Column fieldName="campaign_name"/>
+                    <Column fieldName="objective"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="campaign_tier"/>
+                    <Column fieldName="channel_types"/>
+                    <Column fieldName="campaign_status"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="b_region"/>
+                    <Column fieldName="b_country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="est_opportunity_value_in_euros"/>
+                    <Column fieldName="campaign_cost"/>
+                    <Column fieldName="expected_roi_enquiries"/>
+                    <Column fieldName="expected_roi_ots"/>
+                    <Column fieldName="post_enquiries"/>
+                    <Column fieldName="new_opportunities"/>
+                    <Column fieldName="owner_person"/>
+                    <Column fieldName="start_date"/>
+                    <Column fieldName="end_date"/>
+                    <Column fieldName="file_upload"/>
+                    <Column fieldName="asset_upload"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="updated_by"/>
+                    <Column fieldName="updated_date"/>
+                  </Edit>
+                  <Insert>
+                    <Column fieldName="master_campaign_id" visible="false"/>
+                    <Column fieldName="campaign_name"/>
+                    <Column fieldName="objective"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="campaign_tier"/>
+                    <Column fieldName="channel_types"/>
+                    <Column fieldName="campaign_status"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="b_region"/>
+                    <Column fieldName="b_country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="est_opportunity_value_in_euros"/>
+                    <Column fieldName="campaign_cost"/>
+                    <Column fieldName="expected_roi_enquiries"/>
+                    <Column fieldName="expected_roi_ots"/>
+                    <Column fieldName="post_enquiries"/>
+                    <Column fieldName="new_opportunities"/>
+                    <Column fieldName="owner_person"/>
+                    <Column fieldName="start_date"/>
+                    <Column fieldName="end_date"/>
+                    <Column fieldName="file_upload"/>
+                    <Column fieldName="asset_upload"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="updated_by"/>
+                    <Column fieldName="updated_date"/>
+                  </Insert>
+                  <QuickFilter>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="campaign_name"/>
+                    <Column fieldName="objective"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="campaign_tier"/>
+                    <Column fieldName="channel_types"/>
+                    <Column fieldName="campaign_status"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="b_region"/>
+                    <Column fieldName="b_country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="est_opportunity_value_in_euros"/>
+                    <Column fieldName="campaign_cost"/>
+                    <Column fieldName="expected_roi_enquiries"/>
+                    <Column fieldName="expected_roi_ots"/>
+                    <Column fieldName="post_enquiries"/>
+                    <Column fieldName="new_opportunities"/>
+                    <Column fieldName="owner_person"/>
+                    <Column fieldName="start_date"/>
+                    <Column fieldName="end_date"/>
+                    <Column fieldName="file_upload"/>
+                    <Column fieldName="asset_upload"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="updated_by"/>
+                    <Column fieldName="updated_date"/>
+                  </QuickFilter>
+                  <FilterBuilder>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="campaign_name"/>
+                    <Column fieldName="objective"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="campaign_tier"/>
+                    <Column fieldName="channel_types"/>
+                    <Column fieldName="campaign_status"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="b_region"/>
+                    <Column fieldName="b_country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="est_opportunity_value_in_euros"/>
+                    <Column fieldName="campaign_cost"/>
+                    <Column fieldName="expected_roi_enquiries"/>
+                    <Column fieldName="expected_roi_ots"/>
+                    <Column fieldName="post_enquiries"/>
+                    <Column fieldName="new_opportunities"/>
+                    <Column fieldName="owner_person"/>
+                    <Column fieldName="start_date"/>
+                    <Column fieldName="end_date"/>
+                    <Column fieldName="file_upload"/>
+                    <Column fieldName="asset_upload"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="updated_by"/>
+                    <Column fieldName="updated_date"/>
+                  </FilterBuilder>
+                  <Print>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="campaign_name"/>
+                    <Column fieldName="objective"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="campaign_tier"/>
+                    <Column fieldName="channel_types"/>
+                    <Column fieldName="campaign_status"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="b_region"/>
+                    <Column fieldName="b_country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="est_opportunity_value_in_euros"/>
+                    <Column fieldName="campaign_cost"/>
+                    <Column fieldName="expected_roi_enquiries"/>
+                    <Column fieldName="expected_roi_ots"/>
+                    <Column fieldName="post_enquiries"/>
+                    <Column fieldName="new_opportunities"/>
+                    <Column fieldName="owner_person"/>
+                    <Column fieldName="start_date"/>
+                    <Column fieldName="end_date"/>
+                    <Column fieldName="file_upload"/>
+                    <Column fieldName="asset_upload"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="updated_by"/>
+                    <Column fieldName="updated_date"/>
+                  </Print>
+                  <Export>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="campaign_name"/>
+                    <Column fieldName="objective"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="campaign_tier"/>
+                    <Column fieldName="channel_types"/>
+                    <Column fieldName="campaign_status"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="b_region"/>
+                    <Column fieldName="b_country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="est_opportunity_value_in_euros"/>
+                    <Column fieldName="campaign_cost"/>
+                    <Column fieldName="expected_roi_enquiries"/>
+                    <Column fieldName="expected_roi_ots"/>
+                    <Column fieldName="post_enquiries"/>
+                    <Column fieldName="new_opportunities"/>
+                    <Column fieldName="owner_person"/>
+                    <Column fieldName="start_date"/>
+                    <Column fieldName="end_date"/>
+                    <Column fieldName="file_upload"/>
+                    <Column fieldName="asset_upload"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="updated_by"/>
+                    <Column fieldName="updated_date"/>
+                  </Export>
+                  <Compare>
+                    <Column fieldName="master_campaign_id" visible="false"/>
+                    <Column fieldName="campaign_name"/>
+                    <Column fieldName="objective"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="campaign_tier"/>
+                    <Column fieldName="channel_types"/>
+                    <Column fieldName="campaign_status"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="b_region"/>
+                    <Column fieldName="b_country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="est_opportunity_value_in_euros"/>
+                    <Column fieldName="campaign_cost"/>
+                    <Column fieldName="expected_roi_enquiries"/>
+                    <Column fieldName="expected_roi_ots"/>
+                    <Column fieldName="post_enquiries"/>
+                    <Column fieldName="new_opportunities"/>
+                    <Column fieldName="owner_person"/>
+                    <Column fieldName="start_date"/>
+                    <Column fieldName="end_date"/>
+                    <Column fieldName="file_upload"/>
+                    <Column fieldName="asset_upload"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="updated_by"/>
+                    <Column fieldName="updated_date"/>
+                  </Compare>
+                  <MultiEdit>
+                    <Column fieldName="master_campaign_id" visible="false"/>
+                    <Column fieldName="campaign_name" visible="false"/>
+                    <Column fieldName="objective"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="campaign_tier"/>
+                    <Column fieldName="channel_types"/>
+                    <Column fieldName="campaign_status"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="b_region"/>
+                    <Column fieldName="b_country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="est_opportunity_value_in_euros"/>
+                    <Column fieldName="campaign_cost"/>
+                    <Column fieldName="expected_roi_enquiries"/>
+                    <Column fieldName="expected_roi_ots"/>
+                    <Column fieldName="post_enquiries"/>
+                    <Column fieldName="new_opportunities"/>
+                    <Column fieldName="owner_person"/>
+                    <Column fieldName="start_date"/>
+                    <Column fieldName="end_date"/>
+                    <Column fieldName="file_upload"/>
+                    <Column fieldName="asset_upload"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="updated_by"/>
+                    <Column fieldName="updated_date"/>
+                  </MultiEdit>
+                </Columns>
+                <Details/>
+                <RecordPermissions useRecordPermissions="false"/>
+                <PartitionNavigators/>
+              </LookupRecordViewForm>
+            </Lookup>
+            <ViewProperties type="text"/>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="campaign_name" caption="Campaign Name" showColumnFilter="false" selectedFilterOperators="1589247">
             <ViewProperties type="text"/>
@@ -6955,19 +7386,19 @@ else
       <Page type="query" queryName="campaign_analysis" numberByDataSource="0" fileName="campaign_analysis" caption="Campaign Analysis" shortCaption="Campaign Analysis" groupName="Campaign Manager" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="0" viewAbilityMode="0" editAbilityMode="0" multiEditAbility="0" copyAbilityMode="0" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://localhost/mportal/apps/icons/analytics-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/analytics-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
-                &lt;a href=&quot;http://localhost/mportal/master_campaign_global.php&quot; class=&quot;stretched-link&quot;&gt;Go to Master Campaign&lt;/a&gt;
+                &lt;a href=&quot;http://mktportal.mscsoftware.com/master_campaign_global.php&quot; class=&quot;stretched-link&quot;&gt;Go to Master Campaign&lt;/a&gt;
               &lt;/div&gt;
             &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
         <homePageDescription>
-&lt;a href=&quot;http://localhost/mportal/campaign_analysis.php&quot; style=&quot;text-decoration:none;&quot;&gt;
+&lt;a href=&quot;http://mktportal.mscsoftware.com/campaign_analysis.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://localhost/mportal/apps/icons/analytics.png&quot; class=&quot;icon-size&quot;&gt;
+      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/analytics.png&quot; class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Campaign Analysis&lt;/strong&gt;&lt;/span&gt;
@@ -8099,7 +8530,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
       <Page type="table" tableName="campaign_tracker_website" numberByDataSource="0" fileName="campaign_tracker_website" caption="Campaign Tracker: Website" shortCaption="Campaign Tracker Website" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" pageViewMode="1" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://localhost/mportal/apps/icons/website-list-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/website-list-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
@@ -8108,10 +8539,10 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
         <homePageDescription>
-&lt;a href=&quot;http://localhost/mportal/campaign_tracker_website.php&quot; style=&quot;text-decoration:none;&quot;&gt;
+&lt;a href=&quot;http://mktportal.mscsoftware.com/campaign_tracker_website.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://localhost/mportal/apps/icons/website-list.png&quot; class=&quot;icon-size&quot;&gt;
+      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/website-list.png&quot; class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Website Listing&lt;/strong&gt;&lt;/span&gt;
@@ -9241,19 +9672,19 @@ else {
       <Page type="table" tableName="campaign_tracker_comms" numberByDataSource="0" fileName="campaign_tracker_comms" caption="Campaign Tracker: Comms" shortCaption="Campaign Tracker Comms" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-	&lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://localhost/mportal/apps/icons/comms-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/comms-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
 	&lt;div class=&quot;mark-media-body&quot;&gt;
 		&lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
 		&lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
-		&lt;a href=&quot;http://localhost/mportal/campaign_global_list.php&quot; class=&quot;stretched-link&quot;&gt;View Live Lists&lt;/a&gt;
+		&lt;a href=&quot;http://mktportal.mscsoftware.com/campaign_global_list.php&quot; class=&quot;stretched-link&quot;&gt;View Live Lists&lt;/a&gt;
 	&lt;/div&gt;
 &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
         <homePageDescription>
-&lt;a href=&quot;http://localhost/mportal/campaign_tracker_comms.php&quot; style=&quot;text-decoration:none;&quot;&gt;
+&lt;a href=&quot;http://mktportal.mscsoftware.com/campaign_tracker_comms.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://localhost/mportal/apps/icons/comms.png&quot; class=&quot;icon-size&quot;&gt;
+      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/comms.png&quot; class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Comms Tracker (Marketo)&lt;/strong&gt;&lt;/span&gt;
@@ -10152,19 +10583,19 @@ else {
       <Page type="table" tableName="campaign_tracker_design" numberByDataSource="0" fileName="campaign_tracker_design" caption="Campaign Tracker: Design" shortCaption="Campaign Tracker Design" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://localhost/mportal/apps/icons/design-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/design-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
-                &lt;a href=&quot;http://localhost/mportal/apps/website_listing.php&quot; class=&quot;stretched-link&quot;&gt;View Live Lists&lt;/a&gt;
+                &lt;a href=&quot;http://mktportal.mscsoftware.com/apps/website_listing.php&quot; class=&quot;stretched-link&quot;&gt;View Live Lists&lt;/a&gt;
               &lt;/div&gt;
             &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
         <homePageDescription>
-&lt;a href=&quot;http://localhost/mportal/campaign_tracker_design.php&quot; style=&quot;text-decoration:none;&quot;&gt;
+&lt;a href=&quot;http://mktportal.mscsoftware.com/campaign_tracker_design.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://localhost/mportal/apps/icons/design.png&quot; class=&quot;icon-size&quot;&gt;
+      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/design.png&quot; class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Graphic Design&lt;/strong&gt;&lt;/span&gt;
@@ -10807,10 +11238,28 @@ else {
         <PartitionNavigators/>
       </Page>
       <Page type="table" tableName="campaign_tracker_content" numberByDataSource="0" fileName="campaign_tracker_content" caption="Campaign Tracker: Content" shortCaption="Campaign Tracker Content" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
-        <BeforeGridText/>
+        <BeforeGridText>
+&lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/web-content-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-media-body&quot;&gt;
+                &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
+                &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
+                &lt;a href=&quot;http://mktportal.mscsoftware.com/apps/website_listing.php&quot; class=&quot;stretched-link&quot;&gt;View Live Lists&lt;/a&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
         <homePageDescription>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.        </homePageDescription>
+&lt;a href=&quot;http://mktportal.mscsoftware.com/campaign_tracker_content.php&quot; style=&quot;text-decoration:none;&quot;&gt;
+&lt;div class=&quot;card&quot;&gt;
+    &lt;div class=&quot;card-circle&quot;&gt;
+      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/web-content.png&quot;  class=&quot;icon-size-desk&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;text-content&quot;&gt;
+    &lt;span class=card-title&gt;&lt;strong&gt;Web Content&lt;/strong&gt;&lt;/span&gt;
+    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/a&gt;        </homePageDescription>
         <ColumnPresentations>
           <ColumnPresentation fieldName="campaign_tracker_ID" caption="Campaign Tracker ID" showColumnFilter="false" selectedFilterOperators="1573119">
             <ViewProperties type="text">
@@ -11118,8 +11567,28 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis m
         <PartitionNavigators/>
       </Page>
       <Page type="table" tableName="campaign_tracker_social" numberByDataSource="0" fileName="campaign_tracker_social" caption="Campaign Tracker: Social" shortCaption="Campaign Tracker Social" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
-        <BeforeGridText/>
+        <BeforeGridText>
+&lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/social-media-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-media-body&quot;&gt;
+                &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
+                &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
+                &lt;a href=&quot;http://mktportal.mscsoftware.com/apps/website_listing.php&quot; class=&quot;stretched-link&quot;&gt;View Live Lists&lt;/a&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
+        <homePageDescription>
+&lt;a href=&quot;https://mktportal.mscsoftware.com/campaign_tracker_social.php&quot; style=&quot;text-decoration:none;&quot;&gt;
+&lt;div class=&quot;card&quot;&gt;
+    &lt;div class=&quot;card-circle&quot;&gt;
+      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/social-media.png&quot;  class=&quot;icon-size-desk&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;text-content&quot;&gt;
+    &lt;span class=card-title&gt;&lt;strong&gt;Social Media&lt;/strong&gt;&lt;/span&gt;
+    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/a&gt;        </homePageDescription>
         <ColumnPresentations>
           <ColumnPresentation fieldName="industry" caption="Industry" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
             <ViewProperties type="text" maxLength="75"/>
@@ -11453,8 +11922,28 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis m
         <PartitionNavigators/>
       </Page>
       <Page type="table" tableName="campaign_tracker_paid" numberByDataSource="0" fileName="campaign_tracker_paid" caption="Campaign Tracker: Paid" shortCaption="Campaign Tracker Paid" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
-        <BeforeGridText/>
+        <BeforeGridText>
+&lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/paid-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-media-body&quot;&gt;
+                &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
+                &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
+                &lt;a href=&quot;https://mktportal.mscsoftware.com/campaign_global_list.php&quot; class=&quot;stretched-link&quot;&gt;View Live Lists&lt;/a&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
+        <homePageDescription>
+&lt;a href=&quot;https://mktportal.mscsoftware.com/campaign_tracker_paid.php&quot; style=&quot;text-decoration:none;&quot;&gt;
+&lt;div class=&quot;card&quot;&gt;
+    &lt;div class=&quot;card-circle&quot;&gt;
+      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/paid.png&quot;  class=&quot;icon-size-desk&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;text-content&quot;&gt;
+    &lt;span class=card-title&gt;&lt;strong&gt;Paid Media&lt;/strong&gt;&lt;/span&gt;
+    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/a&gt;        </homePageDescription>
         <ColumnPresentations>
           <ColumnPresentation fieldName="campaign_tracker_ID" caption="Campaign Tracker ID" showColumnFilter="false" selectedFilterOperators="1573119">
             <ViewProperties type="text">
@@ -11760,8 +12249,28 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis m
         <PartitionNavigators/>
       </Page>
       <Page type="table" tableName="campaign_tracker_partner" numberByDataSource="0" fileName="campaign_tracker_partner" caption="Campaign Tracker: Partner" shortCaption="Campaign Tracker Partner" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
-        <BeforeGridText/>
+        <BeforeGridText>
+&lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/partner-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-media-body&quot;&gt;
+                &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
+                &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
+                &lt;a href=&quot;https://mktportal.mscsoftware.com/campaign_global_list.php&quot; class=&quot;stretched-link&quot;&gt;View Live Lists&lt;/a&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
+        <homePageDescription>
+&lt;a href=&quot;https://mktportal.mscsoftware.com/campaign_tracker_partner.php&quot; style=&quot;text-decoration:none;&quot;&gt;
+&lt;div class=&quot;card&quot;&gt;
+    &lt;div class=&quot;card-circle&quot;&gt;
+      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/partner.png&quot;  class=&quot;icon-size-desk&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;text-content&quot;&gt;
+    &lt;span class=card-title&gt;&lt;strong&gt;Partner Program&lt;/strong&gt;&lt;/span&gt;
+    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/a&gt;        </homePageDescription>
         <ColumnPresentations>
           <ColumnPresentation fieldName="campaign_tracker_ID" caption="Campaign Tracker ID" showColumnFilter="false" selectedFilterOperators="1573119">
             <ViewProperties type="text">
@@ -12069,8 +12578,28 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis m
         <PartitionNavigators/>
       </Page>
       <Page type="table" tableName="campaign_tracker_pr" numberByDataSource="0" fileName="campaign_tracker_pr" caption="Campaign Tracker: Pr" shortCaption="Campaign Tracker Pr" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
-        <BeforeGridText/>
+        <BeforeGridText>
+&lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/public-relations-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-media-body&quot;&gt;
+                &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
+                &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
+                &lt;a href=&quot;https://mktportal.mscsoftware.com/campaign_global_list.php&quot; class=&quot;stretched-link&quot;&gt;View Live Lists&lt;/a&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
+        <homePageDescription>
+&lt;a href=&quot;https://mktportal.mscsoftware.com/campaign_tracker_pr.php&quot; style=&quot;text-decoration:none;&quot;&gt;
+&lt;div class=&quot;card&quot;&gt;
+    &lt;div class=&quot;card-circle&quot;&gt;
+      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/public-relations.png&quot;  class=&quot;icon-size-desk&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;text-content&quot;&gt;
+    &lt;span class=card-title&gt;&lt;strong&gt;Public Relations&lt;/strong&gt;&lt;/span&gt;
+    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/a&gt;        </homePageDescription>
         <ColumnPresentations>
           <ColumnPresentation fieldName="campaign_tracker_ID" caption="Campaign Tracker ID" showColumnFilter="false" selectedFilterOperators="1573119">
             <ViewProperties type="text">
@@ -12287,700 +12816,29 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis m
         <RecordPermissions useRecordPermissions="false"/>
         <PartitionNavigators/>
       </Page>
-      <Page type="table" tableName="phpgen_user_roles" numberByDataSource="0" fileName="phpgen_user_roles" caption="User Roles" shortCaption="User Roles" groupName="Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="1" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
-        <BeforeGridText/>
-        <DetailedDescription/>
-        <ColumnPresentations>
-          <ColumnPresentation fieldName="roles_id" caption="Roles Id" showColumnFilter="false" readOnly="true" selectedFilterOperators="1573119">
-            <ViewProperties type="text">
-              <Format type="number" thousandSeparator=","/>
-            </ViewProperties>
-            <EditProperties type="textBox" maxLength="0"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="user_id" caption="User Id" selectedFilterOperators="1573119">
-            <Lookup tableName="phpgen_users" linkFieldName="user_id" displayFieldName="user_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" displayLookupRecord="true">
-              <LookupRecordViewForm numberByDataSource="0" fileName="phpgen_users" caption="Phpgen Users" shortCaption="Phpgen Users" addSeparator="false" horizontalFilterCondition="" isLookupRecordViewForm="true" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
-                <BeforeGridText/>
-                <DetailedDescription/>
-                <ColumnPresentations>
-                  <ColumnPresentation fieldName="user_id" caption="User Id" showColumnFilter="false" selectedFilterOperators="1573119">
-                    <ViewProperties type="text">
-                      <Format type="number" thousandSeparator=","/>
-                    </ViewProperties>
-                    <EditProperties type="textBox" maxLength="0"/>
-                  </ColumnPresentation>
-                  <ColumnPresentation fieldName="user_name" caption="User Name" showColumnFilter="false" selectedFilterOperators="1589247">
-                    <ViewProperties type="text" maxLength="75"/>
-                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
-                  </ColumnPresentation>
-                  <ColumnPresentation fieldName="user_password" caption="User Password" showColumnFilter="false" selectedFilterOperators="1589247">
-                    <ViewProperties type="text" maxLength="75"/>
-                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
-                  </ColumnPresentation>
-                  <ColumnPresentation fieldName="user_email" caption="User Email" showColumnFilter="false" selectedFilterOperators="1589247">
-                    <ViewProperties type="text" maxLength="75"/>
-                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
-                  </ColumnPresentation>
-                  <ColumnPresentation fieldName="user_token" caption="User Token" headerHint="Token for user account verification or user password reset." showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-                    <ViewProperties type="text" maxLength="75"/>
-                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
-                  </ColumnPresentation>
-                  <ColumnPresentation fieldName="user_status" caption="User Status" headerHint="0 = OK, 1 = Account verification required, 2 = Password reset requested." showColumnFilter="false" selectedFilterOperators="1573119">
-                    <ViewProperties type="text">
-                      <Format type="number" thousandSeparator=","/>
-                    </ViewProperties>
-                    <EditProperties type="textBox" maxLength="0"/>
-                  </ColumnPresentation>
-                  <ColumnPresentation fieldName="user_level" caption="User Level" showColumnFilter="false" selectedFilterOperators="1589247">
-                    <ViewProperties type="text"/>
-                    <EditProperties type="textBox" maxLength="15"/>
-                  </ColumnPresentation>
-                </ColumnPresentations>
-                <Columns>
-                  <List>
-                    <Column fieldName="user_id"/>
-                    <Column fieldName="user_name"/>
-                    <Column fieldName="user_password"/>
-                    <Column fieldName="user_email"/>
-                    <Column fieldName="user_token"/>
-                    <Column fieldName="user_status"/>
-                    <Column fieldName="user_level"/>
-                  </List>
-                  <View>
-                    <Column fieldName="user_id" visible="false"/>
-                    <Column fieldName="user_name"/>
-                    <Column fieldName="user_password"/>
-                    <Column fieldName="user_email"/>
-                    <Column fieldName="user_token"/>
-                    <Column fieldName="user_status"/>
-                    <Column fieldName="user_level" visible="false"/>
-                  </View>
-                  <Edit>
-                    <Column fieldName="user_id" visible="false"/>
-                    <Column fieldName="user_name"/>
-                    <Column fieldName="user_password"/>
-                    <Column fieldName="user_email"/>
-                    <Column fieldName="user_token"/>
-                    <Column fieldName="user_status"/>
-                    <Column fieldName="user_level"/>
-                  </Edit>
-                  <Insert>
-                    <Column fieldName="user_id" visible="false"/>
-                    <Column fieldName="user_name"/>
-                    <Column fieldName="user_password"/>
-                    <Column fieldName="user_email"/>
-                    <Column fieldName="user_token"/>
-                    <Column fieldName="user_status"/>
-                    <Column fieldName="user_level"/>
-                  </Insert>
-                  <QuickFilter>
-                    <Column fieldName="user_id"/>
-                    <Column fieldName="user_name"/>
-                    <Column fieldName="user_password"/>
-                    <Column fieldName="user_email"/>
-                    <Column fieldName="user_token"/>
-                    <Column fieldName="user_status"/>
-                    <Column fieldName="user_level"/>
-                  </QuickFilter>
-                  <FilterBuilder>
-                    <Column fieldName="user_id"/>
-                    <Column fieldName="user_name"/>
-                    <Column fieldName="user_password"/>
-                    <Column fieldName="user_email"/>
-                    <Column fieldName="user_token"/>
-                    <Column fieldName="user_status"/>
-                    <Column fieldName="user_level"/>
-                  </FilterBuilder>
-                  <Print>
-                    <Column fieldName="user_id"/>
-                    <Column fieldName="user_name"/>
-                    <Column fieldName="user_password"/>
-                    <Column fieldName="user_email"/>
-                    <Column fieldName="user_token"/>
-                    <Column fieldName="user_status"/>
-                    <Column fieldName="user_level"/>
-                  </Print>
-                  <Export>
-                    <Column fieldName="user_id"/>
-                    <Column fieldName="user_name"/>
-                    <Column fieldName="user_password"/>
-                    <Column fieldName="user_email"/>
-                    <Column fieldName="user_token"/>
-                    <Column fieldName="user_status"/>
-                    <Column fieldName="user_level"/>
-                  </Export>
-                  <Compare>
-                    <Column fieldName="user_id" visible="false"/>
-                    <Column fieldName="user_name"/>
-                    <Column fieldName="user_password"/>
-                    <Column fieldName="user_email"/>
-                    <Column fieldName="user_token"/>
-                    <Column fieldName="user_status"/>
-                    <Column fieldName="user_level"/>
-                  </Compare>
-                  <MultiEdit>
-                    <Column fieldName="user_id" visible="false"/>
-                    <Column fieldName="user_name"/>
-                    <Column fieldName="user_password"/>
-                    <Column fieldName="user_email"/>
-                    <Column fieldName="user_token"/>
-                    <Column fieldName="user_status"/>
-                    <Column fieldName="user_level"/>
-                  </MultiEdit>
-                </Columns>
-                <Details/>
-                <RecordPermissions useRecordPermissions="false"/>
-                <PartitionNavigators/>
-              </LookupRecordViewForm>
-            </Lookup>
-            <ViewProperties type="text">
-              <DivAttributes align="left"/>
-            </ViewProperties>
-            <EditProperties type="dynamicCombobox"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="role_name" caption="Role Name" showColumnFilter="false" selectedFilterOperators="1589247">
-            <ViewProperties type="text">
-              <DivAttributes align="left"/>
-            </ViewProperties>
-            <EditProperties type="comboBox">
-              <Values>
-                <Value name="products" caption="Product Manager"/>
-                <Value name="marketing" caption="Regional Marketing"/>
-                <Value name="manager" caption="Manager"/>
-              </Values>
-            </EditProperties>
-          </ColumnPresentation>
-        </ColumnPresentations>
-        <Columns>
-          <List>
-            <Column fieldName="roles_id" visible="false"/>
-            <Column fieldName="user_id"/>
-            <Column fieldName="role_name"/>
-          </List>
-          <View>
-            <Column fieldName="roles_id"/>
-            <Column fieldName="user_id"/>
-            <Column fieldName="role_name"/>
-          </View>
-          <Edit>
-            <Column fieldName="roles_id" visible="false"/>
-            <Column fieldName="user_id"/>
-            <Column fieldName="role_name"/>
-          </Edit>
-          <Insert>
-            <Column fieldName="roles_id" visible="false"/>
-            <Column fieldName="user_id"/>
-            <Column fieldName="role_name"/>
-          </Insert>
-          <QuickFilter>
-            <Column fieldName="roles_id"/>
-            <Column fieldName="user_id"/>
-            <Column fieldName="role_name"/>
-          </QuickFilter>
-          <FilterBuilder>
-            <Column fieldName="roles_id"/>
-            <Column fieldName="user_id"/>
-            <Column fieldName="role_name"/>
-          </FilterBuilder>
-          <Print>
-            <Column fieldName="roles_id"/>
-            <Column fieldName="user_id"/>
-            <Column fieldName="role_name"/>
-          </Print>
-          <Export>
-            <Column fieldName="roles_id"/>
-            <Column fieldName="user_id"/>
-            <Column fieldName="role_name"/>
-          </Export>
-          <Compare>
-            <Column fieldName="roles_id" visible="false"/>
-            <Column fieldName="user_id"/>
-            <Column fieldName="role_name"/>
-          </Compare>
-          <MultiEdit>
-            <Column fieldName="roles_id" visible="false"/>
-            <Column fieldName="user_id"/>
-            <Column fieldName="role_name"/>
-          </MultiEdit>
-        </Columns>
-        <Details/>
-        <RecordPermissions useRecordPermissions="false"/>
-        <PartitionNavigators/>
-      </Page>
-      <Page type="table" tableName="country_list" numberByDataSource="0" fileName="country_list" caption="Country List" shortCaption="Country List" groupName="Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
+      <Page type="table" tableName="campaign_tracker_utm" numberByDataSource="0" fileName="campaign_tracker_utm" caption="Campaign Tracker Utm" shortCaption="Campaign Tracker Utm" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/icons/globe-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/utm-tracking-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
-                &lt;a href=&quot;http://mktportal.mscsoftware.com/master_campaign_global.php&quot; class=&quot;stretched-link&quot;&gt;Go to Master Campaign&lt;/a&gt;
+                &lt;a href=&quot;https://mktportal.mscsoftware.com/campaign_global_list.php&quot; class=&quot;stretched-link&quot;&gt;View Live Lists&lt;/a&gt;
               &lt;/div&gt;
             &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
-        <ColumnPresentations>
-          <ColumnPresentation fieldName="Country_ID" caption="Country ID" showColumnFilter="false" controlVisible="false" selectedFilterOperators="1573119">
-            <ViewProperties type="text">
-              <Format type="number" thousandSeparator=","/>
-            </ViewProperties>
-            <EditProperties type="textBox" maxLength="0"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="Country_Name" caption="Country Name" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text">
-              <DivAttributes align="left"/>
-            </ViewProperties>
-            <EditProperties type="textBox" maxLength="44"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="Dialing_Code" caption="Dialing Code" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text">
-              <DivAttributes align="left"/>
-            </ViewProperties>
-            <EditProperties type="textBox" maxLength="22"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="2_ISO" caption="2 ISO" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text">
-              <DivAttributes align="left"/>
-            </ViewProperties>
-            <EditProperties type="textBox" maxLength="2"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="Preferred_Langauge" caption="Preferred Langauge" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text">
-              <DivAttributes align="left"/>
-            </ViewProperties>
-            <EditProperties type="textBox" maxLength="10"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="c_Region" caption="Region" canSetNull="true" selectedFilterOperators="1589247">
-            <Lookup tableName="lookup_region" linkFieldName="Region" displayFieldName="Region" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
-            <ViewProperties type="text"/>
-            <EditProperties type="dynamicCombobox"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="Sub_Region" caption="Sub Region" canSetNull="true" selectedFilterOperators="1589247">
-            <Lookup tableName="lookup_sub_regions" linkFieldName="Sub_Region" displayFieldName="Sub_Region" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
-            <ViewProperties type="text">
-              <DivAttributes align="left"/>
-            </ViewProperties>
-            <EditProperties type="dynamicCombobox"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="Territories" caption="Territories" canSetNull="true" selectedFilterOperators="1589247">
-            <Lookup tableName="lookup_territory" linkFieldName="Territory" displayFieldName="Territory" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
-            <ViewProperties type="text">
-              <DivAttributes align="left"/>
-            </ViewProperties>
-            <EditProperties type="dynamicCombobox"/>
-          </ColumnPresentation>
-        </ColumnPresentations>
-        <Columns>
-          <List>
-            <Column fieldName="Country_ID" visible="false"/>
-            <Column fieldName="Country_Name"/>
-            <Column fieldName="Dialing_Code"/>
-            <Column fieldName="2_ISO"/>
-            <Column fieldName="Preferred_Langauge"/>
-            <Column fieldName="c_Region"/>
-            <Column fieldName="Sub_Region"/>
-            <Column fieldName="Territories"/>
-          </List>
-          <View>
-            <Column fieldName="Country_ID" visible="false"/>
-            <Column fieldName="Country_Name"/>
-            <Column fieldName="Dialing_Code"/>
-            <Column fieldName="2_ISO"/>
-            <Column fieldName="Preferred_Langauge"/>
-            <Column fieldName="c_Region"/>
-            <Column fieldName="Sub_Region"/>
-            <Column fieldName="Territories"/>
-          </View>
-          <Edit>
-            <Column fieldName="Country_ID" visible="false"/>
-            <Column fieldName="Country_Name"/>
-            <Column fieldName="Dialing_Code"/>
-            <Column fieldName="2_ISO"/>
-            <Column fieldName="Preferred_Langauge"/>
-            <Column fieldName="c_Region"/>
-            <Column fieldName="Sub_Region"/>
-            <Column fieldName="Territories"/>
-          </Edit>
-          <Insert>
-            <Column fieldName="Country_ID" visible="false"/>
-            <Column fieldName="Country_Name"/>
-            <Column fieldName="Dialing_Code"/>
-            <Column fieldName="2_ISO"/>
-            <Column fieldName="Preferred_Langauge"/>
-            <Column fieldName="c_Region"/>
-            <Column fieldName="Sub_Region"/>
-            <Column fieldName="Territories"/>
-          </Insert>
-          <QuickFilter>
-            <Column fieldName="Country_ID" visible="false"/>
-            <Column fieldName="Country_Name"/>
-            <Column fieldName="Dialing_Code"/>
-            <Column fieldName="2_ISO"/>
-            <Column fieldName="Preferred_Langauge"/>
-            <Column fieldName="Sub_Region"/>
-            <Column fieldName="Territories"/>
-            <Column fieldName="c_Region"/>
-          </QuickFilter>
-          <FilterBuilder>
-            <Column fieldName="Country_ID" visible="false"/>
-            <Column fieldName="Country_Name"/>
-            <Column fieldName="Dialing_Code"/>
-            <Column fieldName="2_ISO"/>
-            <Column fieldName="Preferred_Langauge"/>
-            <Column fieldName="c_Region"/>
-            <Column fieldName="Sub_Region"/>
-            <Column fieldName="Territories"/>
-          </FilterBuilder>
-          <Print>
-            <Column fieldName="Country_ID" visible="false"/>
-            <Column fieldName="Country_Name"/>
-            <Column fieldName="Dialing_Code"/>
-            <Column fieldName="2_ISO"/>
-            <Column fieldName="Preferred_Langauge"/>
-            <Column fieldName="c_Region"/>
-            <Column fieldName="Sub_Region"/>
-            <Column fieldName="Territories"/>
-          </Print>
-          <Export>
-            <Column fieldName="Country_ID" visible="false"/>
-            <Column fieldName="Country_Name"/>
-            <Column fieldName="Dialing_Code"/>
-            <Column fieldName="2_ISO"/>
-            <Column fieldName="Preferred_Langauge"/>
-            <Column fieldName="c_Region"/>
-            <Column fieldName="Sub_Region"/>
-            <Column fieldName="Territories"/>
-          </Export>
-          <Compare>
-            <Column fieldName="Country_ID" visible="false"/>
-            <Column fieldName="Country_Name"/>
-            <Column fieldName="Dialing_Code"/>
-            <Column fieldName="2_ISO"/>
-            <Column fieldName="Preferred_Langauge"/>
-            <Column fieldName="c_Region"/>
-            <Column fieldName="Sub_Region"/>
-            <Column fieldName="Territories"/>
-          </Compare>
-          <MultiEdit>
-            <Column fieldName="Country_ID" visible="false"/>
-            <Column fieldName="Country_Name"/>
-            <Column fieldName="Dialing_Code"/>
-            <Column fieldName="2_ISO"/>
-            <Column fieldName="Preferred_Langauge"/>
-            <Column fieldName="c_Region"/>
-            <Column fieldName="Sub_Region"/>
-            <Column fieldName="Territories"/>
-          </MultiEdit>
-        </Columns>
-        <Details/>
-        <RecordPermissions useRecordPermissions="false"/>
-        <PartitionNavigators>
-          <PartitionNavigator type="listBased" name="partition" caption="Group by Regions" allowViewAllRecords="true" expression="c_Region">
-            <Partition caption="Americas">
-              <Values>
-                <Value>
-'Americas'                </Value>
-              </Values>
-            </Partition>
-            <Partition caption="EMEA">
-              <Values>
-                <Value>
-'EMEA'                </Value>
-              </Values>
-            </Partition>
-            <Partition caption="INDOPAC">
-              <Values>
-                <Value>
-'INDOPAC'                </Value>
-              </Values>
-            </Partition>
-            <Partition caption="China">
-              <Values>
-                <Value>
-'China'                </Value>
-              </Values>
-            </Partition>
-            <Partition caption="Japan">
-              <Values>
-                <Value>
-'Japan'                </Value>
-              </Values>
-            </Partition>
-            <Partition caption="Korea">
-              <Values>
-                <Value>
-'Korea'                </Value>
-              </Values>
-            </Partition>
-          </PartitionNavigator>
-        </PartitionNavigators>
-      </Page>
-      <Page type="table" tableName="lookup_tracker_tactics" numberByDataSource="0" fileName="lookup_tracker_tactics" caption="Tactic Template Builder" shortCaption="Tactic Template" groupName="Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
-        <BeforeGridText>
-&lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-    &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/template-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;mark-media-body&quot;&gt;
-    &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
-        &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
-        &lt;a href=&quot;http://mktportal.mscsoftware.com/lookup_tracker_tactics.php&quot; class=&quot;stretched-link&quot;&gt;Tactic Templates&lt;/a&gt;
-    &lt;/div&gt;
-&lt;/div&gt;        </BeforeGridText>
-        <DetailedDescription/>
         <homePageDescription>
-&lt;a href=&quot;http://mktportal.mscsoftware.com/lookup_tracker_tactics.php&quot; style=&quot;text-decoration:none;&quot;&gt;
+&lt;a href=&quot;https://mktportal.mscsoftware.com/campaign_tracker_utm.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/website-list.png&quot;&gt;
+      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/utm-tracking.png&quot;  class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
-    &lt;span class=card-title&gt;&lt;strong&gt;Tactic Templates&lt;/strong&gt;&lt;/span&gt;
+    &lt;span class=card-title&gt;&lt;strong&gt;UTM Tracking&lt;/strong&gt;&lt;/span&gt;
     &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. &lt;/p&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 &lt;/a&gt;        </homePageDescription>
-        <ColumnPresentations>
-          <ColumnPresentation fieldName="lookup_tracker_tactics_id" caption="Lookup Tracker Tactics Id" showColumnFilter="false" selectedFilterOperators="1573119">
-            <ViewProperties type="text">
-              <Format type="number" thousandSeparator=","/>
-            </ViewProperties>
-            <EditProperties type="textBox" maxLength="0"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="channel_name" caption="Channel Name" selectedFilterOperators="1589247">
-            <Lookup tableName="lookup_channels" linkFieldName="channel_ID" displayFieldName="channnel_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" allowAddNewItemsOnTheFly="true">
-              <OnTheFlyInsertPage numberByDataSource="0" fileName="lookup_channels" caption="Lookup Channels" shortCaption="Lookup Channels" addSeparator="false" horizontalFilterCondition="" isOnTheFlyInsertPage="true" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
-                <BeforeGridText/>
-                <DetailedDescription/>
-                <ColumnPresentations>
-                  <ColumnPresentation fieldName="channel_ID" caption="Channel ID" showColumnFilter="false" selectedFilterOperators="1573119">
-                    <ViewProperties type="text">
-                      <Format type="number" thousandSeparator=","/>
-                    </ViewProperties>
-                    <EditProperties type="textBox" maxLength="0"/>
-                  </ColumnPresentation>
-                  <ColumnPresentation fieldName="channnel_name" caption="Channnel Name" canSetNull="true" selectedFilterOperators="1589247">
-                    <Lookup tableName="lookup_channels" linkFieldName="channel_ID" displayFieldName="channnel_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
-                    <ViewProperties type="text" maxLength="75"/>
-                    <EditProperties type="dynamicCombobox"/>
-                  </ColumnPresentation>
-                </ColumnPresentations>
-                <Columns>
-                  <List>
-                    <Column fieldName="channel_ID"/>
-                    <Column fieldName="channnel_name"/>
-                  </List>
-                  <View>
-                    <Column fieldName="channel_ID"/>
-                    <Column fieldName="channnel_name"/>
-                  </View>
-                  <Edit>
-                    <Column fieldName="channel_ID" visible="false"/>
-                    <Column fieldName="channnel_name"/>
-                  </Edit>
-                  <Insert>
-                    <Column fieldName="channel_ID" visible="false"/>
-                    <Column fieldName="channnel_name"/>
-                  </Insert>
-                  <QuickFilter>
-                    <Column fieldName="channel_ID"/>
-                    <Column fieldName="channnel_name"/>
-                  </QuickFilter>
-                  <FilterBuilder>
-                    <Column fieldName="channel_ID"/>
-                    <Column fieldName="channnel_name"/>
-                  </FilterBuilder>
-                  <Print>
-                    <Column fieldName="channel_ID"/>
-                    <Column fieldName="channnel_name"/>
-                  </Print>
-                  <Export>
-                    <Column fieldName="channel_ID"/>
-                    <Column fieldName="channnel_name"/>
-                  </Export>
-                  <Compare>
-                    <Column fieldName="channel_ID" visible="false"/>
-                    <Column fieldName="channnel_name"/>
-                  </Compare>
-                  <MultiEdit>
-                    <Column fieldName="channel_ID" visible="false"/>
-                    <Column fieldName="channnel_name"/>
-                  </MultiEdit>
-                </Columns>
-                <Details/>
-                <RecordPermissions useRecordPermissions="false"/>
-                <PartitionNavigators/>
-              </OnTheFlyInsertPage>
-            </Lookup>
-            <ViewProperties type="text">
-              <DivAttributes align="left"/>
-            </ViewProperties>
-            <EditProperties type="dynamicCombobox"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="campaign_description" caption="Campaign Description" showColumnFilter="false" selectedFilterOperators="1589247">
-            <ViewProperties type="text" maxLength="75">
-              <DivAttributes align="left"/>
-            </ViewProperties>
-            <EditProperties type="textBox" maxLength="100"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="tactic_name" caption="Tactic Name" selectedFilterOperators="1589247">
-            <Lookup tableName="lookup_tactic" linkFieldName="lookup_tactic_ID" displayFieldName="tactic_description" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" allowAddNewItemsOnTheFly="true">
-              <OnTheFlyInsertPage numberByDataSource="0" fileName="lookup_tactic" caption="Lookup Tactic" shortCaption="Lookup Tactic" addSeparator="false" horizontalFilterCondition="" isOnTheFlyInsertPage="true" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
-                <BeforeGridText/>
-                <DetailedDescription/>
-                <ColumnPresentations>
-                  <ColumnPresentation fieldName="lookup_tactic_ID" caption="Lookup Tactic ID" showColumnFilter="false" selectedFilterOperators="1573119">
-                    <ViewProperties type="text">
-                      <Format type="number" thousandSeparator=","/>
-                    </ViewProperties>
-                    <EditProperties type="textBox" maxLength="0"/>
-                  </ColumnPresentation>
-                  <ColumnPresentation fieldName="tactic_description" caption="Tactic Description" canSetNull="true" selectedFilterOperators="1589247">
-                    <Lookup tableName="lookup_tactic" linkFieldName="lookup_tactic_ID" displayFieldName="tactic_description" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
-                    <ViewProperties type="text"/>
-                    <EditProperties type="dynamicCombobox"/>
-                  </ColumnPresentation>
-                </ColumnPresentations>
-                <Columns>
-                  <List>
-                    <Column fieldName="lookup_tactic_ID"/>
-                    <Column fieldName="tactic_description"/>
-                  </List>
-                  <View>
-                    <Column fieldName="lookup_tactic_ID"/>
-                    <Column fieldName="tactic_description"/>
-                  </View>
-                  <Edit>
-                    <Column fieldName="lookup_tactic_ID" visible="false"/>
-                    <Column fieldName="tactic_description"/>
-                  </Edit>
-                  <Insert>
-                    <Column fieldName="lookup_tactic_ID" visible="false"/>
-                    <Column fieldName="tactic_description"/>
-                  </Insert>
-                  <QuickFilter>
-                    <Column fieldName="lookup_tactic_ID"/>
-                    <Column fieldName="tactic_description"/>
-                  </QuickFilter>
-                  <FilterBuilder>
-                    <Column fieldName="lookup_tactic_ID"/>
-                    <Column fieldName="tactic_description"/>
-                  </FilterBuilder>
-                  <Print>
-                    <Column fieldName="lookup_tactic_ID"/>
-                    <Column fieldName="tactic_description"/>
-                  </Print>
-                  <Export>
-                    <Column fieldName="lookup_tactic_ID"/>
-                    <Column fieldName="tactic_description"/>
-                  </Export>
-                  <Compare>
-                    <Column fieldName="lookup_tactic_ID" visible="false"/>
-                    <Column fieldName="tactic_description"/>
-                  </Compare>
-                  <MultiEdit>
-                    <Column fieldName="lookup_tactic_ID" visible="false"/>
-                    <Column fieldName="tactic_description"/>
-                  </MultiEdit>
-                </Columns>
-                <Details/>
-                <RecordPermissions useRecordPermissions="false"/>
-                <PartitionNavigators/>
-              </OnTheFlyInsertPage>
-            </Lookup>
-            <ViewProperties type="text">
-              <DivAttributes align="left"/>
-            </ViewProperties>
-            <EditProperties type="dynamicCombobox"/>
-          </ColumnPresentation>
-        </ColumnPresentations>
-        <Columns>
-          <List>
-            <Column fieldName="lookup_tracker_tactics_id" visible="false"/>
-            <Column fieldName="channel_name"/>
-            <Column fieldName="campaign_description"/>
-            <Column fieldName="tactic_name"/>
-          </List>
-          <View>
-            <Column fieldName="lookup_tracker_tactics_id"/>
-            <Column fieldName="channel_name"/>
-            <Column fieldName="campaign_description"/>
-            <Column fieldName="tactic_name"/>
-          </View>
-          <Edit>
-            <Column fieldName="lookup_tracker_tactics_id" visible="false"/>
-            <Column fieldName="channel_name"/>
-            <Column fieldName="campaign_description"/>
-            <Column fieldName="tactic_name"/>
-          </Edit>
-          <Insert>
-            <Column fieldName="lookup_tracker_tactics_id" visible="false"/>
-            <Column fieldName="channel_name"/>
-            <Column fieldName="campaign_description"/>
-            <Column fieldName="tactic_name"/>
-          </Insert>
-          <QuickFilter>
-            <Column fieldName="lookup_tracker_tactics_id"/>
-            <Column fieldName="channel_name"/>
-            <Column fieldName="campaign_description"/>
-            <Column fieldName="tactic_name"/>
-          </QuickFilter>
-          <FilterBuilder>
-            <Column fieldName="lookup_tracker_tactics_id"/>
-            <Column fieldName="channel_name"/>
-            <Column fieldName="campaign_description"/>
-            <Column fieldName="tactic_name"/>
-          </FilterBuilder>
-          <Print>
-            <Column fieldName="lookup_tracker_tactics_id"/>
-            <Column fieldName="channel_name"/>
-            <Column fieldName="campaign_description"/>
-            <Column fieldName="tactic_name"/>
-          </Print>
-          <Export>
-            <Column fieldName="lookup_tracker_tactics_id"/>
-            <Column fieldName="channel_name"/>
-            <Column fieldName="campaign_description"/>
-            <Column fieldName="tactic_name"/>
-          </Export>
-          <Compare>
-            <Column fieldName="lookup_tracker_tactics_id" visible="false"/>
-            <Column fieldName="channel_name"/>
-            <Column fieldName="campaign_description"/>
-            <Column fieldName="tactic_name"/>
-          </Compare>
-          <MultiEdit>
-            <Column fieldName="lookup_tracker_tactics_id" visible="false"/>
-            <Column fieldName="channel_name"/>
-            <Column fieldName="campaign_description"/>
-            <Column fieldName="tactic_name"/>
-          </MultiEdit>
-        </Columns>
-        <Details/>
-        <RecordPermissions useRecordPermissions="false"/>
-        <PartitionNavigators>
-          <PartitionNavigator type="listBased" name="partition" caption="Filter by Channel Names" allowViewAllRecords="true" expression="channel_name">
-            <Partition caption="12">
-              <Values>
-                <Value>
-'12'                </Value>
-              </Values>
-            </Partition>
-            <Partition caption="6">
-              <Values>
-                <Value>
-'6'                </Value>
-              </Values>
-            </Partition>
-            <Partition caption="11">
-              <Values>
-                <Value>
-'11'                </Value>
-              </Values>
-            </Partition>
-          </PartitionNavigator>
-        </PartitionNavigators>
-      </Page>
-      <Page type="table" tableName="campaign_tracker_utm" numberByDataSource="0" fileName="campaign_tracker_utm" caption="Campaign Tracker Utm" shortCaption="Campaign Tracker Utm" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
-        <BeforeGridText/>
-        <DetailedDescription/>
         <ColumnPresentations>
           <ColumnPresentation fieldName="Campaign_UTM_ID" caption="Campaign UTM ID" showColumnFilter="false" selectedFilterOperators="1573119">
             <ViewProperties type="text">
@@ -13295,6 +13153,729 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis m
         <RecordPermissions useRecordPermissions="false"/>
         <PartitionNavigators/>
       </Page>
+      <Page type="table" tableName="country_list" numberByDataSource="0" fileName="country_list" caption="Country List" shortCaption="Country List" groupName="Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
+        <BeforeGridText>
+&lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/globe-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-media-body&quot;&gt;
+                &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
+                &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
+                &lt;a href=&quot;http://mktportal.mscsoftware.com&quot; class=&quot;stretched-link&quot;&gt;Go to Master Campaign&lt;/a&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;        </BeforeGridText>
+        <DetailedDescription/>
+        <homePageDescription>
+&lt;a href=&quot;http://mktportal.mscsoftware.com/country_list.php&quot; style=&quot;text-decoration:none;&quot;&gt;
+&lt;div class=&quot;card&quot;&gt;
+    &lt;div class=&quot;card-circle&quot;&gt;
+      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/globe.png&quot;  class=&quot;icon-size-desk&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;text-content&quot;&gt;
+    &lt;span class=card-title&gt;&lt;strong&gt;Country List&lt;/strong&gt;&lt;/span&gt;
+    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/a&gt;        </homePageDescription>
+        <ColumnPresentations>
+          <ColumnPresentation fieldName="Country_ID" caption="Country ID" showColumnFilter="false" controlVisible="false" selectedFilterOperators="1573119">
+            <ViewProperties type="text">
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="0"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="Country_Name" caption="Country Name" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+            <ViewProperties type="text">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="44"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="Dialing_Code" caption="Dialing Code" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+            <ViewProperties type="text">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="22"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="2_ISO" caption="2 ISO" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+            <ViewProperties type="text">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="2"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="Preferred_Langauge" caption="Preferred Langauge" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+            <ViewProperties type="text">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="10"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="c_Region" caption="Region" canSetNull="true" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_region" linkFieldName="Region" displayFieldName="Region" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
+            <ViewProperties type="text"/>
+            <EditProperties type="dynamicCombobox"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="Sub_Region" caption="Sub Region" canSetNull="true" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_sub_regions" linkFieldName="Sub_Region" displayFieldName="Sub_Region" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
+            <ViewProperties type="text">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="dynamicCombobox"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="Territories" caption="Territories" canSetNull="true" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_territory" linkFieldName="Territory" displayFieldName="Territory" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
+            <ViewProperties type="text">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="dynamicCombobox"/>
+          </ColumnPresentation>
+        </ColumnPresentations>
+        <Columns>
+          <List>
+            <Column fieldName="Country_ID" visible="false"/>
+            <Column fieldName="Country_Name"/>
+            <Column fieldName="Dialing_Code"/>
+            <Column fieldName="2_ISO"/>
+            <Column fieldName="Preferred_Langauge"/>
+            <Column fieldName="c_Region"/>
+            <Column fieldName="Sub_Region"/>
+            <Column fieldName="Territories"/>
+          </List>
+          <View>
+            <Column fieldName="Country_ID" visible="false"/>
+            <Column fieldName="Country_Name"/>
+            <Column fieldName="Dialing_Code"/>
+            <Column fieldName="2_ISO"/>
+            <Column fieldName="Preferred_Langauge"/>
+            <Column fieldName="c_Region"/>
+            <Column fieldName="Sub_Region"/>
+            <Column fieldName="Territories"/>
+          </View>
+          <Edit>
+            <Column fieldName="Country_ID" visible="false"/>
+            <Column fieldName="Country_Name"/>
+            <Column fieldName="Dialing_Code"/>
+            <Column fieldName="2_ISO"/>
+            <Column fieldName="Preferred_Langauge"/>
+            <Column fieldName="c_Region"/>
+            <Column fieldName="Sub_Region"/>
+            <Column fieldName="Territories"/>
+          </Edit>
+          <Insert>
+            <Column fieldName="Country_ID" visible="false"/>
+            <Column fieldName="Country_Name"/>
+            <Column fieldName="Dialing_Code"/>
+            <Column fieldName="2_ISO"/>
+            <Column fieldName="Preferred_Langauge"/>
+            <Column fieldName="c_Region"/>
+            <Column fieldName="Sub_Region"/>
+            <Column fieldName="Territories"/>
+          </Insert>
+          <QuickFilter>
+            <Column fieldName="Country_ID" visible="false"/>
+            <Column fieldName="Country_Name"/>
+            <Column fieldName="Dialing_Code"/>
+            <Column fieldName="2_ISO"/>
+            <Column fieldName="Preferred_Langauge"/>
+            <Column fieldName="Sub_Region"/>
+            <Column fieldName="Territories"/>
+            <Column fieldName="c_Region"/>
+          </QuickFilter>
+          <FilterBuilder>
+            <Column fieldName="Country_ID" visible="false"/>
+            <Column fieldName="Country_Name"/>
+            <Column fieldName="Dialing_Code"/>
+            <Column fieldName="2_ISO"/>
+            <Column fieldName="Preferred_Langauge"/>
+            <Column fieldName="c_Region"/>
+            <Column fieldName="Sub_Region"/>
+            <Column fieldName="Territories"/>
+          </FilterBuilder>
+          <Print>
+            <Column fieldName="Country_ID" visible="false"/>
+            <Column fieldName="Country_Name"/>
+            <Column fieldName="Dialing_Code"/>
+            <Column fieldName="2_ISO"/>
+            <Column fieldName="Preferred_Langauge"/>
+            <Column fieldName="c_Region"/>
+            <Column fieldName="Sub_Region"/>
+            <Column fieldName="Territories"/>
+          </Print>
+          <Export>
+            <Column fieldName="Country_ID" visible="false"/>
+            <Column fieldName="Country_Name"/>
+            <Column fieldName="Dialing_Code"/>
+            <Column fieldName="2_ISO"/>
+            <Column fieldName="Preferred_Langauge"/>
+            <Column fieldName="c_Region"/>
+            <Column fieldName="Sub_Region"/>
+            <Column fieldName="Territories"/>
+          </Export>
+          <Compare>
+            <Column fieldName="Country_ID" visible="false"/>
+            <Column fieldName="Country_Name"/>
+            <Column fieldName="Dialing_Code"/>
+            <Column fieldName="2_ISO"/>
+            <Column fieldName="Preferred_Langauge"/>
+            <Column fieldName="c_Region"/>
+            <Column fieldName="Sub_Region"/>
+            <Column fieldName="Territories"/>
+          </Compare>
+          <MultiEdit>
+            <Column fieldName="Country_ID" visible="false"/>
+            <Column fieldName="Country_Name"/>
+            <Column fieldName="Dialing_Code"/>
+            <Column fieldName="2_ISO"/>
+            <Column fieldName="Preferred_Langauge"/>
+            <Column fieldName="c_Region"/>
+            <Column fieldName="Sub_Region"/>
+            <Column fieldName="Territories"/>
+          </MultiEdit>
+        </Columns>
+        <Details/>
+        <RecordPermissions useRecordPermissions="false"/>
+        <PartitionNavigators>
+          <PartitionNavigator type="listBased" name="partition" caption="Group by Regions" allowViewAllRecords="true" expression="c_Region">
+            <Partition caption="Americas">
+              <Values>
+                <Value>
+'Americas'                </Value>
+              </Values>
+            </Partition>
+            <Partition caption="EMEA">
+              <Values>
+                <Value>
+'EMEA'                </Value>
+              </Values>
+            </Partition>
+            <Partition caption="INDOPAC">
+              <Values>
+                <Value>
+'INDOPAC'                </Value>
+              </Values>
+            </Partition>
+            <Partition caption="China">
+              <Values>
+                <Value>
+'China'                </Value>
+              </Values>
+            </Partition>
+            <Partition caption="Japan">
+              <Values>
+                <Value>
+'Japan'                </Value>
+              </Values>
+            </Partition>
+            <Partition caption="Korea">
+              <Values>
+                <Value>
+'Korea'                </Value>
+              </Values>
+            </Partition>
+          </PartitionNavigator>
+        </PartitionNavigators>
+      </Page>
+      <Page type="table" tableName="lookup_tracker_tactics" numberByDataSource="0" fileName="lookup_tracker_tactics" caption="Tactic Template Builder" shortCaption="Tactic Template" groupName="Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
+        <BeforeGridText>
+&lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
+    &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/template-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;mark-media-body&quot;&gt;
+    &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
+        &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
+        &lt;a href=&quot;http://mktportal.mscsoftware.com/lookup_tracker_tactics.php&quot; class=&quot;stretched-link&quot;&gt;Tactic Templates&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/div&gt;        </BeforeGridText>
+        <DetailedDescription/>
+        <homePageDescription>
+&lt;a href=&quot;http://mktportal.mscsoftware.com/lookup_tracker_tactics.php&quot; style=&quot;text-decoration:none;&quot;&gt;
+&lt;div class=&quot;card&quot;&gt;
+    &lt;div class=&quot;card-circle&quot;&gt;
+      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/template.png&quot; class=&quot;icon-size-desk&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;text-content&quot;&gt;
+    &lt;span class=card-title&gt;&lt;strong&gt;Tactic Templates&lt;/strong&gt;&lt;/span&gt;
+    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/a&gt;        </homePageDescription>
+        <ColumnPresentations>
+          <ColumnPresentation fieldName="lookup_tracker_tactics_id" caption="Lookup Tracker Tactics Id" showColumnFilter="false" selectedFilterOperators="1573119">
+            <ViewProperties type="text">
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="0"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="channel_name" caption="Channel Name" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_channels" linkFieldName="channel_ID" displayFieldName="channnel_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" allowAddNewItemsOnTheFly="true">
+              <OnTheFlyInsertPage numberByDataSource="0" fileName="lookup_channels" caption="Lookup Channels" shortCaption="Lookup Channels" addSeparator="false" horizontalFilterCondition="" isOnTheFlyInsertPage="true" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
+                <BeforeGridText/>
+                <DetailedDescription/>
+                <ColumnPresentations>
+                  <ColumnPresentation fieldName="channel_ID" caption="Channel ID" showColumnFilter="false" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="channnel_name" caption="Channnel Name" canSetNull="true" selectedFilterOperators="1589247">
+                    <Lookup tableName="lookup_channels" linkFieldName="channel_ID" displayFieldName="channnel_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="dynamicCombobox"/>
+                  </ColumnPresentation>
+                </ColumnPresentations>
+                <Columns>
+                  <List>
+                    <Column fieldName="channel_ID"/>
+                    <Column fieldName="channnel_name"/>
+                  </List>
+                  <View>
+                    <Column fieldName="channel_ID"/>
+                    <Column fieldName="channnel_name"/>
+                  </View>
+                  <Edit>
+                    <Column fieldName="channel_ID" visible="false"/>
+                    <Column fieldName="channnel_name"/>
+                  </Edit>
+                  <Insert>
+                    <Column fieldName="channel_ID" visible="false"/>
+                    <Column fieldName="channnel_name"/>
+                  </Insert>
+                  <QuickFilter>
+                    <Column fieldName="channel_ID"/>
+                    <Column fieldName="channnel_name"/>
+                  </QuickFilter>
+                  <FilterBuilder>
+                    <Column fieldName="channel_ID"/>
+                    <Column fieldName="channnel_name"/>
+                  </FilterBuilder>
+                  <Print>
+                    <Column fieldName="channel_ID"/>
+                    <Column fieldName="channnel_name"/>
+                  </Print>
+                  <Export>
+                    <Column fieldName="channel_ID"/>
+                    <Column fieldName="channnel_name"/>
+                  </Export>
+                  <Compare>
+                    <Column fieldName="channel_ID" visible="false"/>
+                    <Column fieldName="channnel_name"/>
+                  </Compare>
+                  <MultiEdit>
+                    <Column fieldName="channel_ID" visible="false"/>
+                    <Column fieldName="channnel_name"/>
+                  </MultiEdit>
+                </Columns>
+                <Details/>
+                <RecordPermissions useRecordPermissions="false"/>
+                <PartitionNavigators/>
+              </OnTheFlyInsertPage>
+            </Lookup>
+            <ViewProperties type="text">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="dynamicCombobox"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="campaign_description" caption="Campaign Description" showColumnFilter="false" selectedFilterOperators="1589247">
+            <ViewProperties type="text" maxLength="75">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="100"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="tactic_name" caption="Tactic Name" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_tactic" linkFieldName="lookup_tactic_ID" displayFieldName="tactic_description" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" allowAddNewItemsOnTheFly="true">
+              <OnTheFlyInsertPage numberByDataSource="0" fileName="lookup_tactic" caption="Lookup Tactic" shortCaption="Lookup Tactic" addSeparator="false" horizontalFilterCondition="" isOnTheFlyInsertPage="true" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
+                <BeforeGridText/>
+                <DetailedDescription/>
+                <ColumnPresentations>
+                  <ColumnPresentation fieldName="lookup_tactic_ID" caption="Lookup Tactic ID" showColumnFilter="false" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="tactic_description" caption="Tactic Description" canSetNull="true" selectedFilterOperators="1589247">
+                    <Lookup tableName="lookup_tactic" linkFieldName="lookup_tactic_ID" displayFieldName="tactic_description" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
+                    <ViewProperties type="text"/>
+                    <EditProperties type="dynamicCombobox"/>
+                  </ColumnPresentation>
+                </ColumnPresentations>
+                <Columns>
+                  <List>
+                    <Column fieldName="lookup_tactic_ID"/>
+                    <Column fieldName="tactic_description"/>
+                  </List>
+                  <View>
+                    <Column fieldName="lookup_tactic_ID"/>
+                    <Column fieldName="tactic_description"/>
+                  </View>
+                  <Edit>
+                    <Column fieldName="lookup_tactic_ID" visible="false"/>
+                    <Column fieldName="tactic_description"/>
+                  </Edit>
+                  <Insert>
+                    <Column fieldName="lookup_tactic_ID" visible="false"/>
+                    <Column fieldName="tactic_description"/>
+                  </Insert>
+                  <QuickFilter>
+                    <Column fieldName="lookup_tactic_ID"/>
+                    <Column fieldName="tactic_description"/>
+                  </QuickFilter>
+                  <FilterBuilder>
+                    <Column fieldName="lookup_tactic_ID"/>
+                    <Column fieldName="tactic_description"/>
+                  </FilterBuilder>
+                  <Print>
+                    <Column fieldName="lookup_tactic_ID"/>
+                    <Column fieldName="tactic_description"/>
+                  </Print>
+                  <Export>
+                    <Column fieldName="lookup_tactic_ID"/>
+                    <Column fieldName="tactic_description"/>
+                  </Export>
+                  <Compare>
+                    <Column fieldName="lookup_tactic_ID" visible="false"/>
+                    <Column fieldName="tactic_description"/>
+                  </Compare>
+                  <MultiEdit>
+                    <Column fieldName="lookup_tactic_ID" visible="false"/>
+                    <Column fieldName="tactic_description"/>
+                  </MultiEdit>
+                </Columns>
+                <Details/>
+                <RecordPermissions useRecordPermissions="false"/>
+                <PartitionNavigators/>
+              </OnTheFlyInsertPage>
+            </Lookup>
+            <ViewProperties type="text">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="dynamicCombobox"/>
+          </ColumnPresentation>
+        </ColumnPresentations>
+        <Columns>
+          <List>
+            <Column fieldName="lookup_tracker_tactics_id" visible="false"/>
+            <Column fieldName="channel_name"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="tactic_name"/>
+          </List>
+          <View>
+            <Column fieldName="lookup_tracker_tactics_id"/>
+            <Column fieldName="channel_name"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="tactic_name"/>
+          </View>
+          <Edit>
+            <Column fieldName="lookup_tracker_tactics_id" visible="false"/>
+            <Column fieldName="channel_name"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="tactic_name"/>
+          </Edit>
+          <Insert>
+            <Column fieldName="lookup_tracker_tactics_id" visible="false"/>
+            <Column fieldName="channel_name"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="tactic_name"/>
+          </Insert>
+          <QuickFilter>
+            <Column fieldName="lookup_tracker_tactics_id"/>
+            <Column fieldName="channel_name"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="tactic_name"/>
+          </QuickFilter>
+          <FilterBuilder>
+            <Column fieldName="lookup_tracker_tactics_id"/>
+            <Column fieldName="channel_name"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="tactic_name"/>
+          </FilterBuilder>
+          <Print>
+            <Column fieldName="lookup_tracker_tactics_id"/>
+            <Column fieldName="channel_name"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="tactic_name"/>
+          </Print>
+          <Export>
+            <Column fieldName="lookup_tracker_tactics_id"/>
+            <Column fieldName="channel_name"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="tactic_name"/>
+          </Export>
+          <Compare>
+            <Column fieldName="lookup_tracker_tactics_id" visible="false"/>
+            <Column fieldName="channel_name"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="tactic_name"/>
+          </Compare>
+          <MultiEdit>
+            <Column fieldName="lookup_tracker_tactics_id" visible="false"/>
+            <Column fieldName="channel_name"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="tactic_name"/>
+          </MultiEdit>
+        </Columns>
+        <Details/>
+        <RecordPermissions useRecordPermissions="false"/>
+        <PartitionNavigators>
+          <PartitionNavigator type="listBased" name="partition" caption="Filter by Channel Names" allowViewAllRecords="true" expression="channel_name">
+            <Partition caption="12">
+              <Values>
+                <Value>
+'12'                </Value>
+              </Values>
+            </Partition>
+            <Partition caption="6">
+              <Values>
+                <Value>
+'6'                </Value>
+              </Values>
+            </Partition>
+            <Partition caption="11">
+              <Values>
+                <Value>
+'11'                </Value>
+              </Values>
+            </Partition>
+          </PartitionNavigator>
+        </PartitionNavigators>
+      </Page>
+      <Page type="table" tableName="phpgen_user_roles" numberByDataSource="0" fileName="phpgen_user_roles" caption="User Roles" shortCaption="User Roles" groupName="Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="1" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
+        <BeforeGridText>
+&lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/role-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-media-body&quot;&gt;
+                &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
+                &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
+                &lt;a href=&quot;http://mktportal.mscsoftware.com&quot; class=&quot;stretched-link&quot;&gt;Go to Master Campaign&lt;/a&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;        </BeforeGridText>
+        <DetailedDescription/>
+        <homePageDescription>
+&lt;a href=&quot;http://mktportal.mscsoftware.com/phpgen_user_roles.php&quot; style=&quot;text-decoration:none;&quot;&gt;
+&lt;div class=&quot;card&quot;&gt;
+    &lt;div class=&quot;card-circle&quot;&gt;
+      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/role.png&quot;  class=&quot;icon-size-desk&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;text-content&quot;&gt;
+    &lt;span class=card-title&gt;&lt;strong&gt;User Roles&lt;/strong&gt;&lt;/span&gt;
+    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/a&gt;        </homePageDescription>
+        <ColumnPresentations>
+          <ColumnPresentation fieldName="roles_id" caption="Roles Id" showColumnFilter="false" readOnly="true" selectedFilterOperators="1573119">
+            <ViewProperties type="text">
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="0"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="user_id" caption="User Id" selectedFilterOperators="1573119">
+            <Lookup tableName="phpgen_users" linkFieldName="user_id" displayFieldName="user_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" displayLookupRecord="true">
+              <LookupRecordViewForm numberByDataSource="0" fileName="phpgen_users" caption="Phpgen Users" shortCaption="Phpgen Users" addSeparator="false" horizontalFilterCondition="" isLookupRecordViewForm="true" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
+                <BeforeGridText/>
+                <DetailedDescription/>
+                <ColumnPresentations>
+                  <ColumnPresentation fieldName="user_id" caption="User Id" showColumnFilter="false" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="user_name" caption="User Name" showColumnFilter="false" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="user_password" caption="User Password" showColumnFilter="false" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="user_email" caption="User Email" showColumnFilter="false" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="user_token" caption="User Token" headerHint="Token for user account verification or user password reset." showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="user_status" caption="User Status" headerHint="0 = OK, 1 = Account verification required, 2 = Password reset requested." showColumnFilter="false" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="user_level" caption="User Level" showColumnFilter="false" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="15"/>
+                  </ColumnPresentation>
+                </ColumnPresentations>
+                <Columns>
+                  <List>
+                    <Column fieldName="user_id"/>
+                    <Column fieldName="user_name"/>
+                    <Column fieldName="user_password"/>
+                    <Column fieldName="user_email"/>
+                    <Column fieldName="user_token"/>
+                    <Column fieldName="user_status"/>
+                    <Column fieldName="user_level"/>
+                  </List>
+                  <View>
+                    <Column fieldName="user_id" visible="false"/>
+                    <Column fieldName="user_name"/>
+                    <Column fieldName="user_password"/>
+                    <Column fieldName="user_email"/>
+                    <Column fieldName="user_token"/>
+                    <Column fieldName="user_status"/>
+                    <Column fieldName="user_level" visible="false"/>
+                  </View>
+                  <Edit>
+                    <Column fieldName="user_id" visible="false"/>
+                    <Column fieldName="user_name"/>
+                    <Column fieldName="user_password"/>
+                    <Column fieldName="user_email"/>
+                    <Column fieldName="user_token"/>
+                    <Column fieldName="user_status"/>
+                    <Column fieldName="user_level"/>
+                  </Edit>
+                  <Insert>
+                    <Column fieldName="user_id" visible="false"/>
+                    <Column fieldName="user_name"/>
+                    <Column fieldName="user_password"/>
+                    <Column fieldName="user_email"/>
+                    <Column fieldName="user_token"/>
+                    <Column fieldName="user_status"/>
+                    <Column fieldName="user_level"/>
+                  </Insert>
+                  <QuickFilter>
+                    <Column fieldName="user_id"/>
+                    <Column fieldName="user_name"/>
+                    <Column fieldName="user_password"/>
+                    <Column fieldName="user_email"/>
+                    <Column fieldName="user_token"/>
+                    <Column fieldName="user_status"/>
+                    <Column fieldName="user_level"/>
+                  </QuickFilter>
+                  <FilterBuilder>
+                    <Column fieldName="user_id"/>
+                    <Column fieldName="user_name"/>
+                    <Column fieldName="user_password"/>
+                    <Column fieldName="user_email"/>
+                    <Column fieldName="user_token"/>
+                    <Column fieldName="user_status"/>
+                    <Column fieldName="user_level"/>
+                  </FilterBuilder>
+                  <Print>
+                    <Column fieldName="user_id"/>
+                    <Column fieldName="user_name"/>
+                    <Column fieldName="user_password"/>
+                    <Column fieldName="user_email"/>
+                    <Column fieldName="user_token"/>
+                    <Column fieldName="user_status"/>
+                    <Column fieldName="user_level"/>
+                  </Print>
+                  <Export>
+                    <Column fieldName="user_id"/>
+                    <Column fieldName="user_name"/>
+                    <Column fieldName="user_password"/>
+                    <Column fieldName="user_email"/>
+                    <Column fieldName="user_token"/>
+                    <Column fieldName="user_status"/>
+                    <Column fieldName="user_level"/>
+                  </Export>
+                  <Compare>
+                    <Column fieldName="user_id" visible="false"/>
+                    <Column fieldName="user_name"/>
+                    <Column fieldName="user_password"/>
+                    <Column fieldName="user_email"/>
+                    <Column fieldName="user_token"/>
+                    <Column fieldName="user_status"/>
+                    <Column fieldName="user_level"/>
+                  </Compare>
+                  <MultiEdit>
+                    <Column fieldName="user_id" visible="false"/>
+                    <Column fieldName="user_name"/>
+                    <Column fieldName="user_password"/>
+                    <Column fieldName="user_email"/>
+                    <Column fieldName="user_token"/>
+                    <Column fieldName="user_status"/>
+                    <Column fieldName="user_level"/>
+                  </MultiEdit>
+                </Columns>
+                <Details/>
+                <RecordPermissions useRecordPermissions="false"/>
+                <PartitionNavigators/>
+              </LookupRecordViewForm>
+            </Lookup>
+            <ViewProperties type="text">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="dynamicCombobox"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="role_name" caption="Role Name" showColumnFilter="false" selectedFilterOperators="1589247">
+            <ViewProperties type="text">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="comboBox">
+              <Values>
+                <Value name="products" caption="Product Manager"/>
+                <Value name="marketing" caption="Regional Marketing"/>
+                <Value name="manager" caption="Manager"/>
+              </Values>
+            </EditProperties>
+          </ColumnPresentation>
+        </ColumnPresentations>
+        <Columns>
+          <List>
+            <Column fieldName="roles_id" visible="false"/>
+            <Column fieldName="user_id"/>
+            <Column fieldName="role_name"/>
+          </List>
+          <View>
+            <Column fieldName="roles_id"/>
+            <Column fieldName="user_id"/>
+            <Column fieldName="role_name"/>
+          </View>
+          <Edit>
+            <Column fieldName="roles_id" visible="false"/>
+            <Column fieldName="user_id"/>
+            <Column fieldName="role_name"/>
+          </Edit>
+          <Insert>
+            <Column fieldName="roles_id" visible="false"/>
+            <Column fieldName="user_id"/>
+            <Column fieldName="role_name"/>
+          </Insert>
+          <QuickFilter>
+            <Column fieldName="roles_id"/>
+            <Column fieldName="user_id"/>
+            <Column fieldName="role_name"/>
+          </QuickFilter>
+          <FilterBuilder>
+            <Column fieldName="roles_id"/>
+            <Column fieldName="user_id"/>
+            <Column fieldName="role_name"/>
+          </FilterBuilder>
+          <Print>
+            <Column fieldName="roles_id"/>
+            <Column fieldName="user_id"/>
+            <Column fieldName="role_name"/>
+          </Print>
+          <Export>
+            <Column fieldName="roles_id"/>
+            <Column fieldName="user_id"/>
+            <Column fieldName="role_name"/>
+          </Export>
+          <Compare>
+            <Column fieldName="roles_id" visible="false"/>
+            <Column fieldName="user_id"/>
+            <Column fieldName="role_name"/>
+          </Compare>
+          <MultiEdit>
+            <Column fieldName="roles_id" visible="false"/>
+            <Column fieldName="user_id"/>
+            <Column fieldName="role_name"/>
+          </MultiEdit>
+        </Columns>
+        <Details/>
+        <RecordPermissions useRecordPermissions="false"/>
+        <PartitionNavigators/>
+      </Page>
     </Pages>
     <UserAuthorization type="tableBased" tableName="phpgen_users" userIdField="user_id" userNameField="user_name" passwordField="user_password" userEmailField="user_email" userTokenField="user_token" userStatusField="user_status" allowUserToChangePassword="true" selfRegistrationEnabled="true" recoveringPasswordEnabled="true"/>
     <UserGrants enableGuestAccess="true" storageType="table">
@@ -13328,205 +13909,250 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis m
   </Presentation>
   <UserCSS>
 /* Style the form - display items horizontally */
+
 .breadcrumb {
- margin-top: 20px;
- }
- 
- .navbar-nav {
-    padding-top: 11px;
+	margin-top: 20px;
 }
-.icon-size{
-    width: 105%;
+
+.well .description {
+	padding-top: 10px !important;
 }
+
+.navbar-nav {
+	padding-top: 11px;
+}
+
+.icon-size {
+	width: 105%;
+}
+
+[class^=&quot;icon-size-desk&quot;]{
+    height: 37.8px;
+}
+
 fieldset {
-    border: 1px solid #006184 !important;
-    margin: 0 15px !important;
-    width: 95% !important;
-    border-radius: 5px;
-    padding-bottom: 10px !important;
+	border: 1px solid #006184 !important;
+	margin: 0 15px !important;
+	width: 95% !important;
+	border-radius: 5px;
+	padding-bottom: 10px !important;
 }
+
 fieldset:last-child {
-    border: 1px solid whitesmoke !important;
-    margin-top: 10px !important;
-    background-color: whitesmoke;
-    padding: 15px;
-    padding-bottom: 15px;
+	border: 1px solid whitesmoke !important;
+	margin-top: 10px !important;
+	background-color: whitesmoke;
+	padding: 15px;
+	padding-bottom: 15px;
 }
 
 legend {
-    margin: 9px 0 10px 0 !important;
-    font-size: 16px !important;
-    font-weight: bold;
-    width: 39% !important;
-    padding: 0 10px ;
-    border-bottom: 0  !important;
+	margin: 9px 0 10px 0 !important;
+	font-size: 16px !important;
+	font-weight: bold;
+	width: 39% !important;
+	padding: 0 10px;
+	border-bottom: 0 !important;
 }
+
 .lead {
-    font-size: 13px !important;
+	font-size: 13px !important;
 }
+
 .grid-card-item-control {
-    float: left !important;
-    padding-left: 10px;
+	float: left !important;
+	padding-left: 10px;
 }
 
-.box h3{
-  text-align:center;
-	position:relative;
-	top:20px;
+.box h3 {
+	text-align: center;
+	position: relative;
+	top: 20px;
 }
-.box p{
-  text-align:center;
-	position:relative;
-	top:5px;
+
+.box p {
+	text-align: center;
+	position: relative;
+	top: 5px;
 }
+
 .box {
-	width:70%;
-	height:90px;
-	background:#FFF;
-	margin:10px auto;
-}
-.effect7
-{
-  	position:relative;
-    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-}
-.effect7:before, .effect7:after
-{
-	content:&quot;&quot;;
-    position:absolute;
-    z-index:-1;
-    -webkit-box-shadow:0 0 20px rgba(0,0,0,0.8);
-    -moz-box-shadow:0 0 20px rgba(0,0,0,0.8);
-    box-shadow:0 0 20px rgba(0,0,0,0.8);
-    top:0;
-    bottom:0;
-    left:10px;
-    right:10px;
-    -moz-border-radius:100px / 10px;
-    border-radius:100px / 10px;
-}
-.effect7:after
-{
-	right:10px;
-    left:auto;
-    -webkit-transform:skew(8deg) rotate(3deg);
-       -moz-transform:skew(8deg) rotate(3deg);
-        -ms-transform:skew(8deg) rotate(3deg);
-         -o-transform:skew(8deg) rotate(3deg);
-            transform:skew(8deg) rotate(3deg);
+	width: 70%;
+	height: 90px;
+	background: #FFF;
+	margin: 10px auto;
 }
 
-a, i{
-color: #0097BA  !important;
+.effect7 {
+	position: relative;
+	-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+	-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 }
-.pagination &gt; .active &gt; a, .pagination &gt; .active &gt; span, .pagination &gt; .active &gt; a:hover, .pagination &gt; .active &gt; span:hover, .pagination &gt; .active &gt; a:focus, .pagination &gt; .active &gt; span:focus{
-background-color: #0097BA !important;
-border-color: #0097BA !important;
-color: white !important;
+
+.effect7:before,
+.effect7:after {
+	content: &quot;&quot;;
+	position: absolute;
+	z-index: -1;
+	-webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	-moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	top: 0;
+	bottom: 0;
+	left: 10px;
+	right: 10px;
+	-moz-border-radius: 100px / 10px;
+	border-radius: 100px / 10px;
 }
+
+.effect7:after {
+	right: 10px;
+	left: auto;
+	-webkit-transform: skew(8deg) rotate(3deg);
+	-moz-transform: skew(8deg) rotate(3deg);
+	-ms-transform: skew(8deg) rotate(3deg);
+	-o-transform: skew(8deg) rotate(3deg);
+	transform: skew(8deg) rotate(3deg);
+}
+
+a,
+i {
+	color: #0097BA !important;
+}
+
+.pagination&gt;.active&gt;a,
+.pagination&gt;.active&gt;span,
+.pagination&gt;.active&gt;a:hover,
+.pagination&gt;.active&gt;span:hover,
+.pagination&gt;.active&gt;a:focus,
+.pagination&gt;.active&gt;span:focus {
+	background-color: #0097BA !important;
+	border-color: #0097BA !important;
+	color: white !important;
+}
+
 .pgui-home-item a {
-    font-size: 10px !important;
-    color: #5B5B5B !important;
+	font-size: 10px !important;
+	color: #5B5B5B !important;
 }
-.card{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 92%;
-  height: auto;
-  position: relative;
-  border-radius: 2px;
-  background-color:#fff;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  margin: 20px;
-  padding: 20px;
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+
+.card {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	width: 92% !important;
+	height: auto;
+	position: relative;
+	border-radius: 2px;
+	background-color: #fff;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+	text-align: center;
+	margin: 20px;
+	padding: 20px;
+	transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
 }
-.card:nth-child(2){
-  background-color: #ff5252;
-  color: #fff;
+
+.card:nth-child(2) {
+	background-color: #ff5252;
+	color: #fff;
 }
-.card-circle{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80px;
-  height: 80px;
-  border: 2px solid #e0e0e0;
-  border-radius: 50%;
-  margin: 0 auto;
-  padding: 20px;
+
+.card-circle {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 80px;
+	height: 80px;
+	border: 2px solid #e0e0e0;
+	border-radius: 50%;
+	margin: 0 auto;
+	padding: 20px;
 }
-.text-content{
-  font-family: 'Roboto', sans-serif;
+
+.text-content {
+	font-family: 'Roboto', sans-serif;
 }
-.card-title{
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 48px;
+
+.card-title {
+	font-size: 24px;
+	font-weight: 500;
+	line-height: 48px;
 }
+
 p {
-    font-size: 15px;
-    font-weight: 200;
-    line-height: 20px;
+	font-size: 15px;
+	font-weight: 200;
+	line-height: 20px;
 }
-i{
-  color: #2196F3;
+
+i {
+	color: #2196F3;
 }
-.fa-css3{
-  color: #fff;
+
+.fa-css3 {
+	color: #fff;
 }
-.card:hover{
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+
+.card:hover {
+	box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
 .mark-position-relative {
-    position: relative!important;
+	position: relative!important;
 }
+
 .mark-media {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-align: start;
-    align-items: flex-start;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-align: start;
+	align-items: flex-start;
 }
+
 .mark-bd-placeholder-img {
-    font-size: 1.125rem;
-    text-anchor: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    overflow: hidden;
-    vertical-align: middle;
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	overflow: hidden;
+	vertical-align: middle;
 }
-.mr-3, .mx-3 {
-   margin-right: 22px !important;
+
+.mr-3,
+.mx-3 {
+	margin-right: 22px !important;
 }
+
 .mark-media-body {
-    -ms-flex: 1;
-    flex: 1;
+	-ms-flex: 1;
+	flex: 1;
 }
-.mt-0, .my-0 {
-    margin-top: 0!important;
+
+.mt-0,
+.my-0 {
+	margin-top: 0!important;
 }
+
 .h5 {
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    line-height: 22px !important;
-    font-size: 18px !important;
+	margin-bottom: 0.5rem;
+	font-weight: 500;
+	line-height: 22px !important;
+	font-size: 18px !important;
 }
+
 .mark-p {
-    font-size: 14px;
-    font-weight: 100;
-    line-height: 15px;
+	font-size: 14px;
+	font-weight: 100;
+	line-height: 15px;
 }
+
 label {
-    margin-bottom: -10px !important;
+	margin-bottom: -10px !important;
 }
+
 @import &quot;https://fonts.googleapis.com/css?family=Montserrat:400&quot;;
 @import &quot;https://use.fontawesome.com/releases/v5.3.1/css/all.css&quot;;  </UserCSS>
   <PdfUserStyles/>

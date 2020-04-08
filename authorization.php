@@ -45,10 +45,10 @@ $tableCaptions = array('campaign_calendar' => 'Campaign & Events Calendar',
 'campaign_tracker_paid' => 'Campaign Tracker Paid',
 'campaign_tracker_partner' => 'Campaign Tracker Partner',
 'campaign_tracker_pr' => 'Campaign Tracker Pr',
-'phpgen_user_roles' => 'User Roles',
+'campaign_tracker_utm' => 'Campaign Tracker Utm',
 'country_list' => 'Country List',
 'lookup_tracker_tactics' => 'Tactic Template',
-'campaign_tracker_utm' => 'Campaign Tracker Utm');
+'phpgen_user_roles' => 'User Roles');
 
 $usersTableInfo = array(
     'TableName' => 'phpgen_users',
@@ -132,7 +132,7 @@ function SetUpUserAuthorization()
         $grantManager->AddGrantManager($tableBasedGrantManager);
     }
 
-    $userAuthentication = new TableBasedUserAuthentication(new UserIdentitySessionStorage(), true, $hasher, CreateTableBasedUserManager(), true, false, true);
+    $userAuthentication = new TableBasedUserAuthentication(new UserIdentitySessionStorage(), true, $hasher, CreateTableBasedUserManager(), true, true, true);
 
     GetApplication()->SetUserAuthentication($userAuthentication);
     GetApplication()->SetUserGrantManager($grantManager);

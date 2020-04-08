@@ -26,6 +26,401 @@
 
     
     
+    class campaign_ROI_Tracker_master_campaign_idModalViewPage extends ViewBasedPage
+    {
+        protected function DoBeforeCreate()
+        {
+            $this->dataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`brief`');
+            $this->dataset->addFields(
+                array(
+                    new IntegerField('master_campaign_id', true, true, true),
+                    new StringField('campaign_name', true),
+                    new StringField('objective', true),
+                    new StringField('short_description', true),
+                    new IntegerField('campaign_type'),
+                    new IntegerField('campaign_tier'),
+                    new StringField('channel_types'),
+                    new IntegerField('campaign_status'),
+                    new IntegerField('event_type'),
+                    new StringField('b_region'),
+                    new StringField('b_country'),
+                    new StringField('industry'),
+                    new IntegerField('est_opportunity_value_in_euros', true),
+                    new IntegerField('campaign_cost'),
+                    new IntegerField('expected_roi_enquiries'),
+                    new IntegerField('expected_roi_ots'),
+                    new IntegerField('post_enquiries'),
+                    new IntegerField('new_opportunities'),
+                    new StringField('owner_person'),
+                    new DateField('start_date', true),
+                    new DateField('end_date'),
+                    new StringField('file_upload'),
+                    new StringField('asset_upload'),
+                    new StringField('created_by'),
+                    new DateTimeField('created_date'),
+                    new StringField('updated_by'),
+                    new DateTimeField('updated_date')
+                )
+            );
+        }
+    
+        protected function DoPrepare() {
+    
+        }
+    
+        protected function AddSingleRecordViewColumns(Grid $grid)
+        {
+            //
+            // View column for campaign_name field
+            //
+            $column = new TextViewColumn('campaign_name', 'campaign_name', 'Campaign Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_ROI_Tracker_master_campaign_idModalViewPage_campaign_name_handler_view');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for objective field
+            //
+            $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_ROI_Tracker_master_campaign_idModalViewPage_objective_handler_view');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for short_description field
+            //
+            $column = new TextViewColumn('short_description', 'short_description', 'Short Description', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for campaign_type field
+            //
+            $column = new NumberViewColumn('campaign_type', 'campaign_type', 'Campaign Type', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for campaign_tier field
+            //
+            $column = new NumberViewColumn('campaign_tier', 'campaign_tier', 'Campaign Tier', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for channel_types field
+            //
+            $column = new TextViewColumn('channel_types', 'channel_types', 'Channel Types', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for campaign_status field
+            //
+            $column = new NumberViewColumn('campaign_status', 'campaign_status', 'Campaign Status', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for event_type field
+            //
+            $column = new NumberViewColumn('event_type', 'event_type', 'Event Type', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for b_region field
+            //
+            $column = new TextViewColumn('b_region', 'b_region', 'B Region', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_ROI_Tracker_master_campaign_idModalViewPage_b_region_handler_view');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for b_country field
+            //
+            $column = new TextViewColumn('b_country', 'b_country', 'B Country', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_ROI_Tracker_master_campaign_idModalViewPage_b_country_handler_view');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for industry field
+            //
+            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_ROI_Tracker_master_campaign_idModalViewPage_industry_handler_view');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for est_opportunity_value_in_euros field
+            //
+            $column = new NumberViewColumn('est_opportunity_value_in_euros', 'est_opportunity_value_in_euros', 'Est Opportunity Value In Euros', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for campaign_cost field
+            //
+            $column = new NumberViewColumn('campaign_cost', 'campaign_cost', 'Campaign Cost', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for expected_roi_enquiries field
+            //
+            $column = new NumberViewColumn('expected_roi_enquiries', 'expected_roi_enquiries', 'Expected Roi Enquiries', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for expected_roi_ots field
+            //
+            $column = new NumberViewColumn('expected_roi_ots', 'expected_roi_ots', 'Expected Roi Ots', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for post_enquiries field
+            //
+            $column = new NumberViewColumn('post_enquiries', 'post_enquiries', 'Post Enquiries', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for new_opportunities field
+            //
+            $column = new NumberViewColumn('new_opportunities', 'new_opportunities', 'New Opportunities', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for owner_person field
+            //
+            $column = new TextViewColumn('owner_person', 'owner_person', 'Owner Person', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_ROI_Tracker_master_campaign_idModalViewPage_owner_person_handler_view');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for start_date field
+            //
+            $column = new DateTimeViewColumn('start_date', 'start_date', 'Start Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for end_date field
+            //
+            $column = new DateTimeViewColumn('end_date', 'end_date', 'End Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for file_upload field
+            //
+            $column = new TextViewColumn('file_upload', 'file_upload', 'File Upload', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_ROI_Tracker_master_campaign_idModalViewPage_file_upload_handler_view');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for asset_upload field
+            //
+            $column = new TextViewColumn('asset_upload', 'asset_upload', 'Asset Upload', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_ROI_Tracker_master_campaign_idModalViewPage_asset_upload_handler_view');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for created_by field
+            //
+            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for created_date field
+            //
+            $column = new DateTimeViewColumn('created_date', 'created_date', 'Created Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for updated_by field
+            //
+            $column = new TextViewColumn('updated_by', 'updated_by', 'Updated By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for updated_date field
+            //
+            $column = new DateTimeViewColumn('updated_date', 'updated_date', 'Updated Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $grid->AddSingleRecordViewColumn($column);
+        }
+    
+        function GetCustomClientScript()
+        {
+            return ;
+        }
+        
+        function GetOnPageLoadedClientScript()
+        {
+            return ;
+        }
+    
+        protected function setClientSideEvents(Grid $grid) {
+    
+        }
+    
+        protected function doRegisterHandlers() {
+            
+            
+            //
+            // View column for campaign_name field
+            //
+            $column = new TextViewColumn('campaign_name', 'campaign_name', 'Campaign Name', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_ROI_Tracker_master_campaign_idModalViewPage_campaign_name_handler_view', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for objective field
+            //
+            $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_ROI_Tracker_master_campaign_idModalViewPage_objective_handler_view', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for b_region field
+            //
+            $column = new TextViewColumn('b_region', 'b_region', 'B Region', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_ROI_Tracker_master_campaign_idModalViewPage_b_region_handler_view', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for b_country field
+            //
+            $column = new TextViewColumn('b_country', 'b_country', 'B Country', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_ROI_Tracker_master_campaign_idModalViewPage_b_country_handler_view', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for industry field
+            //
+            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_ROI_Tracker_master_campaign_idModalViewPage_industry_handler_view', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for owner_person field
+            //
+            $column = new TextViewColumn('owner_person', 'owner_person', 'Owner Person', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_ROI_Tracker_master_campaign_idModalViewPage_owner_person_handler_view', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for file_upload field
+            //
+            $column = new TextViewColumn('file_upload', 'file_upload', 'File Upload', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_ROI_Tracker_master_campaign_idModalViewPage_file_upload_handler_view', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for asset_upload field
+            //
+            $column = new TextViewColumn('asset_upload', 'asset_upload', 'Asset Upload', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_ROI_Tracker_master_campaign_idModalViewPage_asset_upload_handler_view', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+        }
+    
+        static public function getHandlerName() {
+            return get_class() . '_modal_view';
+        }
+    
+        public function GetModalGridViewHandler() {
+            return self::getHandlerName();
+        }
+    
+        protected function ApplyCommonColumnEditProperties(CustomEditColumn $column)
+        {
+            $column->SetVariableContainer($this->GetColumnVariableContainer());
+        }
+    
+        protected function doGetCustomFormLayout($mode, FixedKeysArray $columns, FormLayout $layout)
+        {
+    
+        }
+    
+        protected function doGetCustomTemplate($type, $part, $mode, &$result, &$params)
+        {
+    
+        }
+    
+        protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
+        { 
+    
+        }
+    
+        protected function doCalculateFields($rowData, $fieldName, &$value)
+        {
+    
+        }
+    }
     
     // OnBeforePageExecute event handler
     
@@ -80,6 +475,7 @@
                     new StringField('Expected OTS')
                 )
             );
+            $this->dataset->AddLookupField('master_campaign_id', 'brief', new IntegerField('master_campaign_id'), new StringField('campaign_name', false, false, false, false, 'master_campaign_id_campaign_name', 'master_campaign_id_campaign_name_brief'), 'master_campaign_id_campaign_name_brief');
         }
     
         protected function DoPrepare() {
@@ -117,7 +513,7 @@
         protected function getFiltersColumns()
         {
             return array(
-                new FilterColumn($this->dataset, 'master_campaign_id', 'master_campaign_id', 'Master Campaign Id'),
+                new FilterColumn($this->dataset, 'master_campaign_id', 'master_campaign_id_campaign_name', 'Master Campaign Id'),
                 new FilterColumn($this->dataset, 'campaign_name', 'campaign_name', 'Campaign Name'),
                 new FilterColumn($this->dataset, 'Campaign Cost', 'Campaign Cost', 'Campaign Cost'),
                 new FilterColumn($this->dataset, 'Total Equiries', 'Total Equiries', 'Total Equiries'),
@@ -153,12 +549,20 @@
     
         protected function setupColumnFilter(ColumnFilter $columnFilter)
         {
-    
+            $columnFilter
+                ->setOptionsFor('master_campaign_id');
         }
     
         protected function setupFilterBuilder(FilterBuilder $filterBuilder, FixedKeysArray $columns)
         {
-            $main_editor = new SpinEdit('master_campaign_id_edit');
+            $main_editor = new DynamicCombobox('master_campaign_id_edit', $this->CreateLinkBuilder());
+            $main_editor->setAllowClear(true);
+            $main_editor->setMinimumInputLength(0);
+            $main_editor->SetAllowNullValue(false);
+            $main_editor->SetHandlerName('filter_builder_campaign_ROI_Tracker_master_campaign_id_search');
+            
+            $multi_value_select_editor = new RemoteMultiValueSelect('master_campaign_id', $this->CreateLinkBuilder());
+            $multi_value_select_editor->SetHandlerName('filter_builder_campaign_ROI_Tracker_master_campaign_id_search');
             
             $filterBuilder->addColumn(
                 $columns['master_campaign_id'],
@@ -171,6 +575,8 @@
                     FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
                     FilterConditionOperator::IS_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::IN => $multi_value_select_editor,
+                    FilterConditionOperator::NOT_IN => $multi_value_select_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -461,13 +867,11 @@
         protected function AddFieldColumns(Grid $grid, $withDetails = true)
         {
             //
-            // View column for master_campaign_id field
+            // View column for campaign_name field
             //
-            $column = new NumberViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Master Campaign Id', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $column->setLookupRecordModalViewHandlerName(campaign_ROI_Tracker_master_campaign_idModalViewPage::getHandlerName());
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -609,13 +1013,11 @@
         protected function AddSingleRecordViewColumns(Grid $grid)
         {
             //
-            // View column for master_campaign_id field
+            // View column for campaign_name field
             //
-            $column = new NumberViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Master Campaign Id', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $column->setLookupRecordModalViewHandlerName(campaign_ROI_Tracker_master_campaign_idModalViewPage::getHandlerName());
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -720,8 +1122,46 @@
             //
             // Edit column for master_campaign_id field
             //
-            $editor = new SpinEdit('master_campaign_id_edit');
-            $editColumn = new CustomEditColumn('Master Campaign Id', 'master_campaign_id', $editor, $this->dataset);
+            $editor = new DynamicCombobox('master_campaign_id_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`brief`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('master_campaign_id', true, true, true),
+                    new StringField('campaign_name', true),
+                    new StringField('objective', true),
+                    new StringField('short_description', true),
+                    new IntegerField('campaign_type'),
+                    new IntegerField('campaign_tier'),
+                    new StringField('channel_types'),
+                    new IntegerField('campaign_status'),
+                    new IntegerField('event_type'),
+                    new StringField('b_region'),
+                    new StringField('b_country'),
+                    new StringField('industry'),
+                    new IntegerField('est_opportunity_value_in_euros', true),
+                    new IntegerField('campaign_cost'),
+                    new IntegerField('expected_roi_enquiries'),
+                    new IntegerField('expected_roi_ots'),
+                    new IntegerField('post_enquiries'),
+                    new IntegerField('new_opportunities'),
+                    new StringField('owner_person'),
+                    new DateField('start_date', true),
+                    new DateField('end_date'),
+                    new StringField('file_upload'),
+                    new StringField('asset_upload'),
+                    new StringField('created_by'),
+                    new DateTimeField('created_date'),
+                    new StringField('updated_by'),
+                    new DateTimeField('updated_date')
+                )
+            );
+            $lookupDataset->setOrderByField('campaign_name', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Master Campaign Id', 'master_campaign_id', 'master_campaign_id_campaign_name', 'edit_campaign_ROI_Tracker_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -853,8 +1293,46 @@
             //
             // Edit column for master_campaign_id field
             //
-            $editor = new SpinEdit('master_campaign_id_edit');
-            $editColumn = new CustomEditColumn('Master Campaign Id', 'master_campaign_id', $editor, $this->dataset);
+            $editor = new DynamicCombobox('master_campaign_id_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`brief`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('master_campaign_id', true, true, true),
+                    new StringField('campaign_name', true),
+                    new StringField('objective', true),
+                    new StringField('short_description', true),
+                    new IntegerField('campaign_type'),
+                    new IntegerField('campaign_tier'),
+                    new StringField('channel_types'),
+                    new IntegerField('campaign_status'),
+                    new IntegerField('event_type'),
+                    new StringField('b_region'),
+                    new StringField('b_country'),
+                    new StringField('industry'),
+                    new IntegerField('est_opportunity_value_in_euros', true),
+                    new IntegerField('campaign_cost'),
+                    new IntegerField('expected_roi_enquiries'),
+                    new IntegerField('expected_roi_ots'),
+                    new IntegerField('post_enquiries'),
+                    new IntegerField('new_opportunities'),
+                    new StringField('owner_person'),
+                    new DateField('start_date', true),
+                    new DateField('end_date'),
+                    new StringField('file_upload'),
+                    new StringField('asset_upload'),
+                    new StringField('created_by'),
+                    new DateTimeField('created_date'),
+                    new StringField('updated_by'),
+                    new DateTimeField('updated_date')
+                )
+            );
+            $lookupDataset->setOrderByField('campaign_name', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Master Campaign Id', 'master_campaign_id', 'master_campaign_id_campaign_name', 'multi_edit_campaign_ROI_Tracker_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -986,8 +1464,46 @@
             //
             // Edit column for master_campaign_id field
             //
-            $editor = new SpinEdit('master_campaign_id_edit');
-            $editColumn = new CustomEditColumn('Master Campaign Id', 'master_campaign_id', $editor, $this->dataset);
+            $editor = new DynamicCombobox('master_campaign_id_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`brief`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('master_campaign_id', true, true, true),
+                    new StringField('campaign_name', true),
+                    new StringField('objective', true),
+                    new StringField('short_description', true),
+                    new IntegerField('campaign_type'),
+                    new IntegerField('campaign_tier'),
+                    new StringField('channel_types'),
+                    new IntegerField('campaign_status'),
+                    new IntegerField('event_type'),
+                    new StringField('b_region'),
+                    new StringField('b_country'),
+                    new StringField('industry'),
+                    new IntegerField('est_opportunity_value_in_euros', true),
+                    new IntegerField('campaign_cost'),
+                    new IntegerField('expected_roi_enquiries'),
+                    new IntegerField('expected_roi_ots'),
+                    new IntegerField('post_enquiries'),
+                    new IntegerField('new_opportunities'),
+                    new StringField('owner_person'),
+                    new DateField('start_date', true),
+                    new DateField('end_date'),
+                    new StringField('file_upload'),
+                    new StringField('asset_upload'),
+                    new StringField('created_by'),
+                    new DateTimeField('created_date'),
+                    new StringField('updated_by'),
+                    new DateTimeField('updated_date')
+                )
+            );
+            $lookupDataset->setOrderByField('campaign_name', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Master Campaign Id', 'master_campaign_id', 'master_campaign_id_campaign_name', 'insert_campaign_ROI_Tracker_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -1123,13 +1639,10 @@
         protected function AddPrintColumns(Grid $grid)
         {
             //
-            // View column for master_campaign_id field
+            // View column for campaign_name field
             //
-            $column = new NumberViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Master Campaign Id', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
             $grid->AddPrintColumn($column);
             
             //
@@ -1232,13 +1745,10 @@
         protected function AddExportColumns(Grid $grid)
         {
             //
-            // View column for master_campaign_id field
+            // View column for campaign_name field
             //
-            $column = new NumberViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Master Campaign Id', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
             $grid->AddExportColumn($column);
             
             //
@@ -1341,13 +1851,10 @@
         private function AddCompareColumns(Grid $grid)
         {
             //
-            // View column for master_campaign_id field
+            // View column for campaign_name field
             //
-            $column = new NumberViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Master Campaign Id', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
             $grid->AddCompareColumn($column);
             
             //
@@ -1547,11 +2054,11 @@
             $this->setExportListRecordAvailable(array());
             $this->setExportOneRecordAvailable(array('pdf', 'excel', 'word', 'xml', 'csv'));
             $this->setDescription('<div class="mark-media mark-position-relative">
-                          <div class="mark-bd-placeholder-img mr-3"><img src="http://localhost/mportal/apps/icons/roi-tracker-color.png" width="80" height="79"></div>
+                          <div class="mark-bd-placeholder-img mr-3"><img src="http://mktportal.mscsoftware.com/apps/icons/roi-tracker-color.png" width="80" height="79"></div>
                           <div class="mark-media-body">
                             <h5 class="mt-0 h5">What will you find here</h5>
                             <p class="mark-p">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-                            <a href="http://localhost/mportal/master_campaign_global.php" class="stretched-link">Go to Master Campaign</a>
+                            <a href="http://mktportal.mscsoftware.com/master_campaign_global.php" class="stretched-link">Go to Master Campaign</a>
                           </div>
                         </div>');
             $this->SetHidePageListByDefault(true);
@@ -1566,8 +2073,162 @@
         }
     
         protected function doRegisterHandlers() {
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`brief`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('master_campaign_id', true, true, true),
+                    new StringField('campaign_name', true),
+                    new StringField('objective', true),
+                    new StringField('short_description', true),
+                    new IntegerField('campaign_type'),
+                    new IntegerField('campaign_tier'),
+                    new StringField('channel_types'),
+                    new IntegerField('campaign_status'),
+                    new IntegerField('event_type'),
+                    new StringField('b_region'),
+                    new StringField('b_country'),
+                    new StringField('industry'),
+                    new IntegerField('est_opportunity_value_in_euros', true),
+                    new IntegerField('campaign_cost'),
+                    new IntegerField('expected_roi_enquiries'),
+                    new IntegerField('expected_roi_ots'),
+                    new IntegerField('post_enquiries'),
+                    new IntegerField('new_opportunities'),
+                    new StringField('owner_person'),
+                    new DateField('start_date', true),
+                    new DateField('end_date'),
+                    new StringField('file_upload'),
+                    new StringField('asset_upload'),
+                    new StringField('created_by'),
+                    new DateTimeField('created_date'),
+                    new StringField('updated_by'),
+                    new DateTimeField('updated_date')
+                )
+            );
+            $lookupDataset->setOrderByField('campaign_name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_ROI_Tracker_master_campaign_id_search', 'master_campaign_id', 'campaign_name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
             
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`brief`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('master_campaign_id', true, true, true),
+                    new StringField('campaign_name', true),
+                    new StringField('objective', true),
+                    new StringField('short_description', true),
+                    new IntegerField('campaign_type'),
+                    new IntegerField('campaign_tier'),
+                    new StringField('channel_types'),
+                    new IntegerField('campaign_status'),
+                    new IntegerField('event_type'),
+                    new StringField('b_region'),
+                    new StringField('b_country'),
+                    new StringField('industry'),
+                    new IntegerField('est_opportunity_value_in_euros', true),
+                    new IntegerField('campaign_cost'),
+                    new IntegerField('expected_roi_enquiries'),
+                    new IntegerField('expected_roi_ots'),
+                    new IntegerField('post_enquiries'),
+                    new IntegerField('new_opportunities'),
+                    new StringField('owner_person'),
+                    new DateField('start_date', true),
+                    new DateField('end_date'),
+                    new StringField('file_upload'),
+                    new StringField('asset_upload'),
+                    new StringField('created_by'),
+                    new DateTimeField('created_date'),
+                    new StringField('updated_by'),
+                    new DateTimeField('updated_date')
+                )
+            );
+            $lookupDataset->setOrderByField('campaign_name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_ROI_Tracker_master_campaign_id_search', 'master_campaign_id', 'campaign_name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
             
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`brief`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('master_campaign_id', true, true, true),
+                    new StringField('campaign_name', true),
+                    new StringField('objective', true),
+                    new StringField('short_description', true),
+                    new IntegerField('campaign_type'),
+                    new IntegerField('campaign_tier'),
+                    new StringField('channel_types'),
+                    new IntegerField('campaign_status'),
+                    new IntegerField('event_type'),
+                    new StringField('b_region'),
+                    new StringField('b_country'),
+                    new StringField('industry'),
+                    new IntegerField('est_opportunity_value_in_euros', true),
+                    new IntegerField('campaign_cost'),
+                    new IntegerField('expected_roi_enquiries'),
+                    new IntegerField('expected_roi_ots'),
+                    new IntegerField('post_enquiries'),
+                    new IntegerField('new_opportunities'),
+                    new StringField('owner_person'),
+                    new DateField('start_date', true),
+                    new DateField('end_date'),
+                    new StringField('file_upload'),
+                    new StringField('asset_upload'),
+                    new StringField('created_by'),
+                    new DateTimeField('created_date'),
+                    new StringField('updated_by'),
+                    new DateTimeField('updated_date')
+                )
+            );
+            $lookupDataset->setOrderByField('campaign_name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_ROI_Tracker_master_campaign_id_search', 'master_campaign_id', 'campaign_name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`brief`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('master_campaign_id', true, true, true),
+                    new StringField('campaign_name', true),
+                    new StringField('objective', true),
+                    new StringField('short_description', true),
+                    new IntegerField('campaign_type'),
+                    new IntegerField('campaign_tier'),
+                    new StringField('channel_types'),
+                    new IntegerField('campaign_status'),
+                    new IntegerField('event_type'),
+                    new StringField('b_region'),
+                    new StringField('b_country'),
+                    new StringField('industry'),
+                    new IntegerField('est_opportunity_value_in_euros', true),
+                    new IntegerField('campaign_cost'),
+                    new IntegerField('expected_roi_enquiries'),
+                    new IntegerField('expected_roi_ots'),
+                    new IntegerField('post_enquiries'),
+                    new IntegerField('new_opportunities'),
+                    new StringField('owner_person'),
+                    new DateField('start_date', true),
+                    new DateField('end_date'),
+                    new StringField('file_upload'),
+                    new StringField('asset_upload'),
+                    new StringField('created_by'),
+                    new DateTimeField('created_date'),
+                    new StringField('updated_by'),
+                    new DateTimeField('updated_date')
+                )
+            );
+            $lookupDataset->setOrderByField('campaign_name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_ROI_Tracker_master_campaign_id_search', 'master_campaign_id', 'campaign_name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            new campaign_ROI_Tracker_master_campaign_idModalViewPage($this, GetCurrentUserPermissionSetForDataSource('campaign_ROI_Tracker.master_campaign_id'));
         }
        
         protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
