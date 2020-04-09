@@ -167,7 +167,7 @@ FROM brief      </SelectStatement>
             <ViewProperties type="text"/>
             <EditProperties type="textBox" maxLength="40"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="id" caption="Id" showColumnFilter="false" canSetServerDefault="true" selectedFilterOperators="1573119">
+          <ColumnPresentation fieldName="id" caption="Id" showColumnFilter="false" selectedFilterOperators="1573119">
             <ViewProperties type="text">
               <Format type="number" thousandSeparator=","/>
             </ViewProperties>
@@ -327,7 +327,7 @@ if ($part == PagePart::Grid &amp;&amp; $mode == PageMode::ViewAll) {
         </CompareHeaderColumns>
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/add-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/add-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
@@ -339,7 +339,7 @@ if ($part == PagePart::Grid &amp;&amp; $mode == PageMode::ViewAll) {
 &lt;a href=&quot;http://mktportal.mscsoftware.com/brief.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/add.png&quot;  class=&quot;icon-size-desk&quot;&gt;
+      &lt;img src=&quot;apps/icons/add.png&quot;  class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Campaign Request&lt;/strong&gt;&lt;/span&gt;
@@ -1157,7 +1157,7 @@ else {
       <Page type="table" tableName="campaign_events" numberByDataSource="0" fileName="campaign_events" caption="Event List" shortCaption="Event List" groupName="New Campaign" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="0" viewAbilityMode="3" editAbilityMode="3" copyAbilityMode="0" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-   &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/event-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+   &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/event-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
    &lt;div class=&quot;mark-media-body&quot;&gt;
        &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
        &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
@@ -1169,7 +1169,7 @@ else {
 &lt;a href=&quot;http://mktportal.mscsoftware.com/campaign_events.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/event.png&quot; class=&quot;icon-size-desk&quot;&gt;
+      &lt;img src=&quot;apps/icons/event.png&quot; class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Events&lt;/strong&gt;&lt;/span&gt;
@@ -2000,7 +2000,7 @@ else {
       <Page type="table" tableName="campaign_approvals" numberByDataSource="0" fileName="campaign_approvals" caption="Campaign: Brief Approvals" shortCaption="Campaign Approvals" groupName="Campaign Manager" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="2">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/approve-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/approve-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
@@ -2009,10 +2009,10 @@ else {
             &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
         <homePageDescription>
-&lt;a href=&quot;http://localhost/mportal/campaign_approvals.php&quot; style=&quot;text-decoration:none;&quot;&gt;
+&lt;a href=&quot;campaign_approvals.php&quot; style=&quot;text-decoration:none;&quot;&gt;
   &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://localhost/mportal/apps/icons/approve.png&quot; class=&quot;icon-size-desk&quot;&gt;
+      &lt;img src=&quot;apps/icons/approve.png&quot; class=&quot;icon-size-desk&quot;&gt;
     &lt;/div&gt;
     &lt;div class=&quot;text-content&quot;&gt;
       &lt;span class=card-title&gt;&lt;strong&gt;Approve &amp; Deploy&lt;/strong&gt;&lt;/span&gt;
@@ -3418,7 +3418,7 @@ else {
         </DefaultSortedColumns>
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/campaign-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/campaign-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
@@ -3430,7 +3430,7 @@ else {
 &lt;a href=&quot;http://mktportal.mscsoftware.com/campaign_global_list.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/campaign.png&quot; class=&quot;icon-size-desk&quot;&gt;
+      &lt;img src=&quot;apps/icons/campaign.png&quot; class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Campaigns&lt;/strong&gt;&lt;/span&gt;
@@ -6673,7 +6673,7 @@ else
       <Page type="query" queryName="campaign_ROI_Tracker" numberByDataSource="0" fileName="campaign_ROI_Tracker" caption="Campaign ROI Tracker" shortCaption="Campaign ROI Tracker" groupName="Campaign Manager" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="0" viewAbilityMode="3" editAbilityMode="0" multiEditAbility="0" copyAbilityMode="0" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/roi-tracker-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/roi-tracker-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
@@ -6685,7 +6685,7 @@ else
 &lt;a href=&quot;http://mktportal.mscsoftware.com/campaign_ROI_Tracker.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/roi-tracker.png&quot; class=&quot;icon-size-desk&quot;&gt;
+      &lt;img src=&quot;apps/icons/roi-tracker.png&quot; class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;ROI Tracker&lt;/strong&gt;&lt;/span&gt;
@@ -7386,7 +7386,7 @@ else
       <Page type="query" queryName="campaign_analysis" numberByDataSource="0" fileName="campaign_analysis" caption="Campaign Analysis" shortCaption="Campaign Analysis" groupName="Campaign Manager" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="0" viewAbilityMode="0" editAbilityMode="0" multiEditAbility="0" copyAbilityMode="0" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/analytics-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/analytics-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
@@ -7398,7 +7398,7 @@ else
 &lt;a href=&quot;http://mktportal.mscsoftware.com/campaign_analysis.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/analytics.png&quot; class=&quot;icon-size-desk&quot;&gt;
+      &lt;img src=&quot;apps/icons/analytics.png&quot; class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Campaign Analysis&lt;/strong&gt;&lt;/span&gt;
@@ -8530,7 +8530,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
       <Page type="table" tableName="campaign_tracker_website" numberByDataSource="0" fileName="campaign_tracker_website" caption="Campaign Tracker: Website" shortCaption="Campaign Tracker Website" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" pageViewMode="1" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/website-list-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/website-list-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
@@ -8542,7 +8542,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
 &lt;a href=&quot;http://mktportal.mscsoftware.com/campaign_tracker_website.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/website-list.png&quot; class=&quot;icon-size-desk&quot;&gt;
+      &lt;img src=&quot;apps/icons/website-list.png&quot; class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Website Listing&lt;/strong&gt;&lt;/span&gt;
@@ -9672,7 +9672,7 @@ else {
       <Page type="table" tableName="campaign_tracker_comms" numberByDataSource="0" fileName="campaign_tracker_comms" caption="Campaign Tracker: Comms" shortCaption="Campaign Tracker Comms" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-	&lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/comms-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/comms-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
 	&lt;div class=&quot;mark-media-body&quot;&gt;
 		&lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
 		&lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
@@ -9684,7 +9684,7 @@ else {
 &lt;a href=&quot;http://mktportal.mscsoftware.com/campaign_tracker_comms.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/comms.png&quot; class=&quot;icon-size-desk&quot;&gt;
+      &lt;img src=&quot;apps/icons/comms.png&quot; class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Comms Tracker (Marketo)&lt;/strong&gt;&lt;/span&gt;
@@ -10583,7 +10583,7 @@ else {
       <Page type="table" tableName="campaign_tracker_design" numberByDataSource="0" fileName="campaign_tracker_design" caption="Campaign Tracker: Design" shortCaption="Campaign Tracker Design" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/design-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/design-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
@@ -10595,7 +10595,7 @@ else {
 &lt;a href=&quot;http://mktportal.mscsoftware.com/campaign_tracker_design.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/design.png&quot; class=&quot;icon-size-desk&quot;&gt;
+      &lt;img src=&quot;apps/icons/design.png&quot; class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Graphic Design&lt;/strong&gt;&lt;/span&gt;
@@ -11240,7 +11240,7 @@ else {
       <Page type="table" tableName="campaign_tracker_content" numberByDataSource="0" fileName="campaign_tracker_content" caption="Campaign Tracker: Content" shortCaption="Campaign Tracker Content" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/web-content-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/web-content-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
@@ -11252,7 +11252,7 @@ else {
 &lt;a href=&quot;http://mktportal.mscsoftware.com/campaign_tracker_content.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/web-content.png&quot;  class=&quot;icon-size-desk&quot;&gt;
+      &lt;img src=&quot;apps/icons/web-content.png&quot;  class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Web Content&lt;/strong&gt;&lt;/span&gt;
@@ -11569,7 +11569,7 @@ else {
       <Page type="table" tableName="campaign_tracker_social" numberByDataSource="0" fileName="campaign_tracker_social" caption="Campaign Tracker: Social" shortCaption="Campaign Tracker Social" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/social-media-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/social-media-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
@@ -11581,7 +11581,7 @@ else {
 &lt;a href=&quot;https://mktportal.mscsoftware.com/campaign_tracker_social.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/social-media.png&quot;  class=&quot;icon-size-desk&quot;&gt;
+      &lt;img src=&quot;apps/icons/social-media.png&quot;  class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Social Media&lt;/strong&gt;&lt;/span&gt;
@@ -11924,7 +11924,7 @@ else {
       <Page type="table" tableName="campaign_tracker_paid" numberByDataSource="0" fileName="campaign_tracker_paid" caption="Campaign Tracker: Paid" shortCaption="Campaign Tracker Paid" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/paid-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/paid-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
@@ -11936,7 +11936,7 @@ else {
 &lt;a href=&quot;https://mktportal.mscsoftware.com/campaign_tracker_paid.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/paid.png&quot;  class=&quot;icon-size-desk&quot;&gt;
+      &lt;img src=&quot;apps/icons/paid.png&quot;  class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Paid Media&lt;/strong&gt;&lt;/span&gt;
@@ -12251,7 +12251,7 @@ else {
       <Page type="table" tableName="campaign_tracker_partner" numberByDataSource="0" fileName="campaign_tracker_partner" caption="Campaign Tracker: Partner" shortCaption="Campaign Tracker Partner" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/partner-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/partner-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
@@ -12263,7 +12263,7 @@ else {
 &lt;a href=&quot;https://mktportal.mscsoftware.com/campaign_tracker_partner.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/partner.png&quot;  class=&quot;icon-size-desk&quot;&gt;
+      &lt;img src=&quot;apps/icons/partner.png&quot;  class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Partner Program&lt;/strong&gt;&lt;/span&gt;
@@ -12580,7 +12580,7 @@ else {
       <Page type="table" tableName="campaign_tracker_pr" numberByDataSource="0" fileName="campaign_tracker_pr" caption="Campaign Tracker: Pr" shortCaption="Campaign Tracker Pr" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/public-relations-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/public-relations-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
@@ -12592,7 +12592,7 @@ else {
 &lt;a href=&quot;https://mktportal.mscsoftware.com/campaign_tracker_pr.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/public-relations.png&quot;  class=&quot;icon-size-desk&quot;&gt;
+      &lt;img src=&quot;apps/icons/public-relations.png&quot;  class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Public Relations&lt;/strong&gt;&lt;/span&gt;
@@ -12819,7 +12819,7 @@ else {
       <Page type="table" tableName="campaign_tracker_utm" numberByDataSource="0" fileName="campaign_tracker_utm" caption="Campaign Tracker Utm" shortCaption="Campaign Tracker Utm" groupName="Campaign Planner" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/utm-tracking-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/utm-tracking-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
@@ -12831,7 +12831,7 @@ else {
 &lt;a href=&quot;https://mktportal.mscsoftware.com/campaign_tracker_utm.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/utm-tracking.png&quot;  class=&quot;icon-size-desk&quot;&gt;
+      &lt;img src=&quot;apps/icons/utm-tracking.png&quot;  class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;UTM Tracking&lt;/strong&gt;&lt;/span&gt;
@@ -13156,7 +13156,7 @@ else {
       <Page type="table" tableName="country_list" numberByDataSource="0" fileName="country_list" caption="Country List" shortCaption="Country List" groupName="Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/globe-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/globe-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
@@ -13168,7 +13168,7 @@ else {
 &lt;a href=&quot;http://mktportal.mscsoftware.com/country_list.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/globe.png&quot;  class=&quot;icon-size-desk&quot;&gt;
+      &lt;img src=&quot;apps/icons/globe.png&quot;  class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Country List&lt;/strong&gt;&lt;/span&gt;
@@ -13375,7 +13375,7 @@ else {
       <Page type="table" tableName="lookup_tracker_tactics" numberByDataSource="0" fileName="lookup_tracker_tactics" caption="Tactic Template Builder" shortCaption="Tactic Template" groupName="Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-    &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/template-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/template-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;mark-media-body&quot;&gt;
     &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
         &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
@@ -13387,7 +13387,7 @@ else {
 &lt;a href=&quot;http://mktportal.mscsoftware.com/lookup_tracker_tactics.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/template.png&quot; class=&quot;icon-size-desk&quot;&gt;
+      &lt;img src=&quot;apps/icons/template.png&quot; class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Tactic Templates&lt;/strong&gt;&lt;/span&gt;
@@ -13639,7 +13639,7 @@ else {
       <Page type="table" tableName="phpgen_user_roles" numberByDataSource="0" fileName="phpgen_user_roles" caption="User Roles" shortCaption="User Roles" groupName="Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="1" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
-              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/role-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
+              &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/role-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
@@ -13651,7 +13651,7 @@ else {
 &lt;a href=&quot;http://mktportal.mscsoftware.com/phpgen_user_roles.php&quot; style=&quot;text-decoration:none;&quot;&gt;
 &lt;div class=&quot;card&quot;&gt;
     &lt;div class=&quot;card-circle&quot;&gt;
-      &lt;img src=&quot;http://mktportal.mscsoftware.com/apps/icons/role.png&quot;  class=&quot;icon-size-desk&quot;&gt;
+      &lt;img src=&quot;apps/icons/role.png&quot;  class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;User Roles&lt;/strong&gt;&lt;/span&gt;
