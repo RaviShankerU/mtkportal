@@ -281,7 +281,7 @@
         {
             $result = new CompositePageNavigator($this);
             
-            $partitionNavigator = new CustomPageNavigator('partition', $this, $this->dataset, 'Filter by Channel Names', $result);
+            $partitionNavigator = new CustomPageNavigator('partition', $this, $this->dataset, 'Filter by Tactic Type', $result);
             $partitionNavigator->OnGetPartitionCondition->AddListener('partition' . '_GetPartitionConditionHandler', $this);
             $partitionNavigator->OnGetPartitions->AddListener('partition' . '_GetPartitionsHandler', $this);
             $partitionNavigator->SetAllowViewAllRecords(true);
@@ -921,13 +921,18 @@
         
         public function GetEnableModalGridCopy() { return true; }
         
-        private $partitions = array(1 => array('\'12\''), 2 => array('\'6\''), 3 => array('\'11\''));
+        private $partitions = array(1 => array('\'1\''), 2 => array('\'2\''), 3 => array('\'3\''), 4 => array('\'4\''), 5 => array('\'5\''), 6 => array('\'6\''), 7 => array('\'7\''), 8 => array('\'8\''));
         
         function partition_GetPartitionsHandler(&$partitions)
         {
-            $partitions[1] = '12';
-            $partitions[2] = '6';
-            $partitions[3] = '11';
+            $partitions[1] = 'Comms Tracker (Marketo)';
+            $partitions[2] = 'Website Content';
+            $partitions[3] = 'Graphics & Design';
+            $partitions[4] = 'Paid';
+            $partitions[5] = 'Partner';
+            $partitions[6] = 'Public Relations';
+            $partitions[7] = 'Social Media';
+            $partitions[8] = 'UTM Tracking';
         }
         
         function partition_GetPartitionConditionHandler($partitionName, &$condition)
@@ -935,7 +940,7 @@
             $condition = '';
             if (isset($partitionName) && isset($this->partitions[$partitionName]))
                 foreach ($this->partitions[$partitionName] as $value)
-                    AddStr($condition, sprintf('(channel_name = %s)', $this->PrepareTextForSQL($value)), ' OR ');
+                    AddStr($condition, sprintf('(tactic_name = %s)', $this->PrepareTextForSQL($value)), ' OR ');
         }
     
         protected function CreateGrid()

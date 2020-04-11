@@ -55,8 +55,9 @@ function GetPageGroups()
 {
     $result = array();
     $result[] = array('caption' => 'New Campaign', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.');
+    $result[] = array('caption' => 'Campaign Tools', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.');
     $result[] = array('caption' => 'Campaign Manager', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.');
-    $result[] = array('caption' => 'Campaign Planner', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.');
+    $result[] = array('caption' => 'Global Marketing', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.');
     $result[] = array('caption' => 'Tools', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.');
     return $result;
 }
@@ -141,7 +142,29 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
-    $result[] = array('caption' => 'Campaign Tracker Website', 'short_caption' => 'Campaign Tracker: Website', 'filename' => 'campaign_tracker_website.php', 'name' => 'campaign_tracker_website', 'group_name' => 'Campaign Planner', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/campaign_tracker_website.php" style="text-decoration:none;">
+    $result[] = array('caption' => 'Program Generator', 'short_caption' => 'Marketo Program Generator', 'filename' => 'campaign_program_generator.php', 'name' => 'campaign_program_generator', 'group_name' => 'Campaign Tools', 'add_separator' => false, 'description' => '<a href="campaign_program_generator.php" style="text-decoration:none;">
+    <div class="card">
+        <div class="card-circle">
+          <img src="apps/icons/program-generator.png"  class="icon-size-desk">
+      </div>
+      <div class="text-content">
+        <span class=card-title><strong>Program Generator</strong></span>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. </p>
+      </div>
+    </div>
+    </a>');
+    $result[] = array('caption' => 'UTM Link Generator', 'short_caption' => 'UTM Link Tracking Generator', 'filename' => 'campaign_tracker_utm.php', 'name' => 'campaign_tracker_utm', 'group_name' => 'Campaign Tools', 'add_separator' => false, 'description' => '<a href="campaign_tracker_utm.php" style="text-decoration:none;">
+    <div class="card">
+        <div class="card-circle">
+          <img src="apps/icons/utm-tracking.png"  class="icon-size-desk">
+      </div>
+      <div class="text-content">
+        <span class=card-title><strong>UTM Tracking</strong></span>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. </p>
+      </div>
+    </div>
+    </a>');
+    $result[] = array('caption' => 'Campaign Tracker Website', 'short_caption' => 'Campaign Tracker: Website', 'filename' => 'campaign_tracker_website.php', 'name' => 'campaign_tracker_website', 'group_name' => 'Global Marketing', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/campaign_tracker_website.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
           <img src="apps/icons/website-list.png" class="icon-size-desk">
@@ -152,7 +175,7 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
-    $result[] = array('caption' => 'Campaign Tracker Comms', 'short_caption' => 'Campaign Tracker: Comms', 'filename' => 'campaign_tracker_comms.php', 'name' => 'campaign_tracker_comms', 'group_name' => 'Campaign Planner', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/campaign_tracker_comms.php" style="text-decoration:none;">
+    $result[] = array('caption' => 'Campaign Tracker Comms', 'short_caption' => 'Campaign Tracker: Comms', 'filename' => 'campaign_tracker_comms.php', 'name' => 'campaign_tracker_comms', 'group_name' => 'Global Marketing', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/campaign_tracker_comms.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
           <img src="apps/icons/comms.png" class="icon-size-desk">
@@ -163,7 +186,7 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
-    $result[] = array('caption' => 'Campaign Tracker Design', 'short_caption' => 'Campaign Tracker: Design', 'filename' => 'campaign_tracker_design.php', 'name' => 'campaign_tracker_design', 'group_name' => 'Campaign Planner', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/campaign_tracker_design.php" style="text-decoration:none;">
+    $result[] = array('caption' => 'Campaign Tracker Design', 'short_caption' => 'Campaign Tracker: Design', 'filename' => 'campaign_tracker_design.php', 'name' => 'campaign_tracker_design', 'group_name' => 'Global Marketing', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/campaign_tracker_design.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
           <img src="apps/icons/design.png" class="icon-size-desk">
@@ -174,7 +197,7 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
-    $result[] = array('caption' => 'Campaign Tracker Content', 'short_caption' => 'Campaign Tracker: Content', 'filename' => 'campaign_tracker_content.php', 'name' => 'campaign_tracker_content', 'group_name' => 'Campaign Planner', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/campaign_tracker_content.php" style="text-decoration:none;">
+    $result[] = array('caption' => 'Campaign Tracker Content', 'short_caption' => 'Campaign Tracker: Content', 'filename' => 'campaign_tracker_content.php', 'name' => 'campaign_tracker_content', 'group_name' => 'Global Marketing', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/campaign_tracker_content.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
           <img src="apps/icons/web-content.png"  class="icon-size-desk">
@@ -185,7 +208,7 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
-    $result[] = array('caption' => 'Campaign Tracker Social', 'short_caption' => 'Campaign Tracker: Social', 'filename' => 'campaign_tracker_social.php', 'name' => 'campaign_tracker_social', 'group_name' => 'Campaign Planner', 'add_separator' => false, 'description' => '<a href="https://mktportal.mscsoftware.com/campaign_tracker_social.php" style="text-decoration:none;">
+    $result[] = array('caption' => 'Campaign Tracker Social', 'short_caption' => 'Campaign Tracker: Social', 'filename' => 'campaign_tracker_social.php', 'name' => 'campaign_tracker_social', 'group_name' => 'Global Marketing', 'add_separator' => false, 'description' => '<a href="https://mktportal.mscsoftware.com/campaign_tracker_social.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
           <img src="apps/icons/social-media.png"  class="icon-size-desk">
@@ -196,7 +219,7 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
-    $result[] = array('caption' => 'Campaign Tracker Paid', 'short_caption' => 'Campaign Tracker: Paid', 'filename' => 'campaign_tracker_paid.php', 'name' => 'campaign_tracker_paid', 'group_name' => 'Campaign Planner', 'add_separator' => false, 'description' => '<a href="https://mktportal.mscsoftware.com/campaign_tracker_paid.php" style="text-decoration:none;">
+    $result[] = array('caption' => 'Campaign Tracker Paid', 'short_caption' => 'Campaign Tracker: Paid', 'filename' => 'campaign_tracker_paid.php', 'name' => 'campaign_tracker_paid', 'group_name' => 'Global Marketing', 'add_separator' => false, 'description' => '<a href="https://mktportal.mscsoftware.com/campaign_tracker_paid.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
           <img src="apps/icons/paid.png"  class="icon-size-desk">
@@ -207,7 +230,7 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
-    $result[] = array('caption' => 'Campaign Tracker Partner', 'short_caption' => 'Campaign Tracker: Partner', 'filename' => 'campaign_tracker_partner.php', 'name' => 'campaign_tracker_partner', 'group_name' => 'Campaign Planner', 'add_separator' => false, 'description' => '<a href="https://mktportal.mscsoftware.com/campaign_tracker_partner.php" style="text-decoration:none;">
+    $result[] = array('caption' => 'Campaign Tracker Partner', 'short_caption' => 'Campaign Tracker: Partner', 'filename' => 'campaign_tracker_partner.php', 'name' => 'campaign_tracker_partner', 'group_name' => 'Global Marketing', 'add_separator' => false, 'description' => '<a href="https://mktportal.mscsoftware.com/campaign_tracker_partner.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
           <img src="apps/icons/partner.png"  class="icon-size-desk">
@@ -218,24 +241,13 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
-    $result[] = array('caption' => 'Campaign Tracker Pr', 'short_caption' => 'Campaign Tracker: Pr', 'filename' => 'campaign_tracker_pr.php', 'name' => 'campaign_tracker_pr', 'group_name' => 'Campaign Planner', 'add_separator' => false, 'description' => '<a href="https://mktportal.mscsoftware.com/campaign_tracker_pr.php" style="text-decoration:none;">
+    $result[] = array('caption' => 'Campaign Tracker Pr', 'short_caption' => 'Campaign Tracker: Pr', 'filename' => 'campaign_tracker_pr.php', 'name' => 'campaign_tracker_pr', 'group_name' => 'Global Marketing', 'add_separator' => false, 'description' => '<a href="https://mktportal.mscsoftware.com/campaign_tracker_pr.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
           <img src="apps/icons/public-relations.png"  class="icon-size-desk">
       </div>
       <div class="text-content">
         <span class=card-title><strong>Public Relations</strong></span>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. </p>
-      </div>
-    </div>
-    </a>');
-    $result[] = array('caption' => 'Campaign Tracker Utm', 'short_caption' => 'Campaign Tracker Utm', 'filename' => 'campaign_tracker_utm.php', 'name' => 'campaign_tracker_utm', 'group_name' => 'Campaign Planner', 'add_separator' => false, 'description' => '<a href="https://mktportal.mscsoftware.com/campaign_tracker_utm.php" style="text-decoration:none;">
-    <div class="card">
-        <div class="card-circle">
-          <img src="apps/icons/utm-tracking.png"  class="icon-size-desk">
-      </div>
-      <div class="text-content">
-        <span class=card-title><strong>UTM Tracking</strong></span>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. </p>
       </div>
     </div>

@@ -35,8 +35,8 @@
     {
         protected function DoBeforeCreate()
         {
-            $this->SetTitle('Campaign Tracker Utm');
-            $this->SetMenuLabel('Campaign Tracker Utm');
+            $this->SetTitle('UTM Link Tracking Generator');
+            $this->SetMenuLabel('UTM Link Generator');
             $this->SetHeader(GetPagesHeader());
             $this->SetFooter(GetPagesFooter());
     
@@ -47,8 +47,10 @@
             $this->dataset->addFields(
                 array(
                     new IntegerField('Campaign_UTM_ID', true, true, true),
+                    new IntegerField('has_brief'),
+                    new StringField('master_campaign_id'),
                     new IntegerField('Campaign_Name'),
-                    new IntegerField('Campaign_Detail_ID'),
+                    new IntegerField('campaign_tracker_id'),
                     new StringField('Campaign'),
                     new StringField('Medium'),
                     new StringField('Source'),
@@ -56,7 +58,7 @@
                     new StringField('Content'),
                     new StringField('Custom_Parameters'),
                     new StringField('Notes'),
-                    new StringField('Type_of_Page'),
+                    new StringField('type_of_page'),
                     new StringField('Marketo_Page'),
                     new StringField('Marketo_Page_Name'),
                     new StringField('URL'),
@@ -64,8 +66,7 @@
                     new StringField('Created_By'),
                     new DateTimeField('Created_Date'),
                     new DateField('campaign_publish_date'),
-                    new StringField('campaign_description'),
-                    new StringField('master_campaign_id')
+                    new StringField('campaign_description')
                 )
             );
         }
@@ -99,8 +100,11 @@
         {
             return array(
                 new FilterColumn($this->dataset, 'Campaign_UTM_ID', 'Campaign_UTM_ID', 'Campaign UTM ID'),
+                new FilterColumn($this->dataset, 'has_brief', 'has_brief', 'Has Brief'),
+                new FilterColumn($this->dataset, 'master_campaign_id', 'master_campaign_id', 'Master Campaign Id'),
+                new FilterColumn($this->dataset, 'campaign_tracker_id', 'campaign_tracker_id', 'Campaign Tracker Id'),
                 new FilterColumn($this->dataset, 'Campaign_Name', 'Campaign_Name', 'Campaign Name'),
-                new FilterColumn($this->dataset, 'Campaign_Detail_ID', 'Campaign_Detail_ID', 'Campaign Detail ID'),
+                new FilterColumn($this->dataset, 'campaign_description', 'campaign_description', 'Campaign Description'),
                 new FilterColumn($this->dataset, 'Campaign', 'Campaign', 'Campaign'),
                 new FilterColumn($this->dataset, 'Medium', 'Medium', 'Medium'),
                 new FilterColumn($this->dataset, 'Source', 'Source', 'Source'),
@@ -108,16 +112,14 @@
                 new FilterColumn($this->dataset, 'Content', 'Content', 'Content'),
                 new FilterColumn($this->dataset, 'Custom_Parameters', 'Custom_Parameters', 'Custom Parameters'),
                 new FilterColumn($this->dataset, 'Notes', 'Notes', 'Notes'),
-                new FilterColumn($this->dataset, 'Type_of_Page', 'Type_of_Page', 'Type Of Page'),
+                new FilterColumn($this->dataset, 'type_of_page', 'type_of_page', 'Type Of Page'),
                 new FilterColumn($this->dataset, 'Marketo_Page', 'Marketo_Page', 'Marketo Page'),
                 new FilterColumn($this->dataset, 'Marketo_Page_Name', 'Marketo_Page_Name', 'Marketo Page Name'),
                 new FilterColumn($this->dataset, 'URL', 'URL', 'URL'),
                 new FilterColumn($this->dataset, 'Full_URL', 'Full_URL', 'Full URL'),
                 new FilterColumn($this->dataset, 'Created_By', 'Created_By', 'Created By'),
                 new FilterColumn($this->dataset, 'Created_Date', 'Created_Date', 'Created Date'),
-                new FilterColumn($this->dataset, 'campaign_publish_date', 'campaign_publish_date', 'Campaign Publish Date'),
-                new FilterColumn($this->dataset, 'campaign_description', 'campaign_description', 'Campaign Description'),
-                new FilterColumn($this->dataset, 'master_campaign_id', 'master_campaign_id', 'Master Campaign Id')
+                new FilterColumn($this->dataset, 'campaign_publish_date', 'campaign_publish_date', 'Campaign Publish Date')
             );
         }
     
@@ -125,8 +127,11 @@
         {
             $quickFilter
                 ->addColumn($columns['Campaign_UTM_ID'])
+                ->addColumn($columns['has_brief'])
+                ->addColumn($columns['master_campaign_id'])
+                ->addColumn($columns['campaign_tracker_id'])
                 ->addColumn($columns['Campaign_Name'])
-                ->addColumn($columns['Campaign_Detail_ID'])
+                ->addColumn($columns['campaign_description'])
                 ->addColumn($columns['Campaign'])
                 ->addColumn($columns['Medium'])
                 ->addColumn($columns['Source'])
@@ -134,16 +139,14 @@
                 ->addColumn($columns['Content'])
                 ->addColumn($columns['Custom_Parameters'])
                 ->addColumn($columns['Notes'])
-                ->addColumn($columns['Type_of_Page'])
+                ->addColumn($columns['type_of_page'])
                 ->addColumn($columns['Marketo_Page'])
                 ->addColumn($columns['Marketo_Page_Name'])
                 ->addColumn($columns['URL'])
                 ->addColumn($columns['Full_URL'])
                 ->addColumn($columns['Created_By'])
                 ->addColumn($columns['Created_Date'])
-                ->addColumn($columns['campaign_publish_date'])
-                ->addColumn($columns['campaign_description'])
-                ->addColumn($columns['master_campaign_id']);
+                ->addColumn($columns['campaign_publish_date']);
         }
     
         protected function setupColumnFilter(ColumnFilter $columnFilter)
@@ -159,6 +162,67 @@
             
             $filterBuilder->addColumn(
                 $columns['Campaign_UTM_ID'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('has_brief_edit');
+            
+            $filterBuilder->addColumn(
+                $columns['has_brief'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('master_campaign_id_edit');
+            $main_editor->SetMaxLength(45);
+            
+            $filterBuilder->addColumn(
+                $columns['master_campaign_id'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('campaign_tracker_id_edit');
+            
+            $filterBuilder->addColumn(
+                $columns['campaign_tracker_id'],
                 array(
                     FilterConditionOperator::EQUALS => $main_editor,
                     FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
@@ -191,10 +255,11 @@
                 )
             );
             
-            $main_editor = new TextEdit('campaign_detail_id_edit');
+            $main_editor = new TextEdit('campaign_description_edit');
+            $main_editor->SetMaxLength(45);
             
             $filterBuilder->addColumn(
-                $columns['Campaign_Detail_ID'],
+                $columns['campaign_description'],
                 array(
                     FilterConditionOperator::EQUALS => $main_editor,
                     FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
@@ -204,6 +269,12 @@
                     FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
                     FilterConditionOperator::IS_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -387,7 +458,7 @@
             $main_editor->SetMaxLength(10);
             
             $filterBuilder->addColumn(
-                $columns['Type_of_Page'],
+                $columns['type_of_page'],
                 array(
                     FilterConditionOperator::EQUALS => $main_editor,
                     FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
@@ -570,56 +641,6 @@
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
             );
-            
-            $main_editor = new TextEdit('campaign_description_edit');
-            $main_editor->SetMaxLength(45);
-            
-            $filterBuilder->addColumn(
-                $columns['campaign_description'],
-                array(
-                    FilterConditionOperator::EQUALS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::CONTAINS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
-                    FilterConditionOperator::BEGINS_WITH => $main_editor,
-                    FilterConditionOperator::ENDS_WITH => $main_editor,
-                    FilterConditionOperator::IS_LIKE => $main_editor,
-                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
-                    FilterConditionOperator::IS_BLANK => null,
-                    FilterConditionOperator::IS_NOT_BLANK => null
-                )
-            );
-            
-            $main_editor = new TextEdit('master_campaign_id_edit');
-            $main_editor->SetMaxLength(45);
-            
-            $filterBuilder->addColumn(
-                $columns['master_campaign_id'],
-                array(
-                    FilterConditionOperator::EQUALS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::CONTAINS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
-                    FilterConditionOperator::BEGINS_WITH => $main_editor,
-                    FilterConditionOperator::ENDS_WITH => $main_editor,
-                    FilterConditionOperator::IS_LIKE => $main_editor,
-                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
-                    FilterConditionOperator::IS_BLANK => null,
-                    FilterConditionOperator::IS_NOT_BLANK => null
-                )
-            );
         }
     
         protected function AddOperationsColumns(Grid $grid)
@@ -673,9 +694,32 @@
         protected function AddFieldColumns(Grid $grid, $withDetails = true)
         {
             //
-            // View column for Campaign_UTM_ID field
+            // View column for has_brief field
             //
-            $column = new NumberViewColumn('Campaign_UTM_ID', 'Campaign_UTM_ID', 'Campaign UTM ID', $this->dataset);
+            $column = new NumberViewColumn('has_brief', 'has_brief', 'Has Brief', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for master_campaign_id field
+            //
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for campaign_tracker_id field
+            //
+            $column = new NumberViewColumn('campaign_tracker_id', 'campaign_tracker_id', 'Campaign Tracker Id', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -699,13 +743,10 @@
             $grid->AddViewColumn($column);
             
             //
-            // View column for Campaign_Detail_ID field
+            // View column for campaign_description field
             //
-            $column = new NumberViewColumn('Campaign_Detail_ID', 'Campaign_Detail_ID', 'Campaign Detail ID', $this->dataset);
+            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -784,9 +825,9 @@
             $grid->AddViewColumn($column);
             
             //
-            // View column for Type_of_Page field
+            // View column for type_of_page field
             //
-            $column = new TextViewColumn('Type_of_Page', 'Type_of_Page', 'Type Of Page', $this->dataset);
+            $column = new TextViewColumn('type_of_page', 'type_of_page', 'Type Of Page', $this->dataset);
             $column->SetOrderable(true);
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
@@ -874,26 +915,6 @@
             $column->SetDescription('');
             $column->SetFixedWidth(null);
             $grid->AddViewColumn($column);
-            
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for master_campaign_id field
-            //
-            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
         }
     
         protected function AddSingleRecordViewColumns(Grid $grid)
@@ -902,6 +923,33 @@
             // View column for Campaign_UTM_ID field
             //
             $column = new NumberViewColumn('Campaign_UTM_ID', 'Campaign_UTM_ID', 'Campaign UTM ID', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for has_brief field
+            //
+            $column = new NumberViewColumn('has_brief', 'has_brief', 'Has Brief', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for master_campaign_id field
+            //
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for campaign_tracker_id field
+            //
+            $column = new NumberViewColumn('campaign_tracker_id', 'campaign_tracker_id', 'Campaign Tracker Id', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -919,13 +967,10 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for Campaign_Detail_ID field
+            // View column for campaign_description field
             //
-            $column = new NumberViewColumn('Campaign_Detail_ID', 'Campaign_Detail_ID', 'Campaign Detail ID', $this->dataset);
+            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -980,9 +1025,9 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for Type_of_Page field
+            // View column for type_of_page field
             //
-            $column = new TextViewColumn('Type_of_Page', 'Type_of_Page', 'Type Of Page', $this->dataset);
+            $column = new TextViewColumn('type_of_page', 'type_of_page', 'Type Of Page', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
             
@@ -1046,24 +1091,38 @@
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y');
             $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for master_campaign_id field
-            //
-            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddSingleRecordViewColumn($column);
         }
     
         protected function AddEditColumns(Grid $grid)
         {
+            //
+            // Edit column for has_brief field
+            //
+            $editor = new TextEdit('has_brief_edit');
+            $editColumn = new CustomEditColumn('Has Brief', 'has_brief', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for master_campaign_id field
+            //
+            $editor = new TextEdit('master_campaign_id_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Master Campaign Id', 'master_campaign_id', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for campaign_tracker_id field
+            //
+            $editor = new TextEdit('campaign_tracker_id_edit');
+            $editColumn = new CustomEditColumn('Campaign Tracker Id', 'campaign_tracker_id', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
             //
             // Edit column for Campaign_Name field
             //
@@ -1074,10 +1133,11 @@
             $grid->AddEditColumn($editColumn);
             
             //
-            // Edit column for Campaign_Detail_ID field
+            // Edit column for campaign_description field
             //
-            $editor = new TextEdit('campaign_detail_id_edit');
-            $editColumn = new CustomEditColumn('Campaign Detail ID', 'Campaign_Detail_ID', $editor, $this->dataset);
+            $editor = new TextEdit('campaign_description_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Campaign Description', 'campaign_description', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -1152,11 +1212,11 @@
             $grid->AddEditColumn($editColumn);
             
             //
-            // Edit column for Type_of_Page field
+            // Edit column for type_of_page field
             //
             $editor = new TextEdit('type_of_page_edit');
             $editor->SetMaxLength(10);
-            $editColumn = new CustomEditColumn('Type Of Page', 'Type_of_Page', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('Type Of Page', 'type_of_page', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -1213,7 +1273,6 @@
             $editor = new DateTimeEdit('created_date_edit', false, 'd-m-Y H:i:s');
             $editColumn = new CustomEditColumn('Created Date', 'Created_Date', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
-            $editColumn->SetAllowSetToDefault(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
@@ -1222,26 +1281,6 @@
             //
             $editor = new DateTimeEdit('campaign_publish_date_edit', false, 'd-m-Y');
             $editColumn = new CustomEditColumn('Campaign Publish Date', 'campaign_publish_date', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for campaign_description field
-            //
-            $editor = new TextEdit('campaign_description_edit');
-            $editor->SetMaxLength(45);
-            $editColumn = new CustomEditColumn('Campaign Description', 'campaign_description', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for master_campaign_id field
-            //
-            $editor = new TextEdit('master_campaign_id_edit');
-            $editor->SetMaxLength(45);
-            $editColumn = new CustomEditColumn('Master Campaign Id', 'master_campaign_id', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -1250,6 +1289,34 @@
         protected function AddMultiEditColumns(Grid $grid)
         {
             //
+            // Edit column for has_brief field
+            //
+            $editor = new TextEdit('has_brief_edit');
+            $editColumn = new CustomEditColumn('Has Brief', 'has_brief', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for master_campaign_id field
+            //
+            $editor = new TextEdit('master_campaign_id_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Master Campaign Id', 'master_campaign_id', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for campaign_tracker_id field
+            //
+            $editor = new TextEdit('campaign_tracker_id_edit');
+            $editColumn = new CustomEditColumn('Campaign Tracker Id', 'campaign_tracker_id', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
             // Edit column for Campaign_Name field
             //
             $editor = new TextEdit('campaign_name_edit');
@@ -1259,10 +1326,11 @@
             $grid->AddMultiEditColumn($editColumn);
             
             //
-            // Edit column for Campaign_Detail_ID field
+            // Edit column for campaign_description field
             //
-            $editor = new TextEdit('campaign_detail_id_edit');
-            $editColumn = new CustomEditColumn('Campaign Detail ID', 'Campaign_Detail_ID', $editor, $this->dataset);
+            $editor = new TextEdit('campaign_description_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Campaign Description', 'campaign_description', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -1337,11 +1405,11 @@
             $grid->AddMultiEditColumn($editColumn);
             
             //
-            // Edit column for Type_of_Page field
+            // Edit column for type_of_page field
             //
             $editor = new TextEdit('type_of_page_edit');
             $editor->SetMaxLength(10);
-            $editColumn = new CustomEditColumn('Type Of Page', 'Type_of_Page', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('Type Of Page', 'type_of_page', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -1398,7 +1466,6 @@
             $editor = new DateTimeEdit('created_date_edit', false, 'd-m-Y H:i:s');
             $editColumn = new CustomEditColumn('Created Date', 'Created_Date', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
-            $editColumn->SetAllowSetToDefault(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
             
@@ -1407,26 +1474,6 @@
             //
             $editor = new DateTimeEdit('campaign_publish_date_edit', false, 'd-m-Y');
             $editColumn = new CustomEditColumn('Campaign Publish Date', 'campaign_publish_date', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for campaign_description field
-            //
-            $editor = new TextEdit('campaign_description_edit');
-            $editor->SetMaxLength(45);
-            $editColumn = new CustomEditColumn('Campaign Description', 'campaign_description', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for master_campaign_id field
-            //
-            $editor = new TextEdit('master_campaign_id_edit');
-            $editor->SetMaxLength(45);
-            $editColumn = new CustomEditColumn('Master Campaign Id', 'master_campaign_id', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -1435,6 +1482,34 @@
         protected function AddInsertColumns(Grid $grid)
         {
             //
+            // Edit column for has_brief field
+            //
+            $editor = new TextEdit('has_brief_edit');
+            $editColumn = new CustomEditColumn('Has Brief', 'has_brief', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for master_campaign_id field
+            //
+            $editor = new TextEdit('master_campaign_id_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Master Campaign Id', 'master_campaign_id', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for campaign_tracker_id field
+            //
+            $editor = new TextEdit('campaign_tracker_id_edit');
+            $editColumn = new CustomEditColumn('Campaign Tracker Id', 'campaign_tracker_id', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
             // Edit column for Campaign_Name field
             //
             $editor = new TextEdit('campaign_name_edit');
@@ -1444,10 +1519,11 @@
             $grid->AddInsertColumn($editColumn);
             
             //
-            // Edit column for Campaign_Detail_ID field
+            // Edit column for campaign_description field
             //
-            $editor = new TextEdit('campaign_detail_id_edit');
-            $editColumn = new CustomEditColumn('Campaign Detail ID', 'Campaign_Detail_ID', $editor, $this->dataset);
+            $editor = new TextEdit('campaign_description_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Campaign Description', 'campaign_description', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -1522,11 +1598,11 @@
             $grid->AddInsertColumn($editColumn);
             
             //
-            // Edit column for Type_of_Page field
+            // Edit column for type_of_page field
             //
             $editor = new TextEdit('type_of_page_edit');
             $editor->SetMaxLength(10);
-            $editColumn = new CustomEditColumn('Type Of Page', 'Type_of_Page', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('Type Of Page', 'type_of_page', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -1583,7 +1659,6 @@
             $editor = new DateTimeEdit('created_date_edit', false, 'd-m-Y H:i:s');
             $editColumn = new CustomEditColumn('Created Date', 'Created_Date', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
-            $editColumn->SetAllowSetToDefault(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
             
@@ -1592,26 +1667,6 @@
             //
             $editor = new DateTimeEdit('campaign_publish_date_edit', false, 'd-m-Y');
             $editColumn = new CustomEditColumn('Campaign Publish Date', 'campaign_publish_date', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for campaign_description field
-            //
-            $editor = new TextEdit('campaign_description_edit');
-            $editor->SetMaxLength(45);
-            $editColumn = new CustomEditColumn('Campaign Description', 'campaign_description', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for master_campaign_id field
-            //
-            $editor = new TextEdit('master_campaign_id_edit');
-            $editor->SetMaxLength(45);
-            $editColumn = new CustomEditColumn('Master Campaign Id', 'master_campaign_id', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -1636,6 +1691,33 @@
             $grid->AddPrintColumn($column);
             
             //
+            // View column for has_brief field
+            //
+            $column = new NumberViewColumn('has_brief', 'has_brief', 'Has Brief', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for master_campaign_id field
+            //
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for campaign_tracker_id field
+            //
+            $column = new NumberViewColumn('campaign_tracker_id', 'campaign_tracker_id', 'Campaign Tracker Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddPrintColumn($column);
+            
+            //
             // View column for Campaign_Name field
             //
             $column = new NumberViewColumn('Campaign_Name', 'Campaign_Name', 'Campaign Name', $this->dataset);
@@ -1646,13 +1728,10 @@
             $grid->AddPrintColumn($column);
             
             //
-            // View column for Campaign_Detail_ID field
+            // View column for campaign_description field
             //
-            $column = new NumberViewColumn('Campaign_Detail_ID', 'Campaign_Detail_ID', 'Campaign Detail ID', $this->dataset);
+            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
             $grid->AddPrintColumn($column);
             
             //
@@ -1707,9 +1786,9 @@
             $grid->AddPrintColumn($column);
             
             //
-            // View column for Type_of_Page field
+            // View column for type_of_page field
             //
-            $column = new TextViewColumn('Type_of_Page', 'Type_of_Page', 'Type Of Page', $this->dataset);
+            $column = new TextViewColumn('type_of_page', 'type_of_page', 'Type Of Page', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddPrintColumn($column);
             
@@ -1773,20 +1852,6 @@
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y');
             $grid->AddPrintColumn($column);
-            
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddPrintColumn($column);
-            
-            //
-            // View column for master_campaign_id field
-            //
-            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddPrintColumn($column);
         }
     
         protected function AddExportColumns(Grid $grid)
@@ -1795,6 +1860,33 @@
             // View column for Campaign_UTM_ID field
             //
             $column = new NumberViewColumn('Campaign_UTM_ID', 'Campaign_UTM_ID', 'Campaign UTM ID', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for has_brief field
+            //
+            $column = new NumberViewColumn('has_brief', 'has_brief', 'Has Brief', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for master_campaign_id field
+            //
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for campaign_tracker_id field
+            //
+            $column = new NumberViewColumn('campaign_tracker_id', 'campaign_tracker_id', 'Campaign Tracker Id', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -1812,13 +1904,10 @@
             $grid->AddExportColumn($column);
             
             //
-            // View column for Campaign_Detail_ID field
+            // View column for campaign_description field
             //
-            $column = new NumberViewColumn('Campaign_Detail_ID', 'Campaign_Detail_ID', 'Campaign Detail ID', $this->dataset);
+            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
             $grid->AddExportColumn($column);
             
             //
@@ -1873,9 +1962,9 @@
             $grid->AddExportColumn($column);
             
             //
-            // View column for Type_of_Page field
+            // View column for type_of_page field
             //
-            $column = new TextViewColumn('Type_of_Page', 'Type_of_Page', 'Type Of Page', $this->dataset);
+            $column = new TextViewColumn('type_of_page', 'type_of_page', 'Type Of Page', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddExportColumn($column);
             
@@ -1939,24 +2028,37 @@
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y');
             $grid->AddExportColumn($column);
-            
+        }
+    
+        private function AddCompareColumns(Grid $grid)
+        {
             //
-            // View column for campaign_description field
+            // View column for has_brief field
             //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
+            $column = new NumberViewColumn('has_brief', 'has_brief', 'Has Brief', $this->dataset);
             $column->SetOrderable(true);
-            $grid->AddExportColumn($column);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddCompareColumn($column);
             
             //
             // View column for master_campaign_id field
             //
             $column = new TextViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
             $column->SetOrderable(true);
-            $grid->AddExportColumn($column);
-        }
-    
-        private function AddCompareColumns(Grid $grid)
-        {
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for campaign_tracker_id field
+            //
+            $column = new NumberViewColumn('campaign_tracker_id', 'campaign_tracker_id', 'Campaign Tracker Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddCompareColumn($column);
+            
             //
             // View column for Campaign_Name field
             //
@@ -1968,13 +2070,10 @@
             $grid->AddCompareColumn($column);
             
             //
-            // View column for Campaign_Detail_ID field
+            // View column for campaign_description field
             //
-            $column = new NumberViewColumn('Campaign_Detail_ID', 'Campaign_Detail_ID', 'Campaign Detail ID', $this->dataset);
+            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
             $grid->AddCompareColumn($column);
             
             //
@@ -2029,9 +2128,9 @@
             $grid->AddCompareColumn($column);
             
             //
-            // View column for Type_of_Page field
+            // View column for type_of_page field
             //
-            $column = new TextViewColumn('Type_of_Page', 'Type_of_Page', 'Type Of Page', $this->dataset);
+            $column = new TextViewColumn('type_of_page', 'type_of_page', 'Type Of Page', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddCompareColumn($column);
             
@@ -2094,20 +2193,6 @@
             $column = new DateTimeViewColumn('campaign_publish_date', 'campaign_publish_date', 'Campaign Publish Date', $this->dataset);
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y');
-            $grid->AddCompareColumn($column);
-            
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddCompareColumn($column);
-            
-            //
-            // View column for master_campaign_id field
-            //
-            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id', 'Master Campaign Id', $this->dataset);
-            $column->SetOrderable(true);
             $grid->AddCompareColumn($column);
         }
     
