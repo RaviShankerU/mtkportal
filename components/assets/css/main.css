@@ -12354,3 +12354,11 @@ i {
 label {
   margin-bottom: -10px !important;
 }
+.copy-program-name {
+  font-weight: 300;
+  text-align: left;
+  background-color: whitesmoke !important;
+  border: 1px dotted black !important;
+  padding: 7px 5px;
+  text-indent: 15px;
+}

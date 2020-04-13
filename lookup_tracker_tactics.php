@@ -921,11 +921,11 @@
         
         public function GetEnableModalGridCopy() { return true; }
         
-        private $partitions = array(1 => array('\'1\''), 2 => array('\'2\''), 3 => array('\'3\''), 4 => array('\'4\''), 5 => array('\'5\''), 6 => array('\'6\''), 7 => array('\'7\''), 8 => array('\'8\''));
+        private $partitions = array(1 => array('\'1\''), 2 => array('\'2\''), 3 => array('\'3\''), 4 => array('\'4\''), 5 => array('\'5\''), 6 => array('\'6\''), 7 => array('\'7\''), 8 => array('\'8\''), 9 => array('\'9\''));
         
         function partition_GetPartitionsHandler(&$partitions)
         {
-            $partitions[1] = 'Comms Tracker (Marketo)';
+            $partitions[1] = 'Comms Tracker (Global)';
             $partitions[2] = 'Website Content';
             $partitions[3] = 'Graphics & Design';
             $partitions[4] = 'Paid';
@@ -933,6 +933,7 @@
             $partitions[6] = 'Public Relations';
             $partitions[7] = 'Social Media';
             $partitions[8] = 'UTM Tracking';
+            $partitions[9] = 'Comms Tracker (Locall)';
         }
         
         function partition_GetPartitionConditionHandler($partitionName, &$condition)

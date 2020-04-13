@@ -142,7 +142,7 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
-    $result[] = array('caption' => 'Program Generator', 'short_caption' => 'Marketo Program Generator', 'filename' => 'campaign_program_generator.php', 'name' => 'campaign_program_generator', 'group_name' => 'Campaign Tools', 'add_separator' => false, 'description' => '<a href="campaign_program_generator.php" style="text-decoration:none;">
+    $result[] = array('caption' => 'Program Generator', 'short_caption' => 'Campaign Program Name Generator', 'filename' => 'campaign_program_name_generator.php', 'name' => 'campaign_program_name_generator', 'group_name' => 'Campaign Tools', 'add_separator' => false, 'description' => '<a href="campaign_program_name_generator.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
           <img src="apps/icons/program-generator.png"  class="icon-size-desk">
@@ -153,7 +153,18 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
-    $result[] = array('caption' => 'UTM Link Generator', 'short_caption' => 'UTM Link Tracking Generator', 'filename' => 'campaign_tracker_utm.php', 'name' => 'campaign_tracker_utm', 'group_name' => 'Campaign Tools', 'add_separator' => false, 'description' => '<a href="campaign_tracker_utm.php" style="text-decoration:none;">
+    $result[] = array('caption' => 'Campaign Tracker Comms', 'short_caption' => 'Campaign Tracker: Comms', 'filename' => 'campaign_tracker_comms_local.php', 'name' => 'campaign_tracker_comms_local', 'group_name' => 'Campaign Tools', 'add_separator' => false, 'description' => '<a href="campaign_tracker_comms_local.php" style="text-decoration:none;">
+    <div class="card">
+        <div class="card-circle">
+          <img src="apps/icons/comms.png" class="icon-size-desk">
+      </div>
+      <div class="text-content">
+        <span class=card-title><strong>Comms Tracker (Local)</strong></span>
+        <p>Local campaigns by region, ipsum lorem consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. </p>
+      </div>
+    </div>
+    </a>');
+    $result[] = array('caption' => 'UTM Link Generator', 'short_caption' => 'Campaign Tracker: UTM Link Generator', 'filename' => 'campaign_tracker_utm.php', 'name' => 'campaign_tracker_utm', 'group_name' => 'Campaign Tools', 'add_separator' => false, 'description' => '<a href="campaign_tracker_utm.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
           <img src="apps/icons/utm-tracking.png"  class="icon-size-desk">
@@ -175,7 +186,7 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
-    $result[] = array('caption' => 'Campaign Tracker Comms', 'short_caption' => 'Campaign Tracker: Comms', 'filename' => 'campaign_tracker_comms.php', 'name' => 'campaign_tracker_comms', 'group_name' => 'Global Marketing', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/campaign_tracker_comms.php" style="text-decoration:none;">
+    $result[] = array('caption' => 'Campaign Tracker Global Comms', 'short_caption' => 'Campaign Tracker: Global Comms', 'filename' => 'campaign_tracker_comms.php', 'name' => 'campaign_tracker_comms', 'group_name' => 'Global Marketing', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/campaign_tracker_comms.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
           <img src="apps/icons/comms.png" class="icon-size-desk">

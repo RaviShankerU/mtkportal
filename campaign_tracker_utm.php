@@ -430,7 +430,7 @@
     {
         protected function DoBeforeCreate()
         {
-            $this->SetTitle('UTM Link Tracking Generator');
+            $this->SetTitle('Campaign Tracker: UTM Link Generator');
             $this->SetMenuLabel('UTM Link Generator');
             $this->SetHeader(GetPagesHeader());
             $this->SetFooter(GetPagesFooter());
@@ -3796,7 +3796,7 @@
                $this->GetConnection()->ExecSQL($sql);  
             
                $message = '<p>Record processed successfully updated. To get your UTM Link click on <i class="icon-view"></i> below. ';
-               // 'Click on <a class="alert-link" href="campaign_events.php?operation=edit&pk0='. $return_value .'">click right to copy</a> to complete your event setup.</p>';
+               'Click on <a class="alert-link" href="campaign_events.php?operation=edit&pk0='. $fullurl .'">click right to copy</a> to complete your event setup.</p>';
             }
         }
     
@@ -3810,14 +3810,14 @@
                                        
                $sql = "CALL campaignUTMGenerator($acampaign_utm_id, @fullurl);";
                            
-               // mssql_bind($sql, "@fullurl", $return_value, SQLVARCHAR, true);
-               // mssql_execute($sql,true);
-               // print($return_value);
+               //mssql_bind($sql, "@fullurl", $return_value, SQLVARCHAR, true);
+               //mssql_execute($sql,true);
+               //print($return_value);
             
                $this->GetConnection()->ExecSQL($sql);  
             
                $message = '<p>Record processed successfully updated. To get your UTM Link click on <i class="icon-view"></i> below. ';
-               // 'Click on <a class="alert-link" href="campaign_events.php?operation=edit&pk0='. $return_value .'">click right to copy</a> to complete your event setup.</p>';
+               'Click on <a class="alert-link" href="campaign_events.php?operation=edit&pk0='. $fullurl .'">click right to copy</a> to complete your event setup.</p>';
             }
         }
     
