@@ -721,6 +721,7 @@
                 )
             );
             $this->dataset->AddLookupField('master_campaign_id', 'brief', new IntegerField('master_campaign_id'), new StringField('campaign_name', false, false, false, false, 'master_campaign_id_campaign_name', 'master_campaign_id_campaign_name_brief'), 'master_campaign_id_campaign_name_brief');
+            $this->dataset->AddLookupField('objective', 'lookup_objective', new StringField('objective_name'), new StringField('objective_name', false, false, false, false, 'objective_objective_name', 'objective_objective_name_lookup_objective'), 'objective_objective_name_lookup_objective');
             $this->dataset->AddLookupField('campaign_type', 'lookup_brief_campaign_types', new IntegerField('brief_campaign_types_ID'), new StringField('campaign_types', false, false, false, false, 'campaign_type_campaign_types', 'campaign_type_campaign_types_lookup_brief_campaign_types'), 'campaign_type_campaign_types_lookup_brief_campaign_types');
             $this->dataset->AddLookupField('event_type', 'lookup_event_type', new IntegerField('Event_Type_ID'), new StringField('Event_Type', false, false, false, false, 'event_type_Event_Type', 'event_type_Event_Type_lookup_event_type'), 'event_type_Event_Type_lookup_event_type');
             $this->dataset->AddLookupField('b_campaign_status', 'lookup_status_types', new IntegerField('Status_Type_ID'), new StringField('Status_Type', false, false, false, false, 'b_campaign_status_Status_Type', 'b_campaign_status_Status_Type_lookup_status_types'), 'b_campaign_status_Status_Type_lookup_status_types');
@@ -768,7 +769,7 @@
                 new FilterColumn($this->dataset, 'campaign_approval_ID', 'campaign_approval_ID', 'Campaign Approval ID'),
                 new FilterColumn($this->dataset, 'master_campaign_id', 'master_campaign_id_campaign_name', 'Campaign Name'),
                 new FilterColumn($this->dataset, 'short_description', 'short_description', 'Campaign'),
-                new FilterColumn($this->dataset, 'objective', 'objective', 'Objective'),
+                new FilterColumn($this->dataset, 'objective', 'objective_objective_name', 'Objective'),
                 new FilterColumn($this->dataset, 'campaign_type', 'campaign_type_campaign_types', 'Reporting Type'),
                 new FilterColumn($this->dataset, 'event_type', 'event_type_Event_Type', 'Event Type'),
                 new FilterColumn($this->dataset, 'campaign_period', 'campaign_period', 'Campaign Period'),
@@ -911,7 +912,16 @@
                 )
             );
             
-            $main_editor = new TextEdit('objective');
+            $main_editor = new DynamicCombobox('objective_edit', $this->CreateLinkBuilder());
+            $main_editor->setAllowClear(true);
+            $main_editor->setMinimumInputLength(0);
+            $main_editor->SetAllowNullValue(false);
+            $main_editor->SetHandlerName('filter_builder_campaign_approvals_objective_search');
+            
+            $multi_value_select_editor = new RemoteMultiValueSelect('objective', $this->CreateLinkBuilder());
+            $multi_value_select_editor->SetHandlerName('filter_builder_campaign_approvals_objective_search');
+            
+            $text_editor = new TextEdit('objective');
             
             $filterBuilder->addColumn(
                 $columns['objective'],
@@ -924,12 +934,14 @@
                     FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
                     FilterConditionOperator::IS_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::CONTAINS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
-                    FilterConditionOperator::BEGINS_WITH => $main_editor,
-                    FilterConditionOperator::ENDS_WITH => $main_editor,
-                    FilterConditionOperator::IS_LIKE => $main_editor,
-                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::CONTAINS => $text_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $text_editor,
+                    FilterConditionOperator::BEGINS_WITH => $text_editor,
+                    FilterConditionOperator::ENDS_WITH => $text_editor,
+                    FilterConditionOperator::IS_LIKE => $text_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $text_editor,
+                    FilterConditionOperator::IN => $multi_value_select_editor,
+                    FilterConditionOperator::NOT_IN => $multi_value_select_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -1637,12 +1649,12 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for objective field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
+            $column = new TextViewColumn('objective', 'objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(100);
-            $column->SetFullTextWindowHandlerName('campaign_approvals_objective_handler_view');
+            $column->SetFullTextWindowHandlerName('campaign_approvals_objective_objective_name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1910,8 +1922,21 @@
             //
             // Edit column for objective field
             //
-            $editor = new TextAreaEdit('objective_edit', 50, 3);
-            $editColumn = new CustomEditColumn('Objective', 'objective', $editor, $this->dataset);
+            $editor = new DynamicCombobox('objective_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_objective`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('objective_id', true, true, true),
+                    new StringField('objective_name')
+                )
+            );
+            $lookupDataset->setOrderByField('objective_name', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Objective', 'objective', 'objective_objective_name', 'edit_campaign_approvals_objective_search', $editor, $this->dataset, $lookupDataset, 'objective_name', 'objective_name', '');
             $editColumn->SetReadOnly(true);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
@@ -2307,8 +2332,21 @@
             //
             // Edit column for objective field
             //
-            $editor = new TextAreaEdit('objective_edit', 50, 3);
-            $editColumn = new CustomEditColumn('Objective', 'objective', $editor, $this->dataset);
+            $editor = new DynamicCombobox('objective_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_objective`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('objective_id', true, true, true),
+                    new StringField('objective_name')
+                )
+            );
+            $lookupDataset->setOrderByField('objective_name', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Objective', 'objective', 'objective_objective_name', 'multi_edit_campaign_approvals_objective_search', $editor, $this->dataset, $lookupDataset, 'objective_name', 'objective_name', '');
             $editColumn->SetReadOnly(true);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
@@ -2670,8 +2708,21 @@
             //
             // Edit column for objective field
             //
-            $editor = new TextAreaEdit('objective_edit', 50, 3);
-            $editColumn = new CustomEditColumn('Objective', 'objective', $editor, $this->dataset);
+            $editor = new DynamicCombobox('objective_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_objective`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('objective_id', true, true, true),
+                    new StringField('objective_name')
+                )
+            );
+            $lookupDataset->setOrderByField('objective_name', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Objective', 'objective', 'objective_objective_name', 'insert_campaign_approvals_objective_search', $editor, $this->dataset, $lookupDataset, 'objective_name', 'objective_name', '');
             $editColumn->SetReadOnly(true);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
@@ -3039,13 +3090,13 @@
             $grid->AddPrintColumn($column);
             
             //
-            // View column for objective field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
+            $column = new TextViewColumn('objective', 'objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(100);
-            $column->SetFullTextWindowHandlerName('campaign_approvals_objective_handler_print');
+            $column->SetFullTextWindowHandlerName('campaign_approvals_objective_objective_name_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -3261,13 +3312,13 @@
             $grid->AddExportColumn($column);
             
             //
-            // View column for objective field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
+            $column = new TextViewColumn('objective', 'objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(100);
-            $column->SetFullTextWindowHandlerName('campaign_approvals_objective_handler_export');
+            $column->SetFullTextWindowHandlerName('campaign_approvals_objective_objective_name_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -3473,13 +3524,13 @@
             $grid->AddCompareColumn($column);
             
             //
-            // View column for objective field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
+            $column = new TextViewColumn('objective', 'objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(100);
-            $column->SetFullTextWindowHandlerName('campaign_approvals_objective_handler_compare');
+            $column->SetFullTextWindowHandlerName('campaign_approvals_objective_objective_name_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -3847,12 +3898,12 @@
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for objective field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
+            $column = new TextViewColumn('objective', 'objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_approvals_objective_handler_print', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_approvals_objective_objective_name_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -3874,12 +3925,12 @@
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for objective field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
+            $column = new TextViewColumn('objective', 'objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_approvals_objective_handler_compare', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_approvals_objective_objective_name_handler_compare', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -3937,6 +3988,20 @@
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_approvals_master_campaign_id_search', 'master_campaign_id', 'campaign_name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_objective`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('objective_id', true, true, true),
+                    new StringField('objective_name')
+                )
+            );
+            $lookupDataset->setOrderByField('objective_name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_approvals_objective_search', 'objective_name', 'objective_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -4077,6 +4142,20 @@
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_approvals_master_campaign_id_search', 'master_campaign_id', 'campaign_name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_objective`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('objective_id', true, true, true),
+                    new StringField('objective_name')
+                )
+            );
+            $lookupDataset->setOrderByField('objective_name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_approvals_objective_search', 'objective_name', 'objective_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -4223,11 +4302,11 @@
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for objective field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
+            $column = new TextViewColumn('objective', 'objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_approvals_objective_handler_view', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_approvals_objective_objective_name_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -4293,6 +4372,20 @@
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_approvals_master_campaign_id_search', 'master_campaign_id', 'campaign_name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_objective`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('objective_id', true, true, true),
+                    new StringField('objective_name')
+                )
+            );
+            $lookupDataset->setOrderByField('objective_name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_approvals_objective_search', 'objective_name', 'objective_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -4433,6 +4526,20 @@
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_approvals_master_campaign_id_search', 'master_campaign_id', 'campaign_name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_objective`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('objective_id', true, true, true),
+                    new StringField('objective_name')
+                )
+            );
+            $lookupDataset->setOrderByField('objective_name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_approvals_objective_search', 'objective_name', 'objective_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(

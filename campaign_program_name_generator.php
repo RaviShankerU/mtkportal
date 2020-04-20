@@ -48,6 +48,7 @@
             $this->dataset->addFields(
                 array(
                     new IntegerField('campaign_tracker_local_id', true, true, true),
+                    new StringField('trackerid'),
                     new IntegerField('program_generator_name_id'),
                     new IntegerField('master_campaign_id'),
                     new StringField('email_name'),
@@ -66,7 +67,10 @@
             $this->dataset->AddLookupField('region', 'lookup_region', new StringField('Region_Value'), new StringField('Region', false, false, false, false, 'region_Region', 'region_Region_lookup_region'), 'region_Region_lookup_region');
             $this->dataset->AddLookupField('campaign_type', 'lookup_campaign_type', new StringField('Type_Value'), new StringField('Type', false, false, false, false, 'campaign_type_Type', 'campaign_type_Type_lookup_campaign_type'), 'campaign_type_Type_lookup_campaign_type');
             $this->dataset->AddLookupField('tracker_status', 'lookup_status_types', new IntegerField('Status_Type_ID'), new StringField('Status_Type', false, false, false, false, 'tracker_status_Status_Type', 'tracker_status_Status_Type_lookup_status_types'), 'tracker_status_Status_Type_lookup_status_types');
-            $this->dataset->AddLookupField('campaign_utm_id', 'campaign_tracker_utm', new IntegerField('campaign_utm_id'), new StringField('campaign_name', false, false, false, false, 'campaign_utm_id_campaign_name', 'campaign_utm_id_campaign_name_campaign_tracker_utm'), 'campaign_utm_id_campaign_name_campaign_tracker_utm');
+            $this->dataset->AddLookupField('campaign_utm_id', '(SELECT campaign_utm_id,
+            CONCAT(`campaign_name`, \' [ \',`content`,\' - \',`campaign_publish_date`, \' \',`created_by`,\' ]\') as utm_created
+            FROM `marketing_portal_v2`.`campaign_tracker_utm`
+            WHERE campaign_publish_date IS NOT NULL)', new IntegerField('campaign_utm_id'), new StringField('utm_created', false, false, false, false, 'campaign_utm_id_utm_created', 'campaign_utm_id_utm_created_lookup_utm_filtered'), 'campaign_utm_id_utm_created_lookup_utm_filtered');
         }
     
         protected function DoPrepare() {
@@ -106,9 +110,10 @@
                 new FilterColumn($this->dataset, 'campaign_description', 'campaign_description', 'Campaign Description'),
                 new FilterColumn($this->dataset, 'campaign_publish_date', 'campaign_publish_date', 'Send Date'),
                 new FilterColumn($this->dataset, 'tracker_status', 'tracker_status_Status_Type', 'Send Status'),
-                new FilterColumn($this->dataset, 'campaign_utm_id', 'campaign_utm_id_campaign_name', 'UTM Tracking'),
+                new FilterColumn($this->dataset, 'campaign_utm_id', 'campaign_utm_id_utm_created', 'UTM Tracking'),
                 new FilterColumn($this->dataset, 'modified_by', 'modified_by', 'Modified By'),
-                new FilterColumn($this->dataset, 'modified_date', 'modified_date', 'Modified Date')
+                new FilterColumn($this->dataset, 'modified_date', 'modified_date', 'Modified Date'),
+                new FilterColumn($this->dataset, 'trackerid', 'trackerid', 'Trackerid')
             );
         }
     
@@ -563,9 +568,9 @@
             $grid->AddViewColumn($column);
             
             //
-            // View column for campaign_name field
+            // View column for utm_created field
             //
-            $column = new TextViewColumn('campaign_utm_id', 'campaign_utm_id_campaign_name', 'UTM Tracking', $this->dataset);
+            $column = new TextViewColumn('campaign_utm_id', 'campaign_utm_id_utm_created', 'UTM Tracking', $this->dataset);
             $column->SetOrderable(true);
             $column->setLookupRecordModalViewHandlerName(campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idModalViewPage::getHandlerName());
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
@@ -660,9 +665,9 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for campaign_name field
+            // View column for utm_created field
             //
-            $column = new TextViewColumn('campaign_utm_id', 'campaign_utm_id_campaign_name', 'UTM Tracking', $this->dataset);
+            $column = new TextViewColumn('campaign_utm_id', 'campaign_utm_id_utm_created', 'UTM Tracking', $this->dataset);
             $column->SetOrderable(true);
             $column->setLookupRecordModalViewHandlerName(campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idModalViewPage::getHandlerName());
             $grid->AddSingleRecordViewColumn($column);
@@ -699,6 +704,7 @@
                 array(
                     new IntegerField('program_generator_name_id', true, true, true),
                     new IntegerField('master_campaign_id'),
+                    new StringField('trackerid'),
                     new StringField('SFDC_child_campaign'),
                     new StringField('campaign_program_name'),
                     new IntegerField('event_type'),
@@ -885,37 +891,28 @@
             $editor = new DynamicCombobox('campaign_utm_id_edit', $this->CreateLinkBuilder());
             $editor->setAllowClear(true);
             $editor->setMinimumInputLength(0);
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`campaign_tracker_utm`');
+            $selectQuery = 'SELECT campaign_utm_id,
+            CONCAT(`campaign_name`, \' [ \',`content`,\' - \',`campaign_publish_date`, \' \',`created_by`,\' ]\') as utm_created
+            FROM `marketing_portal_v2`.`campaign_tracker_utm`
+            WHERE campaign_publish_date IS NOT NULL';
+            $insertQuery = array();
+            $updateQuery = array();
+            $deleteQuery = array();
+            $lookupDataset = new QueryDataset(
+              MySqlIConnectionFactory::getInstance(), 
+              GetConnectionOptions(),
+              $selectQuery, $insertQuery, $updateQuery, $deleteQuery, 'lookup_utm_filtered');
             $lookupDataset->addFields(
                 array(
                     new IntegerField('campaign_utm_id', true, true, true),
-                    new IntegerField('has_brief'),
-                    new StringField('master_campaign_id'),
-                    new StringField('campaign_name'),
-                    new StringField('campaign'),
-                    new StringField('medium'),
-                    new StringField('source'),
-                    new StringField('term'),
-                    new StringField('content'),
-                    new StringField('notes'),
-                    new IntegerField('type_of_page'),
-                    new StringField('marketo_page'),
-                    new StringField('marketo_page_name'),
-                    new StringField('url'),
-                    new StringField('full_url'),
-                    new StringField('created_by'),
-                    new DateTimeField('created_date'),
-                    new DateField('campaign_publish_date'),
-                    new StringField('campaign_description'),
-                    new StringField('short_url'),
-                    new IntegerField('clicks')
+                    new StringField('utm_created')
                 )
             );
-            $lookupDataset->setOrderByField('campaign_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('UTM Tracking', 'campaign_utm_id', 'campaign_utm_id_campaign_name', 'edit_campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_id_search', $editor, $this->dataset, $lookupDataset, 'campaign_utm_id', 'campaign_name', '');
+            $lookupDataset->setOrderByField('utm_created', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('UTM Tracking', 'campaign_utm_id', 'campaign_utm_id_utm_created', 'edit_campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_id_search', $editor, $this->dataset, $lookupDataset, 'campaign_utm_id', 'utm_created', '');
+            $editColumn->setNestedInsertFormLink(
+                $this->GetHandlerLink(campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idNestedPage::getNestedInsertHandlerName())
+            );
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -958,6 +955,7 @@
                 array(
                     new IntegerField('program_generator_name_id', true, true, true),
                     new IntegerField('master_campaign_id'),
+                    new StringField('trackerid'),
                     new StringField('SFDC_child_campaign'),
                     new StringField('campaign_program_name'),
                     new IntegerField('event_type'),
@@ -1144,37 +1142,28 @@
             $editor = new DynamicCombobox('campaign_utm_id_edit', $this->CreateLinkBuilder());
             $editor->setAllowClear(true);
             $editor->setMinimumInputLength(0);
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`campaign_tracker_utm`');
+            $selectQuery = 'SELECT campaign_utm_id,
+            CONCAT(`campaign_name`, \' [ \',`content`,\' - \',`campaign_publish_date`, \' \',`created_by`,\' ]\') as utm_created
+            FROM `marketing_portal_v2`.`campaign_tracker_utm`
+            WHERE campaign_publish_date IS NOT NULL';
+            $insertQuery = array();
+            $updateQuery = array();
+            $deleteQuery = array();
+            $lookupDataset = new QueryDataset(
+              MySqlIConnectionFactory::getInstance(), 
+              GetConnectionOptions(),
+              $selectQuery, $insertQuery, $updateQuery, $deleteQuery, 'lookup_utm_filtered');
             $lookupDataset->addFields(
                 array(
                     new IntegerField('campaign_utm_id', true, true, true),
-                    new IntegerField('has_brief'),
-                    new StringField('master_campaign_id'),
-                    new StringField('campaign_name'),
-                    new StringField('campaign'),
-                    new StringField('medium'),
-                    new StringField('source'),
-                    new StringField('term'),
-                    new StringField('content'),
-                    new StringField('notes'),
-                    new IntegerField('type_of_page'),
-                    new StringField('marketo_page'),
-                    new StringField('marketo_page_name'),
-                    new StringField('url'),
-                    new StringField('full_url'),
-                    new StringField('created_by'),
-                    new DateTimeField('created_date'),
-                    new DateField('campaign_publish_date'),
-                    new StringField('campaign_description'),
-                    new StringField('short_url'),
-                    new IntegerField('clicks')
+                    new StringField('utm_created')
                 )
             );
-            $lookupDataset->setOrderByField('campaign_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('UTM Tracking', 'campaign_utm_id', 'campaign_utm_id_campaign_name', 'multi_edit_campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_id_search', $editor, $this->dataset, $lookupDataset, 'campaign_utm_id', 'campaign_name', '');
+            $lookupDataset->setOrderByField('utm_created', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('UTM Tracking', 'campaign_utm_id', 'campaign_utm_id_utm_created', 'multi_edit_campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_id_search', $editor, $this->dataset, $lookupDataset, 'campaign_utm_id', 'utm_created', '');
+            $editColumn->setNestedInsertFormLink(
+                $this->GetHandlerLink(campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idNestedPage::getNestedInsertHandlerName())
+            );
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -1217,6 +1206,7 @@
                 array(
                     new IntegerField('program_generator_name_id', true, true, true),
                     new IntegerField('master_campaign_id'),
+                    new StringField('trackerid'),
                     new StringField('SFDC_child_campaign'),
                     new StringField('campaign_program_name'),
                     new IntegerField('event_type'),
@@ -1403,37 +1393,28 @@
             $editor = new DynamicCombobox('campaign_utm_id_edit', $this->CreateLinkBuilder());
             $editor->setAllowClear(true);
             $editor->setMinimumInputLength(0);
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`campaign_tracker_utm`');
+            $selectQuery = 'SELECT campaign_utm_id,
+            CONCAT(`campaign_name`, \' [ \',`content`,\' - \',`campaign_publish_date`, \' \',`created_by`,\' ]\') as utm_created
+            FROM `marketing_portal_v2`.`campaign_tracker_utm`
+            WHERE campaign_publish_date IS NOT NULL';
+            $insertQuery = array();
+            $updateQuery = array();
+            $deleteQuery = array();
+            $lookupDataset = new QueryDataset(
+              MySqlIConnectionFactory::getInstance(), 
+              GetConnectionOptions(),
+              $selectQuery, $insertQuery, $updateQuery, $deleteQuery, 'lookup_utm_filtered');
             $lookupDataset->addFields(
                 array(
                     new IntegerField('campaign_utm_id', true, true, true),
-                    new IntegerField('has_brief'),
-                    new StringField('master_campaign_id'),
-                    new StringField('campaign_name'),
-                    new StringField('campaign'),
-                    new StringField('medium'),
-                    new StringField('source'),
-                    new StringField('term'),
-                    new StringField('content'),
-                    new StringField('notes'),
-                    new IntegerField('type_of_page'),
-                    new StringField('marketo_page'),
-                    new StringField('marketo_page_name'),
-                    new StringField('url'),
-                    new StringField('full_url'),
-                    new StringField('created_by'),
-                    new DateTimeField('created_date'),
-                    new DateField('campaign_publish_date'),
-                    new StringField('campaign_description'),
-                    new StringField('short_url'),
-                    new IntegerField('clicks')
+                    new StringField('utm_created')
                 )
             );
-            $lookupDataset->setOrderByField('campaign_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('UTM Tracking', 'campaign_utm_id', 'campaign_utm_id_campaign_name', 'insert_campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_id_search', $editor, $this->dataset, $lookupDataset, 'campaign_utm_id', 'campaign_name', '');
+            $lookupDataset->setOrderByField('utm_created', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('UTM Tracking', 'campaign_utm_id', 'campaign_utm_id_utm_created', 'insert_campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_id_search', $editor, $this->dataset, $lookupDataset, 'campaign_utm_id', 'utm_created', '');
+            $editColumn->setNestedInsertFormLink(
+                $this->GetHandlerLink(campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idNestedPage::getNestedInsertHandlerName())
+            );
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -1542,9 +1523,9 @@
             $grid->AddPrintColumn($column);
             
             //
-            // View column for campaign_name field
+            // View column for utm_created field
             //
-            $column = new TextViewColumn('campaign_utm_id', 'campaign_utm_id_campaign_name', 'UTM Tracking', $this->dataset);
+            $column = new TextViewColumn('campaign_utm_id', 'campaign_utm_id_utm_created', 'UTM Tracking', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddPrintColumn($column);
             
@@ -1638,9 +1619,9 @@
             $grid->AddExportColumn($column);
             
             //
-            // View column for campaign_name field
+            // View column for utm_created field
             //
-            $column = new TextViewColumn('campaign_utm_id', 'campaign_utm_id_campaign_name', 'UTM Tracking', $this->dataset);
+            $column = new TextViewColumn('campaign_utm_id', 'campaign_utm_id_utm_created', 'UTM Tracking', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddExportColumn($column);
             
@@ -1724,9 +1705,9 @@
             $grid->AddCompareColumn($column);
             
             //
-            // View column for campaign_name field
+            // View column for utm_created field
             //
-            $column = new TextViewColumn('campaign_utm_id', 'campaign_utm_id_campaign_name', 'UTM Tracking', $this->dataset);
+            $column = new TextViewColumn('campaign_utm_id', 'campaign_utm_id_utm_created', 'UTM Tracking', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddCompareColumn($column);
             
@@ -1910,6 +1891,7 @@
                 array(
                     new IntegerField('program_generator_name_id', true, true, true),
                     new IntegerField('master_campaign_id'),
+                    new StringField('trackerid'),
                     new StringField('SFDC_child_campaign'),
                     new StringField('campaign_program_name'),
                     new IntegerField('event_type'),
@@ -2021,37 +2003,25 @@
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_program_name_generator_campaign_tracker_comms_local_tracker_status_search', 'Status_Type_ID', 'Status_Type', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`campaign_tracker_utm`');
+            $selectQuery = 'SELECT campaign_utm_id,
+            CONCAT(`campaign_name`, \' [ \',`content`,\' - \',`campaign_publish_date`, \' \',`created_by`,\' ]\') as utm_created
+            FROM `marketing_portal_v2`.`campaign_tracker_utm`
+            WHERE campaign_publish_date IS NOT NULL';
+            $insertQuery = array();
+            $updateQuery = array();
+            $deleteQuery = array();
+            $lookupDataset = new QueryDataset(
+              MySqlIConnectionFactory::getInstance(), 
+              GetConnectionOptions(),
+              $selectQuery, $insertQuery, $updateQuery, $deleteQuery, 'lookup_utm_filtered');
             $lookupDataset->addFields(
                 array(
                     new IntegerField('campaign_utm_id', true, true, true),
-                    new IntegerField('has_brief'),
-                    new StringField('master_campaign_id'),
-                    new StringField('campaign_name'),
-                    new StringField('campaign'),
-                    new StringField('medium'),
-                    new StringField('source'),
-                    new StringField('term'),
-                    new StringField('content'),
-                    new StringField('notes'),
-                    new IntegerField('type_of_page'),
-                    new StringField('marketo_page'),
-                    new StringField('marketo_page_name'),
-                    new StringField('url'),
-                    new StringField('full_url'),
-                    new StringField('created_by'),
-                    new DateTimeField('created_date'),
-                    new DateField('campaign_publish_date'),
-                    new StringField('campaign_description'),
-                    new StringField('short_url'),
-                    new IntegerField('clicks')
+                    new StringField('utm_created')
                 )
             );
-            $lookupDataset->setOrderByField('campaign_name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_id_search', 'campaign_utm_id', 'campaign_name', null, 20);
+            $lookupDataset->setOrderByField('utm_created', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_id_search', 'campaign_utm_id', 'utm_created', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -2062,6 +2032,7 @@
                 array(
                     new IntegerField('program_generator_name_id', true, true, true),
                     new IntegerField('master_campaign_id'),
+                    new StringField('trackerid'),
                     new StringField('SFDC_child_campaign'),
                     new StringField('campaign_program_name'),
                     new IntegerField('event_type'),
@@ -2173,37 +2144,25 @@
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_program_name_generator_campaign_tracker_comms_local_tracker_status_search', 'Status_Type_ID', 'Status_Type', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`campaign_tracker_utm`');
+            $selectQuery = 'SELECT campaign_utm_id,
+            CONCAT(`campaign_name`, \' [ \',`content`,\' - \',`campaign_publish_date`, \' \',`created_by`,\' ]\') as utm_created
+            FROM `marketing_portal_v2`.`campaign_tracker_utm`
+            WHERE campaign_publish_date IS NOT NULL';
+            $insertQuery = array();
+            $updateQuery = array();
+            $deleteQuery = array();
+            $lookupDataset = new QueryDataset(
+              MySqlIConnectionFactory::getInstance(), 
+              GetConnectionOptions(),
+              $selectQuery, $insertQuery, $updateQuery, $deleteQuery, 'lookup_utm_filtered');
             $lookupDataset->addFields(
                 array(
                     new IntegerField('campaign_utm_id', true, true, true),
-                    new IntegerField('has_brief'),
-                    new StringField('master_campaign_id'),
-                    new StringField('campaign_name'),
-                    new StringField('campaign'),
-                    new StringField('medium'),
-                    new StringField('source'),
-                    new StringField('term'),
-                    new StringField('content'),
-                    new StringField('notes'),
-                    new IntegerField('type_of_page'),
-                    new StringField('marketo_page'),
-                    new StringField('marketo_page_name'),
-                    new StringField('url'),
-                    new StringField('full_url'),
-                    new StringField('created_by'),
-                    new DateTimeField('created_date'),
-                    new DateField('campaign_publish_date'),
-                    new StringField('campaign_description'),
-                    new StringField('short_url'),
-                    new IntegerField('clicks')
+                    new StringField('utm_created')
                 )
             );
-            $lookupDataset->setOrderByField('campaign_name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_id_search', 'campaign_utm_id', 'campaign_name', null, 20);
+            $lookupDataset->setOrderByField('utm_created', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_id_search', 'campaign_utm_id', 'utm_created', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -2230,6 +2189,7 @@
                 array(
                     new IntegerField('program_generator_name_id', true, true, true),
                     new IntegerField('master_campaign_id'),
+                    new StringField('trackerid'),
                     new StringField('SFDC_child_campaign'),
                     new StringField('campaign_program_name'),
                     new IntegerField('event_type'),
@@ -2341,37 +2301,25 @@
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_program_name_generator_campaign_tracker_comms_local_tracker_status_search', 'Status_Type_ID', 'Status_Type', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`campaign_tracker_utm`');
+            $selectQuery = 'SELECT campaign_utm_id,
+            CONCAT(`campaign_name`, \' [ \',`content`,\' - \',`campaign_publish_date`, \' \',`created_by`,\' ]\') as utm_created
+            FROM `marketing_portal_v2`.`campaign_tracker_utm`
+            WHERE campaign_publish_date IS NOT NULL';
+            $insertQuery = array();
+            $updateQuery = array();
+            $deleteQuery = array();
+            $lookupDataset = new QueryDataset(
+              MySqlIConnectionFactory::getInstance(), 
+              GetConnectionOptions(),
+              $selectQuery, $insertQuery, $updateQuery, $deleteQuery, 'lookup_utm_filtered');
             $lookupDataset->addFields(
                 array(
                     new IntegerField('campaign_utm_id', true, true, true),
-                    new IntegerField('has_brief'),
-                    new StringField('master_campaign_id'),
-                    new StringField('campaign_name'),
-                    new StringField('campaign'),
-                    new StringField('medium'),
-                    new StringField('source'),
-                    new StringField('term'),
-                    new StringField('content'),
-                    new StringField('notes'),
-                    new IntegerField('type_of_page'),
-                    new StringField('marketo_page'),
-                    new StringField('marketo_page_name'),
-                    new StringField('url'),
-                    new StringField('full_url'),
-                    new StringField('created_by'),
-                    new DateTimeField('created_date'),
-                    new DateField('campaign_publish_date'),
-                    new StringField('campaign_description'),
-                    new StringField('short_url'),
-                    new IntegerField('clicks')
+                    new StringField('utm_created')
                 )
             );
-            $lookupDataset->setOrderByField('campaign_name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_id_search', 'campaign_utm_id', 'campaign_name', null, 20);
+            $lookupDataset->setOrderByField('utm_created', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_id_search', 'campaign_utm_id', 'utm_created', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -2382,6 +2330,7 @@
                 array(
                     new IntegerField('program_generator_name_id', true, true, true),
                     new IntegerField('master_campaign_id'),
+                    new StringField('trackerid'),
                     new StringField('SFDC_child_campaign'),
                     new StringField('campaign_program_name'),
                     new IntegerField('event_type'),
@@ -2493,37 +2442,25 @@
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_program_name_generator_campaign_tracker_comms_local_tracker_status_search', 'Status_Type_ID', 'Status_Type', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`campaign_tracker_utm`');
+            $selectQuery = 'SELECT campaign_utm_id,
+            CONCAT(`campaign_name`, \' [ \',`content`,\' - \',`campaign_publish_date`, \' \',`created_by`,\' ]\') as utm_created
+            FROM `marketing_portal_v2`.`campaign_tracker_utm`
+            WHERE campaign_publish_date IS NOT NULL';
+            $insertQuery = array();
+            $updateQuery = array();
+            $deleteQuery = array();
+            $lookupDataset = new QueryDataset(
+              MySqlIConnectionFactory::getInstance(), 
+              GetConnectionOptions(),
+              $selectQuery, $insertQuery, $updateQuery, $deleteQuery, 'lookup_utm_filtered');
             $lookupDataset->addFields(
                 array(
                     new IntegerField('campaign_utm_id', true, true, true),
-                    new IntegerField('has_brief'),
-                    new StringField('master_campaign_id'),
-                    new StringField('campaign_name'),
-                    new StringField('campaign'),
-                    new StringField('medium'),
-                    new StringField('source'),
-                    new StringField('term'),
-                    new StringField('content'),
-                    new StringField('notes'),
-                    new IntegerField('type_of_page'),
-                    new StringField('marketo_page'),
-                    new StringField('marketo_page_name'),
-                    new StringField('url'),
-                    new StringField('full_url'),
-                    new StringField('created_by'),
-                    new DateTimeField('created_date'),
-                    new DateField('campaign_publish_date'),
-                    new StringField('campaign_description'),
-                    new StringField('short_url'),
-                    new IntegerField('clicks')
+                    new StringField('utm_created')
                 )
             );
-            $lookupDataset->setOrderByField('campaign_name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_id_search', 'campaign_utm_id', 'campaign_name', null, 20);
+            $lookupDataset->setOrderByField('utm_created', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_id_search', 'campaign_utm_id', 'utm_created', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
         }
        
@@ -2589,7 +2526,45 @@
     
         protected function doAfterUpdateRecord($page, $oldRowData, $rowData, $tableName, &$success, &$message, &$messageDisplayTime)
         {
-    
+            if ($success) {
+            
+              // Check if record data was modified
+            
+              $dataMofified  = 
+            
+            	$oldRowData['trackerid'] !== $rowData['trackerid'] ||
+            	$oldRowData['program_generator_name_id'] !== $rowData['program_generator_name_id'] ||
+            	$oldRowData['master_campaign_id'] !== $rowData['master_campaign_id'] ||
+            	$oldRowData['email_name'] !== $rowData['email_name'] ||
+            	$oldRowData['campaign_type'] !== $rowData['campaign_type'] ||
+            	$oldRowData['region'] !== $rowData['region'] ||
+            	$oldRowData['campaign_publish_date'] !== $rowData['campaign_publish_date'] ||
+            	$oldRowData['campaign_description'] !== $rowData['campaign_description'] ||
+            	$oldRowData['tracker_status'] !== $rowData['tracker_status'] ||
+            	$oldRowData['campaign_utm_id'] !== $rowData['campaign_utm_id'];
+            
+            
+              if ($dataMofified) {
+            
+                  $modified_by = $rowData['Updated_by'];
+                  $modified_date = $rowData['Updated_Date'];
+                  $trackerid = $rowData['trackerid'];
+                  $show_events_cal = $rowData['show_events_cal'];
+                  $emailcount = $rowData['emails_tracker'];
+            
+                $sql = 
+            
+                  "CALL campaignCommsLocaltoGlobalCalendar('$modified_by', '$modified_date', $trackerid, $show_events_cal);";
+                  $this->GetConnection()->ExecSQL($sql);
+                  
+                  If ($emailcount != '0'){
+                     $message = '<p>Record processed successfully, goto Comms Tracker (Local) to update the send dates .</p>';
+                  }
+                  else{
+                       $message = '<p>Record processed successfully.</p>';
+                  }
+              }                                    
+            }
         }
     
         protected function doAfterDeleteRecord($page, $rowData, $tableName, &$success, &$message, &$messageDisplayTime)
@@ -2673,33 +2648,21 @@
     {
         protected function DoBeforeCreate()
         {
-            $this->dataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`campaign_tracker_utm`');
+            $selectQuery = 'SELECT campaign_utm_id,
+            CONCAT(`campaign_name`, \' [ \',`content`,\' - \',`campaign_publish_date`, \' \',`created_by`,\' ]\') as utm_created
+            FROM `marketing_portal_v2`.`campaign_tracker_utm`
+            WHERE campaign_publish_date IS NOT NULL';
+            $insertQuery = array();
+            $updateQuery = array();
+            $deleteQuery = array();
+            $this->dataset = new QueryDataset(
+              MySqlIConnectionFactory::getInstance(), 
+              GetConnectionOptions(),
+              $selectQuery, $insertQuery, $updateQuery, $deleteQuery, 'lookup_utm_filtered');
             $this->dataset->addFields(
                 array(
                     new IntegerField('campaign_utm_id', true, true, true),
-                    new IntegerField('has_brief'),
-                    new StringField('master_campaign_id'),
-                    new StringField('campaign_name'),
-                    new StringField('campaign'),
-                    new StringField('medium'),
-                    new StringField('source'),
-                    new StringField('term'),
-                    new StringField('content'),
-                    new StringField('notes'),
-                    new IntegerField('type_of_page'),
-                    new StringField('marketo_page'),
-                    new StringField('marketo_page_name'),
-                    new StringField('url'),
-                    new StringField('full_url'),
-                    new StringField('created_by'),
-                    new DateTimeField('created_date'),
-                    new DateField('campaign_publish_date'),
-                    new StringField('campaign_description'),
-                    new StringField('short_url'),
-                    new IntegerField('clicks')
+                    new StringField('utm_created')
                 )
             );
         }
@@ -2711,25 +2674,9 @@
         protected function AddSingleRecordViewColumns(Grid $grid)
         {
             //
-            // View column for campaign_name field
+            // View column for campaign_utm_id field
             //
-            $column = new TextViewColumn('campaign_name', 'campaign_name', 'Campaign Name', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for notes field
-            //
-            $column = new TextViewColumn('notes', 'notes', 'Notes', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idModalViewPage_notes_handler_view');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for type_of_page field
-            //
-            $column = new NumberViewColumn('type_of_page', 'type_of_page', 'Type Of Page', $this->dataset);
+            $column = new NumberViewColumn('campaign_utm_id', 'campaign_utm_id', 'Campaign Utm Id', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -2737,81 +2684,10 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for marketo_page field
+            // View column for utm_created field
             //
-            $column = new TextViewColumn('marketo_page', 'marketo_page', 'Marketo Page', $this->dataset);
+            $column = new TextViewColumn('utm_created', 'utm_created', 'Utm Created', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idModalViewPage_marketo_page_handler_view');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for marketo_page_name field
-            //
-            $column = new TextViewColumn('marketo_page_name', 'marketo_page_name', 'Marketo Page Name', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idModalViewPage_marketo_page_name_handler_view');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for full_url field
-            //
-            $column = new TextViewColumn('full_url', 'full_url', 'Full Url', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idModalViewPage_full_url_handler_view');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for created_by field
-            //
-            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idModalViewPage_created_by_handler_view');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for created_date field
-            //
-            $column = new DateTimeViewColumn('created_date', 'created_date', 'Created Date', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetDateTimeFormat('d-m-Y H:i:s');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for campaign_publish_date field
-            //
-            $column = new DateTimeViewColumn('campaign_publish_date', 'campaign_publish_date', 'Campaign Publish Date', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetDateTimeFormat('d-m-Y');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for short_url field
-            //
-            $column = new TextViewColumn('short_url', 'short_url', 'Short Url', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idModalViewPage_short_url_handler_view');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for clicks field
-            //
-            $column = new NumberViewColumn('clicks', 'clicks', 'Clicks', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
             $grid->AddSingleRecordViewColumn($column);
         }
     
@@ -2832,53 +2708,6 @@
         protected function doRegisterHandlers() {
             
             
-            //
-            // View column for notes field
-            //
-            $column = new TextViewColumn('notes', 'notes', 'Notes', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idModalViewPage_notes_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for marketo_page field
-            //
-            $column = new TextViewColumn('marketo_page', 'marketo_page', 'Marketo Page', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idModalViewPage_marketo_page_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for marketo_page_name field
-            //
-            $column = new TextViewColumn('marketo_page_name', 'marketo_page_name', 'Marketo Page Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idModalViewPage_marketo_page_name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for full_url field
-            //
-            $column = new TextViewColumn('full_url', 'full_url', 'Full Url', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idModalViewPage_full_url_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for created_by field
-            //
-            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idModalViewPage_created_by_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for short_url field
-            //
-            $column = new TextViewColumn('short_url', 'short_url', 'Short Url', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idModalViewPage_short_url_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
         }
     
         static public function getHandlerName() {
@@ -2927,6 +2756,7 @@
                 array(
                     new IntegerField('program_generator_name_id', true, true, true),
                     new IntegerField('master_campaign_id'),
+                    new StringField('trackerid'),
                     new StringField('SFDC_child_campaign'),
                     new StringField('campaign_program_name'),
                     new IntegerField('event_type'),
@@ -3107,6 +2937,13 @@
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for trackerid field
+            //
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
         }
     
         function GetCustomClientScript()
@@ -3175,6 +3012,109 @@
         {
     
         }
+    }
+    
+    class campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idNestedPage extends NestedFormPage
+    {
+        protected function DoBeforeCreate()
+        {
+            $selectQuery = 'SELECT campaign_utm_id,
+            CONCAT(`campaign_name`, \' [ \',`content`,\' - \',`campaign_publish_date`, \' \',`created_by`,\' ]\') as utm_created
+            FROM `marketing_portal_v2`.`campaign_tracker_utm`
+            WHERE campaign_publish_date IS NOT NULL';
+            $insertQuery = array();
+            $updateQuery = array();
+            $deleteQuery = array();
+            $this->dataset = new QueryDataset(
+              MySqlIConnectionFactory::getInstance(), 
+              GetConnectionOptions(),
+              $selectQuery, $insertQuery, $updateQuery, $deleteQuery, 'lookup_utm_filtered');
+            $this->dataset->addFields(
+                array(
+                    new IntegerField('campaign_utm_id', true, true, true),
+                    new StringField('utm_created')
+                )
+            );
+        }
+    
+        protected function DoPrepare() {
+    
+        }
+    
+        protected function AddInsertColumns(Grid $grid)
+        {
+            //
+            // Edit column for utm_created field
+            //
+            $editor = new TextEdit('utm_created_edit');
+            $editColumn = new CustomEditColumn('Utm Created', 'utm_created', $editor, $this->dataset);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+        }
+    
+        function GetCustomClientScript()
+        {
+            return ;
+        }
+        
+        function GetOnPageLoadedClientScript()
+        {
+            return ;
+        }
+    
+        protected function setClientSideEvents(Grid $grid) {
+    
+        }
+    
+        protected function ApplyCommonColumnEditProperties(CustomEditColumn $column)
+        {
+            $column->SetDisplaySetToNullCheckBox(false);
+            $column->SetDisplaySetToDefaultCheckBox(false);
+            $column->SetVariableContainer($this->GetColumnVariableContainer());
+        }
+    
+       static public function getNestedInsertHandlerName()
+        {
+            return get_class() . '_form_insert';
+        }
+    
+        public function GetGridInsertHandler()
+        {
+            return self::getNestedInsertHandlerName();
+        }
+    
+        protected function doGetCustomTemplate($type, $part, $mode, &$result, &$params)
+        {
+    
+        }
+    
+        protected function doGetCustomFormLayout($mode, FixedKeysArray $columns, FormLayout $layout)
+        {
+    
+        }
+    
+        protected function doFileUpload($fieldName, $rowData, &$result, &$accept, $originalFileName, $originalFileExtension, $fileSize, $tempFileName)
+        {
+    
+        }
+    
+        public function doCustomDefaultValues(&$values, &$handled) 
+        {
+    
+        }
+    
+        protected function doBeforeInsertRecord($page, &$rowData, $tableName, &$cancel, &$message, &$messageDisplayTime)
+        {
+    
+        }
+    
+        protected function doAfterInsertRecord($page, $rowData, $tableName, &$success, &$message, &$messageDisplayTime)
+        {
+    
+        }
+    
     }
     
     class campaign_program_name_generator_master_campaign_idModalViewPage extends ViewBasedPage
@@ -3594,6 +3534,7 @@
                 array(
                     new IntegerField('program_generator_name_id', true, true, true),
                     new IntegerField('master_campaign_id'),
+                    new StringField('trackerid'),
                     new StringField('SFDC_child_campaign'),
                     new StringField('campaign_program_name'),
                     new IntegerField('event_type'),
@@ -3625,7 +3566,7 @@
             $this->dataset->AddLookupField('industry', 'lookup_industries', new IntegerField('Industry_ID'), new StringField('Industry_Name', false, false, false, false, 'industry_Industry_Name', 'industry_Industry_Name_lookup_industries'), 'industry_Industry_Name_lookup_industries');
             $this->dataset->AddLookupField('job_function', 'lookup_job_functions', new IntegerField('Job_Functions_ID'), new StringField('Job Function', false, false, false, false, 'job_function_Job Function', 'job_function_Job Function_lookup_job_functions'), 'job_function_Job Function_lookup_job_functions');
             $this->dataset->AddLookupField('product', 'lookup_products', new StringField('Product_Value'), new StringField('Product', false, false, false, false, 'product_Product', 'product_Product_lookup_products'), 'product_Product_lookup_products');
-            $this->dataset->AddLookupField('emails_tracker', 'lookup_email_tracker', new IntegerField('lookup_email_tracker_id'), new StringField('email_tracker_description', false, false, false, false, 'emails_tracker_email_tracker_description', 'emails_tracker_email_tracker_description_lookup_email_tracker'), 'emails_tracker_email_tracker_description_lookup_email_tracker');
+            $this->dataset->AddLookupField('emails_tracker', 'lookup_email_tracker', new IntegerField('qty'), new StringField('email_tracker_description', false, false, false, false, 'emails_tracker_email_tracker_description', 'emails_tracker_email_tracker_description_lookup_email_tracker'), 'emails_tracker_email_tracker_description_lookup_email_tracker');
         }
     
         protected function DoPrepare() {
@@ -3635,6 +3576,13 @@
         protected function CreatePageNavigator()
         {
             $result = new CompositePageNavigator($this);
+            
+            $partitionNavigator = new CustomPageNavigator('partition', $this, $this->dataset, 'Group by Region', $result);
+            $partitionNavigator->OnGetPartitionCondition->AddListener('partition' . '_GetPartitionConditionHandler', $this);
+            $partitionNavigator->OnGetPartitions->AddListener('partition' . '_GetPartitionsHandler', $this);
+            $partitionNavigator->SetAllowViewAllRecords(true);
+            $partitionNavigator->SetNavigationStyle(NS_LIST);
+            $result->AddPageNavigator($partitionNavigator);
             
             $partitionNavigator = new PageNavigator('pnav', $this, $this->dataset);
             $partitionNavigator->SetRowsPerPage(20);
@@ -3658,6 +3606,7 @@
             return array(
                 new FilterColumn($this->dataset, 'program_generator_name_id', 'program_generator_name_id', 'Program Generator Name Id'),
                 new FilterColumn($this->dataset, 'master_campaign_id', 'master_campaign_id_campaign_name', 'Master Campaign Id'),
+                new FilterColumn($this->dataset, 'trackerid', 'trackerid', 'Trackerid'),
                 new FilterColumn($this->dataset, 'campaign_program_name', 'campaign_program_name', 'Campaign Program Name'),
                 new FilterColumn($this->dataset, 'SFDC_child_campaign', 'SFDC_child_campaign', 'SFDC Campaign Name'),
                 new FilterColumn($this->dataset, 'campaign_type', 'campaign_type_Type', 'Campaign Type'),
@@ -4936,11 +4885,12 @@
             $lookupDataset->addFields(
                 array(
                     new IntegerField('lookup_email_tracker_id', true, true, true),
-                    new StringField('email_tracker_description')
+                    new StringField('email_tracker_description'),
+                    new IntegerField('qty')
                 )
             );
             $lookupDataset->setOrderByField('email_tracker_description', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('How many emails will you be sending?', 'emails_tracker', 'emails_tracker_email_tracker_description', 'edit_campaign_program_name_generator_emails_tracker_search', $editor, $this->dataset, $lookupDataset, 'lookup_email_tracker_id', 'email_tracker_description', '');
+            $editColumn = new DynamicLookupEditColumn('How many emails will you be sending?', 'emails_tracker', 'emails_tracker_email_tracker_description', 'edit_campaign_program_name_generator_emails_tracker_search', $editor, $this->dataset, $lookupDataset, 'qty', 'email_tracker_description', '');
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -5292,11 +5242,12 @@
             $lookupDataset->addFields(
                 array(
                     new IntegerField('lookup_email_tracker_id', true, true, true),
-                    new StringField('email_tracker_description')
+                    new StringField('email_tracker_description'),
+                    new IntegerField('qty')
                 )
             );
             $lookupDataset->setOrderByField('email_tracker_description', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Emails Tracker', 'emails_tracker', 'emails_tracker_email_tracker_description', 'multi_edit_campaign_program_name_generator_emails_tracker_search', $editor, $this->dataset, $lookupDataset, 'lookup_email_tracker_id', 'email_tracker_description', '');
+            $editColumn = new DynamicLookupEditColumn('Emails Tracker', 'emails_tracker', 'emails_tracker_email_tracker_description', 'multi_edit_campaign_program_name_generator_emails_tracker_search', $editor, $this->dataset, $lookupDataset, 'qty', 'email_tracker_description', '');
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -5669,11 +5620,12 @@
             $lookupDataset->addFields(
                 array(
                     new IntegerField('lookup_email_tracker_id', true, true, true),
-                    new StringField('email_tracker_description')
+                    new StringField('email_tracker_description'),
+                    new IntegerField('qty')
                 )
             );
             $lookupDataset->setOrderByField('email_tracker_description', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Emails Tracker', 'emails_tracker', 'emails_tracker_email_tracker_description', 'insert_campaign_program_name_generator_emails_tracker_search', $editor, $this->dataset, $lookupDataset, 'lookup_email_tracker_id', 'email_tracker_description', '');
+            $editColumn = new DynamicLookupEditColumn('Emails Tracker', 'emails_tracker', 'emails_tracker_email_tracker_description', 'insert_campaign_program_name_generator_emails_tracker_search', $editor, $this->dataset, $lookupDataset, 'qty', 'email_tracker_description', '');
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -6292,6 +6244,27 @@
         protected function GetEnableModalGridDelete() { return true; }
         
         public function GetEnableModalGridCopy() { return true; }
+        
+        private $partitions = array(1 => array('\'WW-ALL\''), 2 => array('\'AM-ALL\''), 3 => array('\'EM-EUR\''), 4 => array('\'IN-ALL\''), 5 => array('\'JP-ALL\''), 6 => array('\'KO-ALL\''), 7 => array('\'CH-ALL\''));
+        
+        function partition_GetPartitionsHandler(&$partitions)
+        {
+            $partitions[1] = 'Global';
+            $partitions[2] = 'Americas';
+            $partitions[3] = 'EMEA';
+            $partitions[4] = 'IndoPAC';
+            $partitions[5] = 'Japan';
+            $partitions[6] = 'Korea';
+            $partitions[7] = 'China';
+        }
+        
+        function partition_GetPartitionConditionHandler($partitionName, &$condition)
+        {
+            $condition = '';
+            if (isset($partitionName) && isset($this->partitions[$partitionName]))
+                foreach ($this->partitions[$partitionName] as $value)
+                    AddStr($condition, sprintf('(region = %s)', $this->PrepareTextForSQL($value)), ' OR ');
+        }
     
         protected function CreateGrid()
         {
@@ -6630,11 +6603,12 @@
             $lookupDataset->addFields(
                 array(
                     new IntegerField('lookup_email_tracker_id', true, true, true),
-                    new StringField('email_tracker_description')
+                    new StringField('email_tracker_description'),
+                    new IntegerField('qty')
                 )
             );
             $lookupDataset->setOrderByField('email_tracker_description', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_program_name_generator_emails_tracker_search', 'lookup_email_tracker_id', 'email_tracker_description', null, 20);
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_program_name_generator_emails_tracker_search', 'qty', 'email_tracker_description', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -6874,11 +6848,12 @@
             $lookupDataset->addFields(
                 array(
                     new IntegerField('lookup_email_tracker_id', true, true, true),
-                    new StringField('email_tracker_description')
+                    new StringField('email_tracker_description'),
+                    new IntegerField('qty')
                 )
             );
             $lookupDataset->setOrderByField('email_tracker_description', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_program_name_generator_emails_tracker_search', 'lookup_email_tracker_id', 'email_tracker_description', null, 20);
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_program_name_generator_emails_tracker_search', 'qty', 'email_tracker_description', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -7105,11 +7080,12 @@
             $lookupDataset->addFields(
                 array(
                     new IntegerField('lookup_email_tracker_id', true, true, true),
-                    new StringField('email_tracker_description')
+                    new StringField('email_tracker_description'),
+                    new IntegerField('qty')
                 )
             );
             $lookupDataset->setOrderByField('email_tracker_description', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_program_name_generator_emails_tracker_search', 'lookup_email_tracker_id', 'email_tracker_description', null, 20);
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_program_name_generator_emails_tracker_search', 'qty', 'email_tracker_description', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -7310,14 +7286,19 @@
             $lookupDataset->addFields(
                 array(
                     new IntegerField('lookup_email_tracker_id', true, true, true),
-                    new StringField('email_tracker_description')
+                    new StringField('email_tracker_description'),
+                    new IntegerField('qty')
                 )
             );
             $lookupDataset->setOrderByField('email_tracker_description', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_program_name_generator_emails_tracker_search', 'lookup_email_tracker_id', 'email_tracker_description', null, 20);
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_program_name_generator_emails_tracker_search', 'qty', 'email_tracker_description', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
+            
+            
+            
             new campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idModalViewPage($this, GetCurrentUserPermissionSetForDataSource('campaign_program_name_generator.campaign_tracker_comms_local.campaign_utm_id'));
             new campaign_program_name_generator_campaign_tracker_comms_local_program_generator_name_idModalViewPage($this, GetCurrentUserPermissionSetForDataSource('campaign_program_name_generator.campaign_tracker_comms_local.program_generator_name_id'));
+            new campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idNestedPage($this, GetCurrentUserPermissionSetForDataSource('campaign_program_name_generator.campaign_tracker_comms_local.campaign_utm_id'));
             new campaign_program_name_generator_master_campaign_idModalViewPage($this, GetCurrentUserPermissionSetForDataSource('campaign_program_name_generator.master_campaign_id'));
         }
        
@@ -7384,14 +7365,21 @@
             
                // Check if the substring exists inside the string     
                
-               $aprogram_generator_name_id = $rowData['program_generator_name_id'];
-               $amaster_campaign_id = $rowData['master_campaign_id'];
+                    $sprogram_generator_name_id = $rowData['program_generator_name_id'];
+                    $smaster_campaign_id = $rowData['master_campaign_id'];
+                    $username = $page->GetEnvVar('CURRENT_USER_NAME');    
+                    $currentDateTime = SMDateTime::Now();
+                    $emailcount = $rowData['emails_tracker'];
                                        
-               $sql = "CALL campaignProgramNameGenerator($aprogram_generator_name_id, $amaster_campaign_id);";
-            
-               $this->GetConnection()->ExecSQL($sql);  
-            
-               $message = '<p>Record processed successfully updated.</p>';
+                  "CALL campaignProgramNameGenerator($sprogram_generator_name_id, $smaster_campaign_id, '$username', '$currentDateTime');";
+                  $this->GetConnection()->ExecSQL($sql);
+                  
+                  If ($emailcount != '0'){
+                     $message = '<p>Record updated successfully, goto Comms Tracker (Local) to update the send dates .</p>';
+                  }
+                  else{
+                       $message = '<p>Record updated successfully.</p>';
+                  }
             }
         }
     
@@ -7399,16 +7387,49 @@
         {
             if ($success) {
             
-               // Check if the substring exists inside the string     
-               
-               $aprogram_generator_name_id = $rowData['program_generator_name_id'];
-               $amaster_campaign_id = $rowData['master_campaign_id'];
-                                       
-               $sql = "CALL campaignProgramNameGenerator($aprogram_generator_name_id, $amaster_campaign_id);";
+              // Check if record data was modified
             
-               $this->GetConnection()->ExecSQL($sql);  
+              $dataMofified  = 
             
-               $message = '<p>Record processed successfully updated.</p>';
+            	$oldRowData['master_campaign_id'] !== $rowData['master_campaign_id'] ||
+            	$oldRowData['trackerid'] !== $rowData['trackerid'] ||
+            	$oldRowData['SFDC_child_campaign'] !== $rowData['SFDC_child_campaign'] ||
+            	$oldRowData['campaign_program_name'] !== $rowData['campaign_program_name'] ||
+            	$oldRowData['event_type'] !== $rowData['event_type'] ||
+            	$oldRowData['short_description'] !== $rowData['short_description'] ||
+            	$oldRowData['region'] !== $rowData['region'] ||
+            	$oldRowData['sub_region'] !== $rowData['sub_region'] ||
+            	$oldRowData['territory'] !== $rowData['territory'] ||
+            	$oldRowData['country'] !== $rowData['country'] ||
+            	$oldRowData['industry'] !== $rowData['industry'] ||
+            	$oldRowData['job_function'] !== $rowData['job_function'] ||
+            	$oldRowData['campaign_type'] !== $rowData['campaign_type'] ||
+            	$oldRowData['product'] !== $rowData['product'] ||
+            	$oldRowData['m_ID'] !== $rowData['m_ID'] ||
+            	$oldRowData['campaign_publish_date'] !== $rowData['campaign_publish_date'] ||
+            	$oldRowData['emails_tracker'] !== $rowData['emails_tracker'];
+            	
+            	
+              if ($dataMofified) {
+            
+                    $sprogram_generator_name_id = $rowData['program_generator_name_id'];
+                    $smaster_campaign_id = $rowData['master_campaign_id'];
+                    $username = $page->GetEnvVar('CURRENT_USER_NAME');    
+                    $currentDateTime = SMDateTime::Now();
+                    $emailcount = $rowData['emails_tracker'];
+            
+                $sql = 
+            
+                  "CALL campaignProgramNameGenerator($sprogram_generator_name_id, $smaster_campaign_id, '$username', '$currentDateTime');";
+                  $this->GetConnection()->ExecSQL($sql);
+                  
+                  If ($emailcount != '0'){
+                     $message = '<p>Record processed successfully, goto Comms Tracker (Local) to update the send dates or view the child campaign.</p>';
+                  }
+                  else{
+                       $message = '<p>Record processed successfully.</p>';
+                  }
+              }                                    
             }
         }
     

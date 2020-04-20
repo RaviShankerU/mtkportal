@@ -128,6 +128,8 @@ FROM `marketing_portal_v2`.`campaign_tracker_utm`
 WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
     </DataSource>
     <DataSource name="campaign_calendar_group" createTopLevelPage="false"/>
+    <DataSource name="lookup_objective" createTopLevelPage="false"/>
+    <DataSource name="lookup_strategic_campaign" createTopLevelPage="false"/>
   </DataSources>
   <Presentation disableMagicQuotesRuntime="false" showEnvironmentVariables="false" showExecutedQueries="false" showPHPErrorsAndWarnings="false" enableInactivityTimeout="true" inactivityTimeoutInterval="20">
     <Pages>
@@ -199,6 +201,20 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <ViewProperties type="text"/>
             <EditProperties type="textBox" maxLength="15"/>
           </ColumnPresentation>
+          <ColumnPresentation fieldName="campaign_tracker_id" caption="Campaign Tracker Id" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+            <ViewProperties type="text">
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="0"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="trackerid" caption="Trackerid" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+            <ViewProperties type="text"/>
+            <EditProperties type="textBox" maxLength="45"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="tactic_name" caption="Tactic Name" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+            <ViewProperties type="text" maxLength="75"/>
+            <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+          </ColumnPresentation>
         </ColumnPresentations>
         <Columns>
           <List>
@@ -212,6 +228,9 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <Column fieldName="title"/>
             <Column fieldName="description"/>
             <Column fieldName="class"/>
+            <Column fieldName="campaign_tracker_id"/>
+            <Column fieldName="trackerid"/>
+            <Column fieldName="tactic_name"/>
           </List>
           <View>
             <Column fieldName="master_campaign_id"/>
@@ -224,6 +243,9 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <Column fieldName="title"/>
             <Column fieldName="description"/>
             <Column fieldName="class"/>
+            <Column fieldName="campaign_tracker_id"/>
+            <Column fieldName="trackerid"/>
+            <Column fieldName="tactic_name"/>
           </View>
           <Edit>
             <Column fieldName="master_campaign_id"/>
@@ -236,6 +258,9 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <Column fieldName="title"/>
             <Column fieldName="description"/>
             <Column fieldName="class"/>
+            <Column fieldName="campaign_tracker_id"/>
+            <Column fieldName="trackerid"/>
+            <Column fieldName="tactic_name"/>
           </Edit>
           <Insert>
             <Column fieldName="master_campaign_id"/>
@@ -248,6 +273,9 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <Column fieldName="title"/>
             <Column fieldName="description"/>
             <Column fieldName="class"/>
+            <Column fieldName="campaign_tracker_id"/>
+            <Column fieldName="trackerid"/>
+            <Column fieldName="tactic_name"/>
           </Insert>
           <QuickFilter>
             <Column fieldName="master_campaign_id"/>
@@ -260,6 +288,9 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <Column fieldName="title"/>
             <Column fieldName="description"/>
             <Column fieldName="class"/>
+            <Column fieldName="campaign_tracker_id"/>
+            <Column fieldName="trackerid"/>
+            <Column fieldName="tactic_name"/>
           </QuickFilter>
           <FilterBuilder>
             <Column fieldName="master_campaign_id"/>
@@ -272,6 +303,9 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <Column fieldName="title"/>
             <Column fieldName="description"/>
             <Column fieldName="class"/>
+            <Column fieldName="campaign_tracker_id"/>
+            <Column fieldName="trackerid"/>
+            <Column fieldName="tactic_name"/>
           </FilterBuilder>
           <Print>
             <Column fieldName="master_campaign_id"/>
@@ -284,6 +318,9 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <Column fieldName="title"/>
             <Column fieldName="description"/>
             <Column fieldName="class"/>
+            <Column fieldName="campaign_tracker_id"/>
+            <Column fieldName="trackerid"/>
+            <Column fieldName="tactic_name"/>
           </Print>
           <Export>
             <Column fieldName="master_campaign_id"/>
@@ -296,6 +333,9 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <Column fieldName="title"/>
             <Column fieldName="description"/>
             <Column fieldName="class"/>
+            <Column fieldName="campaign_tracker_id"/>
+            <Column fieldName="trackerid"/>
+            <Column fieldName="tactic_name"/>
           </Export>
           <Compare>
             <Column fieldName="master_campaign_id"/>
@@ -308,6 +348,9 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <Column fieldName="title"/>
             <Column fieldName="description"/>
             <Column fieldName="class"/>
+            <Column fieldName="campaign_tracker_id"/>
+            <Column fieldName="trackerid"/>
+            <Column fieldName="tactic_name"/>
           </Compare>
           <MultiEdit>
             <Column fieldName="master_campaign_id"/>
@@ -320,6 +363,9 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <Column fieldName="title"/>
             <Column fieldName="description"/>
             <Column fieldName="class"/>
+            <Column fieldName="campaign_tracker_id"/>
+            <Column fieldName="trackerid"/>
+            <Column fieldName="tactic_name"/>
           </MultiEdit>
         </Columns>
         <Details/>
@@ -412,9 +458,10 @@ if ($part == PagePart::Grid &amp;&amp; $mode == PageMode::ViewAll) {
             </ViewProperties>
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="objective" caption="Objective" showColumnFilter="false" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="objective" caption="Objective" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_objective" linkFieldName="objective_name" displayFieldName="objective_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
             <ViewProperties type="text" maxLength="500"/>
-            <EditProperties type="textArea" columnCount="50" rowCount="2" placeholder="Your objective should include the total period you want to run this campaign i.e.: 12 Months"/>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="owner_person" caption="Project Owner" selectedFilterOperators="1589247">
             <Lookup tableName="phpgen_users" linkFieldName="user_id" displayFieldName="user_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" displayLookupRecord="true">
@@ -1168,7 +1215,7 @@ else {
         </RecordPermissions>
         <PartitionNavigators/>
       </Page>
-      <Page type="table" tableName="campaign_events" numberByDataSource="0" fileName="campaign_events" caption="Event List" shortCaption="Event List" groupName="New Campaign" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="0" viewAbilityMode="3" editAbilityMode="3" copyAbilityMode="0" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
+      <Page type="table" tableName="campaign_events" numberByDataSource="0" fileName="campaign_events" caption="Event List" shortCaption="Event List" groupName="New Campaign" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" useFixedGridHeader="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" condensedTable="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
    &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/event-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -1210,52 +1257,66 @@ else {
             <EditProperties type="textBox" maxLength="45"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Event_Name" caption="Event Name" showColumnFilter="false" selectedFilterOperators="1589247">
-            <ViewProperties type="text" maxLength="75">
+            <ViewProperties type="text" maxLength="50" wrapWords="false">
               <DivAttributes align="left"/>
             </ViewProperties>
-            <EditProperties type="textBox" maxLength="0"/>
+            <EditProperties type="textBox" maxLength="0">
+              <AdvancedProperties max_width="85"/>
+            </EditProperties>
           </ColumnPresentation>
           <ColumnPresentation fieldName="eRegion" caption="Region" canSetNull="true" selectedFilterOperators="1589247">
             <Lookup tableName="lookup_region" linkFieldName="Region" displayFieldName="Region" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
-            <ViewProperties type="text"/>
+            <ViewProperties type="text">
+              <DivAttributes align="left"/>
+            </ViewProperties>
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Country" caption="Country" canSetNull="true" selectedFilterOperators="1589247">
             <Lookup tableName="country_list" linkFieldName="Country_ID" displayFieldName="Country_Name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
-            <ViewProperties type="text"/>
+            <ViewProperties type="text">
+              <DivAttributes align="left"/>
+            </ViewProperties>
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Website" caption="Website" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text" maxLength="75"/>
-            <Hyperlink template="%Website%" target=""/>
+            <ViewProperties type="text"/>
+            <Hyperlink template="%trackerid%" target=""/>
             <EditProperties type="textBox" maxLength="0" placeholder="http://"/>
             <Validators>
               <UrlClientValidatorInfo enabled="true"/>
             </Validators>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Venue" caption="Venue" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text" maxLength="75"/>
+            <ViewProperties type="text" maxLength="75" wrapWords="false">
+              <DivAttributes align="left"/>
+            </ViewProperties>
             <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="City" caption="City" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text"/>
+            <ViewProperties type="text">
+              <DivAttributes align="left"/>
+            </ViewProperties>
             <EditProperties type="textBox" maxLength="50"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Event_status" caption="Event Status" canSetNull="true" selectedFilterOperators="1589247">
             <Lookup tableName="lookup_status_types_planning" linkFieldName="Status_Type_ID" displayFieldName="Status_Type" lookupFilter="Status_Filters=&quot;brief&quot;" useLookupOrdering="true" lookupOrdering="0"/>
-            <ViewProperties type="text"/>
-            <EditProperties type="dynamicCombobox"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="Event_Type" caption="Event Type" selectedFilterOperators="1589247">
-            <Lookup tableName="lookup_event_type" linkFieldName="Event_Type_ID" displayFieldName="Event_Type" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
-            <ViewProperties type="text">
+            <ViewProperties type="text" wrapWords="false">
               <DivAttributes align="left"/>
             </ViewProperties>
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
+          <ColumnPresentation fieldName="Event_Type" caption="Event Type" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_event_type" linkFieldName="Event_Type_ID" displayFieldName="Event_Type" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
+            <ViewProperties type="text" maxLength="65" escapeHTMLChars="true" wrapWords="false">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="dynamicCombobox">
+              <AdvancedProperties max_width="40"/>
+            </EditProperties>
+          </ColumnPresentation>
           <ColumnPresentation fieldName="Business_Responsible" caption="Business Responsible" canSetNull="true" selectedFilterOperators="1589247">
             <Lookup tableName="lookup_brands" linkFieldName="Brands_ID" displayFieldName="Brand_Name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
-            <ViewProperties type="text" maxLength="75"/>
+            <ViewProperties type="text" maxLength="75" wrapWords="false"/>
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Owner_Person" caption="Project Owner" canSetNull="true" selectedFilterOperators="1589247">
@@ -1264,47 +1325,68 @@ else {
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Brands_Attending" caption="Brands Attending" canSetNull="true" selectedFilterOperators="1589247">
-            <Lookup tableName="lookup_brands" linkFieldName="Brands_ID" displayFieldName="Brand_Name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
-            <ViewProperties type="text" maxLength="75"/>
-            <EditProperties type="dynamicCombobox"/>
+            <ViewProperties type="text" maxLength="75">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="multiSelect" retrieveValuesFromDatabase="true" dataSourceName="lookup_brands" storedFieldName="Brand_Name" displayedFieldName="Brand_Name"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Start_Date" caption="Start Date" canSetNull="true" selectedFilterOperators="2031871">
-            <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1"/>
+            <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1">
+              <DivAttributes align="left"/>
+            </ViewProperties>
             <EditProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1" firstDayOfWeek="0"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="End_Date" caption="End Date" canSetNull="true" selectedFilterOperators="2031871">
-            <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1"/>
+            <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1">
+              <DivAttributes align="left"/>
+            </ViewProperties>
             <EditProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1" firstDayOfWeek="0"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Objective" caption="Objective" showColumnFilter="false" canSetNull="true" readOnly="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text" maxLength="75"/>
-            <EditProperties type="textArea" columnCount="50" rowCount="4" placeholder=""/>
+          <ColumnPresentation fieldName="Objective" caption="Objective" canSetNull="true" readOnly="true" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_objective" linkFieldName="objective_name" displayFieldName="objective_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
+            <ViewProperties type="text" maxLength="75">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Expected_ROI_OTS" caption="Expected ROI OTS" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+          <ColumnPresentation fieldName="Expected_ROI_OTS" caption="Expected ROI OTS" totalFunction="2" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
             <ViewProperties type="text">
+              <DivAttributes align="right"/>
               <Format type="currency" numberAfterDecimal="2" decimalSeparator="." thousandSeparator="," currencySymbol="€"/>
             </ViewProperties>
             <EditProperties type="textBox" maxLength="0" prefix="Qty "/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Expected_ROI_Enquiries" caption="Expected ROI Enquiries" showColumnFilter="false" canSetNull="true" defaultInsertValue="0" selectedFilterOperators="1589247">
-            <ViewProperties type="text"/>
+          <ColumnPresentation fieldName="Expected_ROI_Enquiries" caption="Expected ROI Enquiries" totalFunction="2" showColumnFilter="false" canSetNull="true" defaultInsertValue="0" selectedFilterOperators="1589247">
+            <ViewProperties type="text">
+              <DivAttributes align="right"/>
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
             <EditProperties type="autocomplete" maxLength="10" prefix="Qty"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Post_Enquiries" caption="Post Enquiries" showColumnFilter="false" canSetNull="true" defaultInsertValue="0" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="Post_Enquiries" caption="Enquiries" totalFunction="2" showColumnFilter="false" canSetNull="true" defaultInsertValue="0" selectedFilterOperators="1589247">
+            <ViewProperties type="text">
+              <DivAttributes align="right"/>
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="10" prefix="Qty"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="New_Opportunities" caption="New Opportunities" totalFunction="2" showColumnFilter="false" canSetNull="true" defaultInsertValue="0" selectedFilterOperators="1589247">
             <ViewProperties type="text"/>
             <EditProperties type="textBox" maxLength="10" prefix="Qty"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="New_Opportunities" caption="New Opportunities" showColumnFilter="false" canSetNull="true" defaultInsertValue="0" selectedFilterOperators="1589247">
-            <ViewProperties type="text"/>
-            <EditProperties type="textBox" maxLength="10" prefix="Qty"/>
+          <ColumnPresentation fieldName="Industry" caption="Industry" canSetNull="true" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_industries" linkFieldName="Industry_ID" displayFieldName="Industry_Name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
+            <ViewProperties type="text" maxLength="75">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Industry" caption="Industry" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text" maxLength="75"/>
-            <EditProperties type="multiSelect" retrieveValuesFromDatabase="true" dataSourceName="lookup_industries" storedFieldName="Industry_ID" displayedFieldName="Industry_Name"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="Strategic_Campaign" caption="Strategic Campaign" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text" maxLength="75"/>
-            <EditProperties type="textArea" columnCount="50" rowCount="3" placeholder=""/>
+          <ColumnPresentation fieldName="Strategic_Campaign" caption="Strategic Campaign" canSetNull="true" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_strategic_campaign" linkFieldName="strategic_campaign_id" displayFieldName="strategic_campaing_name" lookupFilter="" useLookupOrdering="false" lookupOrdering="0"/>
+            <ViewProperties type="text" maxLength="75">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Short_Description" caption="Short Description" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
             <ViewProperties type="text" maxLength="75">
@@ -1312,8 +1394,9 @@ else {
             </ViewProperties>
             <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder="Please enter your summary here of what you want to display on the website."/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Event_Cost" caption="Event Cost" showColumnFilter="false" canSetNull="true" defaultInsertValue="€ 0.00" selectedFilterOperators="1573119">
+          <ColumnPresentation fieldName="Event_Cost" caption="Event Cost" totalFunction="2" showColumnFilter="false" canSetNull="true" defaultInsertValue="€ 0.00" selectedFilterOperators="1573119">
             <ViewProperties type="text">
+              <DivAttributes align="right"/>
               <Format type="currency" numberAfterDecimal="2" decimalSeparator="." thousandSeparator="," currencySymbol="€"/>
             </ViewProperties>
             <EditProperties type="textBox" maxLength="0" prefix="EURO"/>
@@ -1332,13 +1415,13 @@ else {
             <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
             <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Updated_by" caption="Updated By" showColumnFilter="false" canSetNull="true" defaultInsertValue="%CURRENT_USER_NAME%" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="Updated_by" caption="Modified By" showColumnFilter="false" canSetNull="true" readOnly="true" defaultInsertValue="%CURRENT_USER_NAME%" selectedFilterOperators="1589247">
             <ViewProperties type="text" maxLength="75"/>
             <EditProperties type="textBox" maxLength="100"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Updated_Date" caption="Updated Date" readOnly="true" defaultInsertValue="%CURRENT_DATETIME%" selectedFilterOperators="2031871">
-            <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
-            <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
+          <ColumnPresentation fieldName="Updated_Date" caption="Modified Date" canSetNull="true" readOnly="true" defaultInsertValue="%CURRENT_DATETIME%" selectedFilterOperators="2031871">
+            <ViewProperties type="text"/>
+            <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Marketo_Campaign" caption="Marketo Campaign" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
             <ViewProperties type="text"/>
@@ -1348,7 +1431,7 @@ else {
             <ViewProperties type="text"/>
             <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Approval" caption="List on Website?" showColumnFilter="false" canSetNull="true" defaultInsertValue="0" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="Approval" caption="Approval" showColumnFilter="false" canSetNull="true" defaultInsertValue="0" selectedFilterOperators="1589247">
             <ViewProperties type="text"/>
             <EditProperties type="checkBox"/>
           </ColumnPresentation>
@@ -1369,53 +1452,71 @@ else {
             <ViewProperties type="text" maxLength="75"/>
             <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Est_Opportunity_value_in_Euros" caption="Est Opportunity Value In Euros" showColumnFilter="false" defaultInsertValue="€ 0.00" selectedFilterOperators="1573119">
+          <ColumnPresentation fieldName="Est_Opportunity_value_in_Euros" caption="Est Opportunity Value In Euros" totalFunction="2" showColumnFilter="false" defaultInsertValue="€ 0.00" selectedFilterOperators="1573119">
             <ViewProperties type="text">
+              <DivAttributes align="right"/>
               <Format type="currency" numberAfterDecimal="2" decimalSeparator="." thousandSeparator="," currencySymbol="€"/>
             </ViewProperties>
             <EditProperties type="textBox" maxLength="0" prefix="EURO"/>
           </ColumnPresentation>
+          <ColumnPresentation fieldName="finyear_date" caption="Quarter Filter" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+            <ViewProperties type="text"/>
+            <EditProperties type="textBox" maxLength="45"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="finmonth_date" caption="Month Filter" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+            <ViewProperties type="text"/>
+            <EditProperties type="textBox" maxLength="45"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="show_events_cal" caption="Show in Events Calendar?" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+            <ViewProperties type="text">
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="checkBox"/>
+          </ColumnPresentation>
         </ColumnPresentations>
         <Columns>
           <List>
-            <Column fieldName="campaign_event_id" visible="false"/>
-            <Column fieldName="master_campaign_id"/>
-            <Column fieldName="trackerid" visible="false"/>
-            <Column fieldName="Event_Name"/>
             <Column fieldName="eRegion"/>
             <Column fieldName="Country"/>
-            <Column fieldName="Website" visible="false"/>
-            <Column fieldName="Venue" visible="false"/>
-            <Column fieldName="City" visible="false"/>
-            <Column fieldName="Event_status" visible="false"/>
+            <Column fieldName="Event_Name"/>
+            <Column fieldName="Venue"/>
+            <Column fieldName="City"/>
+            <Column fieldName="Event_status"/>
+            <Column fieldName="Approval"/>
             <Column fieldName="Event_Type"/>
-            <Column fieldName="Business_Responsible" visible="false"/>
+            <Column fieldName="Business_Responsible"/>
             <Column fieldName="Owner_Person"/>
-            <Column fieldName="Brands_Attending" visible="false"/>
+            <Column fieldName="Brands_Attending"/>
             <Column fieldName="Start_Date"/>
             <Column fieldName="End_Date"/>
-            <Column fieldName="Objective" visible="false"/>
-            <Column fieldName="Expected_ROI_OTS" visible="false"/>
-            <Column fieldName="Expected_ROI_Enquiries" visible="false"/>
-            <Column fieldName="Post_Enquiries" visible="false"/>
-            <Column fieldName="New_Opportunities" visible="false"/>
+            <Column fieldName="Objective"/>
+            <Column fieldName="Expected_ROI_OTS"/>
+            <Column fieldName="Expected_ROI_Enquiries"/>
+            <Column fieldName="Post_Enquiries"/>
+            <Column fieldName="New_Opportunities"/>
+            <Column fieldName="Est_Opportunity_value_in_Euros"/>
             <Column fieldName="Industry"/>
-            <Column fieldName="Strategic_Campaign" visible="false"/>
-            <Column fieldName="Short_Description" visible="false"/>
+            <Column fieldName="Strategic_Campaign"/>
+            <Column fieldName="Short_Description"/>
             <Column fieldName="Event_Cost"/>
-            <Column fieldName="Planned_Booth_Area" visible="false"/>
-            <Column fieldName="Created_by"/>
-            <Column fieldName="Created_Date"/>
+            <Column fieldName="Planned_Booth_Area"/>
+            <Column fieldName="Website" visible="false"/>
+            <Column fieldName="campaign_event_id" visible="false"/>
+            <Column fieldName="master_campaign_id" visible="false"/>
+            <Column fieldName="trackerid" visible="false"/>
+            <Column fieldName="Created_by" visible="false"/>
+            <Column fieldName="Created_Date" visible="false"/>
             <Column fieldName="Updated_by" visible="false"/>
             <Column fieldName="Updated_Date" visible="false"/>
             <Column fieldName="Marketo_Campaign" visible="false"/>
             <Column fieldName="Banner" visible="false"/>
-            <Column fieldName="Approval"/>
             <Column fieldName="Publish_Live" visible="false"/>
             <Column fieldName="Publish_Live_Date" visible="false"/>
             <Column fieldName="Event_Title" visible="false"/>
             <Column fieldName="SEO_Title" visible="false"/>
-            <Column fieldName="Est_Opportunity_value_in_Euros"/>
+            <Column fieldName="finyear_date" visible="false"/>
+            <Column fieldName="finmonth_date" visible="false"/>
+            <Column fieldName="show_events_cal" visible="false"/>
           </List>
           <View>
             <Column fieldName="campaign_event_id" visible="false"/>
@@ -1456,6 +1557,9 @@ else {
             <Column fieldName="Event_Title"/>
             <Column fieldName="SEO_Title"/>
             <Column fieldName="Est_Opportunity_value_in_Euros"/>
+            <Column fieldName="finyear_date" visible="false"/>
+            <Column fieldName="finmonth_date" visible="false"/>
+            <Column fieldName="show_events_cal"/>
           </View>
           <Edit>
             <Column fieldName="campaign_event_id" visible="false"/>
@@ -1496,6 +1600,9 @@ else {
             <Column fieldName="Event_Title"/>
             <Column fieldName="SEO_Title"/>
             <Column fieldName="Est_Opportunity_value_in_Euros"/>
+            <Column fieldName="finyear_date" visible="false"/>
+            <Column fieldName="finmonth_date" visible="false"/>
+            <Column fieldName="show_events_cal"/>
           </Edit>
           <Insert>
             <Column fieldName="campaign_event_id" visible="false"/>
@@ -1536,6 +1643,9 @@ else {
             <Column fieldName="Event_Title"/>
             <Column fieldName="SEO_Title"/>
             <Column fieldName="Est_Opportunity_value_in_Euros"/>
+            <Column fieldName="finyear_date" visible="false"/>
+            <Column fieldName="finmonth_date" visible="false"/>
+            <Column fieldName="show_events_cal"/>
           </Insert>
           <QuickFilter>
             <Column fieldName="campaign_event_id"/>
@@ -1576,6 +1686,9 @@ else {
             <Column fieldName="SEO_Title"/>
             <Column fieldName="Est_Opportunity_value_in_Euros"/>
             <Column fieldName="trackerid" visible="false"/>
+            <Column fieldName="finyear_date" visible="false"/>
+            <Column fieldName="finmonth_date" visible="false"/>
+            <Column fieldName="show_events_cal"/>
           </QuickFilter>
           <FilterBuilder>
             <Column fieldName="campaign_event_id"/>
@@ -1616,6 +1729,9 @@ else {
             <Column fieldName="Event_Title"/>
             <Column fieldName="SEO_Title"/>
             <Column fieldName="Est_Opportunity_value_in_Euros"/>
+            <Column fieldName="finyear_date"/>
+            <Column fieldName="finmonth_date"/>
+            <Column fieldName="show_events_cal"/>
           </FilterBuilder>
           <Print>
             <Column fieldName="campaign_event_id"/>
@@ -1656,6 +1772,9 @@ else {
             <Column fieldName="Event_Title"/>
             <Column fieldName="SEO_Title"/>
             <Column fieldName="Est_Opportunity_value_in_Euros"/>
+            <Column fieldName="finyear_date"/>
+            <Column fieldName="finmonth_date"/>
+            <Column fieldName="show_events_cal"/>
           </Print>
           <Export>
             <Column fieldName="campaign_event_id"/>
@@ -1696,6 +1815,9 @@ else {
             <Column fieldName="Event_Title"/>
             <Column fieldName="SEO_Title"/>
             <Column fieldName="Est_Opportunity_value_in_Euros"/>
+            <Column fieldName="finyear_date"/>
+            <Column fieldName="finmonth_date"/>
+            <Column fieldName="show_events_cal"/>
           </Export>
           <Compare>
             <Column fieldName="campaign_event_id" visible="false"/>
@@ -1736,6 +1858,9 @@ else {
             <Column fieldName="Event_Title"/>
             <Column fieldName="SEO_Title"/>
             <Column fieldName="Est_Opportunity_value_in_Euros"/>
+            <Column fieldName="finyear_date"/>
+            <Column fieldName="finmonth_date"/>
+            <Column fieldName="show_events_cal"/>
           </Compare>
           <MultiEdit>
             <Column fieldName="campaign_event_id" visible="false"/>
@@ -1776,6 +1901,9 @@ else {
             <Column fieldName="Event_Title"/>
             <Column fieldName="SEO_Title"/>
             <Column fieldName="Est_Opportunity_value_in_Euros"/>
+            <Column fieldName="finyear_date" visible="false"/>
+            <Column fieldName="finmonth_date" visible="false"/>
+            <Column fieldName="show_events_cal"/>
           </MultiEdit>
         </Columns>
         <Details/>
@@ -1854,23 +1982,79 @@ $storageGroup-&gt;addRow()
                                 
 $storageGroup = $layout-&gt;addGroup('Campaign Admin', 12);
 $storageGroup-&gt;addRow()
-     -&gt;addCol($columns['Event_status'], 9);          </OnGetCustomFormLayout>
+     -&gt;addCol($columns['Event_status'], 8)
+     -&gt;addCol($columns['show_events_cal'], 4);          </OnGetCustomFormLayout>
           <AfterUpdateRecord enabled="true">
 if ($success) {
 
-   // Check if the substring exists inside the string     
-   
-   $modified_by = $rowData['Updated_by'];
-   $modified_date = $rowData['Updated_Date'];
-   $trackerid = $rowData['trackerid'];
+  // Check if record data was modified
 
-   $sql = 
-   
-    &quot;CALL campaignCalendarTactic('$modified_by', '$modified_date', $trackerid);&quot;;
-    $this-&gt;GetConnection()-&gt;ExecSQL($sql); 
-       
-    $message = '&lt;p&gt;Record processed successfully. The Global Comms Calendar has been updated.&lt;/p&gt;';
+  $dataMofified  = 
+
+	$oldRowData['master_campaign_id'] !==$rowData['master_campaign_id'] ||
+	$oldRowData['trackerid'] !==$rowData['trackerid'] ||
+	$oldRowData['Event_Name'] !==$rowData['Event_Name'] ||
+	$oldRowData['eRegion'] !==$rowData['eRegion'] ||
+	$oldRowData['Country'] !==$rowData['Country'] ||
+	$oldRowData['Website'] !==$rowData['Website'] ||
+	$oldRowData['Venue'] !==$rowData['Venue'] ||
+	$oldRowData['City'] !==$rowData['City'] ||
+	$oldRowData['Event_status'] !==$rowData['Event_status'] ||
+	$oldRowData['Approval'] !==$rowData['Approval'] ||
+	$oldRowData['Business_Responsible'] !==$rowData['Business_Responsible'] ||
+	$oldRowData['Owner_Person'] !==$rowData['Owner_Person'] ||
+	$oldRowData['Brands_Attending'] !==$rowData['Brands_Attending'] ||
+	$oldRowData['Start_Date'] !==$rowData['Start_Date'] ||
+	$oldRowData['End_Date'] !==$rowData['End_Date'] ||
+	$oldRowData['Objective'] !==$rowData['Objective'] ||
+	$oldRowData['Expected_ROI_OTS'] !==$rowData['Expected_ROI_OTS'] ||
+	$oldRowData['Expected_ROI_Enquiries'] !==$rowData['Expected_ROI_Enquiries'] ||
+	$oldRowData['Post_Enquiries'] !==$rowData['Post_Enquiries'] ||
+	$oldRowData['New_Opportunities'] !==$rowData['New_Opportunities'] ||
+	$oldRowData['Est_Opportunity_value_in_Euros'] !==$rowData['Est_Opportunity_value_in_Euros'] ||
+	$oldRowData['Industry'] !==$rowData['Industry'] ||
+	$oldRowData['Strategic_Campaign'] !==$rowData['Strategic_Campaign'] ||
+	$oldRowData['Short_Description'] !==$rowData['Short_Description'] ||
+	$oldRowData['Event_Cost'] !==$rowData['Event_Cost'] ||
+	$oldRowData['Planned_Booth_Area'] !==$rowData['Planned_Booth_Area'] ||
+	$oldRowData['Marketo_Campaign'] !==$rowData['Marketo_Campaign'] ||
+	$oldRowData['Banner'] !==$rowData['Banner'] ||
+	$oldRowData['Publish_Live'] !==$rowData['Publish_Live'] ||
+	$oldRowData['Publish_Live_Date'] !==$rowData['Publish_Live_Date'] ||
+	$oldRowData['SEO_Title'] !==$rowData['SEO_Title'] ||
+	$oldRowData['show_events_cal'] !==$rowData['show_events_cal'];
+
+  if ($dataMofified) {
+
+      $modified_by = $rowData['Updated_by'];
+      $modified_date = $rowData['Updated_Date'];
+      $trackerid = $rowData['trackerid'];
+      $showcal = $rowData['show_events_cal'];
+      $campaign_event_id = $rowData['campaign_event_id'];
+
+    $sql = 
+
+      &quot;CALL campaignEventtoGlobalCalendar('$modified_by', '$modified_date', $trackerid, $showcal, $campaign_event_id);&quot;;
+      $this-&gt;GetConnection()-&gt;ExecSQL($sql);
+      
+      If ($showcal = '1'){
+         $message = '&lt;p&gt;Record processed successfully and has been added to the Global Events Calendar.&lt;/p&gt;';
+      }
+      else{
+           $message = '&lt;p&gt;Record processed successfully.&lt;/p&gt;';
+      }
+  }                                    
 }          </AfterUpdateRecord>
+          <CustomRenderColumnHandlerText enabled="true">
+if ($fieldName == 'Approval') {
+  $customText = $rowData['Approval'] == 1 ? 'Yes' : 'No';
+  $handled = true;
+}          </CustomRenderColumnHandlerText>
+          <OnGetCustomTemplate enabled="true">
+if ($part == PagePart::Grid &amp;&amp; $mode == PageMode::ViewAll) {           
+  $result = 'event_grid_table.tpl';
+}
+          </OnGetCustomTemplate>
           <OnEditFormEditorValueChanged enabled="true">
 if (sender.getFieldName() == 'channel_types')
 {
@@ -2001,41 +2185,47 @@ else {
         </EventHandlers>
         <RecordPermissions useRecordPermissions="false"/>
         <PartitionNavigators>
-          <PartitionNavigator type="listBased" name="partition" caption="Group by Region" allowViewAllRecords="true" expression="eRegion">
-            <Partition caption="America">
+          <PartitionNavigator type="listBased" name="partition" caption="Filter by Year" allowViewAllRecords="true" expression="finyear_date">
+            <Partition caption="2019 Q4">
               <Values>
                 <Value>
-'Americas'                </Value>
+'2019 Q4'                </Value>
               </Values>
             </Partition>
-            <Partition caption="EMEA">
+            <Partition caption="2020 Q1">
               <Values>
                 <Value>
-'EMEA'                </Value>
+'2020 Q1'                </Value>
               </Values>
             </Partition>
-            <Partition caption="IndoPAC">
+            <Partition caption="2020 Q2">
               <Values>
                 <Value>
-'IndoPAC'                </Value>
+'2020 Q2'                </Value>
               </Values>
             </Partition>
-            <Partition caption="Japan">
+            <Partition caption="2020 Q3">
               <Values>
                 <Value>
-'Japan'                </Value>
+'2020 Q3'                </Value>
               </Values>
             </Partition>
-            <Partition caption="Korea">
+            <Partition caption="2020 Q4">
               <Values>
                 <Value>
-'Korea'                </Value>
+'2020 Q4'                </Value>
               </Values>
             </Partition>
-            <Partition caption="China">
+            <Partition caption="2021 Q1">
               <Values>
                 <Value>
-'China'                </Value>
+'2021 Q1'                </Value>
+              </Values>
+            </Partition>
+            <Partition caption="NO Date Setup">
+              <Values>
+                <Value>
+'0 Q0'                </Value>
               </Values>
             </Partition>
           </PartitionNavigator>
@@ -2731,11 +2921,12 @@ else {
             </ViewProperties>
             <EditProperties type="textBox" maxLength="50"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="objective" caption="Objective" showColumnFilter="false" readOnly="true" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="objective" caption="Objective" readOnly="true" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_objective" linkFieldName="objective_name" displayFieldName="objective_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
             <ViewProperties type="text" maxLength="100">
               <DivAttributes align="left"/>
             </ViewProperties>
-            <EditProperties type="textArea" columnCount="50" rowCount="3" placeholder=""/>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="campaign_type" caption="Reporting Type" canSetNull="true" selectedFilterOperators="1573119">
             <Lookup tableName="lookup_brief_campaign_types" linkFieldName="brief_campaign_types_ID" displayFieldName="campaign_types" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" displayLookupRecord="true">
@@ -3489,9 +3680,10 @@ else {
             </ViewProperties>
             <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="objective" caption="Objective" showColumnFilter="false" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="objective" caption="Objective" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_objective" linkFieldName="objective_name" displayFieldName="objective_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
             <ViewProperties type="text" maxLength="75"/>
-            <EditProperties type="textArea" columnCount="50" rowCount="2" placeholder="Your objective should include the total period you want to run this campaign i.e.: 12 Months"/>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="campaign_name" caption="Campaign Name" showColumnFilter="false" selectedFilterOperators="1589247">
             <ViewProperties type="text" maxLength="75">
@@ -9845,18 +10037,42 @@ $layout-&gt;setMode(FormLayoutMode::VERTICAL);                </OnGetCustomFormL
                 <AfterUpdateRecord enabled="true">
 if ($success) {
 
-   // Check if the substring exists inside the string     
-   
-   $modified_by = $rowData['modified_by'];
-   $modified_date = $rowData['modified_date'];
-   $trackerid = $rowData['trackerid'];
+  // Check if record data was modified
 
-   $sql = 
-   
-    &quot;CALL campaignCalendarTactic('$modified_by', '$modified_date', $trackerid);&quot;;
-    $this-&gt;GetConnection()-&gt;ExecSQL($sql); 
-       
-    $message = '&lt;p&gt;Record processed successfully. The Global Comms Calendar has been updated.&lt;/p&gt;';
+  $dataMofified  = 
+
+	$oldRowData['trackerid'] !== $rowData['trackerid'] ||
+	$oldRowData['program_generator_name_id'] !== $rowData['program_generator_name_id'] ||
+	$oldRowData['master_campaign_id'] !== $rowData['master_campaign_id'] ||
+	$oldRowData['email_name'] !== $rowData['email_name'] ||
+	$oldRowData['campaign_type'] !== $rowData['campaign_type'] ||
+	$oldRowData['region'] !== $rowData['region'] ||
+	$oldRowData['campaign_publish_date'] !== $rowData['campaign_publish_date'] ||
+	$oldRowData['campaign_description'] !== $rowData['campaign_description'] ||
+	$oldRowData['tracker_status'] !== $rowData['tracker_status'] ||
+	$oldRowData['campaign_utm_id'] !== $rowData['campaign_utm_id'];
+
+
+  if ($dataMofified) {
+
+      $modified_by = $rowData['Updated_by'];
+      $modified_date = $rowData['Updated_Date'];
+      $trackerid = $rowData['trackerid'];
+      $show_events_cal = $rowData['show_events_cal'];
+      $emailcount = $rowData['emails_tracker'];
+
+    $sql = 
+
+      &quot;CALL campaignCommsLocaltoGlobalCalendar('$modified_by', '$modified_date', $trackerid, $show_events_cal);&quot;;
+      $this-&gt;GetConnection()-&gt;ExecSQL($sql);
+      
+      If ($emailcount != '0'){
+         $message = '&lt;p&gt;Record processed successfully, goto Comms Tracker (Local) to update the send dates .&lt;/p&gt;';
+      }
+      else{
+           $message = '&lt;p&gt;Record processed successfully.&lt;/p&gt;';
+      }
+  }                                    
 }                </AfterUpdateRecord>
               </EventHandlers>
               <RecordPermissions useRecordPermissions="false"/>
@@ -9913,16 +10129,21 @@ if ($success) {
 
    // Check if the substring exists inside the string     
    
-   $sprogram_generator_name_id = $rowData['program_generator_name_id'];
-   $amaster_campaign_id = $rowData['master_campaign_id'];
-   $username = $page-&gt;GetEnvVar('CURRENT_USER_NAME');    
-   $currentDateTime = SMDateTime::Now();
+        $sprogram_generator_name_id = $rowData['program_generator_name_id'];
+        $smaster_campaign_id = $rowData['master_campaign_id'];
+        $username = $page-&gt;GetEnvVar('CURRENT_USER_NAME');    
+        $currentDateTime = SMDateTime::Now();
+        $emailcount = $rowData['emails_tracker'];
                            
-   $sql = &quot;CALL campaignProgramNameGenerator($sprogram_generator_name_id, $amaster_campaign_id, '$username', '$currentDateTime');&quot;;
-
-   $this-&gt;GetConnection()-&gt;ExecSQL($sql);  
-
-   $message = '&lt;p&gt;Record processed successfully updated.&lt;/p&gt;';
+      &quot;CALL campaignProgramNameGenerator($sprogram_generator_name_id, $smaster_campaign_id, '$username', '$currentDateTime');&quot;;
+      $this-&gt;GetConnection()-&gt;ExecSQL($sql);
+      
+      If ($emailcount != '0'){
+         $message = '&lt;p&gt;Record updated successfully, goto Comms Tracker (Local) to update the send dates .&lt;/p&gt;';
+      }
+      else{
+           $message = '&lt;p&gt;Record updated successfully.&lt;/p&gt;';
+      }
 }          </AfterInsertRecord>
           <AfterDeleteRecord enabled="true">
 if ($success) {
@@ -9940,18 +10161,49 @@ if ($success) {
           <AfterUpdateRecord enabled="true">
 if ($success) {
 
-   // Check if the substring exists inside the string     
-   
-   $sprogram_generator_name_id = $rowData['program_generator_name_id'];
-   $amaster_campaign_id = $rowData['master_campaign_id'];
-   $username = $page-&gt;GetEnvVar('CURRENT_USER_NAME');    
-   $currentDateTime = SMDateTime::Now();
-                           
-   $sql = &quot;CALL campaignProgramNameGenerator($sprogram_generator_name_id, $amaster_campaign_id, '$username', '$currentDateTime');&quot;;
+  // Check if record data was modified
 
-   $this-&gt;GetConnection()-&gt;ExecSQL($sql);  
+  $dataMofified  = 
 
-   $message = '&lt;p&gt;Record processed successfully updated.&lt;/p&gt;';
+	$oldRowData['master_campaign_id'] !== $rowData['master_campaign_id'] ||
+	$oldRowData['trackerid'] !== $rowData['trackerid'] ||
+	$oldRowData['SFDC_child_campaign'] !== $rowData['SFDC_child_campaign'] ||
+	$oldRowData['campaign_program_name'] !== $rowData['campaign_program_name'] ||
+	$oldRowData['event_type'] !== $rowData['event_type'] ||
+	$oldRowData['short_description'] !== $rowData['short_description'] ||
+	$oldRowData['region'] !== $rowData['region'] ||
+	$oldRowData['sub_region'] !== $rowData['sub_region'] ||
+	$oldRowData['territory'] !== $rowData['territory'] ||
+	$oldRowData['country'] !== $rowData['country'] ||
+	$oldRowData['industry'] !== $rowData['industry'] ||
+	$oldRowData['job_function'] !== $rowData['job_function'] ||
+	$oldRowData['campaign_type'] !== $rowData['campaign_type'] ||
+	$oldRowData['product'] !== $rowData['product'] ||
+	$oldRowData['m_ID'] !== $rowData['m_ID'] ||
+	$oldRowData['campaign_publish_date'] !== $rowData['campaign_publish_date'] ||
+	$oldRowData['emails_tracker'] !== $rowData['emails_tracker'];
+	
+	
+  if ($dataMofified) {
+
+        $sprogram_generator_name_id = $rowData['program_generator_name_id'];
+        $smaster_campaign_id = $rowData['master_campaign_id'];
+        $username = $page-&gt;GetEnvVar('CURRENT_USER_NAME');    
+        $currentDateTime = SMDateTime::Now();
+        $emailcount = $rowData['emails_tracker'];
+
+    $sql = 
+
+      &quot;CALL campaignProgramNameGenerator($sprogram_generator_name_id, $smaster_campaign_id, '$username', '$currentDateTime');&quot;;
+      $this-&gt;GetConnection()-&gt;ExecSQL($sql);
+      
+      If ($emailcount != '0'){
+         $message = '&lt;p&gt;Record processed successfully, goto Comms Tracker (Local) to update the send dates or view the child campaign.&lt;/p&gt;';
+      }
+      else{
+           $message = '&lt;p&gt;Record processed successfully.&lt;/p&gt;';
+      }
+  }                                    
 }          </AfterUpdateRecord>
           <OnGetCustomPagePermissions enabled="true">
 // do not apply these rules for site admins
@@ -9990,7 +10242,52 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
 }          </OnGetCustomPagePermissions>
         </EventHandlers>
         <RecordPermissions useRecordPermissions="false"/>
-        <PartitionNavigators/>
+        <PartitionNavigators>
+          <PartitionNavigator type="listBased" name="partition" caption="Group by Region" allowViewAllRecords="true" expression="region">
+            <Partition caption="Global">
+              <Values>
+                <Value>
+'WW-ALL'                </Value>
+              </Values>
+            </Partition>
+            <Partition caption="Americas">
+              <Values>
+                <Value>
+'AM-ALL'                </Value>
+              </Values>
+            </Partition>
+            <Partition caption="EMEA">
+              <Values>
+                <Value>
+'EM-EUR'                </Value>
+              </Values>
+            </Partition>
+            <Partition caption="IndoPAC">
+              <Values>
+                <Value>
+'IN-ALL'                </Value>
+              </Values>
+            </Partition>
+            <Partition caption="Japan">
+              <Values>
+                <Value>
+'JP-ALL'                </Value>
+              </Values>
+            </Partition>
+            <Partition caption="Korea">
+              <Values>
+                <Value>
+'KO-ALL'                </Value>
+              </Values>
+            </Partition>
+            <Partition caption="China">
+              <Values>
+                <Value>
+'CH-ALL'                </Value>
+              </Values>
+            </Partition>
+          </PartitionNavigator>
+        </PartitionNavigators>
       </Page>
       <Page type="table" tableName="campaign_tracker_comms_local" numberByDataSource="0" fileName="campaign_tracker_comms_local" caption="Campaign Tracker: Comms" shortCaption="Campaign Tracker Comms" groupName="Campaign Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
@@ -10022,57 +10319,840 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             </ViewProperties>
             <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="program_generator_name_id" caption="Program Generator Name Id" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
-            <ViewProperties type="text">
-              <Format type="number" thousandSeparator=","/>
-            </ViewProperties>
-            <EditProperties type="textBox" maxLength="0"/>
+          <ColumnPresentation fieldName="program_generator_name_id" caption="Marketo Program Name" canSetNull="true" selectedFilterOperators="1573119">
+            <Lookup tableName="campaign_program_name_generator" linkFieldName="program_generator_name_id" displayFieldName="campaign_program_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" displayLookupRecord="true">
+              <LookupRecordViewForm numberByDataSource="0" fileName="campaign_program_name_generator" caption="Campaign Program Name Generator" shortCaption="Campaign Program Name Generator" addSeparator="false" horizontalFilterCondition="" isLookupRecordViewForm="true" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
+                <BeforeGridText/>
+                <DetailedDescription/>
+                <ColumnPresentations>
+                  <ColumnPresentation fieldName="program_generator_name_id" caption="Program Generator Name Id" showColumnFilter="false" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="master_campaign_id" caption="Associated Brief" canSetNull="true" selectedFilterOperators="1573119">
+                    <Lookup tableName="brief" linkFieldName="master_campaign_id" displayFieldName="campaign_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
+                    <ViewProperties type="text"/>
+                    <EditProperties type="dynamicCombobox"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="trackerid" caption="Trackerid" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="45"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="SFDC_child_campaign" caption="SFDC Campaign" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="18"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="campaign_program_name" caption="Marketo Program Name" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="event_type" caption="Event Type" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="short_description" caption="Short Description" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="45"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="region" caption="Region" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="50"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="sub_region" caption="Sub Region" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="30"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="territory" caption="Territory" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="country" caption="Country" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="50"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="industry" caption="Industry" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="job_function" caption="Job Function" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="campaign_type" caption="Campaign Type" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="45"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="product" caption="Product" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="10"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="m_ID" caption="M ID" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="11"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="campaign_publish_date" caption="Campaign Publish Date" canSetNull="true" selectedFilterOperators="2031871">
+                    <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1"/>
+                    <EditProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1" firstDayOfWeek="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="emails_tracker" caption="Emails Tracker" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="created_by" caption="Created By" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="45"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="created_date" caption="Created Date" canSetNull="true" selectedFilterOperators="2031871">
+                    <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
+                    <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="modified_by" caption="Modified By" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="45"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="modified_date" caption="Modified Date" canSetNull="true" selectedFilterOperators="2031871">
+                    <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
+                    <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
+                  </ColumnPresentation>
+                </ColumnPresentations>
+                <Columns>
+                  <List>
+                    <Column fieldName="program_generator_name_id"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </List>
+                  <View>
+                    <Column fieldName="program_generator_name_id" visible="false"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid" visible="false"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </View>
+                  <Edit>
+                    <Column fieldName="program_generator_name_id" visible="false"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </Edit>
+                  <Insert>
+                    <Column fieldName="program_generator_name_id" visible="false"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </Insert>
+                  <QuickFilter>
+                    <Column fieldName="program_generator_name_id"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </QuickFilter>
+                  <FilterBuilder>
+                    <Column fieldName="program_generator_name_id"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </FilterBuilder>
+                  <Print>
+                    <Column fieldName="program_generator_name_id"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </Print>
+                  <Export>
+                    <Column fieldName="program_generator_name_id"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </Export>
+                  <Compare>
+                    <Column fieldName="program_generator_name_id" visible="false"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </Compare>
+                  <MultiEdit>
+                    <Column fieldName="program_generator_name_id" visible="false"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid" visible="false"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </MultiEdit>
+                </Columns>
+                <Details/>
+                <RecordPermissions useRecordPermissions="false"/>
+                <PartitionNavigators/>
+              </LookupRecordViewForm>
+            </Lookup>
+            <ViewProperties type="text"/>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="master_campaign_id" caption="Master Campaign Id" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
-            <ViewProperties type="text">
-              <Format type="number" thousandSeparator=","/>
-            </ViewProperties>
-            <EditProperties type="textBox" maxLength="0"/>
+          <ColumnPresentation fieldName="master_campaign_id" caption="Associated Brief" canSetNull="true" selectedFilterOperators="1573119">
+            <Lookup tableName="brief" linkFieldName="master_campaign_id" displayFieldName="campaign_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" displayLookupRecord="true">
+              <LookupRecordViewForm numberByDataSource="0" fileName="brief" caption="Brief" shortCaption="Brief" addSeparator="false" horizontalFilterCondition="" isLookupRecordViewForm="true" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
+                <BeforeGridText/>
+                <DetailedDescription/>
+                <ColumnPresentations>
+                  <ColumnPresentation fieldName="master_campaign_id" caption="Master Campaign Id" showColumnFilter="false" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="campaign_name" caption="Campaign Name" showColumnFilter="false" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textBox" maxLength="100"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="objective" caption="Objective" showColumnFilter="false" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="short_description" caption="Short Description" showColumnFilter="false" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="50"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="campaign_type" caption="Campaign Type" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="campaign_tier" caption="Campaign Tier" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="channel_types" caption="Channel Types" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="50"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="campaign_status" caption="Campaign Status" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="event_type" caption="Event Type" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="b_region" caption="B Region" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="b_country" caption="B Country" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="industry" caption="Industry" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textBox" maxLength="100"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="est_opportunity_value_in_euros" caption="Est Opportunity Value In Euros" showColumnFilter="false" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="campaign_cost" caption="Campaign Cost" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="expected_roi_enquiries" caption="Expected Roi Enquiries" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="expected_roi_ots" caption="Expected Roi Ots" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="post_enquiries" caption="Post Enquiries" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="new_opportunities" caption="New Opportunities" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="owner_person" caption="Owner Person" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textBox" maxLength="100"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="start_date" caption="Start Date" selectedFilterOperators="2031871">
+                    <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1"/>
+                    <EditProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1" firstDayOfWeek="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="end_date" caption="End Date" canSetNull="true" selectedFilterOperators="2031871">
+                    <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1"/>
+                    <EditProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1" firstDayOfWeek="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="file_upload" caption="File Upload" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="asset_upload" caption="Asset Upload" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="created_by" caption="Created By" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="50"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="created_date" caption="Created Date" canSetNull="true" selectedFilterOperators="2031871">
+                    <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
+                    <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="updated_by" caption="Updated By" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="50"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="updated_date" caption="Updated Date" canSetNull="true" selectedFilterOperators="2031871">
+                    <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
+                    <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
+                  </ColumnPresentation>
+                </ColumnPresentations>
+                <Columns>
+                  <List>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="campaign_name"/>
+                    <Column fieldName="objective"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="campaign_tier"/>
+                    <Column fieldName="channel_types"/>
+                    <Column fieldName="campaign_status"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="b_region"/>
+                    <Column fieldName="b_country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="est_opportunity_value_in_euros"/>
+                    <Column fieldName="campaign_cost"/>
+                    <Column fieldName="expected_roi_enquiries"/>
+                    <Column fieldName="expected_roi_ots"/>
+                    <Column fieldName="post_enquiries"/>
+                    <Column fieldName="new_opportunities"/>
+                    <Column fieldName="owner_person"/>
+                    <Column fieldName="start_date"/>
+                    <Column fieldName="end_date"/>
+                    <Column fieldName="file_upload"/>
+                    <Column fieldName="asset_upload"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="updated_by"/>
+                    <Column fieldName="updated_date"/>
+                  </List>
+                  <View>
+                    <Column fieldName="master_campaign_id" visible="false"/>
+                    <Column fieldName="campaign_name"/>
+                    <Column fieldName="objective"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="campaign_tier"/>
+                    <Column fieldName="channel_types"/>
+                    <Column fieldName="campaign_status"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="b_region"/>
+                    <Column fieldName="b_country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="est_opportunity_value_in_euros"/>
+                    <Column fieldName="campaign_cost"/>
+                    <Column fieldName="expected_roi_enquiries"/>
+                    <Column fieldName="expected_roi_ots"/>
+                    <Column fieldName="post_enquiries"/>
+                    <Column fieldName="new_opportunities"/>
+                    <Column fieldName="owner_person"/>
+                    <Column fieldName="start_date"/>
+                    <Column fieldName="end_date"/>
+                    <Column fieldName="file_upload"/>
+                    <Column fieldName="asset_upload"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="updated_by"/>
+                    <Column fieldName="updated_date"/>
+                  </View>
+                  <Edit>
+                    <Column fieldName="master_campaign_id" visible="false"/>
+                    <Column fieldName="campaign_name"/>
+                    <Column fieldName="objective"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="campaign_tier"/>
+                    <Column fieldName="channel_types"/>
+                    <Column fieldName="campaign_status"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="b_region"/>
+                    <Column fieldName="b_country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="est_opportunity_value_in_euros"/>
+                    <Column fieldName="campaign_cost"/>
+                    <Column fieldName="expected_roi_enquiries"/>
+                    <Column fieldName="expected_roi_ots"/>
+                    <Column fieldName="post_enquiries"/>
+                    <Column fieldName="new_opportunities"/>
+                    <Column fieldName="owner_person"/>
+                    <Column fieldName="start_date"/>
+                    <Column fieldName="end_date"/>
+                    <Column fieldName="file_upload"/>
+                    <Column fieldName="asset_upload"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="updated_by"/>
+                    <Column fieldName="updated_date"/>
+                  </Edit>
+                  <Insert>
+                    <Column fieldName="master_campaign_id" visible="false"/>
+                    <Column fieldName="campaign_name"/>
+                    <Column fieldName="objective"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="campaign_tier"/>
+                    <Column fieldName="channel_types"/>
+                    <Column fieldName="campaign_status"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="b_region"/>
+                    <Column fieldName="b_country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="est_opportunity_value_in_euros"/>
+                    <Column fieldName="campaign_cost"/>
+                    <Column fieldName="expected_roi_enquiries"/>
+                    <Column fieldName="expected_roi_ots"/>
+                    <Column fieldName="post_enquiries"/>
+                    <Column fieldName="new_opportunities"/>
+                    <Column fieldName="owner_person"/>
+                    <Column fieldName="start_date"/>
+                    <Column fieldName="end_date"/>
+                    <Column fieldName="file_upload"/>
+                    <Column fieldName="asset_upload"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="updated_by"/>
+                    <Column fieldName="updated_date"/>
+                  </Insert>
+                  <QuickFilter>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="campaign_name"/>
+                    <Column fieldName="objective"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="campaign_tier"/>
+                    <Column fieldName="channel_types"/>
+                    <Column fieldName="campaign_status"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="b_region"/>
+                    <Column fieldName="b_country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="est_opportunity_value_in_euros"/>
+                    <Column fieldName="campaign_cost"/>
+                    <Column fieldName="expected_roi_enquiries"/>
+                    <Column fieldName="expected_roi_ots"/>
+                    <Column fieldName="post_enquiries"/>
+                    <Column fieldName="new_opportunities"/>
+                    <Column fieldName="owner_person"/>
+                    <Column fieldName="start_date"/>
+                    <Column fieldName="end_date"/>
+                    <Column fieldName="file_upload"/>
+                    <Column fieldName="asset_upload"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="updated_by"/>
+                    <Column fieldName="updated_date"/>
+                  </QuickFilter>
+                  <FilterBuilder>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="campaign_name"/>
+                    <Column fieldName="objective"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="campaign_tier"/>
+                    <Column fieldName="channel_types"/>
+                    <Column fieldName="campaign_status"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="b_region"/>
+                    <Column fieldName="b_country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="est_opportunity_value_in_euros"/>
+                    <Column fieldName="campaign_cost"/>
+                    <Column fieldName="expected_roi_enquiries"/>
+                    <Column fieldName="expected_roi_ots"/>
+                    <Column fieldName="post_enquiries"/>
+                    <Column fieldName="new_opportunities"/>
+                    <Column fieldName="owner_person"/>
+                    <Column fieldName="start_date"/>
+                    <Column fieldName="end_date"/>
+                    <Column fieldName="file_upload"/>
+                    <Column fieldName="asset_upload"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="updated_by"/>
+                    <Column fieldName="updated_date"/>
+                  </FilterBuilder>
+                  <Print>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="campaign_name"/>
+                    <Column fieldName="objective"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="campaign_tier"/>
+                    <Column fieldName="channel_types"/>
+                    <Column fieldName="campaign_status"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="b_region"/>
+                    <Column fieldName="b_country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="est_opportunity_value_in_euros"/>
+                    <Column fieldName="campaign_cost"/>
+                    <Column fieldName="expected_roi_enquiries"/>
+                    <Column fieldName="expected_roi_ots"/>
+                    <Column fieldName="post_enquiries"/>
+                    <Column fieldName="new_opportunities"/>
+                    <Column fieldName="owner_person"/>
+                    <Column fieldName="start_date"/>
+                    <Column fieldName="end_date"/>
+                    <Column fieldName="file_upload"/>
+                    <Column fieldName="asset_upload"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="updated_by"/>
+                    <Column fieldName="updated_date"/>
+                  </Print>
+                  <Export>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="campaign_name"/>
+                    <Column fieldName="objective"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="campaign_tier"/>
+                    <Column fieldName="channel_types"/>
+                    <Column fieldName="campaign_status"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="b_region"/>
+                    <Column fieldName="b_country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="est_opportunity_value_in_euros"/>
+                    <Column fieldName="campaign_cost"/>
+                    <Column fieldName="expected_roi_enquiries"/>
+                    <Column fieldName="expected_roi_ots"/>
+                    <Column fieldName="post_enquiries"/>
+                    <Column fieldName="new_opportunities"/>
+                    <Column fieldName="owner_person"/>
+                    <Column fieldName="start_date"/>
+                    <Column fieldName="end_date"/>
+                    <Column fieldName="file_upload"/>
+                    <Column fieldName="asset_upload"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="updated_by"/>
+                    <Column fieldName="updated_date"/>
+                  </Export>
+                  <Compare>
+                    <Column fieldName="master_campaign_id" visible="false"/>
+                    <Column fieldName="campaign_name"/>
+                    <Column fieldName="objective"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="campaign_tier"/>
+                    <Column fieldName="channel_types"/>
+                    <Column fieldName="campaign_status"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="b_region"/>
+                    <Column fieldName="b_country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="est_opportunity_value_in_euros"/>
+                    <Column fieldName="campaign_cost"/>
+                    <Column fieldName="expected_roi_enquiries"/>
+                    <Column fieldName="expected_roi_ots"/>
+                    <Column fieldName="post_enquiries"/>
+                    <Column fieldName="new_opportunities"/>
+                    <Column fieldName="owner_person"/>
+                    <Column fieldName="start_date"/>
+                    <Column fieldName="end_date"/>
+                    <Column fieldName="file_upload"/>
+                    <Column fieldName="asset_upload"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="updated_by"/>
+                    <Column fieldName="updated_date"/>
+                  </Compare>
+                  <MultiEdit>
+                    <Column fieldName="master_campaign_id" visible="false"/>
+                    <Column fieldName="campaign_name" visible="false"/>
+                    <Column fieldName="objective"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="campaign_tier"/>
+                    <Column fieldName="channel_types"/>
+                    <Column fieldName="campaign_status"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="b_region"/>
+                    <Column fieldName="b_country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="est_opportunity_value_in_euros"/>
+                    <Column fieldName="campaign_cost"/>
+                    <Column fieldName="expected_roi_enquiries"/>
+                    <Column fieldName="expected_roi_ots"/>
+                    <Column fieldName="post_enquiries"/>
+                    <Column fieldName="new_opportunities"/>
+                    <Column fieldName="owner_person"/>
+                    <Column fieldName="start_date"/>
+                    <Column fieldName="end_date"/>
+                    <Column fieldName="file_upload"/>
+                    <Column fieldName="asset_upload"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="updated_by"/>
+                    <Column fieldName="updated_date"/>
+                  </MultiEdit>
+                </Columns>
+                <Details/>
+                <RecordPermissions useRecordPermissions="false"/>
+                <PartitionNavigators/>
+              </LookupRecordViewForm>
+            </Lookup>
+            <ViewProperties type="text"/>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="email_name" caption="Email Name" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
             <ViewProperties type="text" maxLength="75"/>
-            <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+            <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="campaign_publish_date" caption="Campaign Publish Date" canSetNull="true" selectedFilterOperators="2031871">
-            <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1"/>
+          <ColumnPresentation fieldName="campaign_publish_date" caption="Email Send Date" canSetNull="true" selectedFilterOperators="2031871">
+            <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1">
+              <DivAttributes align="left"/>
+            </ViewProperties>
             <EditProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1" firstDayOfWeek="0"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="campaign_description" caption="Campaign Description" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text" maxLength="75"/>
+            <ViewProperties type="text" maxLength="75">
+              <DivAttributes align="left"/>
+            </ViewProperties>
             <EditProperties type="textBox" maxLength="100"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="campaign_type" caption="Campaign Type" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+          <ColumnPresentation fieldName="campaign_type" caption="Campaign Type" canSetNull="true" selectedFilterOperators="1573119">
+            <Lookup tableName="lookup_campaign_type" linkFieldName="Type_ID" displayFieldName="Type" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
             <ViewProperties type="text">
-              <Format type="number" thousandSeparator=","/>
+              <DivAttributes align="left"/>
             </ViewProperties>
-            <EditProperties type="textBox" maxLength="0"/>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="tracker_status" caption="Tracker Status" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
-            <ViewProperties type="text">
-              <Format type="number" thousandSeparator=","/>
-            </ViewProperties>
-            <EditProperties type="textBox" maxLength="0"/>
+          <ColumnPresentation fieldName="tracker_status" caption="Tracker Status" canSetNull="true" selectedFilterOperators="1573119">
+            <Lookup tableName="lookup_status_types" linkFieldName="Status_Type_ID" displayFieldName="Status_Type" lookupFilter="Status_Filters='png'" useLookupOrdering="true" lookupOrdering="0"/>
+            <ViewProperties type="text"/>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="campaign_utm_id" caption="Campaign Utm Id" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
-            <ViewProperties type="text">
-              <Format type="number" thousandSeparator=","/>
-            </ViewProperties>
-            <EditProperties type="textBox" maxLength="0"/>
+          <ColumnPresentation fieldName="campaign_utm_id" caption="Campaign Utm Id" canSetNull="true" selectedFilterOperators="1573119">
+            <Lookup tableName="campaign_tracker_utm" linkFieldName="campaign_utm_id" displayFieldName="campaign_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
+            <ViewProperties type="text"/>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="region" caption="Region" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="region" caption="Region" canSetNull="true" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_region" linkFieldName="Region_Value" displayFieldName="Region" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
+            <ViewProperties type="text"/>
+            <EditProperties type="dynamicCombobox"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="modified_by" caption="Modified By" showColumnFilter="false" canSetNull="true" readOnly="true" defaultInsertValue="%CURRENT_USER_NAME%" selectedFilterOperators="1589247">
             <ViewProperties type="text"/>
             <EditProperties type="textBox" maxLength="45"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="modified_by" caption="Modified By" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text"/>
-            <EditProperties type="textBox" maxLength="45"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="modified_date" caption="Modified Date" canSetNull="true" selectedFilterOperators="2031871">
+          <ColumnPresentation fieldName="modified_date" caption="Modified Date" canSetNull="true" readOnly="true" defaultInsertValue="%CURRENT_DATETIME%" selectedFilterOperators="2031871">
             <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
             <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
           </ColumnPresentation>
@@ -10084,18 +11164,18 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
         <Columns>
           <List>
             <Column fieldName="campaign_tracker_local_id" visible="false"/>
-            <Column fieldName="program_generator_name_id"/>
-            <Column fieldName="master_campaign_id"/>
+            <Column fieldName="program_generator_name_id" visible="false"/>
+            <Column fieldName="master_campaign_id" visible="false"/>
+            <Column fieldName="region"/>
             <Column fieldName="email_name"/>
-            <Column fieldName="campaign_publish_date"/>
             <Column fieldName="campaign_description"/>
             <Column fieldName="campaign_type"/>
+            <Column fieldName="campaign_publish_date"/>
             <Column fieldName="tracker_status"/>
             <Column fieldName="campaign_utm_id"/>
-            <Column fieldName="region"/>
-            <Column fieldName="modified_by"/>
-            <Column fieldName="modified_date"/>
-            <Column fieldName="trackerid"/>
+            <Column fieldName="modified_by" visible="false"/>
+            <Column fieldName="modified_date" visible="false"/>
+            <Column fieldName="trackerid" visible="false"/>
           </List>
           <View>
             <Column fieldName="campaign_tracker_local_id" visible="false"/>
@@ -10110,7 +11190,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <Column fieldName="region"/>
             <Column fieldName="modified_by"/>
             <Column fieldName="modified_date"/>
-            <Column fieldName="trackerid"/>
+            <Column fieldName="trackerid" visible="false"/>
           </View>
           <Edit>
             <Column fieldName="campaign_tracker_local_id" visible="false"/>
@@ -10125,7 +11205,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <Column fieldName="region"/>
             <Column fieldName="modified_by"/>
             <Column fieldName="modified_date"/>
-            <Column fieldName="trackerid"/>
+            <Column fieldName="trackerid" visible="false"/>
           </Edit>
           <Insert>
             <Column fieldName="campaign_tracker_local_id" visible="false"/>
@@ -10140,7 +11220,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <Column fieldName="region"/>
             <Column fieldName="modified_by"/>
             <Column fieldName="modified_date"/>
-            <Column fieldName="trackerid"/>
+            <Column fieldName="trackerid" visible="false"/>
           </Insert>
           <QuickFilter>
             <Column fieldName="campaign_tracker_local_id"/>
@@ -10155,7 +11235,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <Column fieldName="region"/>
             <Column fieldName="modified_by"/>
             <Column fieldName="modified_date"/>
-            <Column fieldName="trackerid"/>
+            <Column fieldName="trackerid" visible="false"/>
           </QuickFilter>
           <FilterBuilder>
             <Column fieldName="campaign_tracker_local_id"/>
@@ -10170,7 +11250,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <Column fieldName="region"/>
             <Column fieldName="modified_by"/>
             <Column fieldName="modified_date"/>
-            <Column fieldName="trackerid"/>
+            <Column fieldName="trackerid" visible="false"/>
           </FilterBuilder>
           <Print>
             <Column fieldName="campaign_tracker_local_id"/>
@@ -10185,7 +11265,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <Column fieldName="region"/>
             <Column fieldName="modified_by"/>
             <Column fieldName="modified_date"/>
-            <Column fieldName="trackerid"/>
+            <Column fieldName="trackerid" visible="false"/>
           </Print>
           <Export>
             <Column fieldName="campaign_tracker_local_id"/>
@@ -10200,7 +11280,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <Column fieldName="region"/>
             <Column fieldName="modified_by"/>
             <Column fieldName="modified_date"/>
-            <Column fieldName="trackerid"/>
+            <Column fieldName="trackerid" visible="false"/>
           </Export>
           <Compare>
             <Column fieldName="campaign_tracker_local_id" visible="false"/>
@@ -10215,7 +11295,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <Column fieldName="region"/>
             <Column fieldName="modified_by"/>
             <Column fieldName="modified_date"/>
-            <Column fieldName="trackerid"/>
+            <Column fieldName="trackerid" visible="false"/>
           </Compare>
           <MultiEdit>
             <Column fieldName="campaign_tracker_local_id" visible="false"/>
@@ -10230,7 +11310,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <Column fieldName="region"/>
             <Column fieldName="modified_by"/>
             <Column fieldName="modified_date"/>
-            <Column fieldName="trackerid"/>
+            <Column fieldName="trackerid" visible="false"/>
           </MultiEdit>
         </Columns>
         <Details/>
@@ -10238,18 +11318,34 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
           <AfterUpdateRecord enabled="true">
 if ($success) {
 
-   // Check if the substring exists inside the string     
-   
-   $modified_by = $rowData['modified_by'];
-   $modified_date = $rowData['modified_date'];
-   $trackerid = $rowData['trackerid'];
+  // Check if record data was modified
 
-   $sql = 
-   
-    &quot;CALL campaignCalendarTactic('$modified_by', '$modified_date', $trackerid);&quot;;
-    $this-&gt;GetConnection()-&gt;ExecSQL($sql); 
-       
-    $message = '&lt;p&gt;Record processed successfully. The Global Comms Calendar has been updated.&lt;/p&gt;';
+  $dataMofified  = 
+
+     $oldRowData['trackerid'] !== $rowData['trackerid'] ||
+     $oldRowData['program_generator_name_id'] !== $rowData['program_generator_name_id'] ||
+     $oldRowData['master_campaign_id'] !== $rowData['master_campaign_id'] ||
+     $oldRowData['email_name'] !== $rowData['email_name'] ||
+     $oldRowData['campaign_type'] !== $rowData['campaign_type'] ||
+     $oldRowData['region'] !== $rowData['region'] ||
+     $oldRowData['campaign_publish_date'] !== $rowData['campaign_publish_date'] ||
+     $oldRowData['campaign_description'] !== $rowData['campaign_description'] ||
+     $oldRowData['tracker_status'] !== $rowData['tracker_status'] ||
+     $oldRowData['campaign_utm_id'] !== $rowData['campaign_utm_id'];
+
+  if ($dataMofified) {
+
+      $modified_by = $rowData['modified_by'];
+      $modified_date = $rowData['modified_date'];
+      $campaign_tracker_local_id = $rowData['campaign_tracker_local_id'];
+
+    $sql = 
+
+      &quot;CALL campaignCommsLocaltoGlobalCalendar('$modified_by', '$modified_date', $campaign_tracker_local_id);&quot;;
+      $this-&gt;GetConnection()-&gt;ExecSQL($sql);
+      
+      $message = '&lt;p&gt;Record processed successfully, goto Comms Tracker (Local) to update the send dates .&lt;/p&gt;';
+  }                                    
 }          </AfterUpdateRecord>
         </EventHandlers>
         <RecordPermissions useRecordPermissions="false"/>
@@ -16774,7 +17870,9 @@ label {
 	padding: 7px 5px;
 	text-indent: 15px;
 }
-
+.container-fluid-event {
+    width: 137%;
+}
 @import &quot;https://fonts.googleapis.com/css?family=Montserrat:400&quot;;
 @import &quot;https://use.fontawesome.com/releases/v5.3.1/css/all.css&quot;;  </UserCSS>
   <PdfUserStyles/>

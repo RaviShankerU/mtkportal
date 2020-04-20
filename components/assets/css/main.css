@@ -12362,3 +12362,6 @@ label {
   padding: 7px 5px;
   text-indent: 15px;
 }
+.container-fluid-event {
+  width: 137%;
+}

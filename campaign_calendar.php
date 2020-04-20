@@ -47,15 +47,18 @@
             $this->dataset->addFields(
                 array(
                     new IntegerField('id', true, true, true),
-                    new IntegerField('master_campaign_id', true),
+                    new IntegerField('campaign_tracker_id'),
+                    new IntegerField('master_campaign_id'),
+                    new StringField('trackerid'),
+                    new StringField('tactic_name'),
                     new StringField('title'),
                     new StringField('description'),
-                    new DateField('start_date', true),
+                    new DateField('start_date'),
                     new DateField('end_date'),
+                    new IntegerField('status'),
                     new DateTimeField('created'),
-                    new StringField('status', true),
-                    new StringField('URL', true),
-                    new StringField('class', true)
+                    new StringField('URL'),
+                    new StringField('class')
                 )
             );
         }
@@ -97,7 +100,10 @@
                 new FilterColumn($this->dataset, 'id', 'id', 'Id'),
                 new FilterColumn($this->dataset, 'title', 'title', 'Title'),
                 new FilterColumn($this->dataset, 'description', 'description', 'Description'),
-                new FilterColumn($this->dataset, 'class', 'class', 'Class')
+                new FilterColumn($this->dataset, 'class', 'class', 'Class'),
+                new FilterColumn($this->dataset, 'campaign_tracker_id', 'campaign_tracker_id', 'Campaign Tracker Id'),
+                new FilterColumn($this->dataset, 'trackerid', 'trackerid', 'Trackerid'),
+                new FilterColumn($this->dataset, 'tactic_name', 'tactic_name', 'Tactic Name')
             );
         }
     
@@ -113,7 +119,10 @@
                 ->addColumn($columns['id'])
                 ->addColumn($columns['title'])
                 ->addColumn($columns['description'])
-                ->addColumn($columns['class']);
+                ->addColumn($columns['class'])
+                ->addColumn($columns['campaign_tracker_id'])
+                ->addColumn($columns['trackerid'])
+                ->addColumn($columns['tactic_name']);
         }
     
         protected function setupColumnFilter(ColumnFilter $columnFilter)
@@ -347,6 +356,73 @@
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
             );
+            
+            $main_editor = new TextEdit('campaign_tracker_id_edit');
+            
+            $filterBuilder->addColumn(
+                $columns['campaign_tracker_id'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('trackerid_edit');
+            $main_editor->SetMaxLength(45);
+            
+            $filterBuilder->addColumn(
+                $columns['trackerid'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('tactic_name');
+            
+            $filterBuilder->addColumn(
+                $columns['tactic_name'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
         }
     
         protected function AddOperationsColumns(Grid $grid)
@@ -468,6 +544,41 @@
             $column->SetDescription('');
             $column->SetFixedWidth(null);
             $grid->AddViewColumn($column);
+            
+            //
+            // View column for campaign_tracker_id field
+            //
+            $column = new NumberViewColumn('campaign_tracker_id', 'campaign_tracker_id', 'Campaign Tracker Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for trackerid field
+            //
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for tactic_name field
+            //
+            $column = new TextViewColumn('tactic_name', 'tactic_name', 'Tactic Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_calendar_tactic_name_handler_list');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
         }
     
         protected function AddSingleRecordViewColumns(Grid $grid)
@@ -553,6 +664,32 @@
             //
             $column = new TextViewColumn('class', 'class', 'Class', $this->dataset);
             $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for campaign_tracker_id field
+            //
+            $column = new NumberViewColumn('campaign_tracker_id', 'campaign_tracker_id', 'Campaign Tracker Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for trackerid field
+            //
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for tactic_name field
+            //
+            $column = new TextViewColumn('tactic_name', 'tactic_name', 'Tactic Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_calendar_tactic_name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
         }
     
@@ -653,6 +790,34 @@
             $editColumn = new CustomEditColumn('Class', 'class', $editor, $this->dataset);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for campaign_tracker_id field
+            //
+            $editor = new TextEdit('campaign_tracker_id_edit');
+            $editColumn = new CustomEditColumn('Campaign Tracker Id', 'campaign_tracker_id', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for trackerid field
+            //
+            $editor = new TextEdit('trackerid_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Trackerid', 'trackerid', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for tactic_name field
+            //
+            $editor = new TextAreaEdit('tactic_name_edit', 50, 8);
+            $editColumn = new CustomEditColumn('Tactic Name', 'tactic_name', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
         }
@@ -756,6 +921,34 @@
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for campaign_tracker_id field
+            //
+            $editor = new TextEdit('campaign_tracker_id_edit');
+            $editColumn = new CustomEditColumn('Campaign Tracker Id', 'campaign_tracker_id', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for trackerid field
+            //
+            $editor = new TextEdit('trackerid_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Trackerid', 'trackerid', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for tactic_name field
+            //
+            $editor = new TextAreaEdit('tactic_name_edit', 50, 8);
+            $editColumn = new CustomEditColumn('Tactic Name', 'tactic_name', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
         }
     
         protected function AddInsertColumns(Grid $grid)
@@ -857,6 +1050,34 @@
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for campaign_tracker_id field
+            //
+            $editor = new TextEdit('campaign_tracker_id_edit');
+            $editColumn = new CustomEditColumn('Campaign Tracker Id', 'campaign_tracker_id', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for trackerid field
+            //
+            $editor = new TextEdit('trackerid_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Trackerid', 'trackerid', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for tactic_name field
+            //
+            $editor = new TextAreaEdit('tactic_name_edit', 50, 8);
+            $editColumn = new CustomEditColumn('Tactic Name', 'tactic_name', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
             $grid->SetShowAddButton(false && $this->GetSecurityInfo()->HasAddGrant());
         }
     
@@ -949,6 +1170,32 @@
             $column = new TextViewColumn('class', 'class', 'Class', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddPrintColumn($column);
+            
+            //
+            // View column for campaign_tracker_id field
+            //
+            $column = new NumberViewColumn('campaign_tracker_id', 'campaign_tracker_id', 'Campaign Tracker Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for trackerid field
+            //
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for tactic_name field
+            //
+            $column = new TextViewColumn('tactic_name', 'tactic_name', 'Tactic Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_calendar_tactic_name_handler_print');
+            $grid->AddPrintColumn($column);
         }
     
         protected function AddExportColumns(Grid $grid)
@@ -1035,6 +1282,32 @@
             $column = new TextViewColumn('class', 'class', 'Class', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddExportColumn($column);
+            
+            //
+            // View column for campaign_tracker_id field
+            //
+            $column = new NumberViewColumn('campaign_tracker_id', 'campaign_tracker_id', 'Campaign Tracker Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for trackerid field
+            //
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for tactic_name field
+            //
+            $column = new TextViewColumn('tactic_name', 'tactic_name', 'Tactic Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_calendar_tactic_name_handler_export');
+            $grid->AddExportColumn($column);
         }
     
         private function AddCompareColumns(Grid $grid)
@@ -1120,6 +1393,32 @@
             //
             $column = new TextViewColumn('class', 'class', 'Class', $this->dataset);
             $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for campaign_tracker_id field
+            //
+            $column = new NumberViewColumn('campaign_tracker_id', 'campaign_tracker_id', 'Campaign Tracker Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for trackerid field
+            //
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for tactic_name field
+            //
+            $column = new TextViewColumn('tactic_name', 'tactic_name', 'Tactic Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_calendar_tactic_name_handler_compare');
             $grid->AddCompareColumn($column);
         }
     
@@ -1238,6 +1537,14 @@
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
+            // View column for tactic_name field
+            //
+            $column = new TextViewColumn('tactic_name', 'tactic_name', 'Tactic Name', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_tactic_name_handler_list', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
             // View column for title field
             //
             $column = new TextViewColumn('title', 'title', 'Title', $this->dataset);
@@ -1251,6 +1558,14 @@
             $column = new TextViewColumn('description', 'description', 'Description', $this->dataset);
             $column->SetOrderable(true);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_description_handler_print', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for tactic_name field
+            //
+            $column = new TextViewColumn('tactic_name', 'tactic_name', 'Tactic Name', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_tactic_name_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -1270,6 +1585,14 @@
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
+            // View column for tactic_name field
+            //
+            $column = new TextViewColumn('tactic_name', 'tactic_name', 'Tactic Name', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_tactic_name_handler_compare', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
             // View column for title field
             //
             $column = new TextViewColumn('title', 'title', 'Title', $this->dataset);
@@ -1283,6 +1606,14 @@
             $column = new TextViewColumn('description', 'description', 'Description', $this->dataset);
             $column->SetOrderable(true);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_description_handler_view', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for tactic_name field
+            //
+            $column = new TextViewColumn('tactic_name', 'tactic_name', 'Tactic Name', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_tactic_name_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);
         }
        

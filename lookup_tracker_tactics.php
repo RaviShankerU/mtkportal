@@ -264,6 +264,7 @@
             $this->dataset->addFields(
                 array(
                     new IntegerField('lookup_tracker_tactics_id', true, true, true),
+                    new StringField('tacticid'),
                     new StringField('channel_name'),
                     new StringField('campaign_description'),
                     new StringField('tactic_name')
@@ -311,7 +312,8 @@
                 new FilterColumn($this->dataset, 'lookup_tracker_tactics_id', 'lookup_tracker_tactics_id', 'Lookup Tracker Tactics Id'),
                 new FilterColumn($this->dataset, 'channel_name', 'channel_name_channnel_name', 'Channel Name'),
                 new FilterColumn($this->dataset, 'campaign_description', 'campaign_description', 'Campaign Description'),
-                new FilterColumn($this->dataset, 'tactic_name', 'tactic_name_tactic_description', 'Tactic Name')
+                new FilterColumn($this->dataset, 'tactic_name', 'tactic_name_tactic_description', 'Tactic Name'),
+                new FilterColumn($this->dataset, 'tacticid', 'tacticid', 'Tacticid')
             );
         }
     
@@ -321,7 +323,8 @@
                 ->addColumn($columns['lookup_tracker_tactics_id'])
                 ->addColumn($columns['channel_name'])
                 ->addColumn($columns['campaign_description'])
-                ->addColumn($columns['tactic_name']);
+                ->addColumn($columns['tactic_name'])
+                ->addColumn($columns['tacticid']);
         }
     
         protected function setupColumnFilter(ColumnFilter $columnFilter)
@@ -445,6 +448,31 @@
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
             );
+            
+            $main_editor = new TextEdit('tacticid_edit');
+            $main_editor->SetMaxLength(45);
+            
+            $filterBuilder->addColumn(
+                $columns['tacticid'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
         }
     
         protected function AddOperationsColumns(Grid $grid)
@@ -531,6 +559,16 @@
             $column->SetDescription('');
             $column->SetFixedWidth(null);
             $grid->AddViewColumn($column);
+            
+            //
+            // View column for tacticid field
+            //
+            $column = new TextViewColumn('tacticid', 'tacticid', 'Tacticid', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
         }
     
         protected function AddSingleRecordViewColumns(Grid $grid)
@@ -565,6 +603,13 @@
             // View column for tactic_description field
             //
             $column = new TextViewColumn('tactic_name', 'tactic_name_tactic_description', 'Tactic Name', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for tacticid field
+            //
+            $column = new TextViewColumn('tacticid', 'tacticid', 'Tacticid', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
         }
@@ -633,6 +678,16 @@
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for tacticid field
+            //
+            $editor = new TextEdit('tacticid_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Tacticid', 'tacticid', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
         }
     
         protected function AddMultiEditColumns(Grid $grid)
@@ -697,6 +752,16 @@
             );
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for tacticid field
+            //
+            $editor = new TextEdit('tacticid_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Tacticid', 'tacticid', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
         }
@@ -765,6 +830,16 @@
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for tacticid field
+            //
+            $editor = new TextEdit('tacticid_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Tacticid', 'tacticid', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
             $grid->SetShowAddButton(true && $this->GetSecurityInfo()->HasAddGrant());
         }
     
@@ -810,6 +885,13 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $grid->AddPrintColumn($column);
+            
+            //
+            // View column for tacticid field
+            //
+            $column = new TextViewColumn('tacticid', 'tacticid', 'Tacticid', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
         }
     
         protected function AddExportColumns(Grid $grid)
@@ -849,6 +931,13 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $grid->AddExportColumn($column);
+            
+            //
+            // View column for tacticid field
+            //
+            $column = new TextViewColumn('tacticid', 'tacticid', 'Tacticid', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
         }
     
         private function AddCompareColumns(Grid $grid)
@@ -877,6 +966,13 @@
             $column = new TextViewColumn('tactic_name', 'tactic_name_tactic_description', 'Tactic Name', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for tacticid field
+            //
+            $column = new TextViewColumn('tacticid', 'tacticid', 'Tacticid', $this->dataset);
+            $column->SetOrderable(true);
             $grid->AddCompareColumn($column);
         }
     

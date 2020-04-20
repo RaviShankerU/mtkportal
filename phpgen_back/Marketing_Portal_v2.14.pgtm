@@ -128,6 +128,8 @@ FROM `marketing_portal_v2`.`campaign_tracker_utm`
 WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
     </DataSource>
     <DataSource name="campaign_calendar_group" createTopLevelPage="false"/>
+    <DataSource name="lookup_objective" createTopLevelPage="false"/>
+    <DataSource name="lookup_strategic_campaign" createTopLevelPage="false"/>
   </DataSources>
   <Presentation disableMagicQuotesRuntime="false" showEnvironmentVariables="false" showExecutedQueries="false" showPHPErrorsAndWarnings="false" enableInactivityTimeout="true" inactivityTimeoutInterval="20">
     <Pages>
@@ -199,6 +201,20 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <ViewProperties type="text"/>
             <EditProperties type="textBox" maxLength="15"/>
           </ColumnPresentation>
+          <ColumnPresentation fieldName="campaign_tracker_id" caption="Campaign Tracker Id" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+            <ViewProperties type="text">
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="0"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="trackerid" caption="Trackerid" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+            <ViewProperties type="text"/>
+            <EditProperties type="textBox" maxLength="45"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="tactic_name" caption="Tactic Name" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+            <ViewProperties type="text" maxLength="75"/>
+            <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+          </ColumnPresentation>
         </ColumnPresentations>
         <Columns>
           <List>
@@ -212,6 +228,9 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <Column fieldName="title"/>
             <Column fieldName="description"/>
             <Column fieldName="class"/>
+            <Column fieldName="campaign_tracker_id"/>
+            <Column fieldName="trackerid"/>
+            <Column fieldName="tactic_name"/>
           </List>
           <View>
             <Column fieldName="master_campaign_id"/>
@@ -224,6 +243,9 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <Column fieldName="title"/>
             <Column fieldName="description"/>
             <Column fieldName="class"/>
+            <Column fieldName="campaign_tracker_id"/>
+            <Column fieldName="trackerid"/>
+            <Column fieldName="tactic_name"/>
           </View>
           <Edit>
             <Column fieldName="master_campaign_id"/>
@@ -236,6 +258,9 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <Column fieldName="title"/>
             <Column fieldName="description"/>
             <Column fieldName="class"/>
+            <Column fieldName="campaign_tracker_id"/>
+            <Column fieldName="trackerid"/>
+            <Column fieldName="tactic_name"/>
           </Edit>
           <Insert>
             <Column fieldName="master_campaign_id"/>
@@ -248,6 +273,9 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <Column fieldName="title"/>
             <Column fieldName="description"/>
             <Column fieldName="class"/>
+            <Column fieldName="campaign_tracker_id"/>
+            <Column fieldName="trackerid"/>
+            <Column fieldName="tactic_name"/>
           </Insert>
           <QuickFilter>
             <Column fieldName="master_campaign_id"/>
@@ -260,6 +288,9 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <Column fieldName="title"/>
             <Column fieldName="description"/>
             <Column fieldName="class"/>
+            <Column fieldName="campaign_tracker_id"/>
+            <Column fieldName="trackerid"/>
+            <Column fieldName="tactic_name"/>
           </QuickFilter>
           <FilterBuilder>
             <Column fieldName="master_campaign_id"/>
@@ -272,6 +303,9 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <Column fieldName="title"/>
             <Column fieldName="description"/>
             <Column fieldName="class"/>
+            <Column fieldName="campaign_tracker_id"/>
+            <Column fieldName="trackerid"/>
+            <Column fieldName="tactic_name"/>
           </FilterBuilder>
           <Print>
             <Column fieldName="master_campaign_id"/>
@@ -284,6 +318,9 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <Column fieldName="title"/>
             <Column fieldName="description"/>
             <Column fieldName="class"/>
+            <Column fieldName="campaign_tracker_id"/>
+            <Column fieldName="trackerid"/>
+            <Column fieldName="tactic_name"/>
           </Print>
           <Export>
             <Column fieldName="master_campaign_id"/>
@@ -296,6 +333,9 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <Column fieldName="title"/>
             <Column fieldName="description"/>
             <Column fieldName="class"/>
+            <Column fieldName="campaign_tracker_id"/>
+            <Column fieldName="trackerid"/>
+            <Column fieldName="tactic_name"/>
           </Export>
           <Compare>
             <Column fieldName="master_campaign_id"/>
@@ -308,6 +348,9 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <Column fieldName="title"/>
             <Column fieldName="description"/>
             <Column fieldName="class"/>
+            <Column fieldName="campaign_tracker_id"/>
+            <Column fieldName="trackerid"/>
+            <Column fieldName="tactic_name"/>
           </Compare>
           <MultiEdit>
             <Column fieldName="master_campaign_id"/>
@@ -320,6 +363,9 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
             <Column fieldName="title"/>
             <Column fieldName="description"/>
             <Column fieldName="class"/>
+            <Column fieldName="campaign_tracker_id"/>
+            <Column fieldName="trackerid"/>
+            <Column fieldName="tactic_name"/>
           </MultiEdit>
         </Columns>
         <Details/>
@@ -412,9 +458,10 @@ if ($part == PagePart::Grid &amp;&amp; $mode == PageMode::ViewAll) {
             </ViewProperties>
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="objective" caption="Objective" showColumnFilter="false" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="objective" caption="Objective" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_objective" linkFieldName="objective_name" displayFieldName="objective_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
             <ViewProperties type="text" maxLength="500"/>
-            <EditProperties type="textArea" columnCount="50" rowCount="2" placeholder="Your objective should include the total period you want to run this campaign i.e.: 12 Months"/>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="owner_person" caption="Project Owner" selectedFilterOperators="1589247">
             <Lookup tableName="phpgen_users" linkFieldName="user_id" displayFieldName="user_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" displayLookupRecord="true">
@@ -1168,7 +1215,7 @@ else {
         </RecordPermissions>
         <PartitionNavigators/>
       </Page>
-      <Page type="table" tableName="campaign_events" numberByDataSource="0" fileName="campaign_events" caption="Event List" shortCaption="Event List" groupName="New Campaign" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="0" viewAbilityMode="3" editAbilityMode="3" copyAbilityMode="0" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
+      <Page type="table" tableName="campaign_events" numberByDataSource="0" fileName="campaign_events" caption="Event List" shortCaption="Event List" groupName="New Campaign" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" useFixedGridHeader="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
    &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/event-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -1210,23 +1257,29 @@ else {
             <EditProperties type="textBox" maxLength="45"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Event_Name" caption="Event Name" showColumnFilter="false" selectedFilterOperators="1589247">
-            <ViewProperties type="text" maxLength="75">
+            <ViewProperties type="text" maxLength="75" wrapWords="false">
               <DivAttributes align="left"/>
             </ViewProperties>
             <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="eRegion" caption="Region" canSetNull="true" selectedFilterOperators="1589247">
             <Lookup tableName="lookup_region" linkFieldName="Region" displayFieldName="Region" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
-            <ViewProperties type="text"/>
+            <ViewProperties type="text">
+              <DivAttributes align="left"/>
+            </ViewProperties>
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Country" caption="Country" canSetNull="true" selectedFilterOperators="1589247">
             <Lookup tableName="country_list" linkFieldName="Country_ID" displayFieldName="Country_Name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
-            <ViewProperties type="text"/>
+            <ViewProperties type="text">
+              <DivAttributes align="left"/>
+            </ViewProperties>
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Website" caption="Website" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text" maxLength="75"/>
+            <ViewProperties type="text" maxLength="75">
+              <DivAttributes align="left"/>
+            </ViewProperties>
             <Hyperlink template="%Website%" target=""/>
             <EditProperties type="textBox" maxLength="0" placeholder="http://"/>
             <Validators>
@@ -1234,28 +1287,32 @@ else {
             </Validators>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Venue" caption="Venue" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text" maxLength="75"/>
+            <ViewProperties type="text" maxLength="75" wrapWords="false"/>
             <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="City" caption="City" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text"/>
+            <ViewProperties type="text">
+              <DivAttributes align="left"/>
+            </ViewProperties>
             <EditProperties type="textBox" maxLength="50"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Event_status" caption="Event Status" canSetNull="true" selectedFilterOperators="1589247">
             <Lookup tableName="lookup_status_types_planning" linkFieldName="Status_Type_ID" displayFieldName="Status_Type" lookupFilter="Status_Filters=&quot;brief&quot;" useLookupOrdering="true" lookupOrdering="0"/>
-            <ViewProperties type="text"/>
+            <ViewProperties type="text" wrapWords="false">
+              <DivAttributes align="left"/>
+            </ViewProperties>
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Event_Type" caption="Event Type" selectedFilterOperators="1589247">
             <Lookup tableName="lookup_event_type" linkFieldName="Event_Type_ID" displayFieldName="Event_Type" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
-            <ViewProperties type="text">
+            <ViewProperties type="text" maxLength="80" escapeHTMLChars="true" wrapWords="false">
               <DivAttributes align="left"/>
             </ViewProperties>
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Business_Responsible" caption="Business Responsible" canSetNull="true" selectedFilterOperators="1589247">
             <Lookup tableName="lookup_brands" linkFieldName="Brands_ID" displayFieldName="Brand_Name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
-            <ViewProperties type="text" maxLength="75"/>
+            <ViewProperties type="text" maxLength="75" wrapWords="false"/>
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Owner_Person" caption="Project Owner" canSetNull="true" selectedFilterOperators="1589247">
@@ -1264,47 +1321,67 @@ else {
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Brands_Attending" caption="Brands Attending" canSetNull="true" selectedFilterOperators="1589247">
-            <Lookup tableName="lookup_brands" linkFieldName="Brands_ID" displayFieldName="Brand_Name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
-            <ViewProperties type="text" maxLength="75"/>
-            <EditProperties type="dynamicCombobox"/>
+            <ViewProperties type="text" maxLength="75">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="multiSelect" retrieveValuesFromDatabase="true" dataSourceName="lookup_brands" storedFieldName="Brand_Name" displayedFieldName="Brand_Name"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Start_Date" caption="Start Date" canSetNull="true" selectedFilterOperators="2031871">
-            <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1"/>
+            <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1">
+              <DivAttributes align="left"/>
+            </ViewProperties>
             <EditProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1" firstDayOfWeek="0"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="End_Date" caption="End Date" canSetNull="true" selectedFilterOperators="2031871">
-            <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1"/>
+            <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1">
+              <DivAttributes align="left"/>
+            </ViewProperties>
             <EditProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1" firstDayOfWeek="0"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Objective" caption="Objective" showColumnFilter="false" canSetNull="true" readOnly="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text" maxLength="75"/>
-            <EditProperties type="textArea" columnCount="50" rowCount="4" placeholder=""/>
+          <ColumnPresentation fieldName="Objective" caption="Objective" canSetNull="true" readOnly="true" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_objective" linkFieldName="objective_name" displayFieldName="objective_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
+            <ViewProperties type="text" maxLength="75">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Expected_ROI_OTS" caption="Expected ROI OTS" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+          <ColumnPresentation fieldName="Expected_ROI_OTS" caption="Expected ROI OTS" totalFunction="2" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
             <ViewProperties type="text">
+              <DivAttributes align="right"/>
               <Format type="currency" numberAfterDecimal="2" decimalSeparator="." thousandSeparator="," currencySymbol="€"/>
             </ViewProperties>
             <EditProperties type="textBox" maxLength="0" prefix="Qty "/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Expected_ROI_Enquiries" caption="Expected ROI Enquiries" showColumnFilter="false" canSetNull="true" defaultInsertValue="0" selectedFilterOperators="1589247">
-            <ViewProperties type="text"/>
+          <ColumnPresentation fieldName="Expected_ROI_Enquiries" caption="Expected ROI Enquiries" totalFunction="2" showColumnFilter="false" canSetNull="true" defaultInsertValue="0" selectedFilterOperators="1589247">
+            <ViewProperties type="text">
+              <DivAttributes align="right"/>
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
             <EditProperties type="autocomplete" maxLength="10" prefix="Qty"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Post_Enquiries" caption="Post Enquiries" showColumnFilter="false" canSetNull="true" defaultInsertValue="0" selectedFilterOperators="1589247">
-            <ViewProperties type="text"/>
+          <ColumnPresentation fieldName="Post_Enquiries" caption="Enquiries" totalFunction="2" showColumnFilter="false" canSetNull="true" defaultInsertValue="0" selectedFilterOperators="1589247">
+            <ViewProperties type="text">
+              <DivAttributes align="right"/>
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
             <EditProperties type="textBox" maxLength="10" prefix="Qty"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="New_Opportunities" caption="New Opportunities" showColumnFilter="false" canSetNull="true" defaultInsertValue="0" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="New_Opportunities" caption="New Opportunities" totalFunction="2" showColumnFilter="false" canSetNull="true" defaultInsertValue="0" selectedFilterOperators="1589247">
             <ViewProperties type="text"/>
             <EditProperties type="textBox" maxLength="10" prefix="Qty"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Industry" caption="Industry" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text" maxLength="75"/>
+            <ViewProperties type="text" maxLength="75">
+              <DivAttributes align="left"/>
+            </ViewProperties>
             <EditProperties type="multiSelect" retrieveValuesFromDatabase="true" dataSourceName="lookup_industries" storedFieldName="Industry_ID" displayedFieldName="Industry_Name"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Strategic_Campaign" caption="Strategic Campaign" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text" maxLength="75"/>
-            <EditProperties type="textArea" columnCount="50" rowCount="3" placeholder=""/>
+          <ColumnPresentation fieldName="Strategic_Campaign" caption="Strategic Campaign" canSetNull="true" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_strategic_campaign" linkFieldName="strategic_campaign_id" displayFieldName="strategic_campaing_name" lookupFilter="" useLookupOrdering="false" lookupOrdering="0"/>
+            <ViewProperties type="text" maxLength="75">
+              <DivAttributes align="left"/>
+            </ViewProperties>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Short_Description" caption="Short Description" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
             <ViewProperties type="text" maxLength="75">
@@ -1312,8 +1389,9 @@ else {
             </ViewProperties>
             <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder="Please enter your summary here of what you want to display on the website."/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Event_Cost" caption="Event Cost" showColumnFilter="false" canSetNull="true" defaultInsertValue="€ 0.00" selectedFilterOperators="1573119">
+          <ColumnPresentation fieldName="Event_Cost" caption="Event Cost" totalFunction="2" showColumnFilter="false" canSetNull="true" defaultInsertValue="€ 0.00" selectedFilterOperators="1573119">
             <ViewProperties type="text">
+              <DivAttributes align="right"/>
               <Format type="currency" numberAfterDecimal="2" decimalSeparator="." thousandSeparator="," currencySymbol="€"/>
             </ViewProperties>
             <EditProperties type="textBox" maxLength="0" prefix="EURO"/>
@@ -1332,11 +1410,11 @@ else {
             <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
             <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Updated_by" caption="Updated By" showColumnFilter="false" canSetNull="true" defaultInsertValue="%CURRENT_USER_NAME%" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="Updated_by" caption="Modified By" showColumnFilter="false" canSetNull="true" readOnly="true" defaultInsertValue="%CURRENT_USER_NAME%" selectedFilterOperators="1589247">
             <ViewProperties type="text" maxLength="75"/>
             <EditProperties type="textBox" maxLength="100"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Updated_Date" caption="Updated Date" readOnly="true" defaultInsertValue="%CURRENT_DATETIME%" selectedFilterOperators="2031871">
+          <ColumnPresentation fieldName="Updated_Date" caption="Modified Date" readOnly="true" defaultInsertValue="%CURRENT_DATETIME%" selectedFilterOperators="2031871">
             <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
             <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
           </ColumnPresentation>
@@ -1369,8 +1447,9 @@ else {
             <ViewProperties type="text" maxLength="75"/>
             <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Est_Opportunity_value_in_Euros" caption="Est Opportunity Value In Euros" showColumnFilter="false" defaultInsertValue="€ 0.00" selectedFilterOperators="1573119">
+          <ColumnPresentation fieldName="Est_Opportunity_value_in_Euros" caption="Est Opportunity Value In Euros" totalFunction="2" showColumnFilter="false" defaultInsertValue="€ 0.00" selectedFilterOperators="1573119">
             <ViewProperties type="text">
+              <DivAttributes align="right"/>
               <Format type="currency" numberAfterDecimal="2" decimalSeparator="." thousandSeparator="," currencySymbol="€"/>
             </ViewProperties>
             <EditProperties type="textBox" maxLength="0" prefix="EURO"/>
@@ -1378,44 +1457,44 @@ else {
         </ColumnPresentations>
         <Columns>
           <List>
-            <Column fieldName="campaign_event_id" visible="false"/>
-            <Column fieldName="master_campaign_id"/>
-            <Column fieldName="trackerid" visible="false"/>
-            <Column fieldName="Event_Name"/>
             <Column fieldName="eRegion"/>
             <Column fieldName="Country"/>
-            <Column fieldName="Website" visible="false"/>
-            <Column fieldName="Venue" visible="false"/>
-            <Column fieldName="City" visible="false"/>
-            <Column fieldName="Event_status" visible="false"/>
+            <Column fieldName="Event_Name"/>
+            <Column fieldName="Website"/>
+            <Column fieldName="Venue"/>
+            <Column fieldName="City"/>
+            <Column fieldName="Event_status"/>
+            <Column fieldName="Approval" caption="Approve"/>
             <Column fieldName="Event_Type"/>
-            <Column fieldName="Business_Responsible" visible="false"/>
+            <Column fieldName="Business_Responsible"/>
             <Column fieldName="Owner_Person"/>
-            <Column fieldName="Brands_Attending" visible="false"/>
+            <Column fieldName="Brands_Attending"/>
             <Column fieldName="Start_Date"/>
             <Column fieldName="End_Date"/>
-            <Column fieldName="Objective" visible="false"/>
-            <Column fieldName="Expected_ROI_OTS" visible="false"/>
-            <Column fieldName="Expected_ROI_Enquiries" visible="false"/>
-            <Column fieldName="Post_Enquiries" visible="false"/>
-            <Column fieldName="New_Opportunities" visible="false"/>
+            <Column fieldName="Objective"/>
+            <Column fieldName="Expected_ROI_OTS"/>
+            <Column fieldName="Expected_ROI_Enquiries"/>
+            <Column fieldName="Post_Enquiries"/>
+            <Column fieldName="New_Opportunities"/>
+            <Column fieldName="Est_Opportunity_value_in_Euros"/>
             <Column fieldName="Industry"/>
-            <Column fieldName="Strategic_Campaign" visible="false"/>
-            <Column fieldName="Short_Description" visible="false"/>
+            <Column fieldName="Strategic_Campaign"/>
+            <Column fieldName="Short_Description"/>
             <Column fieldName="Event_Cost"/>
-            <Column fieldName="Planned_Booth_Area" visible="false"/>
-            <Column fieldName="Created_by"/>
-            <Column fieldName="Created_Date"/>
+            <Column fieldName="Planned_Booth_Area"/>
+            <Column fieldName="campaign_event_id" visible="false"/>
+            <Column fieldName="master_campaign_id" visible="false"/>
+            <Column fieldName="trackerid" visible="false"/>
+            <Column fieldName="Created_by" visible="false"/>
+            <Column fieldName="Created_Date" visible="false"/>
             <Column fieldName="Updated_by" visible="false"/>
             <Column fieldName="Updated_Date" visible="false"/>
             <Column fieldName="Marketo_Campaign" visible="false"/>
             <Column fieldName="Banner" visible="false"/>
-            <Column fieldName="Approval"/>
             <Column fieldName="Publish_Live" visible="false"/>
             <Column fieldName="Publish_Live_Date" visible="false"/>
             <Column fieldName="Event_Title" visible="false"/>
             <Column fieldName="SEO_Title" visible="false"/>
-            <Column fieldName="Est_Opportunity_value_in_Euros"/>
           </List>
           <View>
             <Column fieldName="campaign_event_id" visible="false"/>
@@ -1871,6 +1950,11 @@ if ($success) {
        
     $message = '&lt;p&gt;Record processed successfully. The Global Comms Calendar has been updated.&lt;/p&gt;';
 }          </AfterUpdateRecord>
+          <OnGetCustomTemplate enabled="true">
+if ($part == PagePart::Grid &amp;&amp; $mode == PageMode::ViewAll) {           
+  $result = 'event_grid_table.tpl';
+}
+          </OnGetCustomTemplate>
           <OnEditFormEditorValueChanged enabled="true">
 if (sender.getFieldName() == 'channel_types')
 {
@@ -2001,43 +2085,26 @@ else {
         </EventHandlers>
         <RecordPermissions useRecordPermissions="false"/>
         <PartitionNavigators>
-          <PartitionNavigator type="listBased" name="partition" caption="Group by Region" allowViewAllRecords="true" expression="eRegion">
-            <Partition caption="America">
-              <Values>
-                <Value>
-'Americas'                </Value>
-              </Values>
-            </Partition>
-            <Partition caption="EMEA">
-              <Values>
-                <Value>
-'EMEA'                </Value>
-              </Values>
-            </Partition>
-            <Partition caption="IndoPAC">
-              <Values>
-                <Value>
-'IndoPAC'                </Value>
-              </Values>
-            </Partition>
-            <Partition caption="Japan">
-              <Values>
-                <Value>
-'Japan'                </Value>
-              </Values>
-            </Partition>
-            <Partition caption="Korea">
-              <Values>
-                <Value>
-'Korea'                </Value>
-              </Values>
-            </Partition>
-            <Partition caption="China">
-              <Values>
-                <Value>
-'China'                </Value>
-              </Values>
-            </Partition>
+          <PartitionNavigator type="userDefined" name="partition" caption="Group by Year" allowViewAllRecords="true">
+            <OnGetPartitions>
+function GetPartitions($partitions)
+{
+  $tmp = array();
+  $this-&gt;GetConnection()-&gt;ExecQueryToArray(&quot;
+    SELECT DISTINCT
+      left(c.start_date, 4) as year 
+    FROM campaign_events c
+    ORDER BY year&quot;, $tmp
+  );
+  foreach($tmp as $letter) {
+    $partitions[$letter['year']] = $letter['year']; 
+  }
+}
+function GetPartitionCondition($partitionKey, &amp;$condition)
+{
+  $condition = &quot;left(last_name, 1) = '$partitionKey'&quot;;
+}            </OnGetPartitions>
+            <OnGetPartitionConditionHandler/>
           </PartitionNavigator>
         </PartitionNavigators>
       </Page>
@@ -2731,11 +2798,12 @@ else {
             </ViewProperties>
             <EditProperties type="textBox" maxLength="50"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="objective" caption="Objective" showColumnFilter="false" readOnly="true" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="objective" caption="Objective" readOnly="true" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_objective" linkFieldName="objective_name" displayFieldName="objective_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
             <ViewProperties type="text" maxLength="100">
               <DivAttributes align="left"/>
             </ViewProperties>
-            <EditProperties type="textArea" columnCount="50" rowCount="3" placeholder=""/>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="campaign_type" caption="Reporting Type" canSetNull="true" selectedFilterOperators="1573119">
             <Lookup tableName="lookup_brief_campaign_types" linkFieldName="brief_campaign_types_ID" displayFieldName="campaign_types" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" displayLookupRecord="true">
@@ -3489,9 +3557,10 @@ else {
             </ViewProperties>
             <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="objective" caption="Objective" showColumnFilter="false" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="objective" caption="Objective" selectedFilterOperators="1589247">
+            <Lookup tableName="lookup_objective" linkFieldName="objective_name" displayFieldName="objective_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
             <ViewProperties type="text" maxLength="75"/>
-            <EditProperties type="textArea" columnCount="50" rowCount="2" placeholder="Your objective should include the total period you want to run this campaign i.e.: 12 Months"/>
+            <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="campaign_name" caption="Campaign Name" showColumnFilter="false" selectedFilterOperators="1589247">
             <ViewProperties type="text" maxLength="75">
@@ -9922,7 +9991,7 @@ if ($success) {
 
    $this-&gt;GetConnection()-&gt;ExecSQL($sql);  
 
-   $message = '&lt;p&gt;Record processed successfully updated.&lt;/p&gt;';
+   $message = '&lt;p&gt;Record processed successfully inserted.&lt;/p&gt;';
 }          </AfterInsertRecord>
           <AfterDeleteRecord enabled="true">
 if ($success) {
@@ -16774,7 +16843,9 @@ label {
 	padding: 7px 5px;
 	text-indent: 15px;
 }
-
+.container-fluid-event {
+    width: 137%;
+}
 @import &quot;https://fonts.googleapis.com/css?family=Montserrat:400&quot;;
 @import &quot;https://use.fontawesome.com/releases/v5.3.1/css/all.css&quot;;  </UserCSS>
   <PdfUserStyles/>

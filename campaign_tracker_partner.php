@@ -48,6 +48,7 @@
                 array(
                     new IntegerField('campaign_tracker_ID', true, true, true),
                     new IntegerField('master_campaign_id', true),
+                    new StringField('trackerid'),
                     new StringField('campaign_program_name'),
                     new StringField('industry'),
                     new StringField('region'),
@@ -115,7 +116,8 @@
                 new FilterColumn($this->dataset, 'event_type', 'event_type', 'Event Type'),
                 new FilterColumn($this->dataset, 'deployed_by', 'deployed_by', 'Deployed By'),
                 new FilterColumn($this->dataset, 'SFDC_child_campaign', 'SFDC_child_campaign', 'SFDC Child Campaign'),
-                new FilterColumn($this->dataset, 'master_campaign_id', 'master_campaign_id', 'Master Campaign Id')
+                new FilterColumn($this->dataset, 'master_campaign_id', 'master_campaign_id', 'Master Campaign Id'),
+                new FilterColumn($this->dataset, 'trackerid', 'trackerid', 'Trackerid')
             );
         }
     
@@ -140,7 +142,8 @@
                 ->addColumn($columns['event_type'])
                 ->addColumn($columns['deployed_by'])
                 ->addColumn($columns['SFDC_child_campaign'])
-                ->addColumn($columns['master_campaign_id']);
+                ->addColumn($columns['master_campaign_id'])
+                ->addColumn($columns['trackerid']);
         }
     
         protected function setupColumnFilter(ColumnFilter $columnFilter)
@@ -576,6 +579,31 @@
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
             );
+            
+            $main_editor = new TextEdit('trackerid_edit');
+            $main_editor->SetMaxLength(45);
+            
+            $filterBuilder->addColumn(
+                $columns['trackerid'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
         }
     
         protected function AddOperationsColumns(Grid $grid)
@@ -844,6 +872,16 @@
             $column->SetDescription('');
             $column->SetFixedWidth(null);
             $grid->AddViewColumn($column);
+            
+            //
+            // View column for trackerid field
+            //
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
         }
     
         protected function AddSingleRecordViewColumns(Grid $grid)
@@ -1006,6 +1044,13 @@
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for trackerid field
+            //
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
+            $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
         }
     
@@ -1180,6 +1225,16 @@
             $editColumn = new CustomEditColumn('Master Campaign Id', 'master_campaign_id', $editor, $this->dataset);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for trackerid field
+            //
+            $editor = new TextEdit('trackerid_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Trackerid', 'trackerid', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
         }
@@ -1357,6 +1412,16 @@
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for trackerid field
+            //
+            $editor = new TextEdit('trackerid_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Trackerid', 'trackerid', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
         }
     
         protected function AddInsertColumns(Grid $grid)
@@ -1532,6 +1597,16 @@
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for trackerid field
+            //
+            $editor = new TextEdit('trackerid_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Trackerid', 'trackerid', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
             $grid->SetShowAddButton(true && $this->GetSecurityInfo()->HasAddGrant());
         }
     
@@ -1701,6 +1776,13 @@
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
             $grid->AddPrintColumn($column);
+            
+            //
+            // View column for trackerid field
+            //
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
         }
     
         protected function AddExportColumns(Grid $grid)
@@ -1864,6 +1946,13 @@
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
             $grid->AddExportColumn($column);
+            
+            //
+            // View column for trackerid field
+            //
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
         }
     
         private function AddCompareColumns(Grid $grid)
@@ -2016,6 +2105,13 @@
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for trackerid field
+            //
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
+            $column->SetOrderable(true);
             $grid->AddCompareColumn($column);
         }
     

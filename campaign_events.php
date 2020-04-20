@@ -48,41 +48,45 @@
                 array(
                     new IntegerField('campaign_event_id', true, true, true),
                     new IntegerField('master_campaign_id'),
+                    new StringField('trackerid'),
                     new StringField('Event_Name'),
                     new StringField('eRegion'),
                     new StringField('Country'),
                     new StringField('Website'),
                     new StringField('Venue'),
                     new StringField('City'),
-                    new StringField('Event_status'),
-                    new StringField('Approval'),
-                    new StringField('Event_Type'),
-                    new StringField('Business_Responsible'),
+                    new IntegerField('Event_status'),
+                    new IntegerField('Approval'),
+                    new IntegerField('Event_Type'),
+                    new IntegerField('Business_Responsible'),
                     new StringField('Owner_Person'),
                     new StringField('Brands_Attending'),
                     new DateTimeField('Start_Date'),
                     new DateTimeField('End_Date'),
                     new StringField('Objective'),
                     new IntegerField('Expected_ROI_OTS'),
-                    new StringField('Expected_ROI_Enquiries'),
-                    new StringField('Post_Enquiries'),
-                    new StringField('New_Opportunities'),
-                    new IntegerField('Est_Opportunity_value_in_Euros', true),
-                    new StringField('Industry'),
-                    new StringField('Strategic_Campaign'),
+                    new IntegerField('Expected_ROI_Enquiries'),
+                    new IntegerField('Post_Enquiries'),
+                    new IntegerField('New_Opportunities'),
+                    new IntegerField('Est_Opportunity_value_in_Euros'),
+                    new IntegerField('Industry'),
+                    new IntegerField('Strategic_Campaign'),
                     new StringField('Short_Description'),
                     new IntegerField('Event_Cost'),
-                    new StringField('Planned_Booth_Area'),
+                    new IntegerField('Planned_Booth_Area'),
                     new StringField('Created_by'),
-                    new DateTimeField('Created_Date', true),
+                    new StringField('Created_Date'),
                     new StringField('Updated_by'),
-                    new DateTimeField('Updated_Date', true),
+                    new StringField('Updated_Date'),
                     new StringField('Marketo_Campaign'),
                     new StringField('Banner'),
                     new StringField('Publish_Live'),
                     new DateField('Publish_Live_Date'),
                     new StringField('Event_Title'),
-                    new StringField('SEO_Title')
+                    new StringField('SEO_Title'),
+                    new StringField('finyear_date'),
+                    new StringField('finmonth_date'),
+                    new IntegerField('show_events_cal')
                 )
             );
             $this->dataset->AddLookupField('master_campaign_id', 'brief', new IntegerField('master_campaign_id'), new StringField('campaign_name', false, false, false, false, 'master_campaign_id_campaign_name', 'master_campaign_id_campaign_name_brief'), 'master_campaign_id_campaign_name_brief');
@@ -94,7 +98,9 @@
             $this->dataset->AddLookupField('Event_Type', 'lookup_event_type', new IntegerField('Event_Type_ID'), new StringField('Event_Type', false, false, false, false, 'Event_Type_Event_Type', 'Event_Type_Event_Type_lookup_event_type'), 'Event_Type_Event_Type_lookup_event_type');
             $this->dataset->AddLookupField('Business_Responsible', 'lookup_brands', new IntegerField('Brands_ID'), new StringField('Brand_Name', false, false, false, false, 'Business_Responsible_Brand_Name', 'Business_Responsible_Brand_Name_lookup_brands'), 'Business_Responsible_Brand_Name_lookup_brands');
             $this->dataset->AddLookupField('Owner_Person', 'phpgen_users', new IntegerField('user_id'), new StringField('user_name', false, false, false, false, 'Owner_Person_user_name', 'Owner_Person_user_name_phpgen_users'), 'Owner_Person_user_name_phpgen_users');
-            $this->dataset->AddLookupField('Brands_Attending', 'lookup_brands', new IntegerField('Brands_ID'), new StringField('Brand_Name', false, false, false, false, 'Brands_Attending_Brand_Name', 'Brands_Attending_Brand_Name_lookup_brands'), 'Brands_Attending_Brand_Name_lookup_brands');
+            $this->dataset->AddLookupField('Objective', 'lookup_objective', new StringField('objective_name'), new StringField('objective_name', false, false, false, false, 'Objective_objective_name', 'Objective_objective_name_lookup_objective'), 'Objective_objective_name_lookup_objective');
+            $this->dataset->AddLookupField('Industry', 'lookup_industries', new IntegerField('Industry_ID'), new StringField('Industry_Name', false, false, false, false, 'Industry_Industry_Name', 'Industry_Industry_Name_lookup_industries'), 'Industry_Industry_Name_lookup_industries');
+            $this->dataset->AddLookupField('Strategic_Campaign', 'lookup_strategic_campaign', new IntegerField('strategic_campaign_id'), new StringField('strategic_campaing_name', false, false, false, false, 'Strategic_Campaign_strategic_campaing_name', 'Strategic_Campaign_strategic_campaing_name_lookup_strategic_campaign'), 'Strategic_Campaign_strategic_campaing_name_lookup_strategic_campaign');
             $this->dataset->AddLookupField('Publish_Live', 'lookup_status_types', new IntegerField('Status_Type_ID'), new StringField('Status_Type', false, false, false, false, 'Publish_Live_Status_Type', 'Publish_Live_Status_Type_lookup_status_types'), 'Publish_Live_Status_Type_lookup_status_types');
         }
     
@@ -106,7 +112,7 @@
         {
             $result = new CompositePageNavigator($this);
             
-            $partitionNavigator = new CustomPageNavigator('partition', $this, $this->dataset, 'Group by Region', $result);
+            $partitionNavigator = new CustomPageNavigator('partition', $this, $this->dataset, 'Filter by Year', $result);
             $partitionNavigator->OnGetPartitionCondition->AddListener('partition' . '_GetPartitionConditionHandler', $this);
             $partitionNavigator->OnGetPartitions->AddListener('partition' . '_GetPartitionsHandler', $this);
             $partitionNavigator->SetAllowViewAllRecords(true);
@@ -135,6 +141,7 @@
             return array(
                 new FilterColumn($this->dataset, 'campaign_event_id', 'campaign_event_id', 'Campaign Event Id'),
                 new FilterColumn($this->dataset, 'master_campaign_id', 'master_campaign_id_campaign_name', 'Campaign Name'),
+                new FilterColumn($this->dataset, 'trackerid', 'trackerid', 'Trackerid'),
                 new FilterColumn($this->dataset, 'Event_Name', 'Event_Name', 'Event Name'),
                 new FilterColumn($this->dataset, 'eRegion', 'eRegion_Region', 'Region'),
                 new FilterColumn($this->dataset, 'Country', 'Country_Country_Name', 'Country'),
@@ -145,31 +152,34 @@
                 new FilterColumn($this->dataset, 'Event_Type', 'Event_Type_Event_Type', 'Event Type'),
                 new FilterColumn($this->dataset, 'Business_Responsible', 'Business_Responsible_Brand_Name', 'Business Responsible'),
                 new FilterColumn($this->dataset, 'Owner_Person', 'Owner_Person_user_name', 'Project Owner'),
-                new FilterColumn($this->dataset, 'Brands_Attending', 'Brands_Attending_Brand_Name', 'Brands Attending'),
+                new FilterColumn($this->dataset, 'Brands_Attending', 'Brands_Attending', 'Brands Attending'),
                 new FilterColumn($this->dataset, 'Start_Date', 'Start_Date', 'Start Date'),
                 new FilterColumn($this->dataset, 'End_Date', 'End_Date', 'End Date'),
-                new FilterColumn($this->dataset, 'Objective', 'Objective', 'Objective'),
+                new FilterColumn($this->dataset, 'Objective', 'Objective_objective_name', 'Objective'),
                 new FilterColumn($this->dataset, 'Expected_ROI_OTS', 'Expected_ROI_OTS', 'Expected ROI OTS'),
                 new FilterColumn($this->dataset, 'Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'Expected ROI Enquiries'),
-                new FilterColumn($this->dataset, 'Post_Enquiries', 'Post_Enquiries', 'Post Enquiries'),
+                new FilterColumn($this->dataset, 'Post_Enquiries', 'Post_Enquiries', 'Enquiries'),
                 new FilterColumn($this->dataset, 'New_Opportunities', 'New_Opportunities', 'New Opportunities'),
-                new FilterColumn($this->dataset, 'Industry', 'Industry', 'Industry'),
-                new FilterColumn($this->dataset, 'Strategic_Campaign', 'Strategic_Campaign', 'Strategic Campaign'),
+                new FilterColumn($this->dataset, 'Industry', 'Industry_Industry_Name', 'Industry'),
+                new FilterColumn($this->dataset, 'Strategic_Campaign', 'Strategic_Campaign_strategic_campaing_name', 'Strategic Campaign'),
                 new FilterColumn($this->dataset, 'Short_Description', 'Short_Description', 'Short Description'),
                 new FilterColumn($this->dataset, 'Event_Cost', 'Event_Cost', 'Event Cost'),
                 new FilterColumn($this->dataset, 'Planned_Booth_Area', 'Planned_Booth_Area', 'Planned Booth Area'),
                 new FilterColumn($this->dataset, 'Created_by', 'Created_by', 'Created By'),
                 new FilterColumn($this->dataset, 'Created_Date', 'Created_Date', 'Created Date'),
-                new FilterColumn($this->dataset, 'Updated_by', 'Updated_by', 'Updated By'),
-                new FilterColumn($this->dataset, 'Updated_Date', 'Updated_Date', 'Updated Date'),
+                new FilterColumn($this->dataset, 'Updated_by', 'Updated_by', 'Modified By'),
+                new FilterColumn($this->dataset, 'Updated_Date', 'Updated_Date', 'Modified Date'),
                 new FilterColumn($this->dataset, 'Marketo_Campaign', 'Marketo_Campaign', 'Marketo Campaign'),
                 new FilterColumn($this->dataset, 'Banner', 'Banner', 'Banner'),
-                new FilterColumn($this->dataset, 'Approval', 'Approval', 'List on Website?'),
+                new FilterColumn($this->dataset, 'Approval', 'Approval', 'Approval'),
                 new FilterColumn($this->dataset, 'Publish_Live', 'Publish_Live_Status_Type', 'Publish Live'),
                 new FilterColumn($this->dataset, 'Publish_Live_Date', 'Publish_Live_Date', 'Publish Live Date'),
                 new FilterColumn($this->dataset, 'Event_Title', 'Event_Title', 'Event Title'),
                 new FilterColumn($this->dataset, 'SEO_Title', 'SEO_Title', 'SEO Title'),
-                new FilterColumn($this->dataset, 'Est_Opportunity_value_in_Euros', 'Est_Opportunity_value_in_Euros', 'Est Opportunity Value In Euros')
+                new FilterColumn($this->dataset, 'Est_Opportunity_value_in_Euros', 'Est_Opportunity_value_in_Euros', 'Est Opportunity Value In Euros'),
+                new FilterColumn($this->dataset, 'finyear_date', 'finyear_date', 'Quarter Filter'),
+                new FilterColumn($this->dataset, 'finmonth_date', 'finmonth_date', 'Month Filter'),
+                new FilterColumn($this->dataset, 'show_events_cal', 'show_events_cal', 'Show in Events Calendar?')
             );
         }
     
@@ -212,20 +222,25 @@
                 ->addColumn($columns['Publish_Live_Date'])
                 ->addColumn($columns['Event_Title'])
                 ->addColumn($columns['SEO_Title'])
-                ->addColumn($columns['Est_Opportunity_value_in_Euros']);
+                ->addColumn($columns['Est_Opportunity_value_in_Euros'])
+                ->addColumn($columns['show_events_cal']);
         }
     
         protected function setupColumnFilter(ColumnFilter $columnFilter)
         {
             $columnFilter
-                ->setOptionsFor('master_campaign_id')
                 ->setOptionsFor('eRegion')
                 ->setOptionsFor('Country')
+                ->setOptionsFor('Event_status')
                 ->setOptionsFor('Event_Type')
+                ->setOptionsFor('Business_Responsible')
                 ->setOptionsFor('Owner_Person')
+                ->setOptionsFor('Brands_Attending')
                 ->setOptionsFor('Start_Date')
                 ->setOptionsFor('End_Date')
-                ->setOptionsFor('Created_Date');
+                ->setOptionsFor('Objective')
+                ->setOptionsFor('Industry')
+                ->setOptionsFor('Strategic_Campaign');
         }
     
         protected function setupFilterBuilder(FilterBuilder $filterBuilder, FixedKeysArray $columns)
@@ -276,6 +291,7 @@
             );
             
             $main_editor = new TextEdit('event_name_edit');
+            $main_editor->setMaxWidth('85');
             
             $filterBuilder->addColumn(
                 $columns['Event_Name'],
@@ -479,6 +495,7 @@
             );
             
             $main_editor = new DynamicCombobox('event_type_edit', $this->CreateLinkBuilder());
+            $main_editor->setMaxWidth('40');
             $main_editor->setAllowClear(true);
             $main_editor->setMinimumInputLength(0);
             $main_editor->SetAllowNullValue(false);
@@ -583,14 +600,9 @@
                 )
             );
             
-            $main_editor = new DynamicCombobox('brands_attending_edit', $this->CreateLinkBuilder());
-            $main_editor->setAllowClear(true);
-            $main_editor->setMinimumInputLength(0);
-            $main_editor->SetAllowNullValue(false);
-            $main_editor->SetHandlerName('filter_builder_campaign_events_Brands_Attending_search');
-            
-            $multi_value_select_editor = new RemoteMultiValueSelect('Brands_Attending', $this->CreateLinkBuilder());
-            $multi_value_select_editor->SetHandlerName('filter_builder_campaign_events_Brands_Attending_search');
+            $main_editor = new RemoteMultiValueSelect('brands_attending_edit', $this->CreateLinkBuilder());
+            $main_editor->SetHandlerName('filter_builder_Brands_Attending_Brand_Name_Brand_Name_search');
+            $main_editor->setMaxSelectionSize(0);
             
             $text_editor = new TextEdit('Brands_Attending');
             
@@ -611,8 +623,6 @@
                     FilterConditionOperator::ENDS_WITH => $text_editor,
                     FilterConditionOperator::IS_LIKE => $text_editor,
                     FilterConditionOperator::IS_NOT_LIKE => $text_editor,
-                    FilterConditionOperator::IN => $multi_value_select_editor,
-                    FilterConditionOperator::NOT_IN => $multi_value_select_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -660,7 +670,16 @@
                 )
             );
             
-            $main_editor = new TextEdit('Objective');
+            $main_editor = new DynamicCombobox('objective_edit', $this->CreateLinkBuilder());
+            $main_editor->setAllowClear(true);
+            $main_editor->setMinimumInputLength(0);
+            $main_editor->SetAllowNullValue(false);
+            $main_editor->SetHandlerName('filter_builder_campaign_events_Objective_search');
+            
+            $multi_value_select_editor = new RemoteMultiValueSelect('Objective', $this->CreateLinkBuilder());
+            $multi_value_select_editor->SetHandlerName('filter_builder_campaign_events_Objective_search');
+            
+            $text_editor = new TextEdit('Objective');
             
             $filterBuilder->addColumn(
                 $columns['Objective'],
@@ -673,12 +692,14 @@
                     FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
                     FilterConditionOperator::IS_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::CONTAINS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
-                    FilterConditionOperator::BEGINS_WITH => $main_editor,
-                    FilterConditionOperator::ENDS_WITH => $main_editor,
-                    FilterConditionOperator::IS_LIKE => $main_editor,
-                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::CONTAINS => $text_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $text_editor,
+                    FilterConditionOperator::BEGINS_WITH => $text_editor,
+                    FilterConditionOperator::ENDS_WITH => $text_editor,
+                    FilterConditionOperator::IS_LIKE => $text_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $text_editor,
+                    FilterConditionOperator::IN => $multi_value_select_editor,
+                    FilterConditionOperator::NOT_IN => $multi_value_select_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -781,9 +802,14 @@
                 )
             );
             
-            $main_editor = new RemoteMultiValueSelect('industry_edit', $this->CreateLinkBuilder());
-            $main_editor->SetHandlerName('filter_builder_Industry_Industry_ID_Industry_Name_search');
-            $main_editor->setMaxSelectionSize(0);
+            $main_editor = new DynamicCombobox('industry_edit', $this->CreateLinkBuilder());
+            $main_editor->setAllowClear(true);
+            $main_editor->setMinimumInputLength(0);
+            $main_editor->SetAllowNullValue(false);
+            $main_editor->SetHandlerName('filter_builder_campaign_events_Industry_search');
+            
+            $multi_value_select_editor = new RemoteMultiValueSelect('Industry', $this->CreateLinkBuilder());
+            $multi_value_select_editor->SetHandlerName('filter_builder_campaign_events_Industry_search');
             
             $text_editor = new TextEdit('Industry');
             
@@ -804,12 +830,23 @@
                     FilterConditionOperator::ENDS_WITH => $text_editor,
                     FilterConditionOperator::IS_LIKE => $text_editor,
                     FilterConditionOperator::IS_NOT_LIKE => $text_editor,
+                    FilterConditionOperator::IN => $multi_value_select_editor,
+                    FilterConditionOperator::NOT_IN => $multi_value_select_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
             );
             
-            $main_editor = new TextEdit('Strategic_Campaign');
+            $main_editor = new DynamicCombobox('strategic_campaign_edit', $this->CreateLinkBuilder());
+            $main_editor->setAllowClear(true);
+            $main_editor->setMinimumInputLength(0);
+            $main_editor->SetAllowNullValue(false);
+            $main_editor->SetHandlerName('filter_builder_campaign_events_Strategic_Campaign_search');
+            
+            $multi_value_select_editor = new RemoteMultiValueSelect('Strategic_Campaign', $this->CreateLinkBuilder());
+            $multi_value_select_editor->SetHandlerName('filter_builder_campaign_events_Strategic_Campaign_search');
+            
+            $text_editor = new TextEdit('Strategic_Campaign');
             
             $filterBuilder->addColumn(
                 $columns['Strategic_Campaign'],
@@ -822,12 +859,14 @@
                     FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
                     FilterConditionOperator::IS_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::CONTAINS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
-                    FilterConditionOperator::BEGINS_WITH => $main_editor,
-                    FilterConditionOperator::ENDS_WITH => $main_editor,
-                    FilterConditionOperator::IS_LIKE => $main_editor,
-                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::CONTAINS => $text_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $text_editor,
+                    FilterConditionOperator::BEGINS_WITH => $text_editor,
+                    FilterConditionOperator::ENDS_WITH => $text_editor,
+                    FilterConditionOperator::IS_LIKE => $text_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $text_editor,
+                    FilterConditionOperator::IN => $multi_value_select_editor,
+                    FilterConditionOperator::NOT_IN => $multi_value_select_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -972,7 +1011,7 @@
                 )
             );
             
-            $main_editor = new DateTimeEdit('updated_date_edit', false, 'd-m-Y H:i:s');
+            $main_editor = new TextEdit('updated_date_edit');
             
             $filterBuilder->addColumn(
                 $columns['Updated_Date'],
@@ -1165,6 +1204,71 @@
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
             );
+            
+            $main_editor = new TextEdit('finyear_date_edit');
+            $main_editor->SetMaxLength(45);
+            
+            $filterBuilder->addColumn(
+                $columns['finyear_date'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('finmonth_date_edit');
+            $main_editor->SetMaxLength(45);
+            
+            $filterBuilder->addColumn(
+                $columns['finmonth_date'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new ComboBox('show_events_cal');
+            $main_editor->SetAllowNullValue(false);
+            $main_editor->addChoice(true, $this->GetLocalizerCaptions()->GetMessageString('True'));
+            $main_editor->addChoice(false, $this->GetLocalizerCaptions()->GetMessageString('False'));
+            
+            $filterBuilder->addColumn(
+                $columns['show_events_cal'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
         }
     
         protected function AddOperationsColumns(Grid $grid)
@@ -1193,14 +1297,45 @@
                 $actions->addOperation($operation);
                 $operation->OnShow->AddListener('ShowEditButtonHandler', $this);
             }
+            
+            if ($this->GetSecurityInfo()->HasDeleteGrant())
+            {
+                $operation = new LinkOperation($this->GetLocalizerCaptions()->GetMessageString('Delete'), OPERATION_DELETE, $this->dataset, $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+                $operation->OnShow->AddListener('ShowDeleteButtonHandler', $this);
+                $operation->SetAdditionalAttribute('data-modal-operation', 'delete');
+                $operation->SetAdditionalAttribute('data-delete-handler-name', $this->GetModalGridDeleteHandler());
+            }
+            
+            if ($this->GetSecurityInfo()->HasAddGrant())
+            {
+                $operation = new AjaxOperation(OPERATION_COPY,
+                    $this->GetLocalizerCaptions()->GetMessageString('Copy'),
+                    $this->GetLocalizerCaptions()->GetMessageString('Copy'), $this->dataset,
+                    $this->GetModalGridCopyHandler(), $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+            }
         }
     
         protected function AddFieldColumns(Grid $grid, $withDetails = true)
         {
             //
-            // View column for campaign_name field
+            // View column for Region field
             //
-            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Campaign Name', $this->dataset);
+            $column = new TextViewColumn('eRegion', 'eRegion_Region', 'Region', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Country_Name field
+            //
+            $column = new TextViewColumn('Country', 'Country_Country_Name', 'Country', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
@@ -1214,27 +1349,55 @@
             $column = new TextViewColumn('Event_Name', 'Event_Name', 'Event Name', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
-            $column->SetMaxLength(75);
+            $column->SetMaxLength(50);
             $column->SetFullTextWindowHandlerName('campaign_events_Event_Name_handler_list');
+            $column->SetWordWrap(false);
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
             $grid->AddViewColumn($column);
             
             //
-            // View column for Region field
+            // View column for Venue field
             //
-            $column = new TextViewColumn('eRegion', 'eRegion_Region', 'Region', $this->dataset);
+            $column = new TextViewColumn('Venue', 'Venue', 'Venue', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_events_Venue_handler_list');
+            $column->SetWordWrap(false);
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
             $grid->AddViewColumn($column);
             
             //
-            // View column for Country_Name field
+            // View column for City field
             //
-            $column = new TextViewColumn('Country', 'Country_Country_Name', 'Country', $this->dataset);
+            $column = new TextViewColumn('City', 'City', 'City', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Status_Type field
+            //
+            $column = new TextViewColumn('Event_status', 'Event_status_Status_Type', 'Event Status', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->SetWordWrap(false);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Approval field
+            //
+            $column = new TextViewColumn('Approval', 'Approval', 'Approval', $this->dataset);
             $column->SetOrderable(true);
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
@@ -1247,6 +1410,23 @@
             $column = new TextViewColumn('Event_Type', 'Event_Type_Event_Type', 'Event Type', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->SetMaxLength(65);
+            $column->SetFullTextWindowHandlerName('campaign_events_Event_Type_Event_Type_handler_list');
+            $column->SetEscapeHTMLSpecialChars(true);
+            $column->SetWordWrap(false);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Brand_Name field
+            //
+            $column = new TextViewColumn('Business_Responsible', 'Business_Responsible_Brand_Name', 'Business Responsible', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_events_Business_Responsible_Brand_Name_handler_list');
+            $column->SetWordWrap(false);
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1263,10 +1443,24 @@
             $grid->AddViewColumn($column);
             
             //
+            // View column for Brands_Attending field
+            //
+            $column = new TextViewColumn('Brands_Attending', 'Brands_Attending', 'Brands Attending', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_events_Brands_Attending_handler_list');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
             // View column for Start_Date field
             //
             $column = new DateTimeViewColumn('Start_Date', 'Start_Date', 'Start Date', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetDateTimeFormat('d-m-Y');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
@@ -1278,6 +1472,7 @@
             //
             $column = new DateTimeViewColumn('End_Date', 'End_Date', 'End Date', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetDateTimeFormat('d-m-Y');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
@@ -1285,22 +1480,24 @@
             $grid->AddViewColumn($column);
             
             //
-            // View column for Industry field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('Industry', 'Industry', 'Industry', $this->dataset);
+            $column = new TextViewColumn('Objective', 'Objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Industry_handler_list');
+            $column->SetFullTextWindowHandlerName('campaign_events_Objective_objective_name_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
             $grid->AddViewColumn($column);
             
             //
-            // View column for Event_Cost field
+            // View column for Expected_ROI_OTS field
             //
-            $column = new CurrencyViewColumn('Event_Cost', 'Event_Cost', 'Event Cost', $this->dataset);
+            $column = new CurrencyViewColumn('Expected_ROI_OTS', 'Expected_ROI_OTS', 'Expected ROI OTS', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(2);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('.');
@@ -1311,32 +1508,37 @@
             $grid->AddViewColumn($column);
             
             //
-            // View column for Created_by field
+            // View column for Expected_ROI_Enquiries field
             //
-            $column = new TextViewColumn('Created_by', 'Created_by', 'Created By', $this->dataset);
+            $column = new NumberViewColumn('Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'Expected ROI Enquiries', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Created_by_handler_list');
+            $column->setAlign('right');
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
             $grid->AddViewColumn($column);
             
             //
-            // View column for Created_Date field
+            // View column for Post_Enquiries field
             //
-            $column = new DateTimeViewColumn('Created_Date', 'Created_Date', 'Created Date', $this->dataset);
+            $column = new NumberViewColumn('Post_Enquiries', 'Post_Enquiries', 'Enquiries', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $column->setAlign('right');
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
             $grid->AddViewColumn($column);
             
             //
-            // View column for Approval field
+            // View column for New_Opportunities field
             //
-            $column = new TextViewColumn('Approval', 'Approval', 'List on Website?', $this->dataset);
+            $column = new TextViewColumn('New_Opportunities', 'New_Opportunities', 'New Opportunities', $this->dataset);
             $column->SetOrderable(true);
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
@@ -1348,10 +1550,78 @@
             //
             $column = new CurrencyViewColumn('Est_Opportunity_value_in_Euros', 'Est_Opportunity_value_in_Euros', 'Est Opportunity Value In Euros', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(2);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('.');
             $column->setCurrencySign('€');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Industry_Name field
+            //
+            $column = new TextViewColumn('Industry', 'Industry_Industry_Name', 'Industry', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_events_Industry_Industry_Name_handler_list');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for strategic_campaing_name field
+            //
+            $column = new TextViewColumn('Strategic_Campaign', 'Strategic_Campaign_strategic_campaing_name', 'Strategic Campaign', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_events_Strategic_Campaign_strategic_campaing_name_handler_list');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Short_Description field
+            //
+            $column = new TextViewColumn('Short_Description', 'Short_Description', 'Short Description', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_events_Short_Description_handler_list');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Event_Cost field
+            //
+            $column = new CurrencyViewColumn('Event_Cost', 'Event_Cost', 'Event Cost', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('right');
+            $column->setNumberAfterDecimal(2);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('.');
+            $column->setCurrencySign('€');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Planned_Booth_Area field
+            //
+            $column = new TextViewColumn('Planned_Booth_Area', 'Planned_Booth_Area', 'Planned Booth Area', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_events_Planned_Booth_Area_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1372,8 +1642,9 @@
             //
             $column = new TextViewColumn('Event_Name', 'Event_Name', 'Event Name', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetMaxLength(75);
+            $column->SetMaxLength(50);
             $column->SetFullTextWindowHandlerName('campaign_events_Event_Name_handler_view');
+            $column->SetWordWrap(false);
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1395,10 +1666,8 @@
             //
             $column = new TextViewColumn('Website', 'Website', 'Website', $this->dataset);
             $column->SetOrderable(true);
-            $column->setHrefTemplate('%Website%');
+            $column->setHrefTemplate('%trackerid%');
             $column->setTarget('');
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Website_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1408,6 +1677,7 @@
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_events_Venue_handler_view');
+            $column->SetWordWrap(false);
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1422,6 +1692,7 @@
             //
             $column = new TextViewColumn('Event_status', 'Event_status_Status_Type', 'Event Status', $this->dataset);
             $column->SetOrderable(true);
+            $column->SetWordWrap(false);
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1429,6 +1700,10 @@
             //
             $column = new TextViewColumn('Event_Type', 'Event_Type_Event_Type', 'Event Type', $this->dataset);
             $column->SetOrderable(true);
+            $column->SetMaxLength(65);
+            $column->SetFullTextWindowHandlerName('campaign_events_Event_Type_Event_Type_handler_view');
+            $column->SetEscapeHTMLSpecialChars(true);
+            $column->SetWordWrap(false);
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1438,6 +1713,7 @@
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_events_Business_Responsible_Brand_Name_handler_view');
+            $column->SetWordWrap(false);
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1448,12 +1724,12 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for Brand_Name field
+            // View column for Brands_Attending field
             //
-            $column = new TextViewColumn('Brands_Attending', 'Brands_Attending_Brand_Name', 'Brands Attending', $this->dataset);
+            $column = new TextViewColumn('Brands_Attending', 'Brands_Attending', 'Brands Attending', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Brands_Attending_Brand_Name_handler_view');
+            $column->SetFullTextWindowHandlerName('campaign_events_Brands_Attending_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1473,12 +1749,12 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for Objective field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('Objective', 'Objective', 'Objective', $this->dataset);
+            $column = new TextViewColumn('Objective', 'Objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Objective_handler_view');
+            $column->SetFullTextWindowHandlerName('campaign_events_Objective_objective_name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1495,15 +1771,21 @@
             //
             // View column for Expected_ROI_Enquiries field
             //
-            $column = new TextViewColumn('Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'Expected ROI Enquiries', $this->dataset);
+            $column = new NumberViewColumn('Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'Expected ROI Enquiries', $this->dataset);
             $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
             $grid->AddSingleRecordViewColumn($column);
             
             //
             // View column for Post_Enquiries field
             //
-            $column = new TextViewColumn('Post_Enquiries', 'Post_Enquiries', 'Post Enquiries', $this->dataset);
+            $column = new NumberViewColumn('Post_Enquiries', 'Post_Enquiries', 'Enquiries', $this->dataset);
             $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1514,21 +1796,21 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for Industry field
+            // View column for Industry_Name field
             //
-            $column = new TextViewColumn('Industry', 'Industry', 'Industry', $this->dataset);
+            $column = new TextViewColumn('Industry', 'Industry_Industry_Name', 'Industry', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Industry_handler_view');
+            $column->SetFullTextWindowHandlerName('campaign_events_Industry_Industry_Name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for Strategic_Campaign field
+            // View column for strategic_campaing_name field
             //
-            $column = new TextViewColumn('Strategic_Campaign', 'Strategic_Campaign', 'Strategic Campaign', $this->dataset);
+            $column = new TextViewColumn('Strategic_Campaign', 'Strategic_Campaign_strategic_campaing_name', 'Strategic Campaign', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Strategic_Campaign_handler_view');
+            $column->SetFullTextWindowHandlerName('campaign_events_Strategic_Campaign_strategic_campaing_name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1580,7 +1862,7 @@
             //
             // View column for Updated_by field
             //
-            $column = new TextViewColumn('Updated_by', 'Updated_by', 'Updated By', $this->dataset);
+            $column = new TextViewColumn('Updated_by', 'Updated_by', 'Modified By', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_events_Updated_by_handler_view');
@@ -1589,9 +1871,8 @@
             //
             // View column for Updated_Date field
             //
-            $column = new DateTimeViewColumn('Updated_Date', 'Updated_Date', 'Updated Date', $this->dataset);
+            $column = new TextViewColumn('Updated_Date', 'Updated_Date', 'Modified Date', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1611,7 +1892,7 @@
             //
             // View column for Approval field
             //
-            $column = new TextViewColumn('Approval', 'Approval', 'List on Website?', $this->dataset);
+            $column = new TextViewColumn('Approval', 'Approval', 'Approval', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
             
@@ -1657,6 +1938,16 @@
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('.');
             $column->setCurrencySign('€');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for show_events_cal field
+            //
+            $column = new NumberViewColumn('show_events_cal', 'show_events_cal', 'Show in Events Calendar?', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
             $grid->AddSingleRecordViewColumn($column);
         }
     
@@ -1714,6 +2005,7 @@
             // Edit column for Event_Name field
             //
             $editor = new TextEdit('event_name_edit');
+            $editor->setMaxWidth('85');
             $editColumn = new CustomEditColumn('Event Name', 'Event_Name', $editor, $this->dataset);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
@@ -1837,6 +2129,7 @@
             // Edit column for Event_Type field
             //
             $editor = new DynamicCombobox('event_type_edit', $this->CreateLinkBuilder());
+            $editor->setMaxWidth('40');
             $editor->setAllowClear(true);
             $editor->setMinimumInputLength(0);
             $lookupDataset = new TableDataset(
@@ -1908,21 +2201,10 @@
             //
             // Edit column for Brands_Attending field
             //
-            $editor = new DynamicCombobox('brands_attending_edit', $this->CreateLinkBuilder());
-            $editor->setAllowClear(true);
-            $editor->setMinimumInputLength(0);
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`lookup_brands`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('Brands_ID', true, true, true),
-                    new StringField('Brand_Name', true)
-                )
-            );
-            $lookupDataset->setOrderByField('Brand_Name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Brands Attending', 'Brands_Attending', 'Brands_Attending_Brand_Name', 'edit_campaign_events_Brands_Attending_search', $editor, $this->dataset, $lookupDataset, 'Brands_ID', 'Brand_Name', '');
+            $editor = new RemoteMultiValueSelect('brands_attending_edit', $this->CreateLinkBuilder());
+            $editor->SetHandlerName('edit_Brands_Attending_Brand_Name_Brand_Name_search');
+            $editor->setMaxSelectionSize(0);
+            $editColumn = new CustomEditColumn('Brands Attending', 'Brands_Attending', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -1948,8 +2230,21 @@
             //
             // Edit column for Objective field
             //
-            $editor = new TextAreaEdit('objective_edit', 50, 4);
-            $editColumn = new CustomEditColumn('Objective', 'Objective', $editor, $this->dataset);
+            $editor = new DynamicCombobox('objective_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_objective`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('objective_id', true, true, true),
+                    new StringField('objective_name')
+                )
+            );
+            $lookupDataset->setOrderByField('objective_name', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Objective', 'Objective', 'Objective_objective_name', 'edit_campaign_events_Objective_search', $editor, $this->dataset, $lookupDataset, 'objective_name', 'objective_name', '');
             $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -1982,7 +2277,7 @@
             $editor = new TextEdit('post_enquiries_edit');
             $editor->SetPrefix('Qty');
             $editor->SetMaxLength(10);
-            $editColumn = new CustomEditColumn('Post Enquiries', 'Post_Enquiries', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('Enquiries', 'Post_Enquiries', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -2001,10 +2296,21 @@
             //
             // Edit column for Industry field
             //
-            $editor = new RemoteMultiValueSelect('industry_edit', $this->CreateLinkBuilder());
-            $editor->SetHandlerName('edit_Industry_Industry_ID_Industry_Name_search');
-            $editor->setMaxSelectionSize(0);
-            $editColumn = new CustomEditColumn('Industry', 'Industry', $editor, $this->dataset);
+            $editor = new DynamicCombobox('industry_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_industries`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('Industry_ID', true, true, true),
+                    new StringField('Industry_Name')
+                )
+            );
+            $lookupDataset->setOrderByField('Industry_Name', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Industry', 'Industry', 'Industry_Industry_Name', 'edit_campaign_events_Industry_search', $editor, $this->dataset, $lookupDataset, 'Industry_ID', 'Industry_Name', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -2012,8 +2318,20 @@
             //
             // Edit column for Strategic_Campaign field
             //
-            $editor = new TextAreaEdit('strategic_campaign_edit', 50, 3);
-            $editColumn = new CustomEditColumn('Strategic Campaign', 'Strategic_Campaign', $editor, $this->dataset);
+            $editor = new DynamicCombobox('strategic_campaign_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_strategic_campaign`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('strategic_campaign_id', true, true, true),
+                    new StringField('strategic_campaing_name')
+                )
+            );
+            $editColumn = new DynamicLookupEditColumn('Strategic Campaign', 'Strategic_Campaign', 'Strategic_Campaign_strategic_campaing_name', 'edit_campaign_events_Strategic_Campaign_search', $editor, $this->dataset, $lookupDataset, 'strategic_campaign_id', 'strategic_campaing_name', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -2074,7 +2392,8 @@
             //
             $editor = new TextEdit('updated_by_edit');
             $editor->SetMaxLength(100);
-            $editColumn = new CustomEditColumn('Updated By', 'Updated_by', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('Modified By', 'Updated_by', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -2082,11 +2401,10 @@
             //
             // Edit column for Updated_Date field
             //
-            $editor = new DateTimeEdit('updated_date_edit', false, 'd-m-Y H:i:s');
-            $editColumn = new CustomEditColumn('Updated Date', 'Updated_Date', $editor, $this->dataset);
+            $editor = new TextEdit('updated_date_edit');
+            $editColumn = new CustomEditColumn('Modified Date', 'Updated_Date', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
-            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
-            $editor->GetValidatorCollection()->AddValidator($validator);
+            $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
@@ -2113,7 +2431,7 @@
             // Edit column for Approval field
             //
             $editor = new CheckBox('approval_edit');
-            $editColumn = new CustomEditColumn('List on Website?', 'Approval', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('Approval', 'Approval', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -2180,6 +2498,15 @@
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for show_events_cal field
+            //
+            $editor = new CheckBox('show_events_cal_edit');
+            $editColumn = new CustomEditColumn('Show in Events Calendar?', 'show_events_cal', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
         }
     
         protected function AddMultiEditColumns(Grid $grid)
@@ -2236,6 +2563,7 @@
             // Edit column for Event_Name field
             //
             $editor = new TextEdit('event_name_edit');
+            $editor->setMaxWidth('85');
             $editColumn = new CustomEditColumn('Event Name', 'Event_Name', $editor, $this->dataset);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
@@ -2359,6 +2687,7 @@
             // Edit column for Event_Type field
             //
             $editor = new DynamicCombobox('event_type_edit', $this->CreateLinkBuilder());
+            $editor->setMaxWidth('40');
             $editor->setAllowClear(true);
             $editor->setMinimumInputLength(0);
             $lookupDataset = new TableDataset(
@@ -2430,21 +2759,10 @@
             //
             // Edit column for Brands_Attending field
             //
-            $editor = new DynamicCombobox('brands_attending_edit', $this->CreateLinkBuilder());
-            $editor->setAllowClear(true);
-            $editor->setMinimumInputLength(0);
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`lookup_brands`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('Brands_ID', true, true, true),
-                    new StringField('Brand_Name', true)
-                )
-            );
-            $lookupDataset->setOrderByField('Brand_Name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Brands Attending', 'Brands_Attending', 'Brands_Attending_Brand_Name', 'multi_edit_campaign_events_Brands_Attending_search', $editor, $this->dataset, $lookupDataset, 'Brands_ID', 'Brand_Name', '');
+            $editor = new RemoteMultiValueSelect('brands_attending_edit', $this->CreateLinkBuilder());
+            $editor->SetHandlerName('multi_edit_Brands_Attending_Brand_Name_Brand_Name_search');
+            $editor->setMaxSelectionSize(0);
+            $editColumn = new CustomEditColumn('Brands Attending', 'Brands_Attending', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -2470,8 +2788,21 @@
             //
             // Edit column for Objective field
             //
-            $editor = new TextAreaEdit('objective_edit', 50, 4);
-            $editColumn = new CustomEditColumn('Objective', 'Objective', $editor, $this->dataset);
+            $editor = new DynamicCombobox('objective_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_objective`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('objective_id', true, true, true),
+                    new StringField('objective_name')
+                )
+            );
+            $lookupDataset->setOrderByField('objective_name', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Objective', 'Objective', 'Objective_objective_name', 'multi_edit_campaign_events_Objective_search', $editor, $this->dataset, $lookupDataset, 'objective_name', 'objective_name', '');
             $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -2504,7 +2835,7 @@
             $editor = new TextEdit('post_enquiries_edit');
             $editor->SetPrefix('Qty');
             $editor->SetMaxLength(10);
-            $editColumn = new CustomEditColumn('Post Enquiries', 'Post_Enquiries', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('Enquiries', 'Post_Enquiries', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -2523,10 +2854,21 @@
             //
             // Edit column for Industry field
             //
-            $editor = new RemoteMultiValueSelect('industry_edit', $this->CreateLinkBuilder());
-            $editor->SetHandlerName('multi_edit_Industry_Industry_ID_Industry_Name_search');
-            $editor->setMaxSelectionSize(0);
-            $editColumn = new CustomEditColumn('Industry', 'Industry', $editor, $this->dataset);
+            $editor = new DynamicCombobox('industry_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_industries`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('Industry_ID', true, true, true),
+                    new StringField('Industry_Name')
+                )
+            );
+            $lookupDataset->setOrderByField('Industry_Name', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Industry', 'Industry', 'Industry_Industry_Name', 'multi_edit_campaign_events_Industry_search', $editor, $this->dataset, $lookupDataset, 'Industry_ID', 'Industry_Name', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -2534,8 +2876,20 @@
             //
             // Edit column for Strategic_Campaign field
             //
-            $editor = new TextAreaEdit('strategic_campaign_edit', 50, 3);
-            $editColumn = new CustomEditColumn('Strategic Campaign', 'Strategic_Campaign', $editor, $this->dataset);
+            $editor = new DynamicCombobox('strategic_campaign_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_strategic_campaign`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('strategic_campaign_id', true, true, true),
+                    new StringField('strategic_campaing_name')
+                )
+            );
+            $editColumn = new DynamicLookupEditColumn('Strategic Campaign', 'Strategic_Campaign', 'Strategic_Campaign_strategic_campaing_name', 'multi_edit_campaign_events_Strategic_Campaign_search', $editor, $this->dataset, $lookupDataset, 'strategic_campaign_id', 'strategic_campaing_name', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -2596,7 +2950,8 @@
             //
             $editor = new TextEdit('updated_by_edit');
             $editor->SetMaxLength(100);
-            $editColumn = new CustomEditColumn('Updated By', 'Updated_by', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('Modified By', 'Updated_by', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -2604,11 +2959,10 @@
             //
             // Edit column for Updated_Date field
             //
-            $editor = new DateTimeEdit('updated_date_edit', false, 'd-m-Y H:i:s');
-            $editColumn = new CustomEditColumn('Updated Date', 'Updated_Date', $editor, $this->dataset);
+            $editor = new TextEdit('updated_date_edit');
+            $editColumn = new CustomEditColumn('Modified Date', 'Updated_Date', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
-            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
-            $editor->GetValidatorCollection()->AddValidator($validator);
+            $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
             
@@ -2635,7 +2989,7 @@
             // Edit column for Approval field
             //
             $editor = new CheckBox('approval_edit');
-            $editColumn = new CustomEditColumn('List on Website?', 'Approval', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('Approval', 'Approval', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -2702,6 +3056,15 @@
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for show_events_cal field
+            //
+            $editor = new CheckBox('show_events_cal_edit');
+            $editColumn = new CustomEditColumn('Show in Events Calendar?', 'show_events_cal', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
         }
     
         protected function AddInsertColumns(Grid $grid)
@@ -2758,6 +3121,7 @@
             // Edit column for Event_Name field
             //
             $editor = new TextEdit('event_name_edit');
+            $editor->setMaxWidth('85');
             $editColumn = new CustomEditColumn('Event Name', 'Event_Name', $editor, $this->dataset);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
@@ -2881,6 +3245,7 @@
             // Edit column for Event_Type field
             //
             $editor = new DynamicCombobox('event_type_edit', $this->CreateLinkBuilder());
+            $editor->setMaxWidth('40');
             $editor->setAllowClear(true);
             $editor->setMinimumInputLength(0);
             $lookupDataset = new TableDataset(
@@ -2952,21 +3317,10 @@
             //
             // Edit column for Brands_Attending field
             //
-            $editor = new DynamicCombobox('brands_attending_edit', $this->CreateLinkBuilder());
-            $editor->setAllowClear(true);
-            $editor->setMinimumInputLength(0);
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`lookup_brands`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('Brands_ID', true, true, true),
-                    new StringField('Brand_Name', true)
-                )
-            );
-            $lookupDataset->setOrderByField('Brand_Name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Brands Attending', 'Brands_Attending', 'Brands_Attending_Brand_Name', 'insert_campaign_events_Brands_Attending_search', $editor, $this->dataset, $lookupDataset, 'Brands_ID', 'Brand_Name', '');
+            $editor = new RemoteMultiValueSelect('brands_attending_edit', $this->CreateLinkBuilder());
+            $editor->SetHandlerName('insert_Brands_Attending_Brand_Name_Brand_Name_search');
+            $editor->setMaxSelectionSize(0);
+            $editColumn = new CustomEditColumn('Brands Attending', 'Brands_Attending', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -2992,8 +3346,21 @@
             //
             // Edit column for Objective field
             //
-            $editor = new TextAreaEdit('objective_edit', 50, 4);
-            $editColumn = new CustomEditColumn('Objective', 'Objective', $editor, $this->dataset);
+            $editor = new DynamicCombobox('objective_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_objective`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('objective_id', true, true, true),
+                    new StringField('objective_name')
+                )
+            );
+            $lookupDataset->setOrderByField('objective_name', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Objective', 'Objective', 'Objective_objective_name', 'insert_campaign_events_Objective_search', $editor, $this->dataset, $lookupDataset, 'objective_name', 'objective_name', '');
             $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -3027,7 +3394,7 @@
             $editor = new TextEdit('post_enquiries_edit');
             $editor->SetPrefix('Qty');
             $editor->SetMaxLength(10);
-            $editColumn = new CustomEditColumn('Post Enquiries', 'Post_Enquiries', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('Enquiries', 'Post_Enquiries', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $editColumn->SetInsertDefaultValue('0');
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -3048,10 +3415,21 @@
             //
             // Edit column for Industry field
             //
-            $editor = new RemoteMultiValueSelect('industry_edit', $this->CreateLinkBuilder());
-            $editor->SetHandlerName('insert_Industry_Industry_ID_Industry_Name_search');
-            $editor->setMaxSelectionSize(0);
-            $editColumn = new CustomEditColumn('Industry', 'Industry', $editor, $this->dataset);
+            $editor = new DynamicCombobox('industry_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_industries`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('Industry_ID', true, true, true),
+                    new StringField('Industry_Name')
+                )
+            );
+            $lookupDataset->setOrderByField('Industry_Name', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Industry', 'Industry', 'Industry_Industry_Name', 'insert_campaign_events_Industry_search', $editor, $this->dataset, $lookupDataset, 'Industry_ID', 'Industry_Name', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -3059,8 +3437,20 @@
             //
             // Edit column for Strategic_Campaign field
             //
-            $editor = new TextAreaEdit('strategic_campaign_edit', 50, 3);
-            $editColumn = new CustomEditColumn('Strategic Campaign', 'Strategic_Campaign', $editor, $this->dataset);
+            $editor = new DynamicCombobox('strategic_campaign_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_strategic_campaign`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('strategic_campaign_id', true, true, true),
+                    new StringField('strategic_campaing_name')
+                )
+            );
+            $editColumn = new DynamicLookupEditColumn('Strategic Campaign', 'Strategic_Campaign', 'Strategic_Campaign_strategic_campaing_name', 'insert_campaign_events_Strategic_Campaign_search', $editor, $this->dataset, $lookupDataset, 'strategic_campaign_id', 'strategic_campaing_name', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -3124,7 +3514,8 @@
             //
             $editor = new TextEdit('updated_by_edit');
             $editor->SetMaxLength(100);
-            $editColumn = new CustomEditColumn('Updated By', 'Updated_by', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('Modified By', 'Updated_by', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $editColumn->SetInsertDefaultValue('%CURRENT_USER_NAME%');
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -3133,12 +3524,11 @@
             //
             // Edit column for Updated_Date field
             //
-            $editor = new DateTimeEdit('updated_date_edit', false, 'd-m-Y H:i:s');
-            $editColumn = new CustomEditColumn('Updated Date', 'Updated_Date', $editor, $this->dataset);
+            $editor = new TextEdit('updated_date_edit');
+            $editColumn = new CustomEditColumn('Modified Date', 'Updated_Date', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
+            $editColumn->SetAllowSetToNull(true);
             $editColumn->SetInsertDefaultValue('%CURRENT_DATETIME%');
-            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
-            $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
             
@@ -3165,7 +3555,7 @@
             // Edit column for Approval field
             //
             $editor = new CheckBox('approval_edit');
-            $editColumn = new CustomEditColumn('List on Website?', 'Approval', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('Approval', 'Approval', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $editColumn->SetInsertDefaultValue('0');
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -3234,7 +3624,16 @@
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
-            $grid->SetShowAddButton(false && $this->GetSecurityInfo()->HasAddGrant());
+            
+            //
+            // Edit column for show_events_cal field
+            //
+            $editor = new CheckBox('show_events_cal_edit');
+            $editColumn = new CustomEditColumn('Show in Events Calendar?', 'show_events_cal', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            $grid->SetShowAddButton(true && $this->GetSecurityInfo()->HasAddGrant());
         }
     
         private function AddMultiUploadColumn(Grid $grid)
@@ -3268,8 +3667,9 @@
             $column = new TextViewColumn('Event_Name', 'Event_Name', 'Event Name', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
-            $column->SetMaxLength(75);
+            $column->SetMaxLength(50);
             $column->SetFullTextWindowHandlerName('campaign_events_Event_Name_handler_print');
+            $column->SetWordWrap(false);
             $grid->AddPrintColumn($column);
             
             //
@@ -3277,6 +3677,7 @@
             //
             $column = new TextViewColumn('eRegion', 'eRegion_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddPrintColumn($column);
             
             //
@@ -3284,6 +3685,7 @@
             //
             $column = new TextViewColumn('Country', 'Country_Country_Name', 'Country', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddPrintColumn($column);
             
             //
@@ -3291,10 +3693,8 @@
             //
             $column = new TextViewColumn('Website', 'Website', 'Website', $this->dataset);
             $column->SetOrderable(true);
-            $column->setHrefTemplate('%Website%');
+            $column->setHrefTemplate('%trackerid%');
             $column->setTarget('');
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Website_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -3302,8 +3702,10 @@
             //
             $column = new TextViewColumn('Venue', 'Venue', 'Venue', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_events_Venue_handler_print');
+            $column->SetWordWrap(false);
             $grid->AddPrintColumn($column);
             
             //
@@ -3311,6 +3713,7 @@
             //
             $column = new TextViewColumn('City', 'City', 'City', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddPrintColumn($column);
             
             //
@@ -3318,6 +3721,8 @@
             //
             $column = new TextViewColumn('Event_status', 'Event_status_Status_Type', 'Event Status', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->SetWordWrap(false);
             $grid->AddPrintColumn($column);
             
             //
@@ -3326,6 +3731,10 @@
             $column = new TextViewColumn('Event_Type', 'Event_Type_Event_Type', 'Event Type', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->SetMaxLength(65);
+            $column->SetFullTextWindowHandlerName('campaign_events_Event_Type_Event_Type_handler_print');
+            $column->SetEscapeHTMLSpecialChars(true);
+            $column->SetWordWrap(false);
             $grid->AddPrintColumn($column);
             
             //
@@ -3335,6 +3744,7 @@
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_events_Business_Responsible_Brand_Name_handler_print');
+            $column->SetWordWrap(false);
             $grid->AddPrintColumn($column);
             
             //
@@ -3345,12 +3755,13 @@
             $grid->AddPrintColumn($column);
             
             //
-            // View column for Brand_Name field
+            // View column for Brands_Attending field
             //
-            $column = new TextViewColumn('Brands_Attending', 'Brands_Attending_Brand_Name', 'Brands Attending', $this->dataset);
+            $column = new TextViewColumn('Brands_Attending', 'Brands_Attending', 'Brands Attending', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Brands_Attending_Brand_Name_handler_print');
+            $column->SetFullTextWindowHandlerName('campaign_events_Brands_Attending_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -3358,6 +3769,7 @@
             //
             $column = new DateTimeViewColumn('Start_Date', 'Start_Date', 'Start Date', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetDateTimeFormat('d-m-Y');
             $grid->AddPrintColumn($column);
             
@@ -3366,16 +3778,18 @@
             //
             $column = new DateTimeViewColumn('End_Date', 'End_Date', 'End Date', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetDateTimeFormat('d-m-Y');
             $grid->AddPrintColumn($column);
             
             //
-            // View column for Objective field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('Objective', 'Objective', 'Objective', $this->dataset);
+            $column = new TextViewColumn('Objective', 'Objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Objective_handler_print');
+            $column->SetFullTextWindowHandlerName('campaign_events_Objective_objective_name_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -3383,6 +3797,7 @@
             //
             $column = new CurrencyViewColumn('Expected_ROI_OTS', 'Expected_ROI_OTS', 'Expected ROI OTS', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(2);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('.');
@@ -3392,15 +3807,23 @@
             //
             // View column for Expected_ROI_Enquiries field
             //
-            $column = new TextViewColumn('Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'Expected ROI Enquiries', $this->dataset);
+            $column = new NumberViewColumn('Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'Expected ROI Enquiries', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
             $grid->AddPrintColumn($column);
             
             //
             // View column for Post_Enquiries field
             //
-            $column = new TextViewColumn('Post_Enquiries', 'Post_Enquiries', 'Post Enquiries', $this->dataset);
+            $column = new NumberViewColumn('Post_Enquiries', 'Post_Enquiries', 'Enquiries', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
             $grid->AddPrintColumn($column);
             
             //
@@ -3411,21 +3834,23 @@
             $grid->AddPrintColumn($column);
             
             //
-            // View column for Industry field
+            // View column for Industry_Name field
             //
-            $column = new TextViewColumn('Industry', 'Industry', 'Industry', $this->dataset);
+            $column = new TextViewColumn('Industry', 'Industry_Industry_Name', 'Industry', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Industry_handler_print');
+            $column->SetFullTextWindowHandlerName('campaign_events_Industry_Industry_Name_handler_print');
             $grid->AddPrintColumn($column);
             
             //
-            // View column for Strategic_Campaign field
+            // View column for strategic_campaing_name field
             //
-            $column = new TextViewColumn('Strategic_Campaign', 'Strategic_Campaign', 'Strategic Campaign', $this->dataset);
+            $column = new TextViewColumn('Strategic_Campaign', 'Strategic_Campaign_strategic_campaing_name', 'Strategic Campaign', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Strategic_Campaign_handler_print');
+            $column->SetFullTextWindowHandlerName('campaign_events_Strategic_Campaign_strategic_campaing_name_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -3443,6 +3868,7 @@
             //
             $column = new CurrencyViewColumn('Event_Cost', 'Event_Cost', 'Event Cost', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(2);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('.');
@@ -3479,7 +3905,7 @@
             //
             // View column for Updated_by field
             //
-            $column = new TextViewColumn('Updated_by', 'Updated_by', 'Updated By', $this->dataset);
+            $column = new TextViewColumn('Updated_by', 'Updated_by', 'Modified By', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_events_Updated_by_handler_print');
@@ -3488,9 +3914,8 @@
             //
             // View column for Updated_Date field
             //
-            $column = new DateTimeViewColumn('Updated_Date', 'Updated_Date', 'Updated Date', $this->dataset);
+            $column = new TextViewColumn('Updated_Date', 'Updated_Date', 'Modified Date', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddPrintColumn($column);
             
             //
@@ -3510,7 +3935,7 @@
             //
             // View column for Approval field
             //
-            $column = new TextViewColumn('Approval', 'Approval', 'List on Website?', $this->dataset);
+            $column = new TextViewColumn('Approval', 'Approval', 'Approval', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddPrintColumn($column);
             
@@ -3552,10 +3977,35 @@
             //
             $column = new CurrencyViewColumn('Est_Opportunity_value_in_Euros', 'Est_Opportunity_value_in_Euros', 'Est Opportunity Value In Euros', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(2);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('.');
             $column->setCurrencySign('€');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for finyear_date field
+            //
+            $column = new TextViewColumn('finyear_date', 'finyear_date', 'Quarter Filter', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for finmonth_date field
+            //
+            $column = new TextViewColumn('finmonth_date', 'finmonth_date', 'Month Filter', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for show_events_cal field
+            //
+            $column = new NumberViewColumn('show_events_cal', 'show_events_cal', 'Show in Events Calendar?', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
             $grid->AddPrintColumn($column);
         }
     
@@ -3585,8 +4035,9 @@
             $column = new TextViewColumn('Event_Name', 'Event_Name', 'Event Name', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
-            $column->SetMaxLength(75);
+            $column->SetMaxLength(50);
             $column->SetFullTextWindowHandlerName('campaign_events_Event_Name_handler_export');
+            $column->SetWordWrap(false);
             $grid->AddExportColumn($column);
             
             //
@@ -3594,6 +4045,7 @@
             //
             $column = new TextViewColumn('eRegion', 'eRegion_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddExportColumn($column);
             
             //
@@ -3601,6 +4053,7 @@
             //
             $column = new TextViewColumn('Country', 'Country_Country_Name', 'Country', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddExportColumn($column);
             
             //
@@ -3608,10 +4061,8 @@
             //
             $column = new TextViewColumn('Website', 'Website', 'Website', $this->dataset);
             $column->SetOrderable(true);
-            $column->setHrefTemplate('%Website%');
+            $column->setHrefTemplate('%trackerid%');
             $column->setTarget('');
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Website_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -3619,8 +4070,10 @@
             //
             $column = new TextViewColumn('Venue', 'Venue', 'Venue', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_events_Venue_handler_export');
+            $column->SetWordWrap(false);
             $grid->AddExportColumn($column);
             
             //
@@ -3628,6 +4081,7 @@
             //
             $column = new TextViewColumn('City', 'City', 'City', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddExportColumn($column);
             
             //
@@ -3635,6 +4089,8 @@
             //
             $column = new TextViewColumn('Event_status', 'Event_status_Status_Type', 'Event Status', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->SetWordWrap(false);
             $grid->AddExportColumn($column);
             
             //
@@ -3643,6 +4099,10 @@
             $column = new TextViewColumn('Event_Type', 'Event_Type_Event_Type', 'Event Type', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->SetMaxLength(65);
+            $column->SetFullTextWindowHandlerName('campaign_events_Event_Type_Event_Type_handler_export');
+            $column->SetEscapeHTMLSpecialChars(true);
+            $column->SetWordWrap(false);
             $grid->AddExportColumn($column);
             
             //
@@ -3652,6 +4112,7 @@
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_events_Business_Responsible_Brand_Name_handler_export');
+            $column->SetWordWrap(false);
             $grid->AddExportColumn($column);
             
             //
@@ -3662,12 +4123,13 @@
             $grid->AddExportColumn($column);
             
             //
-            // View column for Brand_Name field
+            // View column for Brands_Attending field
             //
-            $column = new TextViewColumn('Brands_Attending', 'Brands_Attending_Brand_Name', 'Brands Attending', $this->dataset);
+            $column = new TextViewColumn('Brands_Attending', 'Brands_Attending', 'Brands Attending', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Brands_Attending_Brand_Name_handler_export');
+            $column->SetFullTextWindowHandlerName('campaign_events_Brands_Attending_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -3675,6 +4137,7 @@
             //
             $column = new DateTimeViewColumn('Start_Date', 'Start_Date', 'Start Date', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetDateTimeFormat('d-m-Y');
             $grid->AddExportColumn($column);
             
@@ -3683,16 +4146,18 @@
             //
             $column = new DateTimeViewColumn('End_Date', 'End_Date', 'End Date', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetDateTimeFormat('d-m-Y');
             $grid->AddExportColumn($column);
             
             //
-            // View column for Objective field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('Objective', 'Objective', 'Objective', $this->dataset);
+            $column = new TextViewColumn('Objective', 'Objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Objective_handler_export');
+            $column->SetFullTextWindowHandlerName('campaign_events_Objective_objective_name_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -3700,6 +4165,7 @@
             //
             $column = new CurrencyViewColumn('Expected_ROI_OTS', 'Expected_ROI_OTS', 'Expected ROI OTS', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(2);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('.');
@@ -3709,15 +4175,23 @@
             //
             // View column for Expected_ROI_Enquiries field
             //
-            $column = new TextViewColumn('Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'Expected ROI Enquiries', $this->dataset);
+            $column = new NumberViewColumn('Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'Expected ROI Enquiries', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
             $grid->AddExportColumn($column);
             
             //
             // View column for Post_Enquiries field
             //
-            $column = new TextViewColumn('Post_Enquiries', 'Post_Enquiries', 'Post Enquiries', $this->dataset);
+            $column = new NumberViewColumn('Post_Enquiries', 'Post_Enquiries', 'Enquiries', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
             $grid->AddExportColumn($column);
             
             //
@@ -3728,21 +4202,23 @@
             $grid->AddExportColumn($column);
             
             //
-            // View column for Industry field
+            // View column for Industry_Name field
             //
-            $column = new TextViewColumn('Industry', 'Industry', 'Industry', $this->dataset);
+            $column = new TextViewColumn('Industry', 'Industry_Industry_Name', 'Industry', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Industry_handler_export');
+            $column->SetFullTextWindowHandlerName('campaign_events_Industry_Industry_Name_handler_export');
             $grid->AddExportColumn($column);
             
             //
-            // View column for Strategic_Campaign field
+            // View column for strategic_campaing_name field
             //
-            $column = new TextViewColumn('Strategic_Campaign', 'Strategic_Campaign', 'Strategic Campaign', $this->dataset);
+            $column = new TextViewColumn('Strategic_Campaign', 'Strategic_Campaign_strategic_campaing_name', 'Strategic Campaign', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Strategic_Campaign_handler_export');
+            $column->SetFullTextWindowHandlerName('campaign_events_Strategic_Campaign_strategic_campaing_name_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -3760,6 +4236,7 @@
             //
             $column = new CurrencyViewColumn('Event_Cost', 'Event_Cost', 'Event Cost', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(2);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('.');
@@ -3796,7 +4273,7 @@
             //
             // View column for Updated_by field
             //
-            $column = new TextViewColumn('Updated_by', 'Updated_by', 'Updated By', $this->dataset);
+            $column = new TextViewColumn('Updated_by', 'Updated_by', 'Modified By', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_events_Updated_by_handler_export');
@@ -3805,9 +4282,8 @@
             //
             // View column for Updated_Date field
             //
-            $column = new DateTimeViewColumn('Updated_Date', 'Updated_Date', 'Updated Date', $this->dataset);
+            $column = new TextViewColumn('Updated_Date', 'Updated_Date', 'Modified Date', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddExportColumn($column);
             
             //
@@ -3827,7 +4303,7 @@
             //
             // View column for Approval field
             //
-            $column = new TextViewColumn('Approval', 'Approval', 'List on Website?', $this->dataset);
+            $column = new TextViewColumn('Approval', 'Approval', 'Approval', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddExportColumn($column);
             
@@ -3869,10 +4345,35 @@
             //
             $column = new CurrencyViewColumn('Est_Opportunity_value_in_Euros', 'Est_Opportunity_value_in_Euros', 'Est Opportunity Value In Euros', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(2);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('.');
             $column->setCurrencySign('€');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for finyear_date field
+            //
+            $column = new TextViewColumn('finyear_date', 'finyear_date', 'Quarter Filter', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for finmonth_date field
+            //
+            $column = new TextViewColumn('finmonth_date', 'finmonth_date', 'Month Filter', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for show_events_cal field
+            //
+            $column = new NumberViewColumn('show_events_cal', 'show_events_cal', 'Show in Events Calendar?', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
             $grid->AddExportColumn($column);
         }
     
@@ -3892,8 +4393,9 @@
             $column = new TextViewColumn('Event_Name', 'Event_Name', 'Event Name', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
-            $column->SetMaxLength(75);
+            $column->SetMaxLength(50);
             $column->SetFullTextWindowHandlerName('campaign_events_Event_Name_handler_compare');
+            $column->SetWordWrap(false);
             $grid->AddCompareColumn($column);
             
             //
@@ -3901,6 +4403,7 @@
             //
             $column = new TextViewColumn('eRegion', 'eRegion_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddCompareColumn($column);
             
             //
@@ -3908,6 +4411,7 @@
             //
             $column = new TextViewColumn('Country', 'Country_Country_Name', 'Country', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddCompareColumn($column);
             
             //
@@ -3915,10 +4419,8 @@
             //
             $column = new TextViewColumn('Website', 'Website', 'Website', $this->dataset);
             $column->SetOrderable(true);
-            $column->setHrefTemplate('%Website%');
+            $column->setHrefTemplate('%trackerid%');
             $column->setTarget('');
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Website_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -3926,8 +4428,10 @@
             //
             $column = new TextViewColumn('Venue', 'Venue', 'Venue', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_events_Venue_handler_compare');
+            $column->SetWordWrap(false);
             $grid->AddCompareColumn($column);
             
             //
@@ -3935,6 +4439,7 @@
             //
             $column = new TextViewColumn('City', 'City', 'City', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddCompareColumn($column);
             
             //
@@ -3942,6 +4447,8 @@
             //
             $column = new TextViewColumn('Event_status', 'Event_status_Status_Type', 'Event Status', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->SetWordWrap(false);
             $grid->AddCompareColumn($column);
             
             //
@@ -3950,6 +4457,10 @@
             $column = new TextViewColumn('Event_Type', 'Event_Type_Event_Type', 'Event Type', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->SetMaxLength(65);
+            $column->SetFullTextWindowHandlerName('campaign_events_Event_Type_Event_Type_handler_compare');
+            $column->SetEscapeHTMLSpecialChars(true);
+            $column->SetWordWrap(false);
             $grid->AddCompareColumn($column);
             
             //
@@ -3959,6 +4470,7 @@
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_events_Business_Responsible_Brand_Name_handler_compare');
+            $column->SetWordWrap(false);
             $grid->AddCompareColumn($column);
             
             //
@@ -3969,12 +4481,13 @@
             $grid->AddCompareColumn($column);
             
             //
-            // View column for Brand_Name field
+            // View column for Brands_Attending field
             //
-            $column = new TextViewColumn('Brands_Attending', 'Brands_Attending_Brand_Name', 'Brands Attending', $this->dataset);
+            $column = new TextViewColumn('Brands_Attending', 'Brands_Attending', 'Brands Attending', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Brands_Attending_Brand_Name_handler_compare');
+            $column->SetFullTextWindowHandlerName('campaign_events_Brands_Attending_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -3982,6 +4495,7 @@
             //
             $column = new DateTimeViewColumn('Start_Date', 'Start_Date', 'Start Date', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetDateTimeFormat('d-m-Y');
             $grid->AddCompareColumn($column);
             
@@ -3990,16 +4504,18 @@
             //
             $column = new DateTimeViewColumn('End_Date', 'End_Date', 'End Date', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetDateTimeFormat('d-m-Y');
             $grid->AddCompareColumn($column);
             
             //
-            // View column for Objective field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('Objective', 'Objective', 'Objective', $this->dataset);
+            $column = new TextViewColumn('Objective', 'Objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Objective_handler_compare');
+            $column->SetFullTextWindowHandlerName('campaign_events_Objective_objective_name_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -4007,6 +4523,7 @@
             //
             $column = new CurrencyViewColumn('Expected_ROI_OTS', 'Expected_ROI_OTS', 'Expected ROI OTS', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(2);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('.');
@@ -4016,15 +4533,23 @@
             //
             // View column for Expected_ROI_Enquiries field
             //
-            $column = new TextViewColumn('Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'Expected ROI Enquiries', $this->dataset);
+            $column = new NumberViewColumn('Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'Expected ROI Enquiries', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
             $grid->AddCompareColumn($column);
             
             //
             // View column for Post_Enquiries field
             //
-            $column = new TextViewColumn('Post_Enquiries', 'Post_Enquiries', 'Post Enquiries', $this->dataset);
+            $column = new NumberViewColumn('Post_Enquiries', 'Post_Enquiries', 'Enquiries', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
             $grid->AddCompareColumn($column);
             
             //
@@ -4035,21 +4560,23 @@
             $grid->AddCompareColumn($column);
             
             //
-            // View column for Industry field
+            // View column for Industry_Name field
             //
-            $column = new TextViewColumn('Industry', 'Industry', 'Industry', $this->dataset);
+            $column = new TextViewColumn('Industry', 'Industry_Industry_Name', 'Industry', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Industry_handler_compare');
+            $column->SetFullTextWindowHandlerName('campaign_events_Industry_Industry_Name_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
-            // View column for Strategic_Campaign field
+            // View column for strategic_campaing_name field
             //
-            $column = new TextViewColumn('Strategic_Campaign', 'Strategic_Campaign', 'Strategic Campaign', $this->dataset);
+            $column = new TextViewColumn('Strategic_Campaign', 'Strategic_Campaign_strategic_campaing_name', 'Strategic Campaign', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Strategic_Campaign_handler_compare');
+            $column->SetFullTextWindowHandlerName('campaign_events_Strategic_Campaign_strategic_campaing_name_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -4067,6 +4594,7 @@
             //
             $column = new CurrencyViewColumn('Event_Cost', 'Event_Cost', 'Event Cost', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(2);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('.');
@@ -4103,7 +4631,7 @@
             //
             // View column for Updated_by field
             //
-            $column = new TextViewColumn('Updated_by', 'Updated_by', 'Updated By', $this->dataset);
+            $column = new TextViewColumn('Updated_by', 'Updated_by', 'Modified By', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_events_Updated_by_handler_compare');
@@ -4112,9 +4640,8 @@
             //
             // View column for Updated_Date field
             //
-            $column = new DateTimeViewColumn('Updated_Date', 'Updated_Date', 'Updated Date', $this->dataset);
+            $column = new TextViewColumn('Updated_Date', 'Updated_Date', 'Modified Date', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddCompareColumn($column);
             
             //
@@ -4134,7 +4661,7 @@
             //
             // View column for Approval field
             //
-            $column = new TextViewColumn('Approval', 'Approval', 'List on Website?', $this->dataset);
+            $column = new TextViewColumn('Approval', 'Approval', 'Approval', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddCompareColumn($column);
             
@@ -4176,10 +4703,35 @@
             //
             $column = new CurrencyViewColumn('Est_Opportunity_value_in_Euros', 'Est_Opportunity_value_in_Euros', 'Est Opportunity Value In Euros', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(2);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('.');
             $column->setCurrencySign('€');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for finyear_date field
+            //
+            $column = new TextViewColumn('finyear_date', 'finyear_date', 'Quarter Filter', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for finmonth_date field
+            //
+            $column = new TextViewColumn('finmonth_date', 'finmonth_date', 'Month Filter', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for show_events_cal field
+            //
+            $column = new NumberViewColumn('show_events_cal', 'show_events_cal', 'Show in Events Calendar?', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
             $grid->AddCompareColumn($column);
         }
     
@@ -4214,20 +4766,27 @@
         {
             return ;
         }
+        
+        public function GetEnableModalGridInsert() { return true; }
         public function GetEnableModalSingleRecordView() { return true; }
         
         public function GetEnableModalGridEdit() { return true; }
         
-        private $partitions = array(1 => array('\'Americas\''), 2 => array('\'EMEA\''), 3 => array('\'IndoPAC\''), 4 => array('\'Japan\''), 5 => array('\'Korea\''), 6 => array('\'China\''));
+        protected function GetEnableModalGridDelete() { return true; }
+        
+        public function GetEnableModalGridCopy() { return true; }
+        
+        private $partitions = array(1 => array('\'2019 Q4\''), 2 => array('\'2020 Q1\''), 3 => array('\'2020 Q2\''), 4 => array('\'2020 Q3\''), 5 => array('\'2020 Q4\''), 6 => array('\'2021 Q1\''), 7 => array('\'0 Q0\''));
         
         function partition_GetPartitionsHandler(&$partitions)
         {
-            $partitions[1] = 'America';
-            $partitions[2] = 'EMEA';
-            $partitions[3] = 'IndoPAC';
-            $partitions[4] = 'Japan';
-            $partitions[5] = 'Korea';
-            $partitions[6] = 'China';
+            $partitions[1] = '2019 Q4';
+            $partitions[2] = '2020 Q1';
+            $partitions[3] = '2020 Q2';
+            $partitions[4] = '2020 Q3';
+            $partitions[5] = '2020 Q4';
+            $partitions[6] = '2021 Q1';
+            $partitions[7] = 'NO Date Setup';
         }
         
         function partition_GetPartitionConditionHandler($partitionName, &$condition)
@@ -4235,7 +4794,7 @@
             $condition = '';
             if (isset($partitionName) && isset($this->partitions[$partitionName]))
                 foreach ($this->partitions[$partitionName] as $value)
-                    AddStr($condition, sprintf('(eRegion = %s)', $this->PrepareTextForSQL($value)), ' OR ');
+                    AddStr($condition, sprintf('(finyear_date = %s)', $this->PrepareTextForSQL($value)), ' OR ');
         }
     
         protected function CreateGrid()
@@ -4249,7 +4808,7 @@
             ApplyCommonPageSettings($this, $result);
             
             $result->SetUseImagesForActions(true);
-            $result->SetUseFixedHeader(false);
+            $result->SetUseFixedHeader(true);
             $result->SetShowLineNumbers(true);
             $result->SetShowKeyColumnsImagesInHeader(false);
             $result->SetViewMode(ViewMode::TABLE);
@@ -4259,7 +4818,13 @@
             $this->AddCompareColumns($result);
             $result->setMultiEditAllowed($this->GetSecurityInfo()->HasEditGrant() && true);
             $result->setTableBordered(false);
-            $result->setTableCondensed(false);
+            $result->setTableCondensed(true);
+            $result->SetTotal('Expected_ROI_OTS', PredefinedAggregate::$Sum);
+            $result->SetTotal('Expected_ROI_Enquiries', PredefinedAggregate::$Sum);
+            $result->SetTotal('Post_Enquiries', PredefinedAggregate::$Sum);
+            $result->SetTotal('New_Opportunities', PredefinedAggregate::$Sum);
+            $result->SetTotal('Est_Opportunity_value_in_Euros', PredefinedAggregate::$Sum);
+            $result->SetTotal('Event_Cost', PredefinedAggregate::$Sum);
             
             $result->SetHighlightRowAtHover(true);
             $result->SetWidth('');
@@ -4276,7 +4841,7 @@
     
             $this->SetShowPageList(true);
             $this->SetShowTopPageNavigator(true);
-            $this->SetShowBottomPageNavigator(false);
+            $this->SetShowBottomPageNavigator(true);
             $this->setPrintListAvailable(true);
             $this->setPrintListRecordAvailable(false);
             $this->setPrintOneRecordAvailable(true);
@@ -4293,7 +4858,6 @@
                    <a href="http://mktportal.mscsoftware.com/" class="stretched-link">Go to Dashboard</a>
                </div>
             </div>');
-            $this->SetHidePageListByDefault(true);
             $this->setShowFormErrorsOnTop(true);
             $this->setShowFormErrorsAtBottom(false);
     
@@ -4436,23 +5000,92 @@
             $column = new TextViewColumn('Event_Name', 'Event_Name', 'Event Name', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->SetWordWrap(false);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Event_Name_handler_list', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for Industry field
+            // View column for Venue field
             //
-            $column = new TextViewColumn('Industry', 'Industry', 'Industry', $this->dataset);
+            $column = new TextViewColumn('Venue', 'Venue', 'Venue', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Industry_handler_list', $column);
+            $column->setAlign('left');
+            $column->SetWordWrap(false);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Venue_handler_list', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for Created_by field
+            // View column for Event_Type field
             //
-            $column = new TextViewColumn('Created_by', 'Created_by', 'Created By', $this->dataset);
+            $column = new TextViewColumn('Event_Type', 'Event_Type_Event_Type', 'Event Type', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Created_by_handler_list', $column);
+            $column->setAlign('left');
+            $column->SetEscapeHTMLSpecialChars(true);
+            $column->SetWordWrap(false);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Event_Type_Event_Type_handler_list', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for Brand_Name field
+            //
+            $column = new TextViewColumn('Business_Responsible', 'Business_Responsible_Brand_Name', 'Business Responsible', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetWordWrap(false);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Business_Responsible_Brand_Name_handler_list', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for Brands_Attending field
+            //
+            $column = new TextViewColumn('Brands_Attending', 'Brands_Attending', 'Brands Attending', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Brands_Attending_handler_list', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for objective_name field
+            //
+            $column = new TextViewColumn('Objective', 'Objective_objective_name', 'Objective', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Objective_objective_name_handler_list', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for Industry_Name field
+            //
+            $column = new TextViewColumn('Industry', 'Industry_Industry_Name', 'Industry', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Industry_Industry_Name_handler_list', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for strategic_campaing_name field
+            //
+            $column = new TextViewColumn('Strategic_Campaign', 'Strategic_Campaign_strategic_campaing_name', 'Strategic Campaign', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Strategic_Campaign_strategic_campaing_name_handler_list', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for Short_Description field
+            //
+            $column = new TextViewColumn('Short_Description', 'Short_Description', 'Short Description', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Short_Description_handler_list', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for Planned_Booth_Area field
+            //
+            $column = new TextViewColumn('Planned_Booth_Area', 'Planned_Booth_Area', 'Planned Booth Area', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Planned_Booth_Area_handler_list', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -4461,17 +5094,8 @@
             $column = new TextViewColumn('Event_Name', 'Event_Name', 'Event Name', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->SetWordWrap(false);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Event_Name_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Website field
-            //
-            $column = new TextViewColumn('Website', 'Website', 'Website', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setHrefTemplate('%Website%');
-            $column->setTarget('');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Website_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -4479,7 +5103,20 @@
             //
             $column = new TextViewColumn('Venue', 'Venue', 'Venue', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->SetWordWrap(false);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Venue_handler_print', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for Event_Type field
+            //
+            $column = new TextViewColumn('Event_Type', 'Event_Type_Event_Type', 'Event Type', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->SetEscapeHTMLSpecialChars(true);
+            $column->SetWordWrap(false);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Event_Type_Event_Type_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -4487,39 +5124,44 @@
             //
             $column = new TextViewColumn('Business_Responsible', 'Business_Responsible_Brand_Name', 'Business Responsible', $this->dataset);
             $column->SetOrderable(true);
+            $column->SetWordWrap(false);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Business_Responsible_Brand_Name_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for Brand_Name field
+            // View column for Brands_Attending field
             //
-            $column = new TextViewColumn('Brands_Attending', 'Brands_Attending_Brand_Name', 'Brands Attending', $this->dataset);
+            $column = new TextViewColumn('Brands_Attending', 'Brands_Attending', 'Brands Attending', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Brands_Attending_Brand_Name_handler_print', $column);
+            $column->setAlign('left');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Brands_Attending_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for Objective field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('Objective', 'Objective', 'Objective', $this->dataset);
+            $column = new TextViewColumn('Objective', 'Objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Objective_handler_print', $column);
+            $column->setAlign('left');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Objective_objective_name_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for Industry field
+            // View column for Industry_Name field
             //
-            $column = new TextViewColumn('Industry', 'Industry', 'Industry', $this->dataset);
+            $column = new TextViewColumn('Industry', 'Industry_Industry_Name', 'Industry', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Industry_handler_print', $column);
+            $column->setAlign('left');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Industry_Industry_Name_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for Strategic_Campaign field
+            // View column for strategic_campaing_name field
             //
-            $column = new TextViewColumn('Strategic_Campaign', 'Strategic_Campaign', 'Strategic Campaign', $this->dataset);
+            $column = new TextViewColumn('Strategic_Campaign', 'Strategic_Campaign_strategic_campaing_name', 'Strategic Campaign', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Strategic_Campaign_handler_print', $column);
+            $column->setAlign('left');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Strategic_Campaign_strategic_campaing_name_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -4551,7 +5193,7 @@
             //
             // View column for Updated_by field
             //
-            $column = new TextViewColumn('Updated_by', 'Updated_by', 'Updated By', $this->dataset);
+            $column = new TextViewColumn('Updated_by', 'Updated_by', 'Modified By', $this->dataset);
             $column->SetOrderable(true);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Updated_by_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
@@ -4578,17 +5220,8 @@
             $column = new TextViewColumn('Event_Name', 'Event_Name', 'Event Name', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->SetWordWrap(false);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Event_Name_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Website field
-            //
-            $column = new TextViewColumn('Website', 'Website', 'Website', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setHrefTemplate('%Website%');
-            $column->setTarget('');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Website_handler_compare', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -4596,7 +5229,20 @@
             //
             $column = new TextViewColumn('Venue', 'Venue', 'Venue', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->SetWordWrap(false);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Venue_handler_compare', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for Event_Type field
+            //
+            $column = new TextViewColumn('Event_Type', 'Event_Type_Event_Type', 'Event Type', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->SetEscapeHTMLSpecialChars(true);
+            $column->SetWordWrap(false);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Event_Type_Event_Type_handler_compare', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -4604,39 +5250,44 @@
             //
             $column = new TextViewColumn('Business_Responsible', 'Business_Responsible_Brand_Name', 'Business Responsible', $this->dataset);
             $column->SetOrderable(true);
+            $column->SetWordWrap(false);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Business_Responsible_Brand_Name_handler_compare', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for Brand_Name field
+            // View column for Brands_Attending field
             //
-            $column = new TextViewColumn('Brands_Attending', 'Brands_Attending_Brand_Name', 'Brands Attending', $this->dataset);
+            $column = new TextViewColumn('Brands_Attending', 'Brands_Attending', 'Brands Attending', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Brands_Attending_Brand_Name_handler_compare', $column);
+            $column->setAlign('left');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Brands_Attending_handler_compare', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for Objective field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('Objective', 'Objective', 'Objective', $this->dataset);
+            $column = new TextViewColumn('Objective', 'Objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Objective_handler_compare', $column);
+            $column->setAlign('left');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Objective_objective_name_handler_compare', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for Industry field
+            // View column for Industry_Name field
             //
-            $column = new TextViewColumn('Industry', 'Industry', 'Industry', $this->dataset);
+            $column = new TextViewColumn('Industry', 'Industry_Industry_Name', 'Industry', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Industry_handler_compare', $column);
+            $column->setAlign('left');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Industry_Industry_Name_handler_compare', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for Strategic_Campaign field
+            // View column for strategic_campaing_name field
             //
-            $column = new TextViewColumn('Strategic_Campaign', 'Strategic_Campaign', 'Strategic Campaign', $this->dataset);
+            $column = new TextViewColumn('Strategic_Campaign', 'Strategic_Campaign_strategic_campaing_name', 'Strategic Campaign', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Strategic_Campaign_handler_compare', $column);
+            $column->setAlign('left');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Strategic_Campaign_strategic_campaing_name_handler_compare', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -4668,7 +5319,7 @@
             //
             // View column for Updated_by field
             //
-            $column = new TextViewColumn('Updated_by', 'Updated_by', 'Updated By', $this->dataset);
+            $column = new TextViewColumn('Updated_by', 'Updated_by', 'Modified By', $this->dataset);
             $column->SetOrderable(true);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Updated_by_handler_compare', $column);
             GetApplication()->RegisterHTTPHandler($handler);
@@ -4833,33 +5484,60 @@
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_events_Owner_Person_search', 'user_id', 'user_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
+            $valuesDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
                 '`lookup_brands`');
-            $lookupDataset->addFields(
+            $valuesDataset->addFields(
                 array(
                     new IntegerField('Brands_ID', true, true, true),
                     new StringField('Brand_Name', true)
                 )
             );
-            $lookupDataset->setOrderByField('Brand_Name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_events_Brands_Attending_search', 'Brands_ID', 'Brand_Name', null, 20);
+            $valuesDataset->setOrderByField('Brand_Name', 'ASC');
+            $valuesDataset->addDistinct('Brand_Name');
+            $handler = new DynamicSearchHandler($valuesDataset, $this, 'insert_Brands_Attending_Brand_Name_Brand_Name_search', 'Brand_Name', 'Brand_Name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $valuesDataset = new TableDataset(
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_objective`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('objective_id', true, true, true),
+                    new StringField('objective_name')
+                )
+            );
+            $lookupDataset->setOrderByField('objective_name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_events_Objective_search', 'objective_name', 'objective_name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
                 '`lookup_industries`');
-            $valuesDataset->addFields(
+            $lookupDataset->addFields(
                 array(
                     new IntegerField('Industry_ID', true, true, true),
                     new StringField('Industry_Name')
                 )
             );
-            $valuesDataset->setOrderByField('Industry_Name', 'ASC');
-            $valuesDataset->addDistinct('Industry_ID');
-            $handler = new DynamicSearchHandler($valuesDataset, $this, 'insert_Industry_Industry_ID_Industry_Name_search', 'Industry_ID', 'Industry_Name', null, 20);
+            $lookupDataset->setOrderByField('Industry_Name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_events_Industry_search', 'Industry_ID', 'Industry_Name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_strategic_campaign`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('strategic_campaign_id', true, true, true),
+                    new StringField('strategic_campaing_name')
+                )
+            );
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_events_Strategic_Campaign_search', 'strategic_campaign_id', 'strategic_campaing_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -5023,63 +5701,73 @@
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_events_Owner_Person_search', 'user_id', 'user_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
+            $valuesDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
                 '`lookup_brands`');
-            $lookupDataset->addFields(
+            $valuesDataset->addFields(
                 array(
                     new IntegerField('Brands_ID', true, true, true),
                     new StringField('Brand_Name', true)
                 )
             );
-            $lookupDataset->setOrderByField('Brand_Name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_events_Brands_Attending_search', 'Brands_ID', 'Brand_Name', null, 20);
+            $valuesDataset->setOrderByField('Brand_Name', 'ASC');
+            $valuesDataset->addDistinct('Brand_Name');
+            $handler = new DynamicSearchHandler($valuesDataset, $this, 'filter_builder_Brands_Attending_Brand_Name_Brand_Name_search', 'Brand_Name', 'Brand_Name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $valuesDataset = new TableDataset(
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_objective`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('objective_id', true, true, true),
+                    new StringField('objective_name')
+                )
+            );
+            $lookupDataset->setOrderByField('objective_name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_events_Objective_search', 'objective_name', 'objective_name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
                 '`lookup_industries`');
-            $valuesDataset->addFields(
+            $lookupDataset->addFields(
                 array(
                     new IntegerField('Industry_ID', true, true, true),
                     new StringField('Industry_Name')
                 )
             );
-            $valuesDataset->setOrderByField('Industry_Name', 'ASC');
-            $valuesDataset->addDistinct('Industry_ID');
-            $handler = new DynamicSearchHandler($valuesDataset, $this, 'filter_builder_Industry_Industry_ID_Industry_Name_search', 'Industry_ID', 'Industry_Name', null, 20);
+            $lookupDataset->setOrderByField('Industry_Name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_events_Industry_search', 'Industry_ID', 'Industry_Name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $valuesDataset = new TableDataset(
+            $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
-                '`lookup_industries`');
-            $valuesDataset->addFields(
+                '`lookup_strategic_campaign`');
+            $lookupDataset->addFields(
                 array(
-                    new IntegerField('Industry_ID', true, true, true),
-                    new StringField('Industry_Name')
+                    new IntegerField('strategic_campaign_id', true, true, true),
+                    new StringField('strategic_campaing_name')
                 )
             );
-            $valuesDataset->setOrderByField('Industry_Name', 'ASC');
-            $valuesDataset->addDistinct('Industry_ID');
-            $handler = new DynamicSearchHandler($valuesDataset, $this, 'filter_builder_Industry_Industry_ID_Industry_Name_search', 'Industry_ID', 'Industry_Name', null, 20);
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_events_Strategic_Campaign_search', 'strategic_campaign_id', 'strategic_campaing_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $valuesDataset = new TableDataset(
+            $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
-                '`lookup_industries`');
-            $valuesDataset->addFields(
+                '`lookup_strategic_campaign`');
+            $lookupDataset->addFields(
                 array(
-                    new IntegerField('Industry_ID', true, true, true),
-                    new StringField('Industry_Name')
+                    new IntegerField('strategic_campaign_id', true, true, true),
+                    new StringField('strategic_campaing_name')
                 )
             );
-            $valuesDataset->setOrderByField('Industry_Name', 'ASC');
-            $valuesDataset->addDistinct('Industry_ID');
-            $handler = new DynamicSearchHandler($valuesDataset, $this, 'filter_builder_Industry_Industry_ID_Industry_Name_search', 'Industry_ID', 'Industry_Name', null, 20);
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_events_Strategic_Campaign_search', 'strategic_campaign_id', 'strategic_campaing_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -5104,17 +5792,8 @@
             //
             $column = new TextViewColumn('Event_Name', 'Event_Name', 'Event Name', $this->dataset);
             $column->SetOrderable(true);
+            $column->SetWordWrap(false);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Event_Name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Website field
-            //
-            $column = new TextViewColumn('Website', 'Website', 'Website', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setHrefTemplate('%Website%');
-            $column->setTarget('');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Website_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -5122,7 +5801,18 @@
             //
             $column = new TextViewColumn('Venue', 'Venue', 'Venue', $this->dataset);
             $column->SetOrderable(true);
+            $column->SetWordWrap(false);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Venue_handler_view', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for Event_Type field
+            //
+            $column = new TextViewColumn('Event_Type', 'Event_Type_Event_Type', 'Event Type', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetEscapeHTMLSpecialChars(true);
+            $column->SetWordWrap(false);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Event_Type_Event_Type_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -5130,39 +5820,40 @@
             //
             $column = new TextViewColumn('Business_Responsible', 'Business_Responsible_Brand_Name', 'Business Responsible', $this->dataset);
             $column->SetOrderable(true);
+            $column->SetWordWrap(false);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Business_Responsible_Brand_Name_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for Brand_Name field
+            // View column for Brands_Attending field
             //
-            $column = new TextViewColumn('Brands_Attending', 'Brands_Attending_Brand_Name', 'Brands Attending', $this->dataset);
+            $column = new TextViewColumn('Brands_Attending', 'Brands_Attending', 'Brands Attending', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Brands_Attending_Brand_Name_handler_view', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Brands_Attending_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for Objective field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('Objective', 'Objective', 'Objective', $this->dataset);
+            $column = new TextViewColumn('Objective', 'Objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Objective_handler_view', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Objective_objective_name_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for Industry field
+            // View column for Industry_Name field
             //
-            $column = new TextViewColumn('Industry', 'Industry', 'Industry', $this->dataset);
+            $column = new TextViewColumn('Industry', 'Industry_Industry_Name', 'Industry', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Industry_handler_view', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Industry_Industry_Name_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for Strategic_Campaign field
+            // View column for strategic_campaing_name field
             //
-            $column = new TextViewColumn('Strategic_Campaign', 'Strategic_Campaign', 'Strategic Campaign', $this->dataset);
+            $column = new TextViewColumn('Strategic_Campaign', 'Strategic_Campaign_strategic_campaing_name', 'Strategic Campaign', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Strategic_Campaign_handler_view', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Strategic_Campaign_strategic_campaing_name_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -5192,7 +5883,7 @@
             //
             // View column for Updated_by field
             //
-            $column = new TextViewColumn('Updated_by', 'Updated_by', 'Updated By', $this->dataset);
+            $column = new TextViewColumn('Updated_by', 'Updated_by', 'Modified By', $this->dataset);
             $column->SetOrderable(true);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Updated_by_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);
@@ -5357,33 +6048,60 @@
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_events_Owner_Person_search', 'user_id', 'user_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
+            $valuesDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
                 '`lookup_brands`');
-            $lookupDataset->addFields(
+            $valuesDataset->addFields(
                 array(
                     new IntegerField('Brands_ID', true, true, true),
                     new StringField('Brand_Name', true)
                 )
             );
-            $lookupDataset->setOrderByField('Brand_Name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_events_Brands_Attending_search', 'Brands_ID', 'Brand_Name', null, 20);
+            $valuesDataset->setOrderByField('Brand_Name', 'ASC');
+            $valuesDataset->addDistinct('Brand_Name');
+            $handler = new DynamicSearchHandler($valuesDataset, $this, 'edit_Brands_Attending_Brand_Name_Brand_Name_search', 'Brand_Name', 'Brand_Name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $valuesDataset = new TableDataset(
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_objective`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('objective_id', true, true, true),
+                    new StringField('objective_name')
+                )
+            );
+            $lookupDataset->setOrderByField('objective_name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_events_Objective_search', 'objective_name', 'objective_name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
                 '`lookup_industries`');
-            $valuesDataset->addFields(
+            $lookupDataset->addFields(
                 array(
                     new IntegerField('Industry_ID', true, true, true),
                     new StringField('Industry_Name')
                 )
             );
-            $valuesDataset->setOrderByField('Industry_Name', 'ASC');
-            $valuesDataset->addDistinct('Industry_ID');
-            $handler = new DynamicSearchHandler($valuesDataset, $this, 'edit_Industry_Industry_ID_Industry_Name_search', 'Industry_ID', 'Industry_Name', null, 20);
+            $lookupDataset->setOrderByField('Industry_Name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_events_Industry_search', 'Industry_ID', 'Industry_Name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_strategic_campaign`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('strategic_campaign_id', true, true, true),
+                    new StringField('strategic_campaing_name')
+                )
+            );
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_events_Strategic_Campaign_search', 'strategic_campaign_id', 'strategic_campaing_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -5547,33 +6265,60 @@
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_events_Owner_Person_search', 'user_id', 'user_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
+            $valuesDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
                 '`lookup_brands`');
-            $lookupDataset->addFields(
+            $valuesDataset->addFields(
                 array(
                     new IntegerField('Brands_ID', true, true, true),
                     new StringField('Brand_Name', true)
                 )
             );
-            $lookupDataset->setOrderByField('Brand_Name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_events_Brands_Attending_search', 'Brands_ID', 'Brand_Name', null, 20);
+            $valuesDataset->setOrderByField('Brand_Name', 'ASC');
+            $valuesDataset->addDistinct('Brand_Name');
+            $handler = new DynamicSearchHandler($valuesDataset, $this, 'multi_edit_Brands_Attending_Brand_Name_Brand_Name_search', 'Brand_Name', 'Brand_Name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $valuesDataset = new TableDataset(
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_objective`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('objective_id', true, true, true),
+                    new StringField('objective_name')
+                )
+            );
+            $lookupDataset->setOrderByField('objective_name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_events_Objective_search', 'objective_name', 'objective_name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
                 '`lookup_industries`');
-            $valuesDataset->addFields(
+            $lookupDataset->addFields(
                 array(
                     new IntegerField('Industry_ID', true, true, true),
                     new StringField('Industry_Name')
                 )
             );
-            $valuesDataset->setOrderByField('Industry_Name', 'ASC');
-            $valuesDataset->addDistinct('Industry_ID');
-            $handler = new DynamicSearchHandler($valuesDataset, $this, 'multi_edit_Industry_Industry_ID_Industry_Name_search', 'Industry_ID', 'Industry_Name', null, 20);
+            $lookupDataset->setOrderByField('Industry_Name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_events_Industry_search', 'Industry_ID', 'Industry_Name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_strategic_campaign`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('strategic_campaign_id', true, true, true),
+                    new StringField('strategic_campaing_name')
+                )
+            );
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_events_Strategic_Campaign_search', 'strategic_campaign_id', 'strategic_campaing_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -5596,7 +6341,10 @@
        
         protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
         { 
-    
+            if ($fieldName == 'Approval') {
+              $customText = $rowData['Approval'] == 1 ? 'Yes' : 'No';
+              $handled = true;
+            }
         }
     
         protected function doCustomRenderPrintColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
@@ -5656,7 +6404,66 @@
     
         protected function doAfterUpdateRecord($page, $oldRowData, $rowData, $tableName, &$success, &$message, &$messageDisplayTime)
         {
-    
+            if ($success) {
+            
+              // Check if record data was modified
+            
+              $dataMofified  = 
+            
+            	$oldRowData['master_campaign_id'] !==$rowData['master_campaign_id'] ||
+            	$oldRowData['trackerid'] !==$rowData['trackerid'] ||
+            	$oldRowData['Event_Name'] !==$rowData['Event_Name'] ||
+            	$oldRowData['eRegion'] !==$rowData['eRegion'] ||
+            	$oldRowData['Country'] !==$rowData['Country'] ||
+            	$oldRowData['Website'] !==$rowData['Website'] ||
+            	$oldRowData['Venue'] !==$rowData['Venue'] ||
+            	$oldRowData['City'] !==$rowData['City'] ||
+            	$oldRowData['Event_status'] !==$rowData['Event_status'] ||
+            	$oldRowData['Approval'] !==$rowData['Approval'] ||
+            	$oldRowData['Business_Responsible'] !==$rowData['Business_Responsible'] ||
+            	$oldRowData['Owner_Person'] !==$rowData['Owner_Person'] ||
+            	$oldRowData['Brands_Attending'] !==$rowData['Brands_Attending'] ||
+            	$oldRowData['Start_Date'] !==$rowData['Start_Date'] ||
+            	$oldRowData['End_Date'] !==$rowData['End_Date'] ||
+            	$oldRowData['Objective'] !==$rowData['Objective'] ||
+            	$oldRowData['Expected_ROI_OTS'] !==$rowData['Expected_ROI_OTS'] ||
+            	$oldRowData['Expected_ROI_Enquiries'] !==$rowData['Expected_ROI_Enquiries'] ||
+            	$oldRowData['Post_Enquiries'] !==$rowData['Post_Enquiries'] ||
+            	$oldRowData['New_Opportunities'] !==$rowData['New_Opportunities'] ||
+            	$oldRowData['Est_Opportunity_value_in_Euros'] !==$rowData['Est_Opportunity_value_in_Euros'] ||
+            	$oldRowData['Industry'] !==$rowData['Industry'] ||
+            	$oldRowData['Strategic_Campaign'] !==$rowData['Strategic_Campaign'] ||
+            	$oldRowData['Short_Description'] !==$rowData['Short_Description'] ||
+            	$oldRowData['Event_Cost'] !==$rowData['Event_Cost'] ||
+            	$oldRowData['Planned_Booth_Area'] !==$rowData['Planned_Booth_Area'] ||
+            	$oldRowData['Marketo_Campaign'] !==$rowData['Marketo_Campaign'] ||
+            	$oldRowData['Banner'] !==$rowData['Banner'] ||
+            	$oldRowData['Publish_Live'] !==$rowData['Publish_Live'] ||
+            	$oldRowData['Publish_Live_Date'] !==$rowData['Publish_Live_Date'] ||
+            	$oldRowData['SEO_Title'] !==$rowData['SEO_Title'] ||
+            	$oldRowData['show_events_cal'] !==$rowData['show_events_cal'];
+            
+              if ($dataMofified) {
+            
+                  $modified_by = $rowData['Updated_by'];
+                  $modified_date = $rowData['Updated_Date'];
+                  $trackerid = $rowData['trackerid'];
+                  $showcal = $rowData['show_events_cal'];
+                  $campaign_event_id = $rowData['campaign_event_id'];
+            
+                $sql = 
+            
+                  "CALL campaignEventtoGlobalCalendar('$modified_by', '$modified_date', $trackerid, $showcal, $campaign_event_id);";
+                  $this->GetConnection()->ExecSQL($sql);
+                  
+                  If ($showcal = '1'){
+                     $message = '<p>Record processed successfully and has been added to the Global Events Calendar.</p>';
+                  }
+                  else{
+                       $message = '<p>Record processed successfully.</p>';
+                  }
+              }                                    
+            }
         }
     
         protected function doAfterDeleteRecord($page, $rowData, $tableName, &$success, &$message, &$messageDisplayTime)
@@ -5671,7 +6478,9 @@
     
         protected function doGetCustomTemplate($type, $part, $mode, &$result, &$params)
         {
-    
+            if ($part == PagePart::Grid && $mode == PageMode::ViewAll) {           
+              $result = 'event_grid_table.tpl';
+            }
         }
     
         protected function doGetCustomExportOptions(Page $page, $exportType, $rowData, &$options)
@@ -5779,7 +6588,8 @@
                                             
             $storageGroup = $layout->addGroup('Campaign Admin', 12);
             $storageGroup->addRow()
-                 ->addCol($columns['Event_status'], 9);
+                 ->addCol($columns['Event_status'], 8)
+                 ->addCol($columns['show_events_cal'], 4);
         }
     
         protected function doGetCustomColumnGroup(FixedKeysArray $columns, ViewColumnGroup $columnGroup)

@@ -202,6 +202,7 @@
             $this->dataset->AddLookupField('b_country', 'country_list', new StringField('Country_Name'), new StringField('Country_Name', false, false, false, false, 'b_country_Country_Name', 'b_country_Country_Name_country_list'), 'b_country_Country_Name_country_list');
             $this->dataset->AddLookupField('b_region', '(SELECT DISTINCT(`c_Region`) FROM `country_list` WHERE 1)', new StringField('c_Region'), new StringField('c_Region', false, false, false, false, 'b_region_c_Region', 'b_region_c_Region_lookup_Country_Region'), 'b_region_c_Region_lookup_Country_Region');
             $this->dataset->AddLookupField('event_type', 'lookup_event_type', new IntegerField('Event_Type_ID'), new StringField('Event_Type', false, false, false, false, 'event_type_Event_Type', 'event_type_Event_Type_lookup_event_type'), 'event_type_Event_Type_lookup_event_type');
+            $this->dataset->AddLookupField('objective', 'lookup_objective', new StringField('objective_name'), new StringField('objective_name', false, false, false, false, 'objective_objective_name', 'objective_objective_name_lookup_objective'), 'objective_objective_name_lookup_objective');
             $this->dataset->AddLookupField('owner_person', 'phpgen_users', new IntegerField('user_id'), new StringField('user_name', false, false, false, false, 'owner_person_user_name', 'owner_person_user_name_phpgen_users'), 'owner_person_user_name_phpgen_users');
             $this->dataset->AddLookupField('industry', 'lookup_industries', new StringField('Industry_Name'), new StringField('Industry_Name', false, false, false, false, 'industry_Industry_Name', 'industry_Industry_Name_lookup_industries'), 'industry_Industry_Name_lookup_industries');
             $this->dataset->AddLookupField('campaign_status', 'lookup_status_types', new IntegerField('Status_Type_ID'), new StringField('Status_Type', false, false, false, false, 'campaign_status_Status_Type', 'campaign_status_Status_Type_lookup_status_types'), 'campaign_status_Status_Type_lookup_status_types');
@@ -247,7 +248,7 @@
                 new FilterColumn($this->dataset, 'b_country', 'b_country_Country_Name', 'Country'),
                 new FilterColumn($this->dataset, 'b_region', 'b_region_c_Region', 'Region'),
                 new FilterColumn($this->dataset, 'event_type', 'event_type_Event_Type', 'Event Type'),
-                new FilterColumn($this->dataset, 'objective', 'objective', 'Objective'),
+                new FilterColumn($this->dataset, 'objective', 'objective_objective_name', 'Objective'),
                 new FilterColumn($this->dataset, 'owner_person', 'owner_person_user_name', 'Project Owner'),
                 new FilterColumn($this->dataset, 'industry', 'industry_Industry_Name', 'Industry'),
                 new FilterColumn($this->dataset, 'est_opportunity_value_in_euros', 'est_opportunity_value_in_euros', 'Est Opportunity Value In Euros'),
@@ -545,7 +546,16 @@
                 )
             );
             
-            $main_editor = new TextEdit('objective');
+            $main_editor = new DynamicCombobox('objective_edit', $this->CreateLinkBuilder());
+            $main_editor->setAllowClear(true);
+            $main_editor->setMinimumInputLength(0);
+            $main_editor->SetAllowNullValue(false);
+            $main_editor->SetHandlerName('filter_builder_brief_objective_search');
+            
+            $multi_value_select_editor = new RemoteMultiValueSelect('objective', $this->CreateLinkBuilder());
+            $multi_value_select_editor->SetHandlerName('filter_builder_brief_objective_search');
+            
+            $text_editor = new TextEdit('objective');
             
             $filterBuilder->addColumn(
                 $columns['objective'],
@@ -558,12 +568,14 @@
                     FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
                     FilterConditionOperator::IS_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::CONTAINS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
-                    FilterConditionOperator::BEGINS_WITH => $main_editor,
-                    FilterConditionOperator::ENDS_WITH => $main_editor,
-                    FilterConditionOperator::IS_LIKE => $main_editor,
-                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::CONTAINS => $text_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $text_editor,
+                    FilterConditionOperator::BEGINS_WITH => $text_editor,
+                    FilterConditionOperator::ENDS_WITH => $text_editor,
+                    FilterConditionOperator::IS_LIKE => $text_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $text_editor,
+                    FilterConditionOperator::IN => $multi_value_select_editor,
+                    FilterConditionOperator::NOT_IN => $multi_value_select_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -1172,12 +1184,12 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for objective field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
+            $column = new TextViewColumn('objective', 'objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(500);
-            $column->SetFullTextWindowHandlerName('brief_objective_handler_view');
+            $column->SetFullTextWindowHandlerName('brief_objective_objective_name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1483,9 +1495,21 @@
             //
             // Edit column for objective field
             //
-            $editor = new TextAreaEdit('objective_edit', 50, 2);
-            $editor->setPlaceholder('Your objective should include the total period you want to run this campaign i.e.: 12 Months');
-            $editColumn = new CustomEditColumn('Objective', 'objective', $editor, $this->dataset);
+            $editor = new DynamicCombobox('objective_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_objective`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('objective_id', true, true, true),
+                    new StringField('objective_name')
+                )
+            );
+            $lookupDataset->setOrderByField('objective_name', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Objective', 'objective', 'objective_objective_name', 'edit_brief_objective_search', $editor, $this->dataset, $lookupDataset, 'objective_name', 'objective_name', '');
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -1842,9 +1866,21 @@
             //
             // Edit column for objective field
             //
-            $editor = new TextAreaEdit('objective_edit', 50, 2);
-            $editor->setPlaceholder('Your objective should include the total period you want to run this campaign i.e.: 12 Months');
-            $editColumn = new CustomEditColumn('Objective', 'objective', $editor, $this->dataset);
+            $editor = new DynamicCombobox('objective_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_objective`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('objective_id', true, true, true),
+                    new StringField('objective_name')
+                )
+            );
+            $lookupDataset->setOrderByField('objective_name', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Objective', 'objective', 'objective_objective_name', 'multi_edit_brief_objective_search', $editor, $this->dataset, $lookupDataset, 'objective_name', 'objective_name', '');
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -2223,9 +2259,21 @@
             //
             // Edit column for objective field
             //
-            $editor = new TextAreaEdit('objective_edit', 50, 2);
-            $editor->setPlaceholder('Your objective should include the total period you want to run this campaign i.e.: 12 Months');
-            $editColumn = new CustomEditColumn('Objective', 'objective', $editor, $this->dataset);
+            $editor = new DynamicCombobox('objective_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_objective`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('objective_id', true, true, true),
+                    new StringField('objective_name')
+                )
+            );
+            $lookupDataset->setOrderByField('objective_name', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Objective', 'objective', 'objective_objective_name', 'insert_brief_objective_search', $editor, $this->dataset, $lookupDataset, 'objective_name', 'objective_name', '');
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -2532,12 +2580,12 @@
             $grid->AddPrintColumn($column);
             
             //
-            // View column for objective field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
+            $column = new TextViewColumn('objective', 'objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(500);
-            $column->SetFullTextWindowHandlerName('brief_objective_handler_print');
+            $column->SetFullTextWindowHandlerName('brief_objective_objective_name_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -2779,12 +2827,12 @@
             $grid->AddExportColumn($column);
             
             //
-            // View column for objective field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
+            $column = new TextViewColumn('objective', 'objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(500);
-            $column->SetFullTextWindowHandlerName('brief_objective_handler_export');
+            $column->SetFullTextWindowHandlerName('brief_objective_objective_name_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -3016,12 +3064,12 @@
             $grid->AddCompareColumn($column);
             
             //
-            // View column for objective field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
+            $column = new TextViewColumn('objective', 'objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(500);
-            $column->SetFullTextWindowHandlerName('brief_objective_handler_compare');
+            $column->SetFullTextWindowHandlerName('brief_objective_objective_name_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -3457,11 +3505,11 @@
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for objective field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
+            $column = new TextViewColumn('objective', 'objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_objective_handler_print', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_objective_objective_name_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -3525,11 +3573,11 @@
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for objective field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
+            $column = new TextViewColumn('objective', 'objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_objective_handler_compare', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_objective_objective_name_handler_compare', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -3638,6 +3686,20 @@
             );
             $lookupDataset->setOrderByField('Event_Type', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_brief_event_type_search', 'Event_Type_ID', 'Event_Type', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_objective`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('objective_id', true, true, true),
+                    new StringField('objective_name')
+                )
+            );
+            $lookupDataset->setOrderByField('objective_name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_brief_objective_search', 'objective_name', 'objective_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -3774,15 +3836,15 @@
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
-                '`lookup_event_type`');
+                '`lookup_objective`');
             $lookupDataset->addFields(
                 array(
-                    new IntegerField('Event_Type_ID', true, true, true),
-                    new StringField('Event_Type')
+                    new IntegerField('objective_id', true, true, true),
+                    new StringField('objective_name')
                 )
             );
-            $lookupDataset->setOrderByField('Event_Type', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_brief_event_type_search', 'Event_Type_ID', 'Event_Type', null, 20);
+            $lookupDataset->setOrderByField('objective_name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_brief_objective_search', 'objective_name', 'objective_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -3868,11 +3930,11 @@
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for objective field
+            // View column for objective_name field
             //
-            $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
+            $column = new TextViewColumn('objective', 'objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_objective_handler_view', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_objective_objective_name_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -3972,6 +4034,20 @@
             );
             $lookupDataset->setOrderByField('Event_Type', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_brief_event_type_search', 'Event_Type_ID', 'Event_Type', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_objective`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('objective_id', true, true, true),
+                    new StringField('objective_name')
+                )
+            );
+            $lookupDataset->setOrderByField('objective_name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_brief_objective_search', 'objective_name', 'objective_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -4103,6 +4179,20 @@
             );
             $lookupDataset->setOrderByField('Event_Type', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_brief_event_type_search', 'Event_Type_ID', 'Event_Type', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_objective`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('objective_id', true, true, true),
+                    new StringField('objective_name')
+                )
+            );
+            $lookupDataset->setOrderByField('objective_name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_brief_objective_search', 'objective_name', 'objective_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(

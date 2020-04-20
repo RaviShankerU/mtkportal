@@ -476,6 +476,7 @@
                 array(
                     new IntegerField('campaign_tracker_ID', true, true, true),
                     new IntegerField('master_campaign_id', true),
+                    new StringField('trackerid'),
                     new StringField('campaign_program_name'),
                     new StringField('industry'),
                     new StringField('region'),
@@ -491,8 +492,7 @@
                     new IntegerField('campaign_type'),
                     new IntegerField('tracker_status'),
                     new IntegerField('event_type'),
-                    new StringField('SFDC_child_campaign'),
-                    new StringField('icon')
+                    new StringField('SFDC_child_campaign')
                 )
             );
             $this->dataset->AddLookupField('master_campaign_id', 'brief', new IntegerField('master_campaign_id'), new StringField('campaign_name', false, false, false, false, 'master_campaign_id_campaign_name', 'master_campaign_id_campaign_name_brief'), 'master_campaign_id_campaign_name_brief');
@@ -544,7 +544,7 @@
                 new FilterColumn($this->dataset, 'tracker_status', 'tracker_status', 'Tracker Status'),
                 new FilterColumn($this->dataset, 'event_type', 'event_type', 'Event Type'),
                 new FilterColumn($this->dataset, 'SFDC_child_campaign', 'SFDC_child_campaign', 'SFDC Child Campaign'),
-                new FilterColumn($this->dataset, 'icon', 'icon', 'Icon')
+                new FilterColumn($this->dataset, 'trackerid', 'trackerid', 'Trackerid')
             );
         }
     
@@ -569,7 +569,7 @@
                 ->addColumn($columns['tracker_status'])
                 ->addColumn($columns['event_type'])
                 ->addColumn($columns['SFDC_child_campaign'])
-                ->addColumn($columns['icon']);
+                ->addColumn($columns['trackerid']);
         }
     
         protected function setupColumnFilter(ColumnFilter $columnFilter)
@@ -991,10 +991,11 @@
                 )
             );
             
-            $main_editor = new TextEdit('icon');
+            $main_editor = new TextEdit('trackerid_edit');
+            $main_editor->SetMaxLength(45);
             
             $filterBuilder->addColumn(
-                $columns['icon'],
+                $columns['trackerid'],
                 array(
                     FilterConditionOperator::EQUALS => $main_editor,
                     FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
@@ -1150,6 +1151,16 @@
             $column->SetDescription('');
             $column->SetFixedWidth(null);
             $grid->AddViewColumn($column);
+            
+            //
+            // View column for trackerid field
+            //
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
         }
     
         protected function AddSingleRecordViewColumns(Grid $grid)
@@ -1296,12 +1307,10 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for icon field
+            // View column for trackerid field
             //
-            $column = new TextViewColumn('icon', 'icon', 'Icon', $this->dataset);
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_icon_handler_view');
             $grid->AddSingleRecordViewColumn($column);
         }
     
@@ -1508,10 +1517,11 @@
             $grid->AddEditColumn($editColumn);
             
             //
-            // Edit column for icon field
+            // Edit column for trackerid field
             //
-            $editor = new TextAreaEdit('icon_edit', 50, 8);
-            $editColumn = new CustomEditColumn('Icon', 'icon', $editor, $this->dataset);
+            $editor = new TextEdit('trackerid_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Trackerid', 'trackerid', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -1720,10 +1730,11 @@
             $grid->AddMultiEditColumn($editColumn);
             
             //
-            // Edit column for icon field
+            // Edit column for trackerid field
             //
-            $editor = new TextAreaEdit('icon_edit', 50, 8);
-            $editColumn = new CustomEditColumn('Icon', 'icon', $editor, $this->dataset);
+            $editor = new TextEdit('trackerid_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Trackerid', 'trackerid', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -1932,10 +1943,11 @@
             $grid->AddInsertColumn($editColumn);
             
             //
-            // Edit column for icon field
+            // Edit column for trackerid field
             //
-            $editor = new TextAreaEdit('icon_edit', 50, 8);
-            $editColumn = new CustomEditColumn('Icon', 'icon', $editor, $this->dataset);
+            $editor = new TextEdit('trackerid_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Trackerid', 'trackerid', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -2102,12 +2114,10 @@
             $grid->AddPrintColumn($column);
             
             //
-            // View column for icon field
+            // View column for trackerid field
             //
-            $column = new TextViewColumn('icon', 'icon', 'Icon', $this->dataset);
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_icon_handler_print');
             $grid->AddPrintColumn($column);
         }
     
@@ -2266,12 +2276,10 @@
             $grid->AddExportColumn($column);
             
             //
-            // View column for icon field
+            // View column for trackerid field
             //
-            $column = new TextViewColumn('icon', 'icon', 'Icon', $this->dataset);
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_icon_handler_export');
             $grid->AddExportColumn($column);
         }
     
@@ -2420,12 +2428,10 @@
             $grid->AddCompareColumn($column);
             
             //
-            // View column for icon field
+            // View column for trackerid field
             //
-            $column = new TextViewColumn('icon', 'icon', 'Icon', $this->dataset);
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_icon_handler_compare');
             $grid->AddCompareColumn($column);
         }
     
@@ -2580,14 +2586,6 @@
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for icon field
-            //
-            $column = new TextViewColumn('icon', 'icon', 'Icon', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_icon_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
             // View column for campaign_description field
             //
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
@@ -2618,14 +2616,6 @@
             $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
             $column->SetOrderable(true);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_territory_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for icon field
-            //
-            $column = new TextViewColumn('icon', 'icon', 'Icon', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_icon_handler_compare', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -2736,14 +2726,6 @@
             $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
             $column->SetOrderable(true);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_territory_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for icon field
-            //
-            $column = new TextViewColumn('icon', 'icon', 'Icon', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_icon_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
