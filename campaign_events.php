@@ -157,7 +157,7 @@
                 new FilterColumn($this->dataset, 'End_Date', 'End_Date', 'End Date'),
                 new FilterColumn($this->dataset, 'Objective', 'Objective_objective_name', 'Objective'),
                 new FilterColumn($this->dataset, 'Expected_ROI_OTS', 'Expected_ROI_OTS', 'Expected ROI OTS'),
-                new FilterColumn($this->dataset, 'Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'Expected ROI Enquiries'),
+                new FilterColumn($this->dataset, 'Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'ROI Enquiries'),
                 new FilterColumn($this->dataset, 'Post_Enquiries', 'Post_Enquiries', 'Enquiries'),
                 new FilterColumn($this->dataset, 'New_Opportunities', 'New_Opportunities', 'New Opportunities'),
                 new FilterColumn($this->dataset, 'Industry', 'Industry_Industry_Name', 'Industry'),
@@ -978,9 +978,6 @@
                     FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
                     FilterConditionOperator::IS_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::DATE_EQUALS => $main_editor,
-                    FilterConditionOperator::DATE_DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::TODAY => null,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -1024,9 +1021,6 @@
                     FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
                     FilterConditionOperator::IS_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::DATE_EQUALS => $main_editor,
-                    FilterConditionOperator::DATE_DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::TODAY => null,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -1327,6 +1321,9 @@
             $column = new TextViewColumn('eRegion', 'eRegion_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->setCustomAttributes('width:30px;');
+            $column->SetMaxLength(20);
+            $column->SetFullTextWindowHandlerName('campaign_events_eRegion_Region_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1338,6 +1335,9 @@
             $column = new TextViewColumn('Country', 'Country_Country_Name', 'Country', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->setCustomAttributes('width:30px;');
+            $column->SetMaxLength(20);
+            $column->SetFullTextWindowHandlerName('campaign_events_Country_Country_Name_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1349,8 +1349,6 @@
             $column = new TextViewColumn('Event_Name', 'Event_Name', 'Event Name', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
-            $column->SetMaxLength(50);
-            $column->SetFullTextWindowHandlerName('campaign_events_Event_Name_handler_list');
             $column->SetWordWrap(false);
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
@@ -1363,6 +1361,7 @@
             $column = new TextViewColumn('Venue', 'Venue', 'Venue', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->setCustomAttributes('width:50px;');
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_events_Venue_handler_list');
             $column->SetWordWrap(false);
@@ -1399,6 +1398,88 @@
             //
             $column = new TextViewColumn('Approval', 'Approval', 'Approval', $this->dataset);
             $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Event_Cost field
+            //
+            $column = new CurrencyViewColumn('Event_Cost', 'Event_Cost', 'Event Cost', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setBold(true);
+            $column->setAlign('right');
+            $column->setNumberAfterDecimal(2);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('.');
+            $column->setCurrencySign('€');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Expected_ROI_OTS field
+            //
+            $column = new TextViewColumn('Expected_ROI_OTS', 'Expected_ROI_OTS', 'ROI OTS', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setItalic(true);
+            $column->setAlign('right');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Expected_ROI_Enquiries field
+            //
+            $column = new NumberViewColumn('Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'ROI Enquiries', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('right');
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Post_Enquiries field
+            //
+            $column = new NumberViewColumn('Post_Enquiries', 'Post_Enquiries', 'Enquiries', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('right');
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for New_Opportunities field
+            //
+            $column = new TextViewColumn('New_Opportunities', 'New_Opportunities', 'New', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Est_Opportunity_value_in_Euros field
+            //
+            $column = new CurrencyViewColumn('Est_Opportunity_value_in_Euros', 'Est_Opportunity_value_in_Euros', 'Est. Value In Euros', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setBold(true);
+            $column->setAlign('right');
+            $column->setNumberAfterDecimal(2);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('.');
+            $column->setCurrencySign('€');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1493,74 +1574,6 @@
             $grid->AddViewColumn($column);
             
             //
-            // View column for Expected_ROI_OTS field
-            //
-            $column = new CurrencyViewColumn('Expected_ROI_OTS', 'Expected_ROI_OTS', 'Expected ROI OTS', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('right');
-            $column->setNumberAfterDecimal(2);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('.');
-            $column->setCurrencySign('€');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for Expected_ROI_Enquiries field
-            //
-            $column = new NumberViewColumn('Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'Expected ROI Enquiries', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('right');
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for Post_Enquiries field
-            //
-            $column = new NumberViewColumn('Post_Enquiries', 'Post_Enquiries', 'Enquiries', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('right');
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for New_Opportunities field
-            //
-            $column = new TextViewColumn('New_Opportunities', 'New_Opportunities', 'New Opportunities', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for Est_Opportunity_value_in_Euros field
-            //
-            $column = new CurrencyViewColumn('Est_Opportunity_value_in_Euros', 'Est_Opportunity_value_in_Euros', 'Est Opportunity Value In Euros', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('right');
-            $column->setNumberAfterDecimal(2);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('.');
-            $column->setCurrencySign('€');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
             // View column for Industry_Name field
             //
             $column = new TextViewColumn('Industry', 'Industry_Industry_Name', 'Industry', $this->dataset);
@@ -1600,21 +1613,6 @@
             $grid->AddViewColumn($column);
             
             //
-            // View column for Event_Cost field
-            //
-            $column = new CurrencyViewColumn('Event_Cost', 'Event_Cost', 'Event Cost', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('right');
-            $column->setNumberAfterDecimal(2);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('.');
-            $column->setCurrencySign('€');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
             // View column for Planned_Booth_Area field
             //
             $column = new TextViewColumn('Planned_Booth_Area', 'Planned_Booth_Area', 'Planned Booth Area', $this->dataset);
@@ -1642,8 +1640,6 @@
             //
             $column = new TextViewColumn('Event_Name', 'Event_Name', 'Event Name', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetMaxLength(50);
-            $column->SetFullTextWindowHandlerName('campaign_events_Event_Name_handler_view');
             $column->SetWordWrap(false);
             $grid->AddSingleRecordViewColumn($column);
             
@@ -1652,6 +1648,9 @@
             //
             $column = new TextViewColumn('eRegion', 'eRegion_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
+            $column->setCustomAttributes('width:30px;');
+            $column->SetMaxLength(20);
+            $column->SetFullTextWindowHandlerName('campaign_events_eRegion_Region_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1659,6 +1658,9 @@
             //
             $column = new TextViewColumn('Country', 'Country_Country_Name', 'Country', $this->dataset);
             $column->SetOrderable(true);
+            $column->setCustomAttributes('width:30px;');
+            $column->SetMaxLength(20);
+            $column->SetFullTextWindowHandlerName('campaign_events_Country_Country_Name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1675,6 +1677,7 @@
             //
             $column = new TextViewColumn('Venue', 'Venue', 'Venue', $this->dataset);
             $column->SetOrderable(true);
+            $column->setCustomAttributes('width:50px;');
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_events_Venue_handler_view');
             $column->SetWordWrap(false);
@@ -1760,18 +1763,15 @@
             //
             // View column for Expected_ROI_OTS field
             //
-            $column = new CurrencyViewColumn('Expected_ROI_OTS', 'Expected_ROI_OTS', 'Expected ROI OTS', $this->dataset);
+            $column = new TextViewColumn('Expected_ROI_OTS', 'Expected_ROI_OTS', 'Expected ROI OTS', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(2);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('.');
-            $column->setCurrencySign('€');
+            $column->setItalic(true);
             $grid->AddSingleRecordViewColumn($column);
             
             //
             // View column for Expected_ROI_Enquiries field
             //
-            $column = new NumberViewColumn('Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'Expected ROI Enquiries', $this->dataset);
+            $column = new NumberViewColumn('Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'ROI Enquiries', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -1827,6 +1827,7 @@
             //
             $column = new CurrencyViewColumn('Event_Cost', 'Event_Cost', 'Event Cost', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
             $column->setNumberAfterDecimal(2);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('.');
@@ -1934,6 +1935,7 @@
             //
             $column = new CurrencyViewColumn('Est_Opportunity_value_in_Euros', 'Est_Opportunity_value_in_Euros', 'Est Opportunity Value In Euros', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
             $column->setNumberAfterDecimal(2);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('.');
@@ -2245,7 +2247,6 @@
             );
             $lookupDataset->setOrderByField('objective_name', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Objective', 'Objective', 'Objective_objective_name', 'edit_campaign_events_Objective_search', $editor, $this->dataset, $lookupDataset, 'objective_name', 'objective_name', '');
-            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -2266,7 +2267,7 @@
             $editor = new TextEdit('expected_roi_enquiries_edit');
             $editor->SetPrefix('Qty');
             $editor->SetMaxLength(10);
-            $editColumn = new CustomEditColumn('Expected ROI Enquiries', 'Expected_ROI_Enquiries', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('ROI Enquiries', 'Expected_ROI_Enquiries', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -2803,7 +2804,6 @@
             );
             $lookupDataset->setOrderByField('objective_name', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Objective', 'Objective', 'Objective_objective_name', 'multi_edit_campaign_events_Objective_search', $editor, $this->dataset, $lookupDataset, 'objective_name', 'objective_name', '');
-            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -2824,7 +2824,7 @@
             $editor = new TextEdit('expected_roi_enquiries_edit');
             $editor->SetPrefix('Qty');
             $editor->SetMaxLength(10);
-            $editColumn = new CustomEditColumn('Expected ROI Enquiries', 'Expected_ROI_Enquiries', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('ROI Enquiries', 'Expected_ROI_Enquiries', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -3361,7 +3361,6 @@
             );
             $lookupDataset->setOrderByField('objective_name', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Objective', 'Objective', 'Objective_objective_name', 'insert_campaign_events_Objective_search', $editor, $this->dataset, $lookupDataset, 'objective_name', 'objective_name', '');
-            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -3382,7 +3381,7 @@
             $editor = new TextEdit('expected_roi_enquiries_edit');
             $editor->SetPrefix('Qty');
             $editor->SetMaxLength(10);
-            $editColumn = new CustomEditColumn('Expected ROI Enquiries', 'Expected_ROI_Enquiries', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('ROI Enquiries', 'Expected_ROI_Enquiries', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $editColumn->SetInsertDefaultValue('0');
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -3667,8 +3666,6 @@
             $column = new TextViewColumn('Event_Name', 'Event_Name', 'Event Name', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
-            $column->SetMaxLength(50);
-            $column->SetFullTextWindowHandlerName('campaign_events_Event_Name_handler_print');
             $column->SetWordWrap(false);
             $grid->AddPrintColumn($column);
             
@@ -3678,6 +3675,9 @@
             $column = new TextViewColumn('eRegion', 'eRegion_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->setCustomAttributes('width:30px;');
+            $column->SetMaxLength(20);
+            $column->SetFullTextWindowHandlerName('campaign_events_eRegion_Region_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -3686,6 +3686,9 @@
             $column = new TextViewColumn('Country', 'Country_Country_Name', 'Country', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->setCustomAttributes('width:30px;');
+            $column->SetMaxLength(20);
+            $column->SetFullTextWindowHandlerName('campaign_events_Country_Country_Name_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -3703,6 +3706,7 @@
             $column = new TextViewColumn('Venue', 'Venue', 'Venue', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->setCustomAttributes('width:50px;');
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_events_Venue_handler_print');
             $column->SetWordWrap(false);
@@ -3795,19 +3799,16 @@
             //
             // View column for Expected_ROI_OTS field
             //
-            $column = new CurrencyViewColumn('Expected_ROI_OTS', 'Expected_ROI_OTS', 'Expected ROI OTS', $this->dataset);
+            $column = new TextViewColumn('Expected_ROI_OTS', 'Expected_ROI_OTS', 'Expected ROI OTS', $this->dataset);
             $column->SetOrderable(true);
+            $column->setItalic(true);
             $column->setAlign('right');
-            $column->setNumberAfterDecimal(2);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('.');
-            $column->setCurrencySign('€');
             $grid->AddPrintColumn($column);
             
             //
             // View column for Expected_ROI_Enquiries field
             //
-            $column = new NumberViewColumn('Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'Expected ROI Enquiries', $this->dataset);
+            $column = new NumberViewColumn('Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'ROI Enquiries', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('right');
             $column->setNumberAfterDecimal(0);
@@ -3868,6 +3869,7 @@
             //
             $column = new CurrencyViewColumn('Event_Cost', 'Event_Cost', 'Event Cost', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
             $column->setAlign('right');
             $column->setNumberAfterDecimal(2);
             $column->setThousandsSeparator(',');
@@ -3977,6 +3979,7 @@
             //
             $column = new CurrencyViewColumn('Est_Opportunity_value_in_Euros', 'Est_Opportunity_value_in_Euros', 'Est Opportunity Value In Euros', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
             $column->setAlign('right');
             $column->setNumberAfterDecimal(2);
             $column->setThousandsSeparator(',');
@@ -4035,8 +4038,6 @@
             $column = new TextViewColumn('Event_Name', 'Event_Name', 'Event Name', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
-            $column->SetMaxLength(50);
-            $column->SetFullTextWindowHandlerName('campaign_events_Event_Name_handler_export');
             $column->SetWordWrap(false);
             $grid->AddExportColumn($column);
             
@@ -4046,6 +4047,9 @@
             $column = new TextViewColumn('eRegion', 'eRegion_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->setCustomAttributes('width:30px;');
+            $column->SetMaxLength(20);
+            $column->SetFullTextWindowHandlerName('campaign_events_eRegion_Region_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -4054,6 +4058,9 @@
             $column = new TextViewColumn('Country', 'Country_Country_Name', 'Country', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->setCustomAttributes('width:30px;');
+            $column->SetMaxLength(20);
+            $column->SetFullTextWindowHandlerName('campaign_events_Country_Country_Name_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -4071,6 +4078,7 @@
             $column = new TextViewColumn('Venue', 'Venue', 'Venue', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->setCustomAttributes('width:50px;');
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_events_Venue_handler_export');
             $column->SetWordWrap(false);
@@ -4163,19 +4171,16 @@
             //
             // View column for Expected_ROI_OTS field
             //
-            $column = new CurrencyViewColumn('Expected_ROI_OTS', 'Expected_ROI_OTS', 'Expected ROI OTS', $this->dataset);
+            $column = new TextViewColumn('Expected_ROI_OTS', 'Expected_ROI_OTS', 'Expected ROI OTS', $this->dataset);
             $column->SetOrderable(true);
+            $column->setItalic(true);
             $column->setAlign('right');
-            $column->setNumberAfterDecimal(2);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('.');
-            $column->setCurrencySign('€');
             $grid->AddExportColumn($column);
             
             //
             // View column for Expected_ROI_Enquiries field
             //
-            $column = new NumberViewColumn('Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'Expected ROI Enquiries', $this->dataset);
+            $column = new NumberViewColumn('Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'ROI Enquiries', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('right');
             $column->setNumberAfterDecimal(0);
@@ -4236,6 +4241,7 @@
             //
             $column = new CurrencyViewColumn('Event_Cost', 'Event_Cost', 'Event Cost', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
             $column->setAlign('right');
             $column->setNumberAfterDecimal(2);
             $column->setThousandsSeparator(',');
@@ -4345,6 +4351,7 @@
             //
             $column = new CurrencyViewColumn('Est_Opportunity_value_in_Euros', 'Est_Opportunity_value_in_Euros', 'Est Opportunity Value In Euros', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
             $column->setAlign('right');
             $column->setNumberAfterDecimal(2);
             $column->setThousandsSeparator(',');
@@ -4393,8 +4400,6 @@
             $column = new TextViewColumn('Event_Name', 'Event_Name', 'Event Name', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
-            $column->SetMaxLength(50);
-            $column->SetFullTextWindowHandlerName('campaign_events_Event_Name_handler_compare');
             $column->SetWordWrap(false);
             $grid->AddCompareColumn($column);
             
@@ -4404,6 +4409,9 @@
             $column = new TextViewColumn('eRegion', 'eRegion_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->setCustomAttributes('width:30px;');
+            $column->SetMaxLength(20);
+            $column->SetFullTextWindowHandlerName('campaign_events_eRegion_Region_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -4412,6 +4420,9 @@
             $column = new TextViewColumn('Country', 'Country_Country_Name', 'Country', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->setCustomAttributes('width:30px;');
+            $column->SetMaxLength(20);
+            $column->SetFullTextWindowHandlerName('campaign_events_Country_Country_Name_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -4429,6 +4440,7 @@
             $column = new TextViewColumn('Venue', 'Venue', 'Venue', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->setCustomAttributes('width:50px;');
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_events_Venue_handler_compare');
             $column->SetWordWrap(false);
@@ -4521,19 +4533,16 @@
             //
             // View column for Expected_ROI_OTS field
             //
-            $column = new CurrencyViewColumn('Expected_ROI_OTS', 'Expected_ROI_OTS', 'Expected ROI OTS', $this->dataset);
+            $column = new TextViewColumn('Expected_ROI_OTS', 'Expected_ROI_OTS', 'Expected ROI OTS', $this->dataset);
             $column->SetOrderable(true);
+            $column->setItalic(true);
             $column->setAlign('right');
-            $column->setNumberAfterDecimal(2);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('.');
-            $column->setCurrencySign('€');
             $grid->AddCompareColumn($column);
             
             //
             // View column for Expected_ROI_Enquiries field
             //
-            $column = new NumberViewColumn('Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'Expected ROI Enquiries', $this->dataset);
+            $column = new NumberViewColumn('Expected_ROI_Enquiries', 'Expected_ROI_Enquiries', 'ROI Enquiries', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('right');
             $column->setNumberAfterDecimal(0);
@@ -4594,6 +4603,7 @@
             //
             $column = new CurrencyViewColumn('Event_Cost', 'Event_Cost', 'Event Cost', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
             $column->setAlign('right');
             $column->setNumberAfterDecimal(2);
             $column->setThousandsSeparator(',');
@@ -4703,6 +4713,7 @@
             //
             $column = new CurrencyViewColumn('Est_Opportunity_value_in_Euros', 'Est_Opportunity_value_in_Euros', 'Est Opportunity Value In Euros', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
             $column->setAlign('right');
             $column->setNumberAfterDecimal(2);
             $column->setThousandsSeparator(',');
@@ -4808,7 +4819,7 @@
             ApplyCommonPageSettings($this, $result);
             
             $result->SetUseImagesForActions(true);
-            $result->SetUseFixedHeader(true);
+            $result->SetUseFixedHeader(false);
             $result->SetShowLineNumbers(true);
             $result->SetShowKeyColumnsImagesInHeader(false);
             $result->SetViewMode(ViewMode::TABLE);
@@ -4818,13 +4829,7 @@
             $this->AddCompareColumns($result);
             $result->setMultiEditAllowed($this->GetSecurityInfo()->HasEditGrant() && true);
             $result->setTableBordered(false);
-            $result->setTableCondensed(true);
-            $result->SetTotal('Expected_ROI_OTS', PredefinedAggregate::$Sum);
-            $result->SetTotal('Expected_ROI_Enquiries', PredefinedAggregate::$Sum);
-            $result->SetTotal('Post_Enquiries', PredefinedAggregate::$Sum);
-            $result->SetTotal('New_Opportunities', PredefinedAggregate::$Sum);
-            $result->SetTotal('Est_Opportunity_value_in_Euros', PredefinedAggregate::$Sum);
-            $result->SetTotal('Event_Cost', PredefinedAggregate::$Sum);
+            $result->setTableCondensed(false);
             
             $result->SetHighlightRowAtHover(true);
             $result->SetWidth('');
@@ -4995,13 +5000,23 @@
     
         protected function doRegisterHandlers() {
             //
-            // View column for Event_Name field
+            // View column for Region field
             //
-            $column = new TextViewColumn('Event_Name', 'Event_Name', 'Event Name', $this->dataset);
+            $column = new TextViewColumn('eRegion', 'eRegion_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
-            $column->SetWordWrap(false);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Event_Name_handler_list', $column);
+            $column->setCustomAttributes('width:30px;');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_eRegion_Region_handler_list', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for Country_Name field
+            //
+            $column = new TextViewColumn('Country', 'Country_Country_Name', 'Country', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->setCustomAttributes('width:30px;');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Country_Country_Name_handler_list', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -5010,6 +5025,7 @@
             $column = new TextViewColumn('Venue', 'Venue', 'Venue', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->setCustomAttributes('width:50px;');
             $column->SetWordWrap(false);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Venue_handler_list', $column);
             GetApplication()->RegisterHTTPHandler($handler);
@@ -5089,13 +5105,23 @@
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for Event_Name field
+            // View column for Region field
             //
-            $column = new TextViewColumn('Event_Name', 'Event_Name', 'Event Name', $this->dataset);
+            $column = new TextViewColumn('eRegion', 'eRegion_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
-            $column->SetWordWrap(false);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Event_Name_handler_print', $column);
+            $column->setCustomAttributes('width:30px;');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_eRegion_Region_handler_print', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for Country_Name field
+            //
+            $column = new TextViewColumn('Country', 'Country_Country_Name', 'Country', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->setCustomAttributes('width:30px;');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Country_Country_Name_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -5104,6 +5130,7 @@
             $column = new TextViewColumn('Venue', 'Venue', 'Venue', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->setCustomAttributes('width:50px;');
             $column->SetWordWrap(false);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Venue_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
@@ -5215,13 +5242,23 @@
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for Event_Name field
+            // View column for Region field
             //
-            $column = new TextViewColumn('Event_Name', 'Event_Name', 'Event Name', $this->dataset);
+            $column = new TextViewColumn('eRegion', 'eRegion_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
-            $column->SetWordWrap(false);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Event_Name_handler_compare', $column);
+            $column->setCustomAttributes('width:30px;');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_eRegion_Region_handler_compare', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for Country_Name field
+            //
+            $column = new TextViewColumn('Country', 'Country_Country_Name', 'Country', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->setCustomAttributes('width:30px;');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Country_Country_Name_handler_compare', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -5230,6 +5267,7 @@
             $column = new TextViewColumn('Venue', 'Venue', 'Venue', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->setCustomAttributes('width:50px;');
             $column->SetWordWrap(false);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Venue_handler_compare', $column);
             GetApplication()->RegisterHTTPHandler($handler);
@@ -5788,12 +5826,21 @@
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for Event_Name field
+            // View column for Region field
             //
-            $column = new TextViewColumn('Event_Name', 'Event_Name', 'Event Name', $this->dataset);
+            $column = new TextViewColumn('eRegion', 'eRegion_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
-            $column->SetWordWrap(false);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Event_Name_handler_view', $column);
+            $column->setCustomAttributes('width:30px;');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_eRegion_Region_handler_view', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for Country_Name field
+            //
+            $column = new TextViewColumn('Country', 'Country_Country_Name', 'Country', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setCustomAttributes('width:30px;');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Country_Country_Name_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -5801,6 +5848,7 @@
             //
             $column = new TextViewColumn('Venue', 'Venue', 'Venue', $this->dataset);
             $column->SetOrderable(true);
+            $column->setCustomAttributes('width:50px;');
             $column->SetWordWrap(false);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Venue_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);
@@ -6450,6 +6498,7 @@
                   $trackerid = $rowData['trackerid'];
                   $showcal = $rowData['show_events_cal'];
                   $campaign_event_id = $rowData['campaign_event_id'];
+                  $tablename = 'campaign_calendar_group';
             
                 $sql = 
             
@@ -6460,7 +6509,7 @@
                      $message = '<p>Record processed successfully and has been added to the Global Events Calendar.</p>';
                   }
                   else{
-                       $message = '<p>Record processed successfully.</p>';
+                       $message = '<p>Record processed successfully and removed from Global Events Calendar.</p>';
                   }
               }                                    
             }
@@ -6521,14 +6570,14 @@
             $storageGroup->addRow()
                 ->addCol($columns['master_campaign_id'], 12);
             $storageGroup->addRow()
-                ->addCol($columns['Objective'],12);
-            $storageGroup->addRow()
                 ->addCol($columns['Created_by'], 6)
                 ->addCol($columns['Created_Date'], 6);
                                     
             $storageGroup = $layout->addGroup('Event Planning', 12);
             $storageGroup->addRow()
                 ->addCol($columns['Event_Name'],12);
+            $storageGroup->addRow()
+                ->addCol($columns['Objective'],12);
             $storageGroup->addRow()
                 ->addCol($columns['Strategic_Campaign'],12);
             $storageGroup->addRow()
@@ -6594,7 +6643,28 @@
     
         protected function doGetCustomColumnGroup(FixedKeysArray $columns, ViewColumnGroup $columnGroup)
         {
-    
+            $columnGroup->add(new ViewColumnGroup('Event Overview',
+                array(
+                    $columns['eRegion'],
+                    $columns['Country'],
+                    $columns['Event_Name'],
+                    $columns['Venue'],
+                    $columns['City']
+                )
+            ));
+            $columnGroup->add(new ViewColumnGroup('Expected',
+                array(
+                    $columns['Event_Cost'],
+                    $columns['Expected_ROI_OTS'],
+                    $columns['Expected_ROI_Enquiries']
+                )
+            ));
+            $columnGroup->add(new ViewColumnGroup('Oppertunities',
+                array(
+                    $columns['New_Opportunities'],
+                    $columns['Est_Opportunity_value_in_Euros']
+                )
+            ));
         }
     
         protected function doPageLoaded()
@@ -6609,7 +6679,40 @@
     
         protected function doGetCustomPagePermissions(Page $page, PermissionSet &$permissions, &$handled)
         {
-    
+            // do not apply these rules for site admins
+            
+            if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+            
+                // retrieving the ID of the current user
+                $userId = GetApplication()->GetCurrentUserId();
+            
+                // retrieving all user roles 
+                $sql =        
+                  "SELECT r.role_name " .
+                  "FROM `phpgen_users` ur " .
+                  "INNER JOIN `phpgen_user_roles` r ON r.user_id = ur.user_id " .
+                  "WHERE ur.user_id = %d";    
+                $result = $page->GetConnection()->fetchAll(sprintf($sql, $userId));
+            
+             
+            
+                // iterating through retrieved roles
+                if (!empty($result)) {
+                   foreach ($result as $row) {
+                       // is current user a member of the Sales role?
+                       if ($row['role_name'] === 'manager') {
+                         // if yes, allow all actions.
+                         // otherwise default permissions for this page will be applied
+                         $permissions->setGrants(true, true, true, true);
+                         break;
+                       }                 
+                   }
+                };    
+            
+                // apply the new permissions
+                $handled = true;
+            
+            }
         }
     
         protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)

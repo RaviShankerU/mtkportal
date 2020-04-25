@@ -1593,7 +1593,7 @@
     
             $this->SetShowPageList(true);
             $this->SetShowTopPageNavigator(true);
-            $this->SetShowBottomPageNavigator(false);
+            $this->SetShowBottomPageNavigator(true);
             $this->setPrintListAvailable(true);
             $this->setPrintListRecordAvailable(false);
             $this->setPrintOneRecordAvailable(true);
@@ -1610,7 +1610,6 @@
                             <a href="https://mktportal.mscsoftware.com/campaign_global_list.php" class="stretched-link">View Live Lists</a>
                           </div>
                         </div>');
-            $this->SetHidePageListByDefault(true);
             $this->setShowFormErrorsOnTop(true);
             $this->setShowFormErrorsAtBottom(false);
     

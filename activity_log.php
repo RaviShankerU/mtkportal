@@ -26,186 +26,32 @@
 
     
     
-    class phpgen_user_roles_user_idModalViewPage extends ViewBasedPage
-    {
-        protected function DoBeforeCreate()
-        {
-            $this->dataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`phpgen_users`');
-            $this->dataset->addFields(
-                array(
-                    new IntegerField('user_id', true, true, true),
-                    new StringField('user_name', true),
-                    new StringField('user_password', true),
-                    new StringField('user_email', true),
-                    new StringField('user_token'),
-                    new IntegerField('user_status', true),
-                    new StringField('user_level', true)
-                )
-            );
-        }
-    
-        protected function DoPrepare() {
-    
-        }
-    
-        protected function AddSingleRecordViewColumns(Grid $grid)
-        {
-            //
-            // View column for user_name field
-            //
-            $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('phpgen_user_roles_user_idModalViewPage_user_name_handler_view');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for user_password field
-            //
-            $column = new TextViewColumn('user_password', 'user_password', 'User Password', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('phpgen_user_roles_user_idModalViewPage_user_password_handler_view');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for user_email field
-            //
-            $column = new TextViewColumn('user_email', 'user_email', 'User Email', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('phpgen_user_roles_user_idModalViewPage_user_email_handler_view');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for user_token field
-            //
-            $column = new TextViewColumn('user_token', 'user_token', 'User Token', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('phpgen_user_roles_user_idModalViewPage_user_token_handler_view');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for user_status field
-            //
-            $column = new NumberViewColumn('user_status', 'user_status', 'User Status', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $grid->AddSingleRecordViewColumn($column);
-        }
-    
-        function GetCustomClientScript()
-        {
-            return ;
-        }
-        
-        function GetOnPageLoadedClientScript()
-        {
-            return ;
-        }
-    
-        protected function setClientSideEvents(Grid $grid) {
-    
-        }
-    
-        protected function doRegisterHandlers() {
-            
-            
-            //
-            // View column for user_name field
-            //
-            $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_user_roles_user_idModalViewPage_user_name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for user_password field
-            //
-            $column = new TextViewColumn('user_password', 'user_password', 'User Password', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_user_roles_user_idModalViewPage_user_password_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for user_email field
-            //
-            $column = new TextViewColumn('user_email', 'user_email', 'User Email', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_user_roles_user_idModalViewPage_user_email_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for user_token field
-            //
-            $column = new TextViewColumn('user_token', 'user_token', 'User Token', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_user_roles_user_idModalViewPage_user_token_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-        }
-    
-        static public function getHandlerName() {
-            return get_class() . '_modal_view';
-        }
-    
-        public function GetModalGridViewHandler() {
-            return self::getHandlerName();
-        }
-    
-        protected function ApplyCommonColumnEditProperties(CustomEditColumn $column)
-        {
-            $column->SetVariableContainer($this->GetColumnVariableContainer());
-        }
-    
-        protected function doGetCustomFormLayout($mode, FixedKeysArray $columns, FormLayout $layout)
-        {
-    
-        }
-    
-        protected function doGetCustomTemplate($type, $part, $mode, &$result, &$params)
-        {
-    
-        }
-    
-        protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
-        { 
-    
-        }
-    
-        protected function doCalculateFields($rowData, $fieldName, &$value)
-        {
-    
-        }
-    }
     
     // OnBeforePageExecute event handler
     
     
     
-    class phpgen_user_rolesPage extends Page
+    class activity_logPage extends Page
     {
         protected function DoBeforeCreate()
         {
-            $this->SetTitle('User Roles');
-            $this->SetMenuLabel('User Roles');
+            $this->SetTitle('Activity Log');
+            $this->SetMenuLabel('Activity Log');
             $this->SetHeader(GetPagesHeader());
             $this->SetFooter(GetPagesFooter());
     
             $this->dataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
-                '`phpgen_user_roles`');
+                '`activity_log`');
             $this->dataset->addFields(
                 array(
-                    new IntegerField('roles_id', true, true, true),
-                    new IntegerField('user_id', true),
-                    new StringField('role_name', true)
+                    new IntegerField('activity_logid', true, true, true),
+                    new StringField('table_name'),
+                    new StringField('trackerid'),
+                    new StringField('action'),
+                    new IntegerField('user_id'),
+                    new DateTimeField('log_time')
                 )
             );
             $this->dataset->AddLookupField('user_id', 'phpgen_users', new IntegerField('user_id'), new StringField('user_name', false, false, false, false, 'user_id_user_name', 'user_id_user_name_phpgen_users'), 'user_id_user_name_phpgen_users');
@@ -239,32 +85,39 @@
         protected function getFiltersColumns()
         {
             return array(
-                new FilterColumn($this->dataset, 'roles_id', 'roles_id', 'Roles Id'),
+                new FilterColumn($this->dataset, 'activity_logid', 'activity_logid', 'Activity Logid'),
+                new FilterColumn($this->dataset, 'table_name', 'table_name', 'Table Name'),
+                new FilterColumn($this->dataset, 'trackerid', 'trackerid', 'Trackerid'),
+                new FilterColumn($this->dataset, 'action', 'action', 'Action'),
                 new FilterColumn($this->dataset, 'user_id', 'user_id_user_name', 'User Id'),
-                new FilterColumn($this->dataset, 'role_name', 'role_name', 'Role Name')
+                new FilterColumn($this->dataset, 'log_time', 'log_time', 'Log Time')
             );
         }
     
         protected function setupQuickFilter(QuickFilter $quickFilter, FixedKeysArray $columns)
         {
             $quickFilter
-                ->addColumn($columns['roles_id'])
+                ->addColumn($columns['table_name'])
+                ->addColumn($columns['trackerid'])
+                ->addColumn($columns['action'])
                 ->addColumn($columns['user_id'])
-                ->addColumn($columns['role_name']);
+                ->addColumn($columns['log_time']);
         }
     
         protected function setupColumnFilter(ColumnFilter $columnFilter)
         {
             $columnFilter
-                ->setOptionsFor('user_id');
+                ->setOptionsFor('user_id')
+                ->setOptionsFor('log_time');
         }
     
         protected function setupFilterBuilder(FilterBuilder $filterBuilder, FixedKeysArray $columns)
         {
-            $main_editor = new TextEdit('roles_id_edit');
+            $main_editor = new TextEdit('table_name_edit');
+            $main_editor->SetMaxLength(60);
             
             $filterBuilder->addColumn(
-                $columns['roles_id'],
+                $columns['table_name'],
                 array(
                     FilterConditionOperator::EQUALS => $main_editor,
                     FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
@@ -274,6 +127,62 @@
                     FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
                     FilterConditionOperator::IS_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('trackerid_edit');
+            $main_editor->SetMaxLength(45);
+            
+            $filterBuilder->addColumn(
+                $columns['trackerid'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('action_edit');
+            $main_editor->SetMaxLength(45);
+            
+            $filterBuilder->addColumn(
+                $columns['action'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -283,10 +192,10 @@
             $main_editor->setAllowClear(true);
             $main_editor->setMinimumInputLength(0);
             $main_editor->SetAllowNullValue(false);
-            $main_editor->SetHandlerName('filter_builder_phpgen_user_roles_user_id_search');
+            $main_editor->SetHandlerName('filter_builder_activity_log_user_id_search');
             
             $multi_value_select_editor = new RemoteMultiValueSelect('user_id', $this->CreateLinkBuilder());
-            $multi_value_select_editor->SetHandlerName('filter_builder_phpgen_user_roles_user_id_search');
+            $multi_value_select_editor->SetHandlerName('filter_builder_activity_log_user_id_search');
             
             $filterBuilder->addColumn(
                 $columns['user_id'],
@@ -306,19 +215,10 @@
                 )
             );
             
-            $main_editor = new ComboBox('role_name_edit', $this->GetLocalizerCaptions()->GetMessageString('PleaseSelect'));
-            $main_editor->addChoice('products', 'Product Manager');
-            $main_editor->addChoice('marketing', 'Regional Marketing');
-            $main_editor->addChoice('manager', 'Manager');
-            $main_editor->SetAllowNullValue(false);
-            
-            $multi_value_select_editor = new MultiValueSelect('role_name');
-            $multi_value_select_editor->setChoices($main_editor->getChoices());
-            
-            $text_editor = new TextEdit('role_name');
+            $main_editor = new DateTimeEdit('log_time_edit', false, 'd-m-Y H:i:s');
             
             $filterBuilder->addColumn(
-                $columns['role_name'],
+                $columns['log_time'],
                 array(
                     FilterConditionOperator::EQUALS => $main_editor,
                     FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
@@ -328,14 +228,9 @@
                     FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
                     FilterConditionOperator::IS_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::CONTAINS => $text_editor,
-                    FilterConditionOperator::DOES_NOT_CONTAIN => $text_editor,
-                    FilterConditionOperator::BEGINS_WITH => $text_editor,
-                    FilterConditionOperator::ENDS_WITH => $text_editor,
-                    FilterConditionOperator::IS_LIKE => $text_editor,
-                    FilterConditionOperator::IS_NOT_LIKE => $text_editor,
-                    FilterConditionOperator::IN => $multi_value_select_editor,
-                    FilterConditionOperator::NOT_IN => $multi_value_select_editor,
+                    FilterConditionOperator::DATE_EQUALS => $main_editor,
+                    FilterConditionOperator::DATE_DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::TODAY => null,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -393,23 +288,51 @@
         protected function AddFieldColumns(Grid $grid, $withDetails = true)
         {
             //
-            // View column for user_name field
+            // View column for table_name field
             //
-            $column = new TextViewColumn('user_id', 'user_id_user_name', 'User Id', $this->dataset);
+            $column = new TextViewColumn('table_name', 'table_name', 'Table Name', $this->dataset);
             $column->SetOrderable(true);
-            $column->setAlign('left');
-            $column->setLookupRecordModalViewHandlerName(phpgen_user_roles_user_idModalViewPage::getHandlerName());
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
             $grid->AddViewColumn($column);
             
             //
-            // View column for role_name field
+            // View column for trackerid field
             //
-            $column = new TextViewColumn('role_name', 'role_name', 'Role Name', $this->dataset);
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
             $column->SetOrderable(true);
-            $column->setAlign('left');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for action field
+            //
+            $column = new TextViewColumn('action', 'action', 'Action', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for user_name field
+            //
+            $column = new TextViewColumn('user_id', 'user_id_user_name', 'User Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for log_time field
+            //
+            $column = new DateTimeViewColumn('log_time', 'log_time', 'Log Time', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -419,13 +342,24 @@
         protected function AddSingleRecordViewColumns(Grid $grid)
         {
             //
-            // View column for roles_id field
+            // View column for table_name field
             //
-            $column = new NumberViewColumn('roles_id', 'roles_id', 'Roles Id', $this->dataset);
+            $column = new TextViewColumn('table_name', 'table_name', 'Table Name', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for trackerid field
+            //
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for action field
+            //
+            $column = new TextViewColumn('action', 'action', 'Action', $this->dataset);
+            $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -433,64 +367,58 @@
             //
             $column = new TextViewColumn('user_id', 'user_id_user_name', 'User Id', $this->dataset);
             $column->SetOrderable(true);
-            $column->setLookupRecordModalViewHandlerName(phpgen_user_roles_user_idModalViewPage::getHandlerName());
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for role_name field
+            // View column for log_time field
             //
-            $column = new TextViewColumn('role_name', 'role_name', 'Role Name', $this->dataset);
+            $column = new DateTimeViewColumn('log_time', 'log_time', 'Log Time', $this->dataset);
             $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddSingleRecordViewColumn($column);
         }
     
         protected function AddEditColumns(Grid $grid)
         {
-            //
-            // Edit column for user_id field
-            //
-            $editor = new DynamicCombobox('user_id_edit', $this->CreateLinkBuilder());
-            $editor->setAllowClear(true);
-            $editor->setMinimumInputLength(0);
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`phpgen_users`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('user_id', true, true, true),
-                    new StringField('user_name', true),
-                    new StringField('user_password', true),
-                    new StringField('user_email', true),
-                    new StringField('user_token'),
-                    new IntegerField('user_status', true),
-                    new StringField('user_level', true)
-                )
-            );
-            $lookupDataset->setOrderByField('user_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('User Id', 'user_id', 'user_id_user_name', 'edit_phpgen_user_roles_user_id_search', $editor, $this->dataset, $lookupDataset, 'user_id', 'user_name', '');
-            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
-            $editor->GetValidatorCollection()->AddValidator($validator);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for role_name field
-            //
-            $editor = new ComboBox('role_name_edit', $this->GetLocalizerCaptions()->GetMessageString('PleaseSelect'));
-            $editor->addChoice('products', 'Product Manager');
-            $editor->addChoice('marketing', 'Regional Marketing');
-            $editor->addChoice('manager', 'Manager');
-            $editColumn = new CustomEditColumn('Role Name', 'role_name', $editor, $this->dataset);
-            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
-            $editor->GetValidatorCollection()->AddValidator($validator);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
+    
         }
     
         protected function AddMultiEditColumns(Grid $grid)
         {
             //
+            // Edit column for table_name field
+            //
+            $editor = new TextEdit('table_name_edit');
+            $editor->SetMaxLength(60);
+            $editColumn = new CustomEditColumn('Table Name', 'table_name', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for trackerid field
+            //
+            $editor = new TextEdit('trackerid_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Trackerid', 'trackerid', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for action field
+            //
+            $editor = new TextEdit('action_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Action', 'action', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
             // Edit column for user_id field
             //
             $editor = new DynamicCombobox('user_id_edit', $this->CreateLinkBuilder());
@@ -512,22 +440,9 @@
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('User Id', 'user_id', 'user_id_user_name', 'multi_edit_phpgen_user_roles_user_id_search', $editor, $this->dataset, $lookupDataset, 'user_id', 'user_name', '');
-            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
-            $editor->GetValidatorCollection()->AddValidator($validator);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for role_name field
-            //
-            $editor = new ComboBox('role_name_edit', $this->GetLocalizerCaptions()->GetMessageString('PleaseSelect'));
-            $editor->addChoice('products', 'Product Manager');
-            $editor->addChoice('marketing', 'Regional Marketing');
-            $editor->addChoice('manager', 'Manager');
-            $editColumn = new CustomEditColumn('Role Name', 'role_name', $editor, $this->dataset);
-            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
-            $editor->GetValidatorCollection()->AddValidator($validator);
+            $editColumn = new DynamicLookupEditColumn('User Id', 'user_id', 'user_id_user_name', 'multi_edit_activity_log_user_id_search', $editor, $this->dataset, $lookupDataset, 'user_id', 'user_name', '');
+            $editColumn->SetReadOnly(true);
+            $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
         }
@@ -535,6 +450,39 @@
         protected function AddInsertColumns(Grid $grid)
         {
             //
+            // Edit column for table_name field
+            //
+            $editor = new TextEdit('table_name_edit');
+            $editor->SetMaxLength(60);
+            $editColumn = new CustomEditColumn('Table Name', 'table_name', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for trackerid field
+            //
+            $editor = new TextEdit('trackerid_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Trackerid', 'trackerid', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for action field
+            //
+            $editor = new TextEdit('action_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Action', 'action', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
             // Edit column for user_id field
             //
             $editor = new DynamicCombobox('user_id_edit', $this->CreateLinkBuilder());
@@ -556,22 +504,19 @@
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('User Id', 'user_id', 'user_id_user_name', 'insert_phpgen_user_roles_user_id_search', $editor, $this->dataset, $lookupDataset, 'user_id', 'user_name', '');
-            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
-            $editor->GetValidatorCollection()->AddValidator($validator);
+            $editColumn = new DynamicLookupEditColumn('User Id', 'user_id', 'user_id_user_name', 'insert_activity_log_user_id_search', $editor, $this->dataset, $lookupDataset, 'user_id', 'user_name', '');
+            $editColumn->SetReadOnly(true);
+            $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
             
             //
-            // Edit column for role_name field
+            // Edit column for log_time field
             //
-            $editor = new ComboBox('role_name_edit', $this->GetLocalizerCaptions()->GetMessageString('PleaseSelect'));
-            $editor->addChoice('products', 'Product Manager');
-            $editor->addChoice('marketing', 'Regional Marketing');
-            $editor->addChoice('manager', 'Manager');
-            $editColumn = new CustomEditColumn('Role Name', 'role_name', $editor, $this->dataset);
-            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
-            $editor->GetValidatorCollection()->AddValidator($validator);
+            $editor = new DateTimeEdit('log_time_edit', false, 'd-m-Y H:i:s');
+            $editColumn = new CustomEditColumn('Log Time', 'log_time', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
+            $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
             $grid->SetShowAddButton(true && $this->GetSecurityInfo()->HasAddGrant());
@@ -585,13 +530,24 @@
         protected function AddPrintColumns(Grid $grid)
         {
             //
-            // View column for roles_id field
+            // View column for table_name field
             //
-            $column = new NumberViewColumn('roles_id', 'roles_id', 'Roles Id', $this->dataset);
+            $column = new TextViewColumn('table_name', 'table_name', 'Table Name', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for trackerid field
+            //
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for action field
+            //
+            $column = new TextViewColumn('action', 'action', 'Action', $this->dataset);
+            $column->SetOrderable(true);
             $grid->AddPrintColumn($column);
             
             //
@@ -599,28 +555,38 @@
             //
             $column = new TextViewColumn('user_id', 'user_id_user_name', 'User Id', $this->dataset);
             $column->SetOrderable(true);
-            $column->setAlign('left');
             $grid->AddPrintColumn($column);
             
             //
-            // View column for role_name field
+            // View column for log_time field
             //
-            $column = new TextViewColumn('role_name', 'role_name', 'Role Name', $this->dataset);
+            $column = new DateTimeViewColumn('log_time', 'log_time', 'Log Time', $this->dataset);
             $column->SetOrderable(true);
-            $column->setAlign('left');
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddPrintColumn($column);
         }
     
         protected function AddExportColumns(Grid $grid)
         {
             //
-            // View column for roles_id field
+            // View column for table_name field
             //
-            $column = new NumberViewColumn('roles_id', 'roles_id', 'Roles Id', $this->dataset);
+            $column = new TextViewColumn('table_name', 'table_name', 'Table Name', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for trackerid field
+            //
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for action field
+            //
+            $column = new TextViewColumn('action', 'action', 'Action', $this->dataset);
+            $column->SetOrderable(true);
             $grid->AddExportColumn($column);
             
             //
@@ -628,34 +594,53 @@
             //
             $column = new TextViewColumn('user_id', 'user_id_user_name', 'User Id', $this->dataset);
             $column->SetOrderable(true);
-            $column->setAlign('left');
             $grid->AddExportColumn($column);
             
             //
-            // View column for role_name field
+            // View column for log_time field
             //
-            $column = new TextViewColumn('role_name', 'role_name', 'Role Name', $this->dataset);
+            $column = new DateTimeViewColumn('log_time', 'log_time', 'Log Time', $this->dataset);
             $column->SetOrderable(true);
-            $column->setAlign('left');
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddExportColumn($column);
         }
     
         private function AddCompareColumns(Grid $grid)
         {
             //
+            // View column for table_name field
+            //
+            $column = new TextViewColumn('table_name', 'table_name', 'Table Name', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for trackerid field
+            //
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for action field
+            //
+            $column = new TextViewColumn('action', 'action', 'Action', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
             // View column for user_name field
             //
             $column = new TextViewColumn('user_id', 'user_id_user_name', 'User Id', $this->dataset);
             $column->SetOrderable(true);
-            $column->setAlign('left');
             $grid->AddCompareColumn($column);
             
             //
-            // View column for role_name field
+            // View column for log_time field
             //
-            $column = new TextViewColumn('role_name', 'role_name', 'Role Name', $this->dataset);
+            $column = new DateTimeViewColumn('log_time', 'log_time', 'Log Time', $this->dataset);
             $column->SetOrderable(true);
-            $column->setAlign('left');
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddCompareColumn($column);
         }
     
@@ -748,7 +733,7 @@
             $this->setExportListRecordAvailable(array());
             $this->setExportOneRecordAvailable(array('pdf', 'excel', 'word', 'xml', 'csv'));
             $this->setDescription('<div class="mark-media mark-position-relative">
-                          <div class="mark-bd-placeholder-img mr-3"><img src="apps/icons/role-color.png" width="80" height="79"></div>
+                          <div class="mark-bd-placeholder-img mr-3"><img src="apps/icons/activity-log-color.png" width="80" height="79"></div>
                           <div class="mark-media-body">
                             <h5 class="mt-0 h5">What will you find here</h5>
                             <p class="mark-p">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
@@ -782,7 +767,7 @@
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_phpgen_user_roles_user_id_search', 'user_id', 'user_name', null, 20);
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_activity_log_user_id_search', 'user_id', 'user_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -801,7 +786,7 @@
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_phpgen_user_roles_user_id_search', 'user_id', 'user_name', null, 20);
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_activity_log_user_id_search', 'user_id', 'user_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -820,28 +805,8 @@
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_phpgen_user_roles_user_id_search', 'user_id', 'user_name', null, 20);
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_activity_log_user_id_search', 'user_id', 'user_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
-            
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`phpgen_users`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('user_id', true, true, true),
-                    new StringField('user_name', true),
-                    new StringField('user_password', true),
-                    new StringField('user_email', true),
-                    new StringField('user_token'),
-                    new IntegerField('user_status', true),
-                    new StringField('user_level', true)
-                )
-            );
-            $lookupDataset->setOrderByField('user_name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_phpgen_user_roles_user_id_search', 'user_id', 'user_name', null, 20);
-            GetApplication()->RegisterHTTPHandler($handler);
-            new phpgen_user_roles_user_idModalViewPage($this, GetCurrentUserPermissionSetForDataSource('phpgen_user_roles.user_id'));
         }
        
         protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
@@ -990,8 +955,8 @@
 
     try
     {
-        $Page = new phpgen_user_rolesPage("phpgen_user_roles", "phpgen_user_roles.php", GetCurrentUserPermissionSetForDataSource("phpgen_user_roles"), 'UTF-8');
-        $Page->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource("phpgen_user_roles"));
+        $Page = new activity_logPage("activity_log", "activity_log.php", GetCurrentUserPermissionSetForDataSource("activity_log"), 'UTF-8');
+        $Page->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource("activity_log"));
         GetApplication()->SetMainPage($Page);
         GetApplication()->Run();
     }

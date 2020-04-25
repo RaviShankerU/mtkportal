@@ -80,6 +80,9 @@
                     new DateTimeField('updated_date')
                 )
             );
+            if (!$this->GetSecurityInfo()->HasAdminGrant()) {
+                $this->dataset->setRlsPolicy(new RlsPolicy('created_by', GetApplication()->GetCurrentUserId()));
+            }
         }
     
         protected function DoPrepare() {
@@ -849,7 +852,50 @@
     
         protected function AddOperationsColumns(Grid $grid)
         {
-    
+            $actions = $grid->getActions();
+            $actions->setCaption($this->GetLocalizerCaptions()->GetMessageString('Actions'));
+            $actions->setPosition(ActionList::POSITION_LEFT);
+            
+            if ($this->GetSecurityInfo()->HasViewGrant())
+            {
+                $operation = new AjaxOperation(OPERATION_VIEW,
+                    $this->GetLocalizerCaptions()->GetMessageString('View'),
+                    $this->GetLocalizerCaptions()->GetMessageString('View'), $this->dataset,
+                    $this->GetModalGridViewHandler(), $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+            }
+            
+            if ($this->GetSecurityInfo()->HasEditGrant())
+            {
+                $operation = new AjaxOperation(OPERATION_EDIT,
+                    $this->GetLocalizerCaptions()->GetMessageString('Edit'),
+                    $this->GetLocalizerCaptions()->GetMessageString('Edit'), $this->dataset,
+                    $this->GetGridEditHandler(), $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+                $operation->OnShow->AddListener('ShowEditButtonHandler', $this);
+            }
+            
+            if ($this->GetSecurityInfo()->HasDeleteGrant())
+            {
+                $operation = new LinkOperation($this->GetLocalizerCaptions()->GetMessageString('Delete'), OPERATION_DELETE, $this->dataset, $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+                $operation->OnShow->AddListener('ShowDeleteButtonHandler', $this);
+                $operation->SetAdditionalAttribute('data-modal-operation', 'delete');
+                $operation->SetAdditionalAttribute('data-delete-handler-name', $this->GetModalGridDeleteHandler());
+            }
+            
+            if ($this->GetSecurityInfo()->HasAddGrant())
+            {
+                $operation = new AjaxOperation(OPERATION_COPY,
+                    $this->GetLocalizerCaptions()->GetMessageString('Copy'),
+                    $this->GetLocalizerCaptions()->GetMessageString('Copy'), $this->dataset,
+                    $this->GetModalGridCopyHandler(), $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+            }
         }
     
         protected function AddFieldColumns(Grid $grid, $withDetails = true)
@@ -2035,7 +2081,7 @@
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
-            $grid->SetShowAddButton(false && $this->GetSecurityInfo()->HasAddGrant());
+            $grid->SetShowAddButton(true && $this->GetSecurityInfo()->HasAddGrant());
         }
     
         private function AddMultiUploadColumn(Grid $grid)
@@ -2761,12 +2807,21 @@
         {
             return ;
         }
+        
+        public function GetEnableModalGridInsert() { return true; }
+        public function GetEnableModalSingleRecordView() { return true; }
+        
+        public function GetEnableModalGridEdit() { return true; }
+        
+        protected function GetEnableModalGridDelete() { return true; }
+        
+        public function GetEnableModalGridCopy() { return true; }
     
         protected function CreateGrid()
         {
             $result = new Grid($this, $this->dataset);
             if ($this->GetSecurityInfo()->HasDeleteGrant())
-               $result->SetAllowDeleteSelected(false);
+               $result->SetAllowDeleteSelected(true);
             else
                $result->SetAllowDeleteSelected(false);   
             
@@ -2775,12 +2830,13 @@
             $result->SetUseImagesForActions(true);
             $result->SetUseFixedHeader(false);
             $result->SetShowLineNumbers(true);
+            $result->SetShowKeyColumnsImagesInHeader(false);
             $result->SetViewMode(ViewMode::TABLE);
             $result->setEnableRuntimeCustomization(true);
             $result->setAllowCompare(true);
             $this->AddCompareHeaderColumns($result);
             $this->AddCompareColumns($result);
-            $result->setMultiEditAllowed($this->GetSecurityInfo()->HasEditGrant() && false);
+            $result->setMultiEditAllowed($this->GetSecurityInfo()->HasEditGrant() && true);
             $result->setTableBordered(false);
             $result->setTableCondensed(false);
             
@@ -2799,7 +2855,7 @@
     
             $this->SetShowPageList(true);
             $this->SetShowTopPageNavigator(true);
-            $this->SetShowBottomPageNavigator(false);
+            $this->SetShowBottomPageNavigator(true);
             $this->setPrintListAvailable(true);
             $this->setPrintListRecordAvailable(false);
             $this->setPrintOneRecordAvailable(true);
@@ -2816,7 +2872,6 @@
                             <a href="http://mktportal.mscsoftware.com/master_campaign_global.php" class="stretched-link">Go to Master Campaign</a>
                           </div>
                         </div>');
-            $this->SetHidePageListByDefault(true);
             $this->setShowFormErrorsOnTop(true);
             $this->setShowFormErrorsAtBottom(false);
     

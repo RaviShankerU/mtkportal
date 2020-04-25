@@ -1081,7 +1081,7 @@
     
             $this->SetShowPageList(true);
             $this->SetShowTopPageNavigator(true);
-            $this->SetShowBottomPageNavigator(false);
+            $this->SetShowBottomPageNavigator(true);
             $this->setPrintListAvailable(true);
             $this->setPrintListRecordAvailable(false);
             $this->setPrintOneRecordAvailable(true);
@@ -1098,7 +1098,6 @@
                             <a href="localhost/mportal/master_campaign_global.php" class="stretched-link">Go to Master Campaign</a>
                           </div>
                         </div>');
-            $this->SetHidePageListByDefault(true);
             $this->setShowFormErrorsOnTop(true);
             $this->setShowFormErrorsAtBottom(false);
     

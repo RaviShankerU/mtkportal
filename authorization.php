@@ -18,7 +18,12 @@ $grants = array();
 
 $appGrants = array();
 
-$dataSourceRecordPermissions = array('brief' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true));
+$dataSourceRecordPermissions = array('brief' => new DataSourceRecordPermission('created_by', false, false, false, false, false, false),
+  'brief01' => new DataSourceRecordPermission('created_by', false, false, false, true, true, true),
+  'campaign_analysis' => new DataSourceRecordPermission('created_by', false, false, false, false, false, false),
+  'campaign_program_name_generator' => new DataSourceRecordPermission('created_by', false, false, false, true, true, true),
+  'campaign_tracker_utm' => new DataSourceRecordPermission('created_by', false, false, false, true, true, true),
+  'campaign_import' => new DataSourceRecordPermission('created_by', false, false, false, true, true, true));
 
 $tableCaptions = array('campaign_calendar' => 'Campaign & Events Calendar',
 'brief' => 'Campaign Brief',
@@ -40,6 +45,7 @@ $tableCaptions = array('campaign_calendar' => 'Campaign & Events Calendar',
 'campaign_program_name_generator.campaign_tracker_comms_local' => 'Program Generator->Campaign Tracker Comms',
 'campaign_tracker_comms_local' => 'Campaign Tracker Comms',
 'campaign_tracker_utm' => 'UTM Link Generator',
+'campaign_import' => 'Contact List Import',
 'campaign_tracker_website' => 'Campaign Tracker Website',
 'campaign_tracker_comms' => 'Campaign Tracker Global Comms',
 'campaign_tracker_design' => 'Campaign Tracker Design',
@@ -50,7 +56,9 @@ $tableCaptions = array('campaign_calendar' => 'Campaign & Events Calendar',
 'campaign_tracker_pr' => 'Campaign Tracker Pr',
 'country_list' => 'Country List',
 'lookup_tracker_tactics' => 'Tactic Template',
-'phpgen_user_roles' => 'User Roles');
+'phpgen_user_roles' => 'User Roles',
+'activity_log' => 'Activity Log',
+'portal_help' => 'Portal Help');
 
 $usersTableInfo = array(
     'TableName' => 'phpgen_users',

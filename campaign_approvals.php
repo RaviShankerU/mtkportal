@@ -725,7 +725,7 @@
             $this->dataset->AddLookupField('campaign_type', 'lookup_brief_campaign_types', new IntegerField('brief_campaign_types_ID'), new StringField('campaign_types', false, false, false, false, 'campaign_type_campaign_types', 'campaign_type_campaign_types_lookup_brief_campaign_types'), 'campaign_type_campaign_types_lookup_brief_campaign_types');
             $this->dataset->AddLookupField('event_type', 'lookup_event_type', new IntegerField('Event_Type_ID'), new StringField('Event_Type', false, false, false, false, 'event_type_Event_Type', 'event_type_Event_Type_lookup_event_type'), 'event_type_Event_Type_lookup_event_type');
             $this->dataset->AddLookupField('b_campaign_status', 'lookup_status_types', new IntegerField('Status_Type_ID'), new StringField('Status_Type', false, false, false, false, 'b_campaign_status_Status_Type', 'b_campaign_status_Status_Type_lookup_status_types'), 'b_campaign_status_Status_Type_lookup_status_types');
-            $this->dataset->AddLookupField('approved_by', '(SELECT ur.user_name, r.role_name
+            $this->dataset->AddLookupField('approved_by', '(SELECT ur.user_id, ur.user_name, r.role_name
             FROM `phpgen_users` ur 
             INNER JOIN `phpgen_user_roles` r  ON r.user_id = ur.user_id)', new StringField('user_name'), new StringField('user_name', false, false, false, false, 'approved_by_user_name', 'approved_by_user_name_lookup_user_with_roles'), 'approved_by_user_name_lookup_user_with_roles');
             $this->dataset->AddLookupField('owner_person', 'phpgen_users', new IntegerField('user_id'), new StringField('user_name', false, false, false, false, 'owner_person_user_name', 'owner_person_user_name_phpgen_users'), 'owner_person_user_name_phpgen_users');
@@ -2161,7 +2161,7 @@
             $editor = new DynamicCombobox('approved_by_edit', $this->CreateLinkBuilder());
             $editor->setAllowClear(true);
             $editor->setMinimumInputLength(0);
-            $selectQuery = 'SELECT ur.user_name, r.role_name
+            $selectQuery = 'SELECT ur.user_id, ur.user_name, r.role_name
             FROM `phpgen_users` ur 
             INNER JOIN `phpgen_user_roles` r  ON r.user_id = ur.user_id';
             $insertQuery = array();
@@ -2173,6 +2173,7 @@
               $selectQuery, $insertQuery, $updateQuery, $deleteQuery, 'lookup_user_with_roles');
             $lookupDataset->addFields(
                 array(
+                    new IntegerField('user_id', false, true, true),
                     new StringField('user_name'),
                     new StringField('role_name')
                 )
@@ -2571,7 +2572,7 @@
             $editor = new DynamicCombobox('approved_by_edit', $this->CreateLinkBuilder());
             $editor->setAllowClear(true);
             $editor->setMinimumInputLength(0);
-            $selectQuery = 'SELECT ur.user_name, r.role_name
+            $selectQuery = 'SELECT ur.user_id, ur.user_name, r.role_name
             FROM `phpgen_users` ur 
             INNER JOIN `phpgen_user_roles` r  ON r.user_id = ur.user_id';
             $insertQuery = array();
@@ -2583,6 +2584,7 @@
               $selectQuery, $insertQuery, $updateQuery, $deleteQuery, 'lookup_user_with_roles');
             $lookupDataset->addFields(
                 array(
+                    new IntegerField('user_id', false, true, true),
                     new StringField('user_name'),
                     new StringField('role_name')
                 )
@@ -2947,7 +2949,7 @@
             $editor = new DynamicCombobox('approved_by_edit', $this->CreateLinkBuilder());
             $editor->setAllowClear(true);
             $editor->setMinimumInputLength(0);
-            $selectQuery = 'SELECT ur.user_name, r.role_name
+            $selectQuery = 'SELECT ur.user_id, ur.user_name, r.role_name
             FROM `phpgen_users` ur 
             INNER JOIN `phpgen_user_roles` r  ON r.user_id = ur.user_id';
             $insertQuery = array();
@@ -2959,6 +2961,7 @@
               $selectQuery, $insertQuery, $updateQuery, $deleteQuery, 'lookup_user_with_roles');
             $lookupDataset->addFields(
                 array(
+                    new IntegerField('user_id', false, true, true),
                     new StringField('user_name'),
                     new StringField('role_name')
                 )
@@ -3816,7 +3819,7 @@
     
             $this->SetShowPageList(true);
             $this->SetShowTopPageNavigator(true);
-            $this->SetShowBottomPageNavigator(false);
+            $this->SetShowBottomPageNavigator(true);
             $this->setPrintListAvailable(true);
             $this->setPrintListRecordAvailable(false);
             $this->setPrintOneRecordAvailable(true);
@@ -3833,8 +3836,8 @@
                             <a href="http://mktportal.mscsoftware.com/" class="stretched-link">Go to Master Campaign</a>
                           </div>
                         </div>');
-            $this->SetHidePageListByDefault(true);
             $this->setShowFormErrorsOnTop(true);
+            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -4065,7 +4068,7 @@
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_approvals_b_campaign_status_search', 'Status_Type_ID', 'Status_Type', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $selectQuery = 'SELECT ur.user_name, r.role_name
+            $selectQuery = 'SELECT ur.user_id, ur.user_name, r.role_name
             FROM `phpgen_users` ur 
             INNER JOIN `phpgen_user_roles` r  ON r.user_id = ur.user_id';
             $insertQuery = array();
@@ -4077,6 +4080,7 @@
               $selectQuery, $insertQuery, $updateQuery, $deleteQuery, 'lookup_user_with_roles');
             $lookupDataset->addFields(
                 array(
+                    new IntegerField('user_id', false, true, true),
                     new StringField('user_name'),
                     new StringField('role_name')
                 )
@@ -4219,7 +4223,7 @@
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_approvals_b_campaign_status_search', 'Status_Type_ID', 'Status_Type', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $selectQuery = 'SELECT ur.user_name, r.role_name
+            $selectQuery = 'SELECT ur.user_id, ur.user_name, r.role_name
             FROM `phpgen_users` ur 
             INNER JOIN `phpgen_user_roles` r  ON r.user_id = ur.user_id';
             $insertQuery = array();
@@ -4231,6 +4235,7 @@
               $selectQuery, $insertQuery, $updateQuery, $deleteQuery, 'lookup_user_with_roles');
             $lookupDataset->addFields(
                 array(
+                    new IntegerField('user_id', false, true, true),
                     new StringField('user_name'),
                     new StringField('role_name')
                 )
@@ -4240,7 +4245,7 @@
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_approvals_approved_by_search', 'user_name', 'user_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $selectQuery = 'SELECT ur.user_name, r.role_name
+            $selectQuery = 'SELECT ur.user_id, ur.user_name, r.role_name
             FROM `phpgen_users` ur 
             INNER JOIN `phpgen_user_roles` r  ON r.user_id = ur.user_id';
             $insertQuery = array();
@@ -4252,6 +4257,7 @@
               $selectQuery, $insertQuery, $updateQuery, $deleteQuery, 'lookup_user_with_roles');
             $lookupDataset->addFields(
                 array(
+                    new IntegerField('user_id', false, true, true),
                     new StringField('user_name'),
                     new StringField('role_name')
                 )
@@ -4261,7 +4267,7 @@
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_approvals_approved_by_search', 'user_name', 'user_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $selectQuery = 'SELECT ur.user_name, r.role_name
+            $selectQuery = 'SELECT ur.user_id, ur.user_name, r.role_name
             FROM `phpgen_users` ur 
             INNER JOIN `phpgen_user_roles` r  ON r.user_id = ur.user_id';
             $insertQuery = array();
@@ -4273,6 +4279,7 @@
               $selectQuery, $insertQuery, $updateQuery, $deleteQuery, 'lookup_user_with_roles');
             $lookupDataset->addFields(
                 array(
+                    new IntegerField('user_id', false, true, true),
                     new StringField('user_name'),
                     new StringField('role_name')
                 )
@@ -4449,7 +4456,7 @@
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_approvals_b_campaign_status_search', 'Status_Type_ID', 'Status_Type', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $selectQuery = 'SELECT ur.user_name, r.role_name
+            $selectQuery = 'SELECT ur.user_id, ur.user_name, r.role_name
             FROM `phpgen_users` ur 
             INNER JOIN `phpgen_user_roles` r  ON r.user_id = ur.user_id';
             $insertQuery = array();
@@ -4461,6 +4468,7 @@
               $selectQuery, $insertQuery, $updateQuery, $deleteQuery, 'lookup_user_with_roles');
             $lookupDataset->addFields(
                 array(
+                    new IntegerField('user_id', false, true, true),
                     new StringField('user_name'),
                     new StringField('role_name')
                 )
@@ -4603,7 +4611,7 @@
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_approvals_b_campaign_status_search', 'Status_Type_ID', 'Status_Type', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $selectQuery = 'SELECT ur.user_name, r.role_name
+            $selectQuery = 'SELECT ur.user_id, ur.user_name, r.role_name
             FROM `phpgen_users` ur 
             INNER JOIN `phpgen_user_roles` r  ON r.user_id = ur.user_id';
             $insertQuery = array();
@@ -4615,6 +4623,7 @@
               $selectQuery, $insertQuery, $updateQuery, $deleteQuery, 'lookup_user_with_roles');
             $lookupDataset->addFields(
                 array(
+                    new IntegerField('user_id', false, true, true),
                     new StringField('user_name'),
                     new StringField('role_name')
                 )

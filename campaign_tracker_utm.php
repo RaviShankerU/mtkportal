@@ -470,6 +470,9 @@
             $this->dataset->AddLookupField('source', 'lookup_utm', new StringField('Description'), new StringField('Description', false, false, false, false, 'source_Description', 'source_Description_lookup_utm'), 'source_Description_lookup_utm');
             $this->dataset->AddLookupField('term', 'lookup_utm', new StringField('Description'), new StringField('Description', false, false, false, false, 'term_Description', 'term_Description_lookup_utm'), 'term_Description_lookup_utm');
             $this->dataset->AddLookupField('marketo_page_name', 'lookup_utm_marketo_page', new StringField('pages_value'), new StringField('page_description', false, false, false, false, 'marketo_page_name_page_description', 'marketo_page_name_page_description_lookup_utm_marketo_page'), 'marketo_page_name_page_description_lookup_utm_marketo_page');
+            if (!$this->GetSecurityInfo()->HasAdminGrant()) {
+                $this->dataset->setRlsPolicy(new RlsPolicy('created_by', GetApplication()->GetCurrentUserId()));
+            }
         }
     
         protected function DoPrepare() {
@@ -479,6 +482,13 @@
         protected function CreatePageNavigator()
         {
             $result = new CompositePageNavigator($this);
+            
+            $partitionNavigator = new CustomPageNavigator('partition', $this, $this->dataset, 'Filter by Email Invite', $result);
+            $partitionNavigator->OnGetPartitionCondition->AddListener('partition' . '_GetPartitionConditionHandler', $this);
+            $partitionNavigator->OnGetPartitions->AddListener('partition' . '_GetPartitionsHandler', $this);
+            $partitionNavigator->SetAllowViewAllRecords(true);
+            $partitionNavigator->SetNavigationStyle(NS_LIST);
+            $result->AddPageNavigator($partitionNavigator);
             
             $partitionNavigator = new PageNavigator('pnav', $this, $this->dataset);
             $partitionNavigator->SetRowsPerPage(20);
@@ -2985,6 +2995,25 @@
         protected function GetEnableModalGridDelete() { return true; }
         
         public function GetEnableModalGridCopy() { return true; }
+        
+        private $partitions = array(1 => array('\'invite1\''), 2 => array('\'invite2\''), 3 => array('\'invite3\''), 4 => array('\'invite4\''), 5 => array('\'invite5\''));
+        
+        function partition_GetPartitionsHandler(&$partitions)
+        {
+            $partitions[1] = 'Invite 1';
+            $partitions[2] = 'Invite 2';
+            $partitions[3] = 'Invite 3';
+            $partitions[4] = 'Invite 4';
+            $partitions[5] = 'Invite 5';
+        }
+        
+        function partition_GetPartitionConditionHandler($partitionName, &$condition)
+        {
+            $condition = '';
+            if (isset($partitionName) && isset($this->partitions[$partitionName]))
+                foreach ($this->partitions[$partitionName] as $value)
+                    AddStr($condition, sprintf('(content = %s)', $this->PrepareTextForSQL($value)), ' OR ');
+        }
     
         protected function CreateGrid()
         {
@@ -3025,7 +3054,7 @@
             $this->SetInsertFormTitle('Create UTM Link');
             $this->SetShowPageList(true);
             $this->SetShowTopPageNavigator(true);
-            $this->SetShowBottomPageNavigator(false);
+            $this->SetShowBottomPageNavigator(true);
             $this->setPrintListAvailable(true);
             $this->setPrintListRecordAvailable(false);
             $this->setPrintOneRecordAvailable(true);
@@ -3042,7 +3071,6 @@
                             <a href="https://mktportal.mscsoftware.com/campaign_global_list.php" class="stretched-link">View Live Lists</a>
                           </div>
                         </div>');
-            $this->SetHidePageListByDefault(true);
             $this->setShowFormErrorsOnTop(true);
             $this->setShowFormErrorsAtBottom(false);
     

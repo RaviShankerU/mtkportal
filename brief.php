@@ -3342,7 +3342,7 @@
             $this->SetInsertFormTitle('Add New Campaign Brief');
             $this->SetShowPageList(true);
             $this->SetShowTopPageNavigator(true);
-            $this->SetShowBottomPageNavigator(false);
+            $this->SetShowBottomPageNavigator(true);
             $this->setPrintListAvailable(true);
             $this->setPrintListRecordAvailable(false);
             $this->setPrintOneRecordAvailable(true);
@@ -3359,7 +3359,6 @@
                             <a href="http://mktportal.mscsoftware.com/index.php" class="stretched-link">Go to Master Campaign</a>
                           </div>
                         </div>');
-            $this->SetHidePageListByDefault(true);
             $this->setShowFormErrorsOnTop(true);
             $this->setShowFormErrorsAtBottom(false);
     
@@ -4513,7 +4512,40 @@
     
         protected function doGetCustomPagePermissions(Page $page, PermissionSet &$permissions, &$handled)
         {
-    
+            // do not apply these rules for site admins
+            
+            if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+            
+                // retrieving the ID of the current user
+                $userId = GetApplication()->GetCurrentUserId();
+            
+                // retrieving all user roles 
+                $sql =        
+                  "SELECT r.role_name " .
+                  "FROM `phpgen_users` ur " .
+                  "INNER JOIN `phpgen_user_roles` r ON r.user_id = ur.user_id " .
+                  "WHERE ur.user_id = %d";    
+                $result = $page->GetConnection()->fetchAll(sprintf($sql, $userId));
+            
+             
+            
+                // iterating through retrieved roles
+                if (!empty($result)) {
+                   foreach ($result as $row) {
+                       // is current user a member of the Sales role?
+                       if ($row['role_name'] === 'manager') {
+                         // if yes, allow all actions.
+                         // otherwise default permissions for this page will be applied
+                         $permissions->setGrants(true, true, true, true);
+                         break;
+                       }                 
+                   }
+                };    
+            
+                // apply the new permissions
+                $handled = true;
+            
+            }
         }
     
         protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)

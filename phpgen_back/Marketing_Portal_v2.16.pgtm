@@ -138,6 +138,8 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
     <DataSource name="lookup_objective" createTopLevelPage="false"/>
     <DataSource name="lookup_strategic_campaign" createTopLevelPage="false"/>
     <DataSource name="activity_log"/>
+    <DataSource name="campaign_import"/>
+    <DataSource name="lookup_imported_obtained" createTopLevelPage="false"/>
   </DataSources>
   <Presentation disableMagicQuotesRuntime="false" showEnvironmentVariables="false" showExecutedQueries="false" showPHPErrorsAndWarnings="false" enableInactivityTimeout="true" inactivityTimeoutInterval="20">
     <Pages>
@@ -1462,7 +1464,7 @@ width:50px;                </CustomAttributes>
             <ViewProperties type="text" maxLength="75"/>
             <EditProperties type="textBox" maxLength="100"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Created_Date" caption="Created Date" canSetNull="true" readOnly="true" defaultInsertValue="%CURRENT_DATETIME%" selectedFilterOperators="2031871">
+          <ColumnPresentation fieldName="Created_Date" caption="Created Date" canSetNull="true" readOnly="true" defaultInsertValue="%CURRENT_DATETIME%" selectedFilterOperators="1573119">
             <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
             <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
           </ColumnPresentation>
@@ -1470,7 +1472,7 @@ width:50px;                </CustomAttributes>
             <ViewProperties type="text" maxLength="75"/>
             <EditProperties type="textBox" maxLength="100"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="Updated_Date" caption="Modified Date" canSetNull="true" readOnly="true" defaultInsertValue="%CURRENT_DATETIME%" selectedFilterOperators="2031871">
+          <ColumnPresentation fieldName="Updated_Date" caption="Modified Date" canSetNull="true" readOnly="true" defaultInsertValue="%CURRENT_DATETIME%" selectedFilterOperators="1573119">
             <ViewProperties type="text"/>
             <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
@@ -2128,8 +2130,7 @@ if ($fieldName == 'Approval') {
           <OnGetCustomTemplate enabled="true">
 if ($part == PagePart::Grid &amp;&amp; $mode == PageMode::ViewAll) {           
   $result = 'event_grid_table.tpl';
-}
-          </OnGetCustomTemplate>
+}          </OnGetCustomTemplate>
           <OnGetCustomPagePermissions enabled="true">
 // do not apply these rules for site admins
 
@@ -11493,7 +11494,7 @@ if ($success) {
       $this-&gt;GetConnection()-&gt;ExecSQL($sql);
       
       $message = '&lt;p&gt;Record removed from the Global Campaign Calendar.&lt;/p&gt;';
-}                                              </AfterDeleteRecord>
+}          </AfterDeleteRecord>
           <AfterUpdateRecord enabled="true">
 if ($success) {
 
@@ -12704,6 +12705,1153 @@ else {
             </Partition>
           </PartitionNavigator>
         </PartitionNavigators>
+      </Page>
+      <Page type="table" tableName="campaign_import" numberByDataSource="0" fileName="campaign_import" caption="Campaign Import" shortCaption="Campaign Import" groupName="Campaign Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
+        <BeforeGridText/>
+        <DetailedDescription/>
+        <ColumnPresentations>
+          <ColumnPresentation fieldName="campaign_import_id" caption="Campaign Import Id" showColumnFilter="false" selectedFilterOperators="1573119">
+            <ViewProperties type="text">
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="0"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="program_generator_name_id" caption="Program Generator Name" selectedFilterOperators="1573119">
+            <Lookup tableName="campaign_program_name_generator" linkFieldName="program_generator_name_id" displayFieldName="campaign_program_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" allowAddNewItemsOnTheFly="true" displayLookupRecord="true">
+              <OnTheFlyInsertPage numberByDataSource="0" fileName="campaign_program_name_generator" caption="Campaign Program Name Generator" shortCaption="Campaign Program Name Generator" addSeparator="false" horizontalFilterCondition="" isOnTheFlyInsertPage="true" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
+                <BeforeGridText/>
+                <DetailedDescription/>
+                <ColumnPresentations>
+                  <ColumnPresentation fieldName="program_generator_name_id" caption="Program Generator Name Id" showColumnFilter="false" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="master_campaign_id" caption="Master Campaign Id" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="trackerid" caption="Trackerid" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="45"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="SFDC_child_campaign" caption="SFDC Child Campaign" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="18"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="campaign_program_name" caption="Campaign Program Name" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="event_type" caption="Event Type" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="short_description" caption="Short Description" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="45"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="region" caption="Region" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="50"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="sub_region" caption="Sub Region" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="30"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="territory" caption="Territory" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="country" caption="Country" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="50"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="industry" caption="Industry" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="job_function" caption="Job Function" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="campaign_type" caption="Campaign Type" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="45"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="product" caption="Product" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="10"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="m_ID" caption="M ID" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="11"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="campaign_publish_date" caption="Campaign Publish Date" canSetNull="true" selectedFilterOperators="2031871">
+                    <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1"/>
+                    <EditProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1" firstDayOfWeek="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="emails_tracker" caption="Emails Tracker" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="created_by" caption="Created By" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="45"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="created_date" caption="Created Date" canSetNull="true" selectedFilterOperators="2031871">
+                    <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
+                    <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="modified_by" caption="Modified By" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="45"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="modified_date" caption="Modified Date" canSetNull="true" selectedFilterOperators="2031871">
+                    <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
+                    <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
+                  </ColumnPresentation>
+                </ColumnPresentations>
+                <Columns>
+                  <List>
+                    <Column fieldName="program_generator_name_id"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </List>
+                  <View>
+                    <Column fieldName="program_generator_name_id"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </View>
+                  <Edit>
+                    <Column fieldName="program_generator_name_id" visible="false"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </Edit>
+                  <Insert>
+                    <Column fieldName="program_generator_name_id" visible="false"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </Insert>
+                  <QuickFilter>
+                    <Column fieldName="program_generator_name_id"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </QuickFilter>
+                  <FilterBuilder>
+                    <Column fieldName="program_generator_name_id"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </FilterBuilder>
+                  <Print>
+                    <Column fieldName="program_generator_name_id"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </Print>
+                  <Export>
+                    <Column fieldName="program_generator_name_id"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </Export>
+                  <Compare>
+                    <Column fieldName="program_generator_name_id" visible="false"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </Compare>
+                  <MultiEdit>
+                    <Column fieldName="program_generator_name_id" visible="false"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid" visible="false"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </MultiEdit>
+                </Columns>
+                <Details/>
+                <EventHandlers>
+                  <OnGetCustomFormLayout enabled="true">
+$layout-&gt;setMode(FormLayoutMode::VERTICAL);
+                  </OnGetCustomFormLayout>
+                  <BeforeInsertRecord enabled="true">
+$rowData['marketo_page'] = $rowData['campaign'] . '_' . $rowData['marketo_page_name'];                  </BeforeInsertRecord>
+                  <AfterInsertRecord enabled="true">
+if ($success) {
+
+   // Check if the substring exists inside the string     
+   
+   $acampaign_utm_id = $rowData['campaign_utm_id'];
+                           
+   $sql = &quot;CALL campaignUTMGenerator($acampaign_utm_id, @fullurl);&quot;;
+               
+   // mssql_bind($sql, &quot;@fullurl&quot;, $return_value, SQLVARCHAR, true);
+   // mssql_execute($sql,true);
+   // print($return_value);
+
+   $this-&gt;GetConnection()-&gt;ExecSQL($sql);  
+
+   $message = '&lt;p&gt;Record processed successfully updated. To get your UTM Link click on &lt;i class=&quot;icon-view&quot;&gt;&lt;/i&gt; below. ';
+   'Click on &lt;a class=&quot;alert-link&quot; href=&quot;campaign_events.php?operation=edit&amp;pk0='. $fullurl .'&quot;&gt;click right to copy&lt;/a&gt; to complete your event setup.&lt;/p&gt;';
+}                  </AfterInsertRecord>
+                </EventHandlers>
+                <RecordPermissions useRecordPermissions="false"/>
+                <PartitionNavigators/>
+              </OnTheFlyInsertPage>
+              <LookupRecordViewForm numberByDataSource="0" fileName="campaign_program_name_generator" caption="Campaign Program Name Generator" shortCaption="Campaign Program Name Generator" addSeparator="false" horizontalFilterCondition="" isLookupRecordViewForm="true" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
+                <BeforeGridText/>
+                <DetailedDescription/>
+                <ColumnPresentations>
+                  <ColumnPresentation fieldName="program_generator_name_id" caption="Program Generator Name Id" showColumnFilter="false" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="master_campaign_id" caption="Master Campaign Id" canSetNull="true" selectedFilterOperators="1573119">
+                    <Lookup tableName="brief" linkFieldName="master_campaign_id" displayFieldName="campaign_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
+                    <ViewProperties type="text"/>
+                    <EditProperties type="dynamicCombobox"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="trackerid" caption="Trackerid" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="45"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="SFDC_child_campaign" caption="SFDC Child Campaign" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="18"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="campaign_program_name" caption="Campaign Program Name" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="event_type" caption="Event Type" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="short_description" caption="Short Description" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="45"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="region" caption="Region" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="50"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="sub_region" caption="Sub Region" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="30"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="territory" caption="Territory" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="country" caption="Country" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="50"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="industry" caption="Industry" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text" maxLength="75"/>
+                    <EditProperties type="textArea" columnCount="50" rowCount="8" placeholder=""/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="job_function" caption="Job Function" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="campaign_type" caption="Campaign Type" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="45"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="product" caption="Product" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="10"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="m_ID" caption="M ID" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="11"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="campaign_publish_date" caption="Campaign Publish Date" canSetNull="true" selectedFilterOperators="2031871">
+                    <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1"/>
+                    <EditProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1" firstDayOfWeek="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="emails_tracker" caption="Emails Tracker" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="created_by" caption="Created By" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="45"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="created_date" caption="Created Date" canSetNull="true" selectedFilterOperators="2031871">
+                    <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
+                    <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="modified_by" caption="Modified By" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="45"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="modified_date" caption="Modified Date" canSetNull="true" selectedFilterOperators="2031871">
+                    <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
+                    <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
+                  </ColumnPresentation>
+                </ColumnPresentations>
+                <Columns>
+                  <List>
+                    <Column fieldName="program_generator_name_id"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </List>
+                  <View>
+                    <Column fieldName="program_generator_name_id" visible="false"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid" visible="false"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by" visible="false"/>
+                    <Column fieldName="created_date" visible="false"/>
+                    <Column fieldName="modified_by" visible="false"/>
+                    <Column fieldName="modified_date" visible="false"/>
+                  </View>
+                  <Edit>
+                    <Column fieldName="program_generator_name_id" visible="false"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </Edit>
+                  <Insert>
+                    <Column fieldName="program_generator_name_id" visible="false"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </Insert>
+                  <QuickFilter>
+                    <Column fieldName="program_generator_name_id"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </QuickFilter>
+                  <FilterBuilder>
+                    <Column fieldName="program_generator_name_id"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </FilterBuilder>
+                  <Print>
+                    <Column fieldName="program_generator_name_id"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </Print>
+                  <Export>
+                    <Column fieldName="program_generator_name_id"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </Export>
+                  <Compare>
+                    <Column fieldName="program_generator_name_id" visible="false"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </Compare>
+                  <MultiEdit>
+                    <Column fieldName="program_generator_name_id" visible="false"/>
+                    <Column fieldName="master_campaign_id"/>
+                    <Column fieldName="trackerid" visible="false"/>
+                    <Column fieldName="SFDC_child_campaign"/>
+                    <Column fieldName="campaign_program_name"/>
+                    <Column fieldName="event_type"/>
+                    <Column fieldName="short_description"/>
+                    <Column fieldName="region"/>
+                    <Column fieldName="sub_region"/>
+                    <Column fieldName="territory"/>
+                    <Column fieldName="country"/>
+                    <Column fieldName="industry"/>
+                    <Column fieldName="job_function"/>
+                    <Column fieldName="campaign_type"/>
+                    <Column fieldName="product"/>
+                    <Column fieldName="m_ID"/>
+                    <Column fieldName="campaign_publish_date"/>
+                    <Column fieldName="emails_tracker"/>
+                    <Column fieldName="created_by"/>
+                    <Column fieldName="created_date"/>
+                    <Column fieldName="modified_by"/>
+                    <Column fieldName="modified_date"/>
+                  </MultiEdit>
+                </Columns>
+                <Details/>
+                <RecordPermissions useRecordPermissions="false"/>
+                <PartitionNavigators/>
+              </LookupRecordViewForm>
+            </Lookup>
+            <ViewProperties type="text"/>
+            <EditProperties type="dynamicCombobox"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="trackerid" caption="Trackerid" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+            <ViewProperties type="text"/>
+            <EditProperties type="textBox" maxLength="45"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="country" caption="Country" canSetNull="true" selectedFilterOperators="1589247">
+            <ViewProperties type="text"/>
+            <EditProperties type="multiSelect" retrieveValuesFromDatabase="true" dataSourceName="country_list" storedFieldName="Country_ID" displayedFieldName="Country_Name"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="list_total" caption="List Total" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+            <ViewProperties type="text">
+              <DivAttributes align="right"/>
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="0"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="cleaned" caption="Cleaned" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+            <ViewProperties type="text">
+              <DivAttributes align="right"/>
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="0"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="duplicates" caption="Duplicates" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+            <ViewProperties type="text">
+              <DivAttributes align="right"/>
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="0"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="imported_total" caption="Imported Total" showColumnFilter="false" canSetNull="true" readOnly="true" selectedFilterOperators="1573119">
+            <ViewProperties type="text">
+              <DivAttributes align="right"/>
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="0"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="list_obtained" caption="List Obtained" canSetNull="true" selectedFilterOperators="1573119">
+            <Lookup tableName="lookup_imported_obtained" linkFieldName="lookup_imported_obtainedid" displayFieldName="description" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" allowAddNewItemsOnTheFly="true">
+              <OnTheFlyInsertPage numberByDataSource="0" fileName="lookup_imported_obtained" caption="Lookup Imported Obtained" shortCaption="Lookup Imported Obtained" addSeparator="false" horizontalFilterCondition="" isOnTheFlyInsertPage="true" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
+                <BeforeGridText/>
+                <DetailedDescription/>
+                <ColumnPresentations>
+                  <ColumnPresentation fieldName="lookup_imported_obtainedid" caption="Lookup Imported Obtainedid" showColumnFilter="false" selectedFilterOperators="1573119">
+                    <ViewProperties type="text">
+                      <Format type="number" thousandSeparator=","/>
+                    </ViewProperties>
+                    <EditProperties type="textBox" maxLength="0"/>
+                  </ColumnPresentation>
+                  <ColumnPresentation fieldName="description" caption="Description" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                    <ViewProperties type="text"/>
+                    <EditProperties type="textBox" maxLength="45"/>
+                  </ColumnPresentation>
+                </ColumnPresentations>
+                <Columns>
+                  <List>
+                    <Column fieldName="lookup_imported_obtainedid"/>
+                    <Column fieldName="description"/>
+                  </List>
+                  <View>
+                    <Column fieldName="lookup_imported_obtainedid"/>
+                    <Column fieldName="description"/>
+                  </View>
+                  <Edit>
+                    <Column fieldName="lookup_imported_obtainedid" visible="false"/>
+                    <Column fieldName="description"/>
+                  </Edit>
+                  <Insert>
+                    <Column fieldName="lookup_imported_obtainedid" visible="false"/>
+                    <Column fieldName="description"/>
+                  </Insert>
+                  <QuickFilter>
+                    <Column fieldName="lookup_imported_obtainedid"/>
+                    <Column fieldName="description"/>
+                  </QuickFilter>
+                  <FilterBuilder>
+                    <Column fieldName="lookup_imported_obtainedid"/>
+                    <Column fieldName="description"/>
+                  </FilterBuilder>
+                  <Print>
+                    <Column fieldName="lookup_imported_obtainedid"/>
+                    <Column fieldName="description"/>
+                  </Print>
+                  <Export>
+                    <Column fieldName="lookup_imported_obtainedid"/>
+                    <Column fieldName="description"/>
+                  </Export>
+                  <Compare>
+                    <Column fieldName="lookup_imported_obtainedid" visible="false"/>
+                    <Column fieldName="description"/>
+                  </Compare>
+                  <MultiEdit>
+                    <Column fieldName="lookup_imported_obtainedid" visible="false"/>
+                    <Column fieldName="description"/>
+                  </MultiEdit>
+                </Columns>
+                <Details/>
+                <RecordPermissions useRecordPermissions="false"/>
+                <PartitionNavigators/>
+              </OnTheFlyInsertPage>
+            </Lookup>
+            <ViewProperties type="text">
+              <DivAttributes align="right"/>
+            </ViewProperties>
+            <EditProperties type="dynamicCombobox"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="program_url" caption="Program Url" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+            <ViewProperties type="text">
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="0"/>
+            <Validators>
+              <UrlClientValidatorInfo enabled="true"/>
+            </Validators>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="created_by" caption="Created By" showColumnFilter="false" canSetNull="true" readOnly="true" defaultInsertValue="%CURRENT_USER_NAME%" selectedFilterOperators="1589247">
+            <ViewProperties type="text"/>
+            <EditProperties type="textBox" maxLength="45"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="created_date" caption="Created Date" canSetNull="true" readOnly="true" defaultInsertValue="%CURRENT_DATETIME%" selectedFilterOperators="2031871">
+            <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
+            <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="modified_by" caption="Modified By" showColumnFilter="false" canSetNull="true" readOnly="true" defaultInsertValue="%CURRENT_USER_NAME%" selectedFilterOperators="1589247">
+            <ViewProperties type="text"/>
+            <EditProperties type="textBox" maxLength="50"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="modified_date" caption="Modified Date" canSetNull="true" readOnly="true" defaultInsertValue="%CURRENT_DATETIME%" selectedFilterOperators="2031871">
+            <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
+            <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
+          </ColumnPresentation>
+        </ColumnPresentations>
+        <Columns>
+          <List>
+            <Column fieldName="campaign_import_id" visible="false"/>
+            <Column fieldName="program_generator_name_id"/>
+            <Column fieldName="trackerid" visible="false"/>
+            <Column fieldName="country"/>
+            <Column fieldName="list_total"/>
+            <Column fieldName="cleaned"/>
+            <Column fieldName="duplicates"/>
+            <Column fieldName="imported_total"/>
+            <Column fieldName="list_obtained"/>
+            <Column fieldName="program_url"/>
+            <Column fieldName="created_by"/>
+            <Column fieldName="created_date"/>
+            <Column fieldName="modified_by" visible="false"/>
+            <Column fieldName="modified_date" visible="false"/>
+          </List>
+          <View>
+            <Column fieldName="campaign_import_id" visible="false"/>
+            <Column fieldName="program_generator_name_id"/>
+            <Column fieldName="trackerid" visible="false"/>
+            <Column fieldName="country"/>
+            <Column fieldName="list_total"/>
+            <Column fieldName="cleaned"/>
+            <Column fieldName="duplicates"/>
+            <Column fieldName="imported_total"/>
+            <Column fieldName="list_obtained"/>
+            <Column fieldName="program_url"/>
+            <Column fieldName="created_by"/>
+            <Column fieldName="created_date"/>
+            <Column fieldName="modified_by"/>
+            <Column fieldName="modified_date"/>
+          </View>
+          <Edit>
+            <Column fieldName="campaign_import_id" visible="false"/>
+            <Column fieldName="program_generator_name_id"/>
+            <Column fieldName="trackerid" visible="false"/>
+            <Column fieldName="country"/>
+            <Column fieldName="list_total"/>
+            <Column fieldName="cleaned"/>
+            <Column fieldName="duplicates"/>
+            <Column fieldName="imported_total"/>
+            <Column fieldName="list_obtained"/>
+            <Column fieldName="program_url"/>
+            <Column fieldName="created_by" visible="false"/>
+            <Column fieldName="created_date" visible="false"/>
+            <Column fieldName="modified_by"/>
+            <Column fieldName="modified_date"/>
+          </Edit>
+          <Insert>
+            <Column fieldName="campaign_import_id" visible="false"/>
+            <Column fieldName="program_generator_name_id"/>
+            <Column fieldName="trackerid" visible="false"/>
+            <Column fieldName="country"/>
+            <Column fieldName="list_total"/>
+            <Column fieldName="cleaned"/>
+            <Column fieldName="duplicates"/>
+            <Column fieldName="imported_total"/>
+            <Column fieldName="list_obtained"/>
+            <Column fieldName="program_url"/>
+            <Column fieldName="created_by"/>
+            <Column fieldName="created_date"/>
+            <Column fieldName="modified_by" visible="false"/>
+            <Column fieldName="modified_date" visible="false"/>
+          </Insert>
+          <QuickFilter>
+            <Column fieldName="campaign_import_id" visible="false"/>
+            <Column fieldName="program_generator_name_id"/>
+            <Column fieldName="created_date"/>
+            <Column fieldName="trackerid" visible="false"/>
+            <Column fieldName="country"/>
+            <Column fieldName="list_total"/>
+            <Column fieldName="cleaned"/>
+            <Column fieldName="duplicates"/>
+            <Column fieldName="imported_total"/>
+            <Column fieldName="list_obtained"/>
+            <Column fieldName="program_url"/>
+            <Column fieldName="created_by"/>
+            <Column fieldName="modified_by"/>
+            <Column fieldName="modified_date"/>
+          </QuickFilter>
+          <FilterBuilder>
+            <Column fieldName="campaign_import_id" visible="false"/>
+            <Column fieldName="program_generator_name_id"/>
+            <Column fieldName="trackerid" visible="false"/>
+            <Column fieldName="country"/>
+            <Column fieldName="list_total"/>
+            <Column fieldName="cleaned"/>
+            <Column fieldName="duplicates"/>
+            <Column fieldName="imported_total"/>
+            <Column fieldName="list_obtained"/>
+            <Column fieldName="program_url"/>
+            <Column fieldName="created_by"/>
+            <Column fieldName="created_date"/>
+            <Column fieldName="modified_by"/>
+            <Column fieldName="modified_date"/>
+          </FilterBuilder>
+          <Print>
+            <Column fieldName="campaign_import_id" visible="false"/>
+            <Column fieldName="program_generator_name_id"/>
+            <Column fieldName="trackerid" visible="false"/>
+            <Column fieldName="country"/>
+            <Column fieldName="list_total"/>
+            <Column fieldName="cleaned"/>
+            <Column fieldName="duplicates"/>
+            <Column fieldName="imported_total"/>
+            <Column fieldName="list_obtained"/>
+            <Column fieldName="program_url"/>
+            <Column fieldName="created_by"/>
+            <Column fieldName="created_date"/>
+            <Column fieldName="modified_by"/>
+            <Column fieldName="modified_date"/>
+          </Print>
+          <Export>
+            <Column fieldName="campaign_import_id" visible="false"/>
+            <Column fieldName="program_generator_name_id"/>
+            <Column fieldName="trackerid" visible="false"/>
+            <Column fieldName="country"/>
+            <Column fieldName="list_total"/>
+            <Column fieldName="cleaned"/>
+            <Column fieldName="duplicates"/>
+            <Column fieldName="imported_total"/>
+            <Column fieldName="list_obtained"/>
+            <Column fieldName="program_url"/>
+            <Column fieldName="created_by"/>
+            <Column fieldName="created_date"/>
+            <Column fieldName="modified_by"/>
+            <Column fieldName="modified_date"/>
+          </Export>
+          <Compare>
+            <Column fieldName="campaign_import_id" visible="false"/>
+            <Column fieldName="program_generator_name_id"/>
+            <Column fieldName="trackerid" visible="false"/>
+            <Column fieldName="country"/>
+            <Column fieldName="list_total"/>
+            <Column fieldName="cleaned"/>
+            <Column fieldName="duplicates"/>
+            <Column fieldName="imported_total"/>
+            <Column fieldName="list_obtained"/>
+            <Column fieldName="program_url"/>
+            <Column fieldName="created_by"/>
+            <Column fieldName="created_date"/>
+            <Column fieldName="modified_by"/>
+            <Column fieldName="modified_date"/>
+          </Compare>
+          <MultiEdit>
+            <Column fieldName="campaign_import_id" visible="false"/>
+            <Column fieldName="program_generator_name_id"/>
+            <Column fieldName="trackerid" visible="false"/>
+            <Column fieldName="country"/>
+            <Column fieldName="list_total"/>
+            <Column fieldName="cleaned"/>
+            <Column fieldName="duplicates"/>
+            <Column fieldName="imported_total"/>
+            <Column fieldName="list_obtained"/>
+            <Column fieldName="program_url"/>
+            <Column fieldName="created_by"/>
+            <Column fieldName="created_date"/>
+            <Column fieldName="modified_by"/>
+            <Column fieldName="modified_date"/>
+          </MultiEdit>
+        </Columns>
+        <Details/>
+        <EventHandlers>
+          <OnGetCustomFormLayout enabled="true">
+$layout-&gt;setMode(FormLayoutMode::VERTICAL);
+
+$displayGroup = $layout-&gt;addGroup('Overview');
+$displayGroup-&gt;addRow()
+    -&gt;addCol($columns['program_generator_name_id'], 12);
+$displayGroup-&gt;addRow()
+    -&gt;addCol($columns['country'], 12);
+$displayGroup-&gt;addRow()
+    -&gt;addCol($columns['program_url'], 12);
+$displayGroup-&gt;addRow()
+    -&gt;addCol($columns['list_obtained'], 12);
+
+$storageGroup = $layout-&gt;addGroup('Import KPIs', 12);
+$storageGroup-&gt;addRow()
+    -&gt;addCol($columns['list_total'], 3)
+    -&gt;addCol($columns['cleaned'], 3)
+    -&gt;addCol($columns['duplicates'], 3)
+    -&gt;addCol($columns['imported_total'], 3);          </OnGetCustomFormLayout>
+          <OnGetCustomColumnGroup enabled="true">
+$columnGroup-&gt;add(new ViewColumnGroup('Import Information',
+    array(
+        new ViewColumnGroup('Target List',
+            array(
+                $columns['program_generator_name_id'],
+                $columns['created_date'],
+                $columns['country']
+            )
+        ),
+        new ViewColumnGroup('Import Stats',
+            array(
+                $columns['list_total'],
+                $columns['cleaned'],
+                $columns['duplicates'],
+                $columns['imported_total']
+            )
+        )
+    )
+));          </OnGetCustomColumnGroup>
+          <AfterInsertRecord enabled="true">
+if ($success) {
+
+      $created_by = $rowData['created_by'];
+      $created_date = $rowData['created_date'];
+      $trackerid = $rowData['trackerid'];
+
+    $sql = 
+
+      &quot;CALL activityLogInsert('$created_by', '$created_date', 'INSERT', 'campaign_import', $trackerid);&quot;;
+      $this-&gt;GetConnection()-&gt;ExecSQL($sql);
+      
+      $message = '&lt;p&gt;Record inserted successfully.&lt;/p&gt;';                                   
+}          </AfterInsertRecord>
+          <AfterUpdateRecord enabled="true">
+if ($success) {
+
+      $modified_by = $rowData['modified_by'];
+      $modified_date = $rowData['modified_date'];
+      $trackerid = $rowData['trackerid'];
+
+    $sql = 
+
+      &quot;CALL activityLogInsert('$modified_by', '$modified_date', 'UPDATED', 'campaign_import', $trackerid);&quot;;
+      $this-&gt;GetConnection()-&gt;ExecSQL($sql);
+      
+      $message = '&lt;p&gt;Record updated successfully.&lt;/p&gt;';                                   
+}          </AfterUpdateRecord>
+          <OnCalculateFields enabled="true">
+$lt = $rowData['list_total'];
+$ct = $rowData['cleaned'];
+$dt = $rowData['duplicates'];
+
+if ($fieldName == 'list_total') {
+     $value = $lt-$ct-$dt;
+}          </OnCalculateFields>
+          <OnGetCustomPagePermissions enabled="true">
+// do not apply these rules for site admins
+
+if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
+
+    // retrieving the ID of the current user
+    $userId = GetApplication()-&gt;GetCurrentUserId();
+
+    // retrieving all user roles 
+    $sql =        
+      &quot;SELECT r.role_name &quot; .
+      &quot;FROM `phpgen_users` ur &quot; .
+      &quot;INNER JOIN `phpgen_user_roles` r ON r.user_id = ur.user_id &quot; .
+      &quot;WHERE ur.user_id = %d&quot;;    
+    $result = $page-&gt;GetConnection()-&gt;fetchAll(sprintf($sql, $userId));
+
+ 
+
+    // iterating through retrieved roles
+    if (!empty($result)) {
+       foreach ($result as $row) {
+           // is current user a member of the Sales role?
+           if (($row['role_name'] === 'manager') || ($row['role_name'] === 'regional marketing')) {
+             // if yes, allow all actions.
+             // otherwise default permissions for this page will be applied
+             $permissions-&gt;setGrants(true, true, true, true);
+             break;
+           }                 
+       }
+    };    
+
+    // apply the new permissions
+    $handled = true;
+
+}          </OnGetCustomPagePermissions>
+        </EventHandlers>
+        <RecordPermissions useRecordPermissions="false"/>
+        <PartitionNavigators/>
       </Page>
       <Page type="table" tableName="campaign_tracker_website" numberByDataSource="0" fileName="campaign_tracker_website" caption="Campaign Tracker: Website" shortCaption="Campaign Tracker Website" groupName="Global Marketing" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" pageViewMode="1" hideSideBarByDefault="true" formErrorsPlacement="1">
         <BeforeGridText>
@@ -18314,7 +19462,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
     <Header>
 &lt;div style=&quot;width:240px; padding:5px; 0;&quot;&gt;&lt;a href=&quot;http://mktportal.mscsoftware.com&quot;&gt;&lt;img src=&quot;https://documents.mscsoftware.com/cdn/farfuture/NPSxCF6sOluXCivzz8rQYbntpJ5OvR3pKrSJezOcrQ4/mtime:1575505133/sites/default/files/MSC_Cobrand.png&quot; style=&quot;width: 190px; padding: 10px 0;&quot;&gt;&lt;/a&gt;&lt;/div&gt;    </Header>
     <Footer>
-&lt;p align=&quot;right&quot;&gt;(C) &lt;span&gt;2002-&lt;script type=&quot;text/javascript&quot;&gt;document.write(new Date().getFullYear().toString())&lt;/script&gt;&lt;/span&gt;&lt;a href=&quot;#&quot;&gt; MSC Group Marketing&lt;/a&gt;.&lt;/p&gt;    </Footer>
+&lt;p align=&quot;right&quot;&gt;(C) &lt;span&gt;2002-&lt;script type=&quot;text/javascript&quot;&gt;document.write(new Date().getFullYear().toString())&lt;/script&gt;&lt;/span&gt;&lt;a href=&quot;#&quot;&gt; MSC Group Marketing&lt;/a&gt;. Release Version 2.16&lt;/p&gt;    </Footer>
     <PHPOptions/>
     <Groups>
       <Group caption="New Campaign">

@@ -476,6 +476,7 @@
                 )
             );
             $this->dataset->AddLookupField('master_campaign_id', 'brief', new IntegerField('master_campaign_id'), new StringField('campaign_name', false, false, false, false, 'master_campaign_id_campaign_name', 'master_campaign_id_campaign_name_brief'), 'master_campaign_id_campaign_name_brief');
+            $this->dataset->AddLookupField('Campaign Type', 'lookup_campaign_type', new IntegerField('Type_ID'), new StringField('Type', false, false, false, false, 'Campaign Type_Type', 'Campaign Type_Type_lookup_campaign_type'), 'Campaign Type_Type_lookup_campaign_type');
         }
     
         protected function DoPrepare() {
@@ -513,9 +514,9 @@
         protected function getFiltersColumns()
         {
             return array(
-                new FilterColumn($this->dataset, 'master_campaign_id', 'master_campaign_id_campaign_name', 'Master Campaign Id'),
+                new FilterColumn($this->dataset, 'master_campaign_id', 'master_campaign_id_campaign_name', 'Brief Request'),
                 new FilterColumn($this->dataset, 'campaign_name', 'campaign_name', 'Campaign Name'),
-                new FilterColumn($this->dataset, 'Campaign Cost', 'Campaign Cost', 'Campaign Cost'),
+                new FilterColumn($this->dataset, 'Campaign Cost', 'Campaign Cost', 'Cost'),
                 new FilterColumn($this->dataset, 'Total Equiries', 'Total Equiries', 'Total Equiries'),
                 new FilterColumn($this->dataset, 'Opportunities', 'Opportunities', 'Opportunities'),
                 new FilterColumn($this->dataset, 'Opportunity Value', 'Opportunity Value', 'Opportunity Value'),
@@ -523,7 +524,7 @@
                 new FilterColumn($this->dataset, 'Days Lapsed', 'Days Lapsed', 'Days Lapsed'),
                 new FilterColumn($this->dataset, 'Region', 'Region', 'Region'),
                 new FilterColumn($this->dataset, 'Country', 'Country', 'Country'),
-                new FilterColumn($this->dataset, 'Campaign Type', 'Campaign Type', 'Campaign Type'),
+                new FilterColumn($this->dataset, 'Campaign Type', 'Campaign Type_Type', 'Campaign Type'),
                 new FilterColumn($this->dataset, 'Lifecycle', 'Lifecycle', 'Lifecycle'),
                 new FilterColumn($this->dataset, 'Expected OTS', 'Expected OTS', 'Expected OTS')
             );
@@ -550,7 +551,8 @@
         protected function setupColumnFilter(ColumnFilter $columnFilter)
         {
             $columnFilter
-                ->setOptionsFor('master_campaign_id');
+                ->setOptionsFor('master_campaign_id')
+                ->setOptionsFor('Campaign Type');
         }
     
         protected function setupFilterBuilder(FilterBuilder $filterBuilder, FixedKeysArray $columns)
@@ -709,6 +711,7 @@
             );
             
             $main_editor = new TextEdit('days_lapsed_edit');
+            $main_editor->SetSuffix('Days');
             
             $filterBuilder->addColumn(
                 $columns['Days Lapsed'],
@@ -780,7 +783,14 @@
                 )
             );
             
-            $main_editor = new SpinEdit('campaign_type_edit');
+            $main_editor = new DynamicCombobox('campaign_type_edit', $this->CreateLinkBuilder());
+            $main_editor->setAllowClear(true);
+            $main_editor->setMinimumInputLength(0);
+            $main_editor->SetAllowNullValue(false);
+            $main_editor->SetHandlerName('filter_builder_campaign_ROI_Tracker_Campaign Type_search');
+            
+            $multi_value_select_editor = new RemoteMultiValueSelect('Campaign Type', $this->CreateLinkBuilder());
+            $multi_value_select_editor->SetHandlerName('filter_builder_campaign_ROI_Tracker_Campaign Type_search');
             
             $filterBuilder->addColumn(
                 $columns['Campaign Type'],
@@ -793,6 +803,8 @@
                     FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
                     FilterConditionOperator::IS_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::IN => $multi_value_select_editor,
+                    FilterConditionOperator::NOT_IN => $multi_value_select_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -862,6 +874,37 @@
                 $operation->setUseImage(true);
                 $actions->addOperation($operation);
             }
+            
+            if ($this->GetSecurityInfo()->HasEditGrant())
+            {
+                $operation = new AjaxOperation(OPERATION_EDIT,
+                    $this->GetLocalizerCaptions()->GetMessageString('Edit'),
+                    $this->GetLocalizerCaptions()->GetMessageString('Edit'), $this->dataset,
+                    $this->GetGridEditHandler(), $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+                $operation->OnShow->AddListener('ShowEditButtonHandler', $this);
+            }
+            
+            if ($this->GetSecurityInfo()->HasDeleteGrant())
+            {
+                $operation = new LinkOperation($this->GetLocalizerCaptions()->GetMessageString('Delete'), OPERATION_DELETE, $this->dataset, $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+                $operation->OnShow->AddListener('ShowDeleteButtonHandler', $this);
+                $operation->SetAdditionalAttribute('data-modal-operation', 'delete');
+                $operation->SetAdditionalAttribute('data-delete-handler-name', $this->GetModalGridDeleteHandler());
+            }
+            
+            if ($this->GetSecurityInfo()->HasAddGrant())
+            {
+                $operation = new AjaxOperation(OPERATION_COPY,
+                    $this->GetLocalizerCaptions()->GetMessageString('Copy'),
+                    $this->GetLocalizerCaptions()->GetMessageString('Copy'), $this->dataset,
+                    $this->GetModalGridCopyHandler(), $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+            }
         }
     
         protected function AddFieldColumns(Grid $grid, $withDetails = true)
@@ -869,8 +912,9 @@
             //
             // View column for campaign_name field
             //
-            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Master Campaign Id', $this->dataset);
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Brief Request', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->setLookupRecordModalViewHandlerName(campaign_ROI_Tracker_master_campaign_idModalViewPage::getHandlerName());
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
@@ -882,6 +926,7 @@
             //
             $column = new TextViewColumn('campaign_name', 'campaign_name', 'Campaign Name', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -890,8 +935,14 @@
             //
             // View column for Campaign Cost field
             //
-            $column = new TextViewColumn('Campaign Cost', 'Campaign Cost', 'Campaign Cost', $this->dataset);
+            $column = new CurrencyViewColumn('Campaign Cost', 'Campaign Cost', 'Cost', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
+            $column->setAlign('right');
+            $column->setNumberAfterDecimal(2);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('.');
+            $column->setCurrencySign('€');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -902,6 +953,7 @@
             //
             $column = new NumberViewColumn('Total Equiries', 'Total Equiries', 'Total Equiries', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
@@ -915,6 +967,7 @@
             //
             $column = new NumberViewColumn('Opportunities', 'Opportunities', 'Opportunities', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
@@ -928,6 +981,7 @@
             //
             $column = new NumberViewColumn('Opportunity Value', 'Opportunity Value', 'Opportunity Value', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
@@ -939,8 +993,14 @@
             //
             // View column for ROI field
             //
-            $column = new TextViewColumn('ROI', 'ROI', 'ROI', $this->dataset);
+            $column = new CurrencyViewColumn('ROI', 'ROI', 'ROI', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
+            $column->setAlign('right');
+            $column->setNumberAfterDecimal(2);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('.');
+            $column->setCurrencySign('€');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -951,6 +1011,7 @@
             //
             $column = new TextViewColumn('Days Lapsed', 'Days Lapsed', 'Days Lapsed', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -961,6 +1022,7 @@
             //
             $column = new TextViewColumn('Region', 'Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -971,19 +1033,18 @@
             //
             $column = new TextViewColumn('Country', 'Country', 'Country', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
             $grid->AddViewColumn($column);
             
             //
-            // View column for Campaign Type field
+            // View column for Type field
             //
-            $column = new NumberViewColumn('Campaign Type', 'Campaign Type', 'Campaign Type', $this->dataset);
+            $column = new TextViewColumn('Campaign Type', 'Campaign Type_Type', 'Campaign Type', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $column->setAlign('left');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1015,7 +1076,7 @@
             //
             // View column for campaign_name field
             //
-            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Master Campaign Id', $this->dataset);
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Brief Request', $this->dataset);
             $column->SetOrderable(true);
             $column->setLookupRecordModalViewHandlerName(campaign_ROI_Tracker_master_campaign_idModalViewPage::getHandlerName());
             $grid->AddSingleRecordViewColumn($column);
@@ -1030,8 +1091,13 @@
             //
             // View column for Campaign Cost field
             //
-            $column = new TextViewColumn('Campaign Cost', 'Campaign Cost', 'Campaign Cost', $this->dataset);
+            $column = new CurrencyViewColumn('Campaign Cost', 'Campaign Cost', 'Cost', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
+            $column->setNumberAfterDecimal(2);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('.');
+            $column->setCurrencySign('€');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1067,8 +1133,13 @@
             //
             // View column for ROI field
             //
-            $column = new TextViewColumn('ROI', 'ROI', 'ROI', $this->dataset);
+            $column = new CurrencyViewColumn('ROI', 'ROI', 'ROI', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
+            $column->setNumberAfterDecimal(2);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('.');
+            $column->setCurrencySign('€');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1093,13 +1164,10 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for Campaign Type field
+            // View column for Type field
             //
-            $column = new NumberViewColumn('Campaign Type', 'Campaign Type', 'Campaign Type', $this->dataset);
+            $column = new TextViewColumn('Campaign Type', 'Campaign Type_Type', 'Campaign Type', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1161,7 +1229,7 @@
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Master Campaign Id', 'master_campaign_id', 'master_campaign_id_campaign_name', 'edit_campaign_ROI_Tracker_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
+            $editColumn = new DynamicLookupEditColumn('Brief Request', 'master_campaign_id', 'master_campaign_id_campaign_name', 'edit_campaign_ROI_Tracker_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -1181,7 +1249,7 @@
             // Edit column for Campaign Cost field
             //
             $editor = new TextEdit('campaign_cost_edit');
-            $editColumn = new CustomEditColumn('Campaign Cost', 'Campaign Cost', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('Cost', 'Campaign Cost', $editor, $this->dataset);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -1231,6 +1299,7 @@
             // Edit column for Days Lapsed field
             //
             $editor = new TextEdit('days_lapsed_edit');
+            $editor->SetSuffix('Days');
             $editColumn = new CustomEditColumn('Days Lapsed', 'Days Lapsed', $editor, $this->dataset);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
@@ -1260,8 +1329,22 @@
             //
             // Edit column for Campaign Type field
             //
-            $editor = new SpinEdit('campaign_type_edit');
-            $editColumn = new CustomEditColumn('Campaign Type', 'Campaign Type', $editor, $this->dataset);
+            $editor = new DynamicCombobox('campaign_type_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_campaign_type`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('Type_ID', true, true, true),
+                    new StringField('Type'),
+                    new StringField('Type_Value')
+                )
+            );
+            $lookupDataset->setOrderByField('Type', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Campaign Type', 'Campaign Type', 'Campaign Type_Type', 'edit_campaign_ROI_Tracker_Campaign Type_search', $editor, $this->dataset, $lookupDataset, 'Type_ID', 'Type', '');
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -1332,7 +1415,7 @@
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Master Campaign Id', 'master_campaign_id', 'master_campaign_id_campaign_name', 'multi_edit_campaign_ROI_Tracker_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
+            $editColumn = new DynamicLookupEditColumn('Brief Request', 'master_campaign_id', 'master_campaign_id_campaign_name', 'multi_edit_campaign_ROI_Tracker_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -1352,7 +1435,7 @@
             // Edit column for Campaign Cost field
             //
             $editor = new TextEdit('campaign_cost_edit');
-            $editColumn = new CustomEditColumn('Campaign Cost', 'Campaign Cost', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('Cost', 'Campaign Cost', $editor, $this->dataset);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -1402,6 +1485,7 @@
             // Edit column for Days Lapsed field
             //
             $editor = new TextEdit('days_lapsed_edit');
+            $editor->SetSuffix('Days');
             $editColumn = new CustomEditColumn('Days Lapsed', 'Days Lapsed', $editor, $this->dataset);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
@@ -1431,8 +1515,22 @@
             //
             // Edit column for Campaign Type field
             //
-            $editor = new SpinEdit('campaign_type_edit');
-            $editColumn = new CustomEditColumn('Campaign Type', 'Campaign Type', $editor, $this->dataset);
+            $editor = new DynamicCombobox('campaign_type_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_campaign_type`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('Type_ID', true, true, true),
+                    new StringField('Type'),
+                    new StringField('Type_Value')
+                )
+            );
+            $lookupDataset->setOrderByField('Type', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Campaign Type', 'Campaign Type', 'Campaign Type_Type', 'multi_edit_campaign_ROI_Tracker_Campaign Type_search', $editor, $this->dataset, $lookupDataset, 'Type_ID', 'Type', '');
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -1503,7 +1601,7 @@
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Master Campaign Id', 'master_campaign_id', 'master_campaign_id_campaign_name', 'insert_campaign_ROI_Tracker_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
+            $editColumn = new DynamicLookupEditColumn('Brief Request', 'master_campaign_id', 'master_campaign_id_campaign_name', 'insert_campaign_ROI_Tracker_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -1523,7 +1621,7 @@
             // Edit column for Campaign Cost field
             //
             $editor = new TextEdit('campaign_cost_edit');
-            $editColumn = new CustomEditColumn('Campaign Cost', 'Campaign Cost', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('Cost', 'Campaign Cost', $editor, $this->dataset);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -1573,6 +1671,7 @@
             // Edit column for Days Lapsed field
             //
             $editor = new TextEdit('days_lapsed_edit');
+            $editor->SetSuffix('Days');
             $editColumn = new CustomEditColumn('Days Lapsed', 'Days Lapsed', $editor, $this->dataset);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
@@ -1602,8 +1701,22 @@
             //
             // Edit column for Campaign Type field
             //
-            $editor = new SpinEdit('campaign_type_edit');
-            $editColumn = new CustomEditColumn('Campaign Type', 'Campaign Type', $editor, $this->dataset);
+            $editor = new DynamicCombobox('campaign_type_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_campaign_type`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('Type_ID', true, true, true),
+                    new StringField('Type'),
+                    new StringField('Type_Value')
+                )
+            );
+            $lookupDataset->setOrderByField('Type', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Campaign Type', 'Campaign Type', 'Campaign Type_Type', 'insert_campaign_ROI_Tracker_Campaign Type_search', $editor, $this->dataset, $lookupDataset, 'Type_ID', 'Type', '');
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -1628,7 +1741,7 @@
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
-            $grid->SetShowAddButton(false && $this->GetSecurityInfo()->HasAddGrant());
+            $grid->SetShowAddButton(true && $this->GetSecurityInfo()->HasAddGrant());
         }
     
         private function AddMultiUploadColumn(Grid $grid)
@@ -1641,8 +1754,9 @@
             //
             // View column for campaign_name field
             //
-            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Master Campaign Id', $this->dataset);
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Brief Request', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddPrintColumn($column);
             
             //
@@ -1650,13 +1764,20 @@
             //
             $column = new TextViewColumn('campaign_name', 'campaign_name', 'Campaign Name', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddPrintColumn($column);
             
             //
             // View column for Campaign Cost field
             //
-            $column = new TextViewColumn('Campaign Cost', 'Campaign Cost', 'Campaign Cost', $this->dataset);
+            $column = new CurrencyViewColumn('Campaign Cost', 'Campaign Cost', 'Cost', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
+            $column->setAlign('right');
+            $column->setNumberAfterDecimal(2);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('.');
+            $column->setCurrencySign('€');
             $grid->AddPrintColumn($column);
             
             //
@@ -1664,6 +1785,7 @@
             //
             $column = new NumberViewColumn('Total Equiries', 'Total Equiries', 'Total Equiries', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
@@ -1674,6 +1796,7 @@
             //
             $column = new NumberViewColumn('Opportunities', 'Opportunities', 'Opportunities', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
@@ -1684,6 +1807,7 @@
             //
             $column = new NumberViewColumn('Opportunity Value', 'Opportunity Value', 'Opportunity Value', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
@@ -1692,8 +1816,14 @@
             //
             // View column for ROI field
             //
-            $column = new TextViewColumn('ROI', 'ROI', 'ROI', $this->dataset);
+            $column = new CurrencyViewColumn('ROI', 'ROI', 'ROI', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
+            $column->setAlign('right');
+            $column->setNumberAfterDecimal(2);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('.');
+            $column->setCurrencySign('€');
             $grid->AddPrintColumn($column);
             
             //
@@ -1701,6 +1831,7 @@
             //
             $column = new TextViewColumn('Days Lapsed', 'Days Lapsed', 'Days Lapsed', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $grid->AddPrintColumn($column);
             
             //
@@ -1708,6 +1839,7 @@
             //
             $column = new TextViewColumn('Region', 'Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddPrintColumn($column);
             
             //
@@ -1715,16 +1847,15 @@
             //
             $column = new TextViewColumn('Country', 'Country', 'Country', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddPrintColumn($column);
             
             //
-            // View column for Campaign Type field
+            // View column for Type field
             //
-            $column = new NumberViewColumn('Campaign Type', 'Campaign Type', 'Campaign Type', $this->dataset);
+            $column = new TextViewColumn('Campaign Type', 'Campaign Type_Type', 'Campaign Type', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $column->setAlign('left');
             $grid->AddPrintColumn($column);
             
             //
@@ -1747,8 +1878,9 @@
             //
             // View column for campaign_name field
             //
-            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Master Campaign Id', $this->dataset);
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Brief Request', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddExportColumn($column);
             
             //
@@ -1756,13 +1888,20 @@
             //
             $column = new TextViewColumn('campaign_name', 'campaign_name', 'Campaign Name', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddExportColumn($column);
             
             //
             // View column for Campaign Cost field
             //
-            $column = new TextViewColumn('Campaign Cost', 'Campaign Cost', 'Campaign Cost', $this->dataset);
+            $column = new CurrencyViewColumn('Campaign Cost', 'Campaign Cost', 'Cost', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
+            $column->setAlign('right');
+            $column->setNumberAfterDecimal(2);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('.');
+            $column->setCurrencySign('€');
             $grid->AddExportColumn($column);
             
             //
@@ -1770,6 +1909,7 @@
             //
             $column = new NumberViewColumn('Total Equiries', 'Total Equiries', 'Total Equiries', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
@@ -1780,6 +1920,7 @@
             //
             $column = new NumberViewColumn('Opportunities', 'Opportunities', 'Opportunities', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
@@ -1790,6 +1931,7 @@
             //
             $column = new NumberViewColumn('Opportunity Value', 'Opportunity Value', 'Opportunity Value', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
@@ -1798,8 +1940,14 @@
             //
             // View column for ROI field
             //
-            $column = new TextViewColumn('ROI', 'ROI', 'ROI', $this->dataset);
+            $column = new CurrencyViewColumn('ROI', 'ROI', 'ROI', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
+            $column->setAlign('right');
+            $column->setNumberAfterDecimal(2);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('.');
+            $column->setCurrencySign('€');
             $grid->AddExportColumn($column);
             
             //
@@ -1807,6 +1955,7 @@
             //
             $column = new TextViewColumn('Days Lapsed', 'Days Lapsed', 'Days Lapsed', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $grid->AddExportColumn($column);
             
             //
@@ -1814,6 +1963,7 @@
             //
             $column = new TextViewColumn('Region', 'Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddExportColumn($column);
             
             //
@@ -1821,16 +1971,15 @@
             //
             $column = new TextViewColumn('Country', 'Country', 'Country', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddExportColumn($column);
             
             //
-            // View column for Campaign Type field
+            // View column for Type field
             //
-            $column = new NumberViewColumn('Campaign Type', 'Campaign Type', 'Campaign Type', $this->dataset);
+            $column = new TextViewColumn('Campaign Type', 'Campaign Type_Type', 'Campaign Type', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $column->setAlign('left');
             $grid->AddExportColumn($column);
             
             //
@@ -1853,8 +2002,9 @@
             //
             // View column for campaign_name field
             //
-            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Master Campaign Id', $this->dataset);
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Brief Request', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddCompareColumn($column);
             
             //
@@ -1862,13 +2012,20 @@
             //
             $column = new TextViewColumn('campaign_name', 'campaign_name', 'Campaign Name', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddCompareColumn($column);
             
             //
             // View column for Campaign Cost field
             //
-            $column = new TextViewColumn('Campaign Cost', 'Campaign Cost', 'Campaign Cost', $this->dataset);
+            $column = new CurrencyViewColumn('Campaign Cost', 'Campaign Cost', 'Cost', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
+            $column->setAlign('right');
+            $column->setNumberAfterDecimal(2);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('.');
+            $column->setCurrencySign('€');
             $grid->AddCompareColumn($column);
             
             //
@@ -1876,6 +2033,7 @@
             //
             $column = new NumberViewColumn('Total Equiries', 'Total Equiries', 'Total Equiries', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
@@ -1886,6 +2044,7 @@
             //
             $column = new NumberViewColumn('Opportunities', 'Opportunities', 'Opportunities', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
@@ -1896,6 +2055,7 @@
             //
             $column = new NumberViewColumn('Opportunity Value', 'Opportunity Value', 'Opportunity Value', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
@@ -1904,8 +2064,14 @@
             //
             // View column for ROI field
             //
-            $column = new TextViewColumn('ROI', 'ROI', 'ROI', $this->dataset);
+            $column = new CurrencyViewColumn('ROI', 'ROI', 'ROI', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
+            $column->setAlign('right');
+            $column->setNumberAfterDecimal(2);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('.');
+            $column->setCurrencySign('€');
             $grid->AddCompareColumn($column);
             
             //
@@ -1913,6 +2079,7 @@
             //
             $column = new TextViewColumn('Days Lapsed', 'Days Lapsed', 'Days Lapsed', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('right');
             $grid->AddCompareColumn($column);
             
             //
@@ -1920,6 +2087,7 @@
             //
             $column = new TextViewColumn('Region', 'Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddCompareColumn($column);
             
             //
@@ -1927,16 +2095,15 @@
             //
             $column = new TextViewColumn('Country', 'Country', 'Country', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddCompareColumn($column);
             
             //
-            // View column for Campaign Type field
+            // View column for Type field
             //
-            $column = new NumberViewColumn('Campaign Type', 'Campaign Type', 'Campaign Type', $this->dataset);
+            $column = new TextViewColumn('Campaign Type', 'Campaign Type_Type', 'Campaign Type', $this->dataset);
             $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $column->setAlign('left');
             $grid->AddCompareColumn($column);
             
             //
@@ -1985,7 +2152,15 @@
         {
             return ;
         }
+        
+        public function GetEnableModalGridInsert() { return true; }
         public function GetEnableModalSingleRecordView() { return true; }
+        
+        public function GetEnableModalGridEdit() { return true; }
+        
+        protected function GetEnableModalGridDelete() { return true; }
+        
+        public function GetEnableModalGridCopy() { return true; }
         
         private $partitions = array(1 => array('\'Americas\''), 2 => array('\'EMEA\''), 3 => array('\'IndoPac\''), 4 => array('\'Japan\''), 5 => array('\'China\''), 6 => array('\'Korea\''));
         
@@ -2011,7 +2186,7 @@
         {
             $result = new Grid($this, $this->dataset);
             if ($this->GetSecurityInfo()->HasDeleteGrant())
-               $result->SetAllowDeleteSelected(false);
+               $result->SetAllowDeleteSelected(true);
             else
                $result->SetAllowDeleteSelected(false);   
             
@@ -2020,14 +2195,21 @@
             $result->SetUseImagesForActions(true);
             $result->SetUseFixedHeader(false);
             $result->SetShowLineNumbers(true);
+            $result->SetShowKeyColumnsImagesInHeader(false);
             $result->SetViewMode(ViewMode::TABLE);
             $result->setEnableRuntimeCustomization(true);
             $result->setAllowCompare(true);
             $this->AddCompareHeaderColumns($result);
             $this->AddCompareColumns($result);
-            $result->setMultiEditAllowed($this->GetSecurityInfo()->HasEditGrant() && false);
+            $result->setMultiEditAllowed($this->GetSecurityInfo()->HasEditGrant() && true);
             $result->setTableBordered(false);
             $result->setTableCondensed(false);
+            $result->SetTotal('Campaign Cost', PredefinedAggregate::$Sum);
+            $result->SetTotal('Total Equiries', PredefinedAggregate::$Sum);
+            $result->SetTotal('Opportunities', PredefinedAggregate::$Sum);
+            $result->SetTotal('Opportunity Value', PredefinedAggregate::$Sum);
+            $result->SetTotal('ROI', PredefinedAggregate::$Sum);
+            $result->SetTotal('Days Lapsed', PredefinedAggregate::$Average);
             
             $result->SetHighlightRowAtHover(true);
             $result->SetWidth('');
@@ -2044,7 +2226,7 @@
     
             $this->SetShowPageList(true);
             $this->SetShowTopPageNavigator(true);
-            $this->SetShowBottomPageNavigator(false);
+            $this->SetShowBottomPageNavigator(true);
             $this->setPrintListAvailable(true);
             $this->setPrintListRecordAvailable(false);
             $this->setPrintOneRecordAvailable(true);
@@ -2061,7 +2243,6 @@
                             <a href="http://mktportal.mscsoftware.com/master_campaign_global.php" class="stretched-link">Go to Master Campaign</a>
                           </div>
                         </div>');
-            $this->SetHidePageListByDefault(true);
             $this->setShowFormErrorsOnTop(true);
             $this->setShowFormErrorsAtBottom(false);
     
@@ -2115,6 +2296,21 @@
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
+                '`lookup_campaign_type`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('Type_ID', true, true, true),
+                    new StringField('Type'),
+                    new StringField('Type_Value')
+                )
+            );
+            $lookupDataset->setOrderByField('Type', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_ROI_Tracker_Campaign Type_search', 'Type_ID', 'Type', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
                 '`brief`');
             $lookupDataset->addFields(
                 array(
@@ -2149,6 +2345,21 @@
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_ROI_Tracker_master_campaign_id_search', 'master_campaign_id', 'campaign_name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_campaign_type`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('Type_ID', true, true, true),
+                    new StringField('Type'),
+                    new StringField('Type_Value')
+                )
+            );
+            $lookupDataset->setOrderByField('Type', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_ROI_Tracker_Campaign Type_search', 'Type_ID', 'Type', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -2193,6 +2404,21 @@
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
+                '`lookup_campaign_type`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('Type_ID', true, true, true),
+                    new StringField('Type'),
+                    new StringField('Type_Value')
+                )
+            );
+            $lookupDataset->setOrderByField('Type', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_ROI_Tracker_Campaign Type_search', 'Type_ID', 'Type', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
                 '`brief`');
             $lookupDataset->addFields(
                 array(
@@ -2227,6 +2453,21 @@
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_ROI_Tracker_master_campaign_id_search', 'master_campaign_id', 'campaign_name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_campaign_type`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('Type_ID', true, true, true),
+                    new StringField('Type'),
+                    new StringField('Type_Value')
+                )
+            );
+            $lookupDataset->setOrderByField('Type', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_ROI_Tracker_Campaign Type_search', 'Type_ID', 'Type', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             new campaign_ROI_Tracker_master_campaign_idModalViewPage($this, GetCurrentUserPermissionSetForDataSource('campaign_ROI_Tracker.master_campaign_id'));
         }

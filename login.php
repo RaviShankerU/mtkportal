@@ -21,7 +21,8 @@ function GetConnectionOptions() {
 }
 
 function OnAfterLogin($userName, EngConnection $connection, &$canLogin, &$errorMessage) {
-
+    $connection->ExecSQL("INSERT INTO activity_log(action, user_id, activity_log) 
+      VALUES ('LOGGED IN', '$userName', CURRENT_TIMESTAMP)");
 }
 
 function OnAfterFailedLoginAttempt($userName, EngConnection $connection, &$errorMessage) {

@@ -175,6 +175,17 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
+    $result[] = array('caption' => 'Contact List Import', 'short_caption' => 'Contact List Import', 'filename' => 'campaign_import.php', 'name' => 'campaign_import', 'group_name' => 'Campaign Tools', 'add_separator' => false, 'description' => '<a href="campaign_import.php" style="text-decoration:none;">
+    <div class="card">
+        <div class="card-circle">
+          <img src="apps/icons/import.png"  class="icon-size-desk">
+      </div>
+      <div class="text-content">
+        <span class=card-title><strong>List Import</strong></span>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. </p>
+      </div>
+    </div>
+    </a>');
     $result[] = array('caption' => 'Campaign Tracker Website', 'short_caption' => 'Campaign Tracker: Website', 'filename' => 'campaign_tracker_website.php', 'name' => 'campaign_tracker_website', 'group_name' => 'Global Marketing', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/campaign_tracker_website.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
@@ -296,6 +307,17 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
+    $result[] = array('caption' => 'Activity Log', 'short_caption' => 'Activity Log', 'filename' => 'activity_log.php', 'name' => 'activity_log', 'group_name' => 'Tools', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/activity_log.php" style="text-decoration:none;">
+    <div class="card">
+        <div class="card-circle">
+          <img src="apps/icons/activity-log.png"  class="icon-size-desk">
+      </div>
+      <div class="text-content">
+        <span class=card-title><strong>Activity Log</strong></span>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. </p>
+      </div>
+    </div>
+    </a>');
     return $result;
 }
 
@@ -308,7 +330,7 @@ function GetPagesHeader()
 function GetPagesFooter()
 {
     return
-        '<p align="right">(C) <span>2002-<script type="text/javascript">document.write(new Date().getFullYear().toString())</script></span><a href="#"> MSC Group Marketing</a>.</p>';
+        '<p align="right">(C) <span>2020-<script type="text/javascript">document.write(new Date().getFullYear().toString())</script></span><a href="#"> MSC Group Marketing</a>. Release Version v2.17</p>';
 }
 
 function ApplyCommonPageSettings(Page $page, Grid $grid)
@@ -342,7 +364,9 @@ function Global_CustomHTMLHeaderHandler($page, &$customHtmlHeaderText)
 
 function Global_GetCustomTemplateHandler($type, $part, $mode, &$result, &$params, CommonPage $page = null)
 {
-
+    if ($part == PagePart::PageList) {
+        $result = 'custom_menu.tpl';
+    }
 }
 
 function Global_OnGetCustomExportOptions($page, $exportType, $rowData, &$options)
@@ -357,7 +381,15 @@ function Global_OnGetFieldValue($fieldName, &$value, $tableName)
 
 function Global_GetCustomPageList(CommonPage $page, PageList $pageList)
 {
-
+    $pageList->addGroup('External links');
+    
+    $pageList->addPage(new PageLink('Home Site', 'http://www.mscsoftware.com', 
+    
+        'Vist my site', false, false, 'External links'));
+    
+    $pageList->addPage(new PageLink('Get Support', 'portal_help.php',
+    
+        'Get support for this application', false, false, 'External links'));
 }
 
 function Global_BeforeInsertHandler($page, &$rowData, $tableName, &$cancel, &$message, &$messageDisplayTime)
@@ -402,7 +434,7 @@ function GetFirstDayOfWeek()
 
 function GetPageListType()
 {
-    return PageList::TYPE_MENU;
+    return PageList::TYPE_SIDEBAR;
 }
 
 function GetNullLabel()
