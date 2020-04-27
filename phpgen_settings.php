@@ -54,11 +54,11 @@ function GetHomePageBanner()
 function GetPageGroups()
 {
     $result = array();
-    $result[] = array('caption' => 'New Campaign', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.');
-    $result[] = array('caption' => 'Campaign Tools', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.');
+    $result[] = array('caption' => 'New Campaign', 'description' => 'This section of the portal is the most common place to start when setting up and event or a campaign of any sort.');
+    $result[] = array('caption' => 'Campaign Tools', 'description' => 'These campaign tools are carefull put together to help you track and support your campaign.');
     $result[] = array('caption' => 'Campaign Manager', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.');
     $result[] = array('caption' => 'Global Marketing', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.');
-    $result[] = array('caption' => 'Tools', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.');
+    $result[] = array('caption' => 'Admin Tools', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.');
     return $result;
 }
 
@@ -72,7 +72,7 @@ function GetPageInfos()
       </div>
       <div class="text-content">
         <span class=card-title><strong>Campaign Calendar</strong></span>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. </p>
+        <p>Campaign calendar, host a central view of all events, marketing communications and global marketing activities in all regions. </p>
       </div>
     </div>
     </a>');
@@ -94,7 +94,7 @@ function GetPageInfos()
       </div>
       <div class="text-content">
         <span class=card-title><strong>Events</strong></span>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. </p>
+        <p>Events, is a list overview for all events, virtual or location based displaying a region and global budget with your own or budget approval list.</p>
       </div>
     </div>
     </a>');
@@ -142,14 +142,14 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
-    $result[] = array('caption' => 'Program Generator', 'short_caption' => 'Campaign Program Name Generator', 'filename' => 'campaign_program_name_generator.php', 'name' => 'campaign_program_name_generator', 'group_name' => 'Campaign Tools', 'add_separator' => false, 'description' => '<a href="campaign_program_name_generator.php" style="text-decoration:none;">
+    $result[] = array('caption' => 'Program Generator', 'short_caption' => 'Program Name Generator', 'filename' => 'campaign_program_name_generator.php', 'name' => 'campaign_program_name_generator', 'group_name' => 'Campaign Tools', 'add_separator' => false, 'description' => '<a href="campaign_program_name_generator.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
           <img src="apps/icons/program-generator.png"  class="icon-size-desk">
       </div>
       <div class="text-content">
-        <span class=card-title><strong>Program Generator</strong></span>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. </p>
+        <span class=card-title><strong>Program Name Generator</strong></span>
+        <p>Marketo Program Name Generator, standardises the naming conversion for all Marketo programs for the purpose reporting in Salesforce.</p>
       </div>
     </div>
     </a>');
@@ -160,7 +160,7 @@ function GetPageInfos()
       </div>
       <div class="text-content">
         <span class=card-title><strong>Comms Tracker (Local)</strong></span>
-        <p>Local campaigns by region, ipsum lorem consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. </p>
+        <p>The Comms Tracker supports the Program Generator, Events displaying preplanned target list by channel in the Campaign Calendar.</p>
       </div>
     </div>
     </a>');
@@ -171,7 +171,7 @@ function GetPageInfos()
       </div>
       <div class="text-content">
         <span class=card-title><strong>UTM Tracking</strong></span>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. </p>
+        <p>Generate custom campaign tracking for your email, social, paid posts URLs, this supports the comms tracker.</p>
       </div>
     </div>
     </a>');
@@ -182,7 +182,7 @@ function GetPageInfos()
       </div>
       <div class="text-content">
         <span class=card-title><strong>List Import</strong></span>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. </p>
+        <p>List import is the centralised managed import register to comply with GDPR and quality data being imported into Salesforce via Marketo.</p>
       </div>
     </div>
     </a>');
@@ -274,7 +274,7 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
-    $result[] = array('caption' => 'Country List', 'short_caption' => 'Country List', 'filename' => 'country_list.php', 'name' => 'country_list', 'group_name' => 'Tools', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/country_list.php" style="text-decoration:none;">
+    $result[] = array('caption' => 'Country List', 'short_caption' => 'Country List', 'filename' => 'country_list.php', 'name' => 'country_list', 'group_name' => 'Admin Tools', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/country_list.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
           <img src="apps/icons/globe.png"  class="icon-size-desk">
@@ -285,7 +285,7 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
-    $result[] = array('caption' => 'Tactic Template', 'short_caption' => 'Tactic Template Builder', 'filename' => 'lookup_tracker_tactics.php', 'name' => 'lookup_tracker_tactics', 'group_name' => 'Tools', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/lookup_tracker_tactics.php" style="text-decoration:none;">
+    $result[] = array('caption' => 'Tactic Template', 'short_caption' => 'Tactic Template Builder', 'filename' => 'lookup_tracker_tactics.php', 'name' => 'lookup_tracker_tactics', 'group_name' => 'Admin Tools', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/lookup_tracker_tactics.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
           <img src="apps/icons/template.png" class="icon-size-desk">
@@ -296,7 +296,7 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
-    $result[] = array('caption' => 'User Roles', 'short_caption' => 'User Roles', 'filename' => 'phpgen_user_roles.php', 'name' => 'phpgen_user_roles', 'group_name' => 'Tools', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/phpgen_user_roles.php" style="text-decoration:none;">
+    $result[] = array('caption' => 'User Roles', 'short_caption' => 'User Roles', 'filename' => 'phpgen_user_roles.php', 'name' => 'phpgen_user_roles', 'group_name' => 'Admin Tools', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/phpgen_user_roles.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
           <img src="apps/icons/role.png"  class="icon-size-desk">
@@ -307,7 +307,7 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
-    $result[] = array('caption' => 'Activity Log', 'short_caption' => 'Activity Log', 'filename' => 'activity_log.php', 'name' => 'activity_log', 'group_name' => 'Tools', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/activity_log.php" style="text-decoration:none;">
+    $result[] = array('caption' => 'Activity Log', 'short_caption' => 'Activity Log', 'filename' => 'activity_log.php', 'name' => 'activity_log', 'group_name' => 'Admin Tools', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/activity_log.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
           <img src="apps/icons/activity-log.png"  class="icon-size-desk">
@@ -354,12 +354,45 @@ function GetAnsiEncoding() { return 'windows-1252'; }
 
 function Global_OnGetCustomPagePermissionsHandler(Page $page, PermissionSet &$permissions, &$handled)
 {
-
+    // do not apply these rules for site admins
+    
+    if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+    
+        // retrieving the ID of the current user
+        $userId = GetApplication()->GetCurrentUserId();
+    
+        // retrieving all user roles 
+        $sql =        
+          "SELECT r.role_name " .
+          "FROM `phpgen_users` ur " .
+          "INNER JOIN `phpgen_user_roles` r ON r.user_id = ur.user_id " .
+          "WHERE ur.user_id = %d";    
+        $result = $page->GetConnection()->fetchAll(sprintf($sql, $userId));
+    
+     
+    
+        // iterating through retrieved roles
+        if (!empty($result)) {
+           foreach ($result as $row) {
+               // is current user a member of the Sales role?
+               if ($row['role_name'] === 'manager') {
+                 // if yes, allow all actions.
+                 // otherwise default permissions for this page will be applied
+                 $permissions->setGrants(true, true, true, true);
+                 break;
+               }                 
+           }
+        };    
+    
+        // apply the new permissions
+        $handled = true;
+    
+    }
 }
 
 function Global_CustomHTMLHeaderHandler($page, &$customHtmlHeaderText)
 {
-
+    $customHtmlHeaderText .= '<link rel="shortcut icon" href="https://media.mscsoftware.com/cdn/farfuture/xOwsKcC3mIm-Iqfj4r7XWg7lk-9NwPglxVzI7ZhQNBQ/mtime:1567191942/favicon.ico" type="image/vnd.microsoft.icon" />';
 }
 
 function Global_GetCustomTemplateHandler($type, $part, $mode, &$result, &$params, CommonPage $page = null)
@@ -381,15 +414,7 @@ function Global_OnGetFieldValue($fieldName, &$value, $tableName)
 
 function Global_GetCustomPageList(CommonPage $page, PageList $pageList)
 {
-    $pageList->addGroup('External links');
-    
-    $pageList->addPage(new PageLink('Home Site', 'http://www.mscsoftware.com', 
-    
-        'Vist my site', false, false, 'External links'));
-    
-    $pageList->addPage(new PageLink('Get Support', 'portal_help.php',
-    
-        'Get support for this application', false, false, 'External links'));
+
 }
 
 function Global_BeforeInsertHandler($page, &$rowData, $tableName, &$cancel, &$message, &$messageDisplayTime)

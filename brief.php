@@ -3312,6 +3312,10 @@
             ApplyCommonPageSettings($this, $result);
             
             $result->SetUseImagesForActions(true);
+            $defaultSortedColumns = array();
+            $defaultSortedColumns[] = new SortColumn('created_date', 'ASC');
+            $defaultSortedColumns[] = new SortColumn('campaign_name', 'ASC');
+            $result->setDefaultOrdering($defaultSortedColumns);
             $result->SetUseFixedHeader(false);
             $result->SetShowLineNumbers(true);
             $result->SetShowKeyColumnsImagesInHeader(false);
@@ -3356,11 +3360,10 @@
                           <div class="mark-media-body">
                             <h5 class="mt-0 h5">What will you find here</h5>
                             <p class="mark-p">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-                            <a href="http://mktportal.mscsoftware.com/index.php" class="stretched-link">Go to Master Campaign</a>
+                            <i class="far fa-life-ring"></i> Need help go to <a href="portal_help.php?partitionpage=1" class="stretched-link">Portal Help</a>!
                           </div>
                         </div>');
             $this->setShowFormErrorsOnTop(true);
-            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -4385,9 +4388,7 @@
                 "$aOwner_person, '$aStart_date', '$aEnd_date', '$aCreated_by', '$aCreated_date', @LID);";
             
                 $this->GetConnection()->ExecSQL($sql);  
-                $lastInsertedEventId = '1';   
-                
-                
+                    
                 if (strpos($aChannels,$event) !== false) {
             
                     $message = '<p>Record processed successfully. Your event' .

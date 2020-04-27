@@ -145,14 +145,14 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
   </DataSources>
   <Presentation disableMagicQuotesRuntime="false" showEnvironmentVariables="false" showExecutedQueries="false" showPHPErrorsAndWarnings="false" enableInactivityTimeout="true" inactivityTimeoutInterval="20" menuMode="1">
     <Pages>
-      <Page type="table" tableName="campaign_calendar" numberByDataSource="0" fileName="campaign_calendar" caption="Campaign &amp; Events Calendar" shortCaption="Campaign &amp; Events Calendar" groupName="New Campaign" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="0" viewAbilityMode="3" editAbilityMode="0" copyAbilityMode="0" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="campaign_calendar" numberByDataSource="0" fileName="campaign_calendar" caption="Campaign &amp; Events Calendar" shortCaption="Campaign &amp; Events Calendar" groupName="New Campaign" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="0" viewAbilityMode="3" editAbilityMode="0" copyAbilityMode="0" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/event_cal-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
-                &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
-                &lt;a href=&quot;http://mktportal.mscsoftware.com/index.php&quot; class=&quot;stretched-link&quot;&gt;Go to Master Campaign&lt;/a&gt;
+                &lt;p class=&quot;mark-p&quot;&gt;Campaign calendar, hosts a central view of all events, marketing communications and global marketing activities in all regions.&lt;/p&gt;
+                &lt;i class=&quot;far fa-life-ring&quot;&gt;&lt;/i&gt; If you need more help go to &lt;a href=&quot;portal_help.php?partitionpage=1&quot; class=&quot;stretched-link&quot;&gt;portal help&lt;/a&gt; section!
               &lt;/div&gt;
             &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
@@ -164,7 +164,7 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Campaign Calendar&lt;/strong&gt;&lt;/span&gt;
-    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. &lt;/p&gt;
+    &lt;p&gt;Campaign calendar, host a central view of all events, marketing communications and global marketing activities in all regions. &lt;/p&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 &lt;/a&gt;        </homePageDescription>
@@ -392,7 +392,11 @@ if ($part == PagePart::Grid &amp;&amp; $mode == PageMode::ViewAll) {
         <RecordPermissions useRecordPermissions="false"/>
         <PartitionNavigators/>
       </Page>
-      <Page type="table" tableName="brief" numberByDataSource="0" fileName="brief" caption="Campaign: Brief Request" shortCaption="Campaign Brief" viewFormCaptionTemplate="%campaign_name%" editFormCaptionTemplate="%campaign_name%" insertFormCaption="Add New Campaign Brief" groupName="New Campaign" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="brief" numberByDataSource="0" fileName="brief" caption="Campaign: Brief Request" shortCaption="Campaign Brief" viewFormCaptionTemplate="%campaign_name%" editFormCaptionTemplate="%campaign_name%" insertFormCaption="Add New Campaign Brief" groupName="New Campaign" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
+        <DefaultSortedColumns>
+          <Column fieldName="created_date" orderType="0"/>
+          <Column fieldName="campaign_name" orderType="0"/>
+        </DefaultSortedColumns>
         <CompareHeaderColumns>
           <Column fieldName="master_campaign_id"/>
           <Column fieldName="channel_types"/>
@@ -405,7 +409,7 @@ if ($part == PagePart::Grid &amp;&amp; $mode == PageMode::ViewAll) {
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
                 &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
-                &lt;a href=&quot;http://mktportal.mscsoftware.com/index.php&quot; class=&quot;stretched-link&quot;&gt;Go to Master Campaign&lt;/a&gt;
+                &lt;i class=&quot;far fa-life-ring&quot;&gt;&lt;/i&gt; Need help go to &lt;a href=&quot;portal_help.php?partitionpage=1&quot; class=&quot;stretched-link&quot;&gt;Portal Help&lt;/a&gt;!
               &lt;/div&gt;
             &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
@@ -1125,9 +1129,7 @@ if ($success) {
     &quot;$aOwner_person, '$aStart_date', '$aEnd_date', '$aCreated_by', '$aCreated_date', @LID);&quot;;
 
     $this-&gt;GetConnection()-&gt;ExecSQL($sql);  
-    $lastInsertedEventId = '1';   
-    
-    
+        
     if (strpos($aChannels,$event) !== false) {
 
         $message = '&lt;p&gt;Record processed successfully. Your event' .
@@ -1259,19 +1261,22 @@ else {
 }          </OnEditFormLoaded>
         </EventHandlers>
         <RecordPermissions useRecordPermissions="true" ownerIdFieldName="created_by">
-          <AllUsersPermission view="false" edit="false" delete="false"/>
-          <OwnerPermission view="false" edit="false" delete="false"/>
+          <AllUsersPermission view="true" edit="false" delete="false"/>
+          <OwnerPermission view="true" edit="true" delete="true"/>
         </RecordPermissions>
         <PartitionNavigators/>
       </Page>
-      <Page type="table" tableName="campaign_events" numberByDataSource="0" fileName="campaign_events" caption="Event List" shortCaption="Event List" groupName="New Campaign" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="campaign_events" numberByDataSource="0" fileName="campaign_events" caption="Event List" shortCaption="Event List" viewFormCaptionTemplate="%Event_Name%" editFormCaptionTemplate="%Event_Name%" groupName="New Campaign" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
+        <DefaultSortedColumns>
+          <Column fieldName="Start_Date" orderType="0"/>
+        </DefaultSortedColumns>
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
    &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/event-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
    &lt;div class=&quot;mark-media-body&quot;&gt;
        &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
-       &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
-       &lt;a href=&quot;http://mktportal.mscsoftware.com/&quot; class=&quot;stretched-link&quot;&gt;Go to Dashboard&lt;/a&gt;
+       &lt;p class=&quot;mark-p&quot;&gt;Events, is a list overview for all events, virtual or location based displaying a region and global budget with your own or budget approval list.&lt;/p&gt;
+       &lt;i class=&quot;far fa-life-ring&quot;&gt;&lt;/i&gt; If you need more help go to &lt;a href=&quot;portal_help.php?partitionpage=5&quot; class=&quot;stretched-link&quot;&gt;portal help&lt;/a&gt; section!
    &lt;/div&gt;
 &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
@@ -1283,7 +1288,7 @@ else {
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Events&lt;/strong&gt;&lt;/span&gt;
-    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. &lt;/p&gt;
+    &lt;p&gt;Events, is a list overview for all events, virtual or location based displaying a region and global budget with your own or budget approval list.&lt;/p&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 &lt;/a&gt;        </homePageDescription>
@@ -2346,7 +2351,10 @@ else {
           </PartitionNavigator>
         </PartitionNavigators>
       </Page>
-      <Page type="table" tableName="campaign_approvals" numberByDataSource="0" fileName="campaign_approvals" caption="Campaign: Brief Approvals" shortCaption="Campaign Approvals" groupName="Campaign Manager" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="campaign_approvals" numberByDataSource="0" fileName="campaign_approvals" caption="Campaign: Brief Approvals" shortCaption="Campaign Approvals" groupName="Campaign Manager" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
+        <DefaultSortedColumns>
+          <Column fieldName="start_date" orderType="0"/>
+        </DefaultSortedColumns>
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/approve-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -3761,7 +3769,7 @@ else {
           </PartitionNavigator>
         </PartitionNavigators>
       </Page>
-      <Page type="table" tableName="brief" numberByDataSource="1" fileName="campaign_global_list" caption="Campaigns" shortCaption="Campaigns" insertFormCaption="Add New Campaign Brief" groupName="Campaign Manager" addSeparator="false" horizontalFilterCondition="Status_Type_ID=&quot;9&quot; || Status_Type_ID=&quot;10&quot; " recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="brief" numberByDataSource="1" fileName="campaign_global_list" caption="Campaigns" shortCaption="Campaigns" insertFormCaption="Add New Campaign Brief" groupName="Campaign Manager" addSeparator="false" horizontalFilterCondition="Status_Type_ID=&quot;9&quot; || Status_Type_ID=&quot;10&quot; " recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
         <DefaultSortedColumns>
           <Column fieldName="master_campaign_name" orderType="0"/>
           <Column fieldName="start_date" orderType="0"/>
@@ -4224,7 +4232,7 @@ else {
         </Columns>
         <Details>
           <Detail caption="Marketo Campaigns: Comms Tracker">
-            <Page type="table" tableName="campaign_tracker_comms" numberByDataSource="0" fileName="" caption="Marketo Campaigns: Comms Tracker" shortCaption="Comms Tracker" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+            <Page type="table" tableName="campaign_tracker_comms" numberByDataSource="0" fileName="" caption="Marketo Campaigns: Comms Tracker" shortCaption="Comms Tracker" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
               <BeforeGridText/>
               <DetailedDescription/>
               <ColumnPresentations>
@@ -4538,7 +4546,7 @@ else {
             </MasterForeignKeyColumnMap>
           </Detail>
           <Detail caption="Campaign Tracker Content">
-            <Page type="table" tableName="campaign_tracker_content" numberByDataSource="0" fileName="" caption="Campaign Tracker Content" shortCaption="Website Content " addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+            <Page type="table" tableName="campaign_tracker_content" numberByDataSource="0" fileName="" caption="Campaign Tracker Content" shortCaption="Website Content " addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
               <BeforeGridText/>
               <DetailedDescription/>
               <ColumnPresentations>
@@ -4852,7 +4860,7 @@ else {
             </MasterForeignKeyColumnMap>
           </Detail>
           <Detail caption="Website Event Listing: Tracker">
-            <Page type="table" tableName="campaign_tracker_website" numberByDataSource="0" fileName="" caption="Website Event Listing: Tracker" shortCaption="Website Event Listing" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+            <Page type="table" tableName="campaign_tracker_website" numberByDataSource="0" fileName="" caption="Website Event Listing: Tracker" shortCaption="Website Event Listing" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
               <BeforeGridText/>
               <DetailedDescription/>
               <ColumnPresentations>
@@ -5332,7 +5340,7 @@ else {
             </MasterForeignKeyColumnMap>
           </Detail>
           <Detail caption="Campaign Tracker Social">
-            <Page type="table" tableName="campaign_tracker_social" numberByDataSource="0" fileName="" caption="Campaign Tracker Social" shortCaption="Social Media" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+            <Page type="table" tableName="campaign_tracker_social" numberByDataSource="0" fileName="" caption="Campaign Tracker Social" shortCaption="Social Media" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
               <BeforeGridText/>
               <DetailedDescription/>
               <ColumnPresentations>
@@ -5686,7 +5694,7 @@ else {
             </MasterForeignKeyColumnMap>
           </Detail>
           <Detail caption="Paid Media: Tracker">
-            <Page type="table" tableName="campaign_tracker_paid" numberByDataSource="0" fileName="" caption="Paid Media: Tracker" shortCaption="Paid Media" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+            <Page type="table" tableName="campaign_tracker_paid" numberByDataSource="0" fileName="" caption="Paid Media: Tracker" shortCaption="Paid Media" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
               <BeforeGridText/>
               <DetailedDescription/>
               <ColumnPresentations>
@@ -5998,7 +6006,7 @@ else {
             </MasterForeignKeyColumnMap>
           </Detail>
           <Detail caption="Public Relations: Tracker">
-            <Page type="table" tableName="campaign_tracker_pr" numberByDataSource="0" fileName="" caption="Public Relations: Tracker" shortCaption="Public Relations" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+            <Page type="table" tableName="campaign_tracker_pr" numberByDataSource="0" fileName="" caption="Public Relations: Tracker" shortCaption="Public Relations" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
               <BeforeGridText/>
               <DetailedDescription/>
               <ColumnPresentations>
@@ -6236,7 +6244,7 @@ else {
             </MasterForeignKeyColumnMap>
           </Detail>
           <Detail caption="Partner Program: Tracker">
-            <Page type="table" tableName="campaign_tracker_partner" numberByDataSource="0" fileName="" caption="Partner Program: Tracker" shortCaption="Partner Program" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+            <Page type="table" tableName="campaign_tracker_partner" numberByDataSource="0" fileName="" caption="Partner Program: Tracker" shortCaption="Partner Program" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
               <BeforeGridText/>
               <DetailedDescription/>
               <ColumnPresentations>
@@ -6564,7 +6572,7 @@ else {
             </MasterForeignKeyColumnMap>
           </Detail>
           <Detail caption="Campaign Tracker Design">
-            <Page type="table" tableName="campaign_tracker_design" numberByDataSource="0" fileName="campaign_tracker_design" caption="Campaign Tracker Design" shortCaption="Campaign Tracker Design" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+            <Page type="table" tableName="campaign_tracker_design" numberByDataSource="0" fileName="campaign_tracker_design" caption="Campaign Tracker Design" shortCaption="Campaign Tracker Design" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
               <BeforeGridText/>
               <DetailedDescription/>
               <ColumnPresentations>
@@ -7050,7 +7058,7 @@ else
 };          </OnEditFormLoaded>
         </EventHandlers>
         <RecordPermissions useRecordPermissions="true" ownerIdFieldName="created_by">
-          <AllUsersPermission view="false" edit="false" delete="false"/>
+          <AllUsersPermission view="true" edit="false" delete="false"/>
           <OwnerPermission view="true" edit="true" delete="true"/>
         </RecordPermissions>
         <PartitionNavigators>
@@ -7094,7 +7102,7 @@ else
           </PartitionNavigator>
         </PartitionNavigators>
       </Page>
-      <Page type="query" queryName="campaign_ROI_Tracker" numberByDataSource="0" fileName="campaign_ROI_Tracker" caption="Campaign ROI Tracker" shortCaption="Campaign ROI Tracker" groupName="Campaign Manager" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="query" queryName="campaign_ROI_Tracker" numberByDataSource="0" fileName="campaign_ROI_Tracker" caption="Campaign ROI Tracker" shortCaption="Campaign ROI Tracker" groupName="Campaign Manager" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/roi-tracker-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -7827,7 +7835,7 @@ else
           </PartitionNavigator>
         </PartitionNavigators>
       </Page>
-      <Page type="query" queryName="campaign_analysis" numberByDataSource="0" fileName="campaign_analysis" caption="Campaign Analysis" shortCaption="Campaign Analysis" groupName="Campaign Manager" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="query" queryName="campaign_analysis" numberByDataSource="0" fileName="campaign_analysis" caption="Campaign Analysis" shortCaption="Campaign Analysis" groupName="Campaign Manager" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/analytics-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -8276,8 +8284,8 @@ else
         </Columns>
         <Details/>
         <RecordPermissions useRecordPermissions="true" ownerIdFieldName="created_by">
-          <AllUsersPermission view="false" edit="false" delete="false"/>
-          <OwnerPermission view="false" edit="false" delete="false"/>
+          <AllUsersPermission view="true" edit="false" delete="false"/>
+          <OwnerPermission view="true" edit="true" delete="true"/>
         </RecordPermissions>
         <PartitionNavigators/>
         <Charts>
@@ -8443,7 +8451,7 @@ ORDER By COUNT(*) DESC            </SelectStatement>
           </Chart>
         </Charts>
       </Page>
-      <Page type="table" tableName="campaign_group" includedIntoPageList="false" numberByDataSource="0" fileName="campaign_tracker" caption="Tracker List" shortCaption="Campaign Tracker" groupName="Campaign Manager" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="campaign_group" includedIntoPageList="false" numberByDataSource="0" fileName="campaign_tracker" caption="Tracker List" shortCaption="Campaign Tracker" groupName="Campaign Manager" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;http://localhost/mportal/apps/icons/process-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -8655,14 +8663,17 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
         <RecordPermissions useRecordPermissions="false"/>
         <PartitionNavigators/>
       </Page>
-      <Page type="table" tableName="campaign_program_name_generator" numberByDataSource="0" fileName="campaign_program_name_generator" caption="Campaign Program Name Generator" shortCaption="Program Generator" groupName="Campaign Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="campaign_program_name_generator" numberByDataSource="0" fileName="campaign_program_name_generator" caption="Program Name Generator" shortCaption="Program Generator" groupName="Campaign Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
+        <DefaultSortedColumns>
+          <Column fieldName="created_date" orderType="0"/>
+        </DefaultSortedColumns>
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/program-generator-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
-                &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
-                &lt;a href=&quot;campaign_global_list.php&quot; class=&quot;stretched-link&quot;&gt;View Live Lists&lt;/a&gt;
+                &lt;p class=&quot;mark-p&quot;&gt;Marketo Program Name Generator, standardises the naming conversion for all Marketo programs for the purpose reporting in Salesforce.&lt;/p&gt;
+                &lt;i class=&quot;far fa-life-ring&quot;&gt;&lt;/i&gt; If you need more help go to &lt;a href=&quot;portal_help.php?partitionpage=6&quot; class=&quot;stretched-link&quot;&gt;portal help&lt;/a&gt; section!
               &lt;/div&gt;
             &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
@@ -8673,8 +8684,8 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
       &lt;img src=&quot;apps/icons/program-generator.png&quot;  class=&quot;icon-size-desk&quot;&gt;
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
-    &lt;span class=card-title&gt;&lt;strong&gt;Program Generator&lt;/strong&gt;&lt;/span&gt;
-    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. &lt;/p&gt;
+    &lt;span class=card-title&gt;&lt;strong&gt;Program Name Generator&lt;/strong&gt;&lt;/span&gt;
+    &lt;p&gt;Marketo Program Name Generator, standardises the naming conversion for all Marketo programs for the purpose reporting in Salesforce.&lt;/p&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 &lt;/a&gt;        </homePageDescription>
@@ -8685,7 +8696,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             </ViewProperties>
             <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="master_campaign_id" caption="Master Campaign Id" canSetNull="true" selectedFilterOperators="1573119">
+          <ColumnPresentation fieldName="master_campaign_id" caption="Brief Request" canSetNull="true" selectedFilterOperators="1573119">
             <Lookup tableName="brief" linkFieldName="master_campaign_id" displayFieldName="campaign_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" displayLookupRecord="true">
               <LookupRecordViewForm numberByDataSource="0" fileName="brief" caption="Brief" shortCaption="Brief" addSeparator="false" horizontalFilterCondition="" isLookupRecordViewForm="true" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
                 <BeforeGridText/>
@@ -9298,7 +9309,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
           </View>
           <Edit>
             <Column fieldName="program_generator_name_id" visible="false"/>
-            <Column fieldName="master_campaign_id"/>
+            <Column fieldName="master_campaign_id" caption="Do you have brief request?"/>
             <Column fieldName="trackerid" visible="false"/>
             <Column fieldName="campaign_program_name"/>
             <Column fieldName="SFDC_child_campaign"/>
@@ -9507,7 +9518,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
         </Columns>
         <Details>
           <Detail caption="Campaign Tracker: Comms">
-            <Page type="table" tableName="campaign_tracker_comms_local" numberByDataSource="0" fileName="" caption="Campaign Tracker: Comms" shortCaption="Campaign Tracker Comms" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+            <Page type="table" tableName="campaign_tracker_comms_local" numberByDataSource="0" fileName="" caption="Campaign Tracker: Comms" shortCaption="Campaign Tracker Comms" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
               <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
 	&lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/comms-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -10365,7 +10376,7 @@ if ($success) {
       
    $sql =
                          
-      &quot;CALL campaignProgramNameGenerator($sprogram_generator_name_id, '$smaster_campaign_id', '$username', '$currentDateTime', $trackerid, '$importlist');&quot;;
+      &quot;CALL campaignProgramNameGenerator($sprogram_generator_name_id, '$smaster_campaign_id', '$username', '$currentDateTime', '$trackerid', '$importlist');&quot;;
       $this-&gt;GetConnection()-&gt;ExecSQL($sql);
       
       If ($emailcount != '0'){
@@ -10467,7 +10478,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
     if (!empty($result)) {
        foreach ($result as $row) {
            // is current user a member of the Sales role?
-           if (($row['role_name'] === 'manager') || ($row['role_name'] === 'regional marketing')) {
+           if (($row['role_name'] === 'manager')) {
              // if yes, allow all actions.
              // otherwise default permissions for this page will be applied
              $permissions-&gt;setGrants(true, true, true, true);
@@ -10481,69 +10492,114 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
 
 }          </OnGetCustomPagePermissions>
           <OnInsertFormEditorValueChanged enabled="true">
-if (sender.getFieldName() == 'campaign_status'){
+if (sender.getFieldName() == 'campaign_type'){
   if (sender.getValue() == 'LIP'){
-    editors['import_total'].setValue('');
-    editors['import_total'].setVisible(true);   
+    editors['import_total'].setValue('0');
+    editors['import_total'].setVisible(true); 
+    editors['import_total'].setRequired(true); 
+    editors['campaign_publish_date'].setRequired(true); 
     $('#import_total_edit').next().show(); 
-    editors['create_import_list'].setValue('');
+    editors['short_description'].setValue('-');    
+    editors['create_import_list'].setValue('1');
     editors['create_import_list'].setVisible(true);   
     $('#create_import_list_edit').next().show(); 
   }
   else{
     editors['import_total'].setVisible(false); 
     $('#import_total_edit').next().hide();   
+    editors['import_total'].setRequired(false); 
+    editors['short_description'].setRequired(true);  
+    editors['campaign_publish_date'].setRequired(true);  
     editors['create_import_list'].setVisible(false); 
-    $('#create_import_list_edit').next().hide();   
+    $('#create_import_list_edit').next().hide();
   }
-}          </OnInsertFormEditorValueChanged>
-          <OnEditFormEditorValueChanged enabled="true">
-if (sender.getFieldName() == 'campaign_type')
-{
-  if (sender.getValue() == 'LIP')
-  {
-    editors['import_total'].setValue('0');
-    editors['import_total'].setVisible(true);  
-    $('#import_total_edit').next().show(); 
-    editors['create_import_list'].setValue('1');
-    editors['create_import_list'].setVisible(true);  
-    $('#create_import_list_edit').next().show();     
-  }
-  else
-  {
-    editors['import_total'].setVisible(false);  
-    $('#import_total_edit').next().hide();  
-    editors['create_import_list'].setVisible(false);  
-    $('#create_import_list_edit').next().hide();    
-  }
-}          </OnEditFormEditorValueChanged>
-          <OnInsertFormLoaded enabled="true">
-if (editors['campaign_type'].getValue() == '') {
-    editors['import_total'].setValue('0');
-    editors['import_total'].setVisible(false);  
-    editors['create_import_list'].setValue('0');
-    editors['create_import_list'].setVisible(false);  
 }
 
-else {
-    editors['import_total'].setVisible(true); 
+if (sender.getFieldName() == 'pregion'){
+  if (sender.getValue() != 'WW-ALL'){
+  editors['sub_region'].setRequired(true);
+  editors['territory'].setRequired(true);
+  }
+  else{
+  editors['sub_region'].enabled(false);
+  editors['territory'].setRequired(false);
+  }
+}
+
+
+if (sender.getFieldName() == 'sub_region'){
+  if (sender.getValue() == 'EM-EUR'){
+  editors['territory'].setRequired(true);
+  }
+  else{
+  editors['territory'].enabled(false);
+  }
+}
+          </OnInsertFormEditorValueChanged>
+          <OnEditFormEditorValueChanged enabled="true">
+console.log(sender);
+if (sender.getFieldName() == 'campaign_type'){
+  console.log(sender.getValue());
+  editors['campaign_status'].enabled(sender.getValue() == 'LIP');
+
+  if (sender.getValue() == 'LIP') { 
+     editors['import_total'].setValue(null);
+     $('#import_total_edit').setVisible.show();
+     editors['create_import_list'].setValue(null);
+     $('#create_import_list_edit').setVisible.show();
+  }
+  else{
+     $('#import_total_edit').setVisible.hide();
+     $('#create_import_list').setVisible.hide();
+  }
+}
+
+if (sender.getFieldName() == 'pregion'){
+  if (sender.getValue() != 'WW-ALL'){
+  editors['sub_region'].setRequired(true);
+  editors['territory'].setRequired(true);
+  }
+  else{
+  editors['sub_region'].enabled(false);
+  editors['territory'].setRequired(false);
+  }
+}
+
+
+if (sender.getFieldName() == 'sub_region'){
+  if (sender.getValue() == 'EM-EUR'){
+  editors['territory'].setRequired(true);
+  }
+  else{
+  editors['territory'].enabled(false);
+  }
+}
+          </OnEditFormEditorValueChanged>
+          <OnInsertFormLoaded enabled="true">
+if (editors['campaign_type'].getValue() == '') {
+    editors['import_total'].setVisible(true);
+    editors['import_total'].setValue('');  
     editors['create_import_list'].setVisible(true);
+    editors['create_import_list'].setValue(''); 
+}
+else {
+    editors['import_total'].setVisible(false); 
+    editors['create_import_list'].setVisible(false);
 }          </OnInsertFormLoaded>
           <OnEditFormLoaded enabled="true">
 if (editors['campaign_type'].getValue() == 'LIP') {
-    editors['import_total'].setVisible(true); 
-    editors['create_import_list'].setVisible(true);  
-}
-
-else {
     editors['import_total'].setValue('0');
+    editors['import_total'].setVisible(true);  
+    editors['create_import_list'].setValue('0');
+    editors['create_import_list'].setVisible(true); 
+}
+else {
     editors['import_total'].setVisible(false);  
-    editors['create_import_list'].setValue('1');
-    editors['create_import_list'].setVisible(false);
+    editors['create_import_list'].setVisible(false); 
 }          </OnEditFormLoaded>
         </EventHandlers>
         <RecordPermissions useRecordPermissions="true" ownerIdFieldName="created_by">
-          <AllUsersPermission view="false" edit="false" delete="false"/>
+          <AllUsersPermission view="true" edit="false" delete="false"/>
           <OwnerPermission view="true" edit="true" delete="true"/>
         </RecordPermissions>
         <PartitionNavigators>
@@ -10597,14 +10653,17 @@ else {
           </PartitionNavigator>
         </PartitionNavigators>
       </Page>
-      <Page type="table" tableName="campaign_tracker_comms_local" numberByDataSource="0" fileName="campaign_tracker_comms_local" caption="Campaign Tracker: Comms" shortCaption="Campaign Tracker Comms" groupName="Campaign Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="campaign_tracker_comms_local" numberByDataSource="0" fileName="campaign_tracker_comms_local" caption="Campaign Tracker: Comms" shortCaption="Campaign Tracker Comms" groupName="Campaign Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
+        <DefaultSortedColumns>
+          <Column fieldName="campaign_publish_date" orderType="1"/>
+        </DefaultSortedColumns>
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
 	&lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/comms-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
 	&lt;div class=&quot;mark-media-body&quot;&gt;
 		&lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
-		&lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
-		&lt;a href=&quot;campaign_program_name_generator.php&quot; class=&quot;stretched-link&quot;&gt;View Live Lists&lt;/a&gt;
+		&lt;p class=&quot;mark-p&quot;&gt;The Comms Tracker works side by side with the Program Generator and the Events List to displaying newly targetted channel communications in the Campaign Calendar.&lt;/p&gt;
+		&lt;i class=&quot;far fa-life-ring&quot;&gt;&lt;/i&gt; If you need more help go to &lt;a href=&quot;portal_help.php?partitionpage=3&quot; class=&quot;stretched-link&quot;&gt;portal help&lt;/a&gt; section!
 	&lt;/div&gt;
 &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
@@ -10616,7 +10675,7 @@ else {
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Comms Tracker (Local)&lt;/strong&gt;&lt;/span&gt;
-    &lt;p&gt;Local campaigns by region, ipsum lorem consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. &lt;/p&gt;
+    &lt;p&gt;The Comms Tracker supports the Program Generator, Events displaying preplanned target list by channel in the Campaign Calendar.&lt;/p&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 &lt;/a&gt;        </homePageDescription>
@@ -11512,11 +11571,11 @@ else {
             <Column fieldName="campaign_tracker_local_id" visible="false"/>
             <Column fieldName="program_generator_name_id" visible="false"/>
             <Column fieldName="master_campaign_id" visible="false"/>
+            <Column fieldName="cregion"/>
+            <Column fieldName="campaign_description"/>
             <Column fieldName="email_name"/>
             <Column fieldName="campaign_publish_date"/>
-            <Column fieldName="campaign_description"/>
             <Column fieldName="campaign_type"/>
-            <Column fieldName="cregion"/>
             <Column fieldName="tracker_status"/>
             <Column fieldName="campaign_utm_id"/>
             <Column fieldName="modified_by" visible="false"/>
@@ -11803,14 +11862,17 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
           </PartitionNavigator>
         </PartitionNavigators>
       </Page>
-      <Page type="table" tableName="campaign_tracker_utm" numberByDataSource="0" fileName="campaign_tracker_utm" caption="Campaign Tracker: UTM Link Generator" shortCaption="UTM Link Generator" insertFormCaption="Create UTM Link" groupName="Campaign Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="campaign_tracker_utm" numberByDataSource="0" fileName="campaign_tracker_utm" caption="Campaign Tracker: UTM Link Generator" shortCaption="UTM Link Generator" insertFormCaption="Create UTM Link" groupName="Campaign Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
+        <DefaultSortedColumns>
+          <Column fieldName="campaign_publish_date" orderType="0"/>
+        </DefaultSortedColumns>
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/utm-tracking-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
-                &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
-                &lt;a href=&quot;https://mktportal.mscsoftware.com/campaign_global_list.php&quot; class=&quot;stretched-link&quot;&gt;View Live Lists&lt;/a&gt;
+                &lt;p class=&quot;mark-p&quot;&gt;Generate custom campaign tracking for your email, social, paid posts URLs, this supports the comms tracker.&lt;/p&gt;
+                &lt;i class=&quot;far fa-life-ring&quot;&gt;&lt;/i&gt; If you need more help go to &lt;a href=&quot;portal_help.php?partitionpage=7&quot; class=&quot;stretched-link&quot;&gt;portal help&lt;/a&gt; section!
               &lt;/div&gt;
             &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
@@ -11822,7 +11884,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;UTM Tracking&lt;/strong&gt;&lt;/span&gt;
-    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. &lt;/p&gt;
+    &lt;p&gt;Generate custom campaign tracking for your email, social, paid posts URLs, this supports the comms tracker.&lt;/p&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 &lt;/a&gt;        </homePageDescription>
@@ -12862,7 +12924,7 @@ else {
 }          </OnEditFormLoaded>
         </EventHandlers>
         <RecordPermissions useRecordPermissions="true" ownerIdFieldName="created_by">
-          <AllUsersPermission view="false" edit="false" delete="false"/>
+          <AllUsersPermission view="true" edit="false" delete="false"/>
           <OwnerPermission view="true" edit="true" delete="true"/>
         </RecordPermissions>
         <PartitionNavigators>
@@ -12900,14 +12962,17 @@ else {
           </PartitionNavigator>
         </PartitionNavigators>
       </Page>
-      <Page type="table" tableName="campaign_import" numberByDataSource="0" fileName="campaign_import" caption="Contact List Import" shortCaption="Contact List Import" groupName="Campaign Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="campaign_import" numberByDataSource="0" fileName="campaign_import" caption="Contact List Import" shortCaption="Contact List Import" groupName="Campaign Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
+        <DefaultSortedColumns>
+          <Column fieldName="created_date" orderType="0"/>
+        </DefaultSortedColumns>
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/import-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
-                &lt;p class=&quot;mark-p&quot;&gt;Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.&lt;/p&gt;
-                &lt;a href=&quot;https://mktportal.mscsoftware.com/campaign_global_list.php&quot; class=&quot;stretched-link&quot;&gt;View Live Lists&lt;/a&gt;
+                &lt;p class=&quot;mark-p&quot;&gt;List import is the centralised managed import register to comply with GDPR and quality data being imported into Salesforce via Marketo.&lt;/p&gt;
+                &lt;i class=&quot;far fa-life-ring&quot;&gt;&lt;/i&gt; If you need more help go to &lt;a href=&quot;portal_help.php?partitionpage=4&quot; class=&quot;stretched-link&quot;&gt;portal help&lt;/a&gt; section!
               &lt;/div&gt;
             &lt;/div&gt;        </BeforeGridText>
         <DetailedDescription/>
@@ -12919,7 +12984,7 @@ else {
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;List Import&lt;/strong&gt;&lt;/span&gt;
-    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. &lt;/p&gt;
+    &lt;p&gt;List import is the centralised managed import register to comply with GDPR and quality data being imported into Salesforce via Marketo.&lt;/p&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 &lt;/a&gt;        </homePageDescription>
@@ -13762,12 +13827,12 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
 }          </OnGetCustomPagePermissions>
         </EventHandlers>
         <RecordPermissions useRecordPermissions="true" ownerIdFieldName="created_by">
-          <AllUsersPermission view="false" edit="false" delete="false"/>
+          <AllUsersPermission view="true" edit="false" delete="false"/>
           <OwnerPermission view="true" edit="true" delete="true"/>
         </RecordPermissions>
         <PartitionNavigators/>
       </Page>
-      <Page type="table" tableName="campaign_tracker_website" numberByDataSource="0" fileName="campaign_tracker_website" caption="Campaign Tracker: Website" shortCaption="Campaign Tracker Website" groupName="Global Marketing" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="campaign_tracker_website" numberByDataSource="0" fileName="campaign_tracker_website" caption="Campaign Tracker: Website" shortCaption="Campaign Tracker Website" groupName="Global Marketing" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/website-list-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -14958,7 +15023,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
           </PartitionNavigator>
         </PartitionNavigators>
       </Page>
-      <Page type="table" tableName="campaign_tracker_comms" numberByDataSource="0" fileName="campaign_tracker_comms" caption="Campaign Tracker: Global Comms" shortCaption="Campaign Tracker Global Comms" groupName="Global Marketing" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="campaign_tracker_comms" numberByDataSource="0" fileName="campaign_tracker_comms" caption="Campaign Tracker: Global Comms" shortCaption="Campaign Tracker Global Comms" groupName="Global Marketing" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
 	&lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/comms-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -15906,7 +15971,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
         <RecordPermissions useRecordPermissions="false"/>
         <PartitionNavigators/>
       </Page>
-      <Page type="table" tableName="campaign_tracker_design" numberByDataSource="0" fileName="campaign_tracker_design" caption="Campaign Tracker: Design" shortCaption="Campaign Tracker Design" groupName="Global Marketing" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="campaign_tracker_design" numberByDataSource="0" fileName="campaign_tracker_design" caption="Campaign Tracker: Design" shortCaption="Campaign Tracker Design" groupName="Global Marketing" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/design-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -16614,7 +16679,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
         <RecordPermissions useRecordPermissions="false"/>
         <PartitionNavigators/>
       </Page>
-      <Page type="table" tableName="campaign_tracker_content" numberByDataSource="0" fileName="campaign_tracker_content" caption="Campaign Tracker: Content" shortCaption="Campaign Tracker Content" groupName="Global Marketing" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="campaign_tracker_content" numberByDataSource="0" fileName="campaign_tracker_content" caption="Campaign Tracker: Content" shortCaption="Campaign Tracker Content" groupName="Global Marketing" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/web-content-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -16980,7 +17045,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
         <RecordPermissions useRecordPermissions="false"/>
         <PartitionNavigators/>
       </Page>
-      <Page type="table" tableName="campaign_tracker_social" numberByDataSource="0" fileName="campaign_tracker_social" caption="Campaign Tracker: Social" shortCaption="Campaign Tracker Social" groupName="Global Marketing" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="campaign_tracker_social" numberByDataSource="0" fileName="campaign_tracker_social" caption="Campaign Tracker: Social" shortCaption="Campaign Tracker Social" groupName="Global Marketing" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/social-media-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -17386,7 +17451,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
         <RecordPermissions useRecordPermissions="false"/>
         <PartitionNavigators/>
       </Page>
-      <Page type="table" tableName="campaign_tracker_paid" numberByDataSource="0" fileName="campaign_tracker_paid" caption="Campaign Tracker: Paid" shortCaption="Campaign Tracker Paid" groupName="Global Marketing" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="campaign_tracker_paid" numberByDataSource="0" fileName="campaign_tracker_paid" caption="Campaign Tracker: Paid" shortCaption="Campaign Tracker Paid" groupName="Global Marketing" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/paid-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -17750,7 +17815,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
         <RecordPermissions useRecordPermissions="false"/>
         <PartitionNavigators/>
       </Page>
-      <Page type="table" tableName="campaign_tracker_partner" numberByDataSource="0" fileName="campaign_tracker_partner" caption="Campaign Tracker: Partner" shortCaption="Campaign Tracker Partner" groupName="Global Marketing" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="campaign_tracker_partner" numberByDataSource="0" fileName="campaign_tracker_partner" caption="Campaign Tracker: Partner" shortCaption="Campaign Tracker Partner" groupName="Global Marketing" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/partner-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -18130,7 +18195,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
         <RecordPermissions useRecordPermissions="false"/>
         <PartitionNavigators/>
       </Page>
-      <Page type="table" tableName="campaign_tracker_pr" numberByDataSource="0" fileName="campaign_tracker_pr" caption="Campaign Tracker: Pr" shortCaption="Campaign Tracker Pr" groupName="Global Marketing" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="campaign_tracker_pr" numberByDataSource="0" fileName="campaign_tracker_pr" caption="Campaign Tracker: Pr" shortCaption="Campaign Tracker Pr" groupName="Global Marketing" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/public-relations-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -18420,7 +18485,10 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
         <RecordPermissions useRecordPermissions="false"/>
         <PartitionNavigators/>
       </Page>
-      <Page type="table" tableName="country_list" numberByDataSource="0" fileName="country_list" caption="Country List" shortCaption="Country List" groupName="Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="country_list" numberByDataSource="0" fileName="country_list" caption="Country List" shortCaption="Country List" groupName="Admin Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
+        <DefaultSortedColumns>
+          <Column fieldName="Country_Name" orderType="0"/>
+        </DefaultSortedColumns>
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/globe-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -18639,7 +18707,11 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
           </PartitionNavigator>
         </PartitionNavigators>
       </Page>
-      <Page type="table" tableName="lookup_tracker_tactics" numberByDataSource="0" fileName="lookup_tracker_tactics" caption="Tactic Template Builder" shortCaption="Tactic Template" groupName="Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="lookup_tracker_tactics" numberByDataSource="0" fileName="lookup_tracker_tactics" caption="Tactic Template Builder" shortCaption="Tactic Template" groupName="Admin Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
+        <DefaultSortedColumns>
+          <Column fieldName="tactic_name" orderType="0"/>
+          <Column fieldName="campaign_description" orderType="0"/>
+        </DefaultSortedColumns>
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
     &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/template-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -18990,7 +19062,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
           </PartitionNavigator>
         </PartitionNavigators>
       </Page>
-      <Page type="table" tableName="phpgen_user_roles" numberByDataSource="0" fileName="phpgen_user_roles" caption="User Roles" shortCaption="User Roles" groupName="Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="phpgen_user_roles" numberByDataSource="0" fileName="phpgen_user_roles" caption="User Roles" shortCaption="User Roles" groupName="Admin Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/role-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -19230,7 +19302,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
         <RecordPermissions useRecordPermissions="false"/>
         <PartitionNavigators/>
       </Page>
-      <Page type="table" tableName="activity_log" numberByDataSource="0" fileName="activity_log" caption="Activity Log" shortCaption="Activity Log" groupName="Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="activity_log" numberByDataSource="0" fileName="activity_log" caption="Activity Log" shortCaption="Activity Log" groupName="Admin Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/activity-log-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -19368,7 +19440,11 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
         <RecordPermissions useRecordPermissions="false"/>
         <PartitionNavigators/>
       </Page>
-      <Page type="table" tableName="portal_help" includedIntoPageList="false" numberByDataSource="0" fileName="portal_help" caption="Portal Help" shortCaption="Portal Help" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
+      <Page type="table" tableName="portal_help" includedIntoPageList="false" numberByDataSource="0" fileName="portal_help" caption="Portal Help" shortCaption="Portal Help" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
+        <DefaultSortedColumns>
+          <Column fieldName="category" orderType="0"/>
+          <Column fieldName="help_title" orderType="0"/>
+        </DefaultSortedColumns>
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/help-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -19387,85 +19463,21 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="category" caption="Category" canSetNull="true" selectedFilterOperators="1573119">
-            <Lookup tableName="lookup_help_category" linkFieldName="lookup_help_category_id" displayFieldName="category_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" allowAddNewItemsOnTheFly="true">
-              <OnTheFlyInsertPage numberByDataSource="0" fileName="lookup_help_category" caption="Lookup Help Category" shortCaption="Lookup Help Category" addSeparator="false" horizontalFilterCondition="" isOnTheFlyInsertPage="true" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1">
-                <BeforeGridText/>
-                <DetailedDescription/>
-                <ColumnPresentations>
-                  <ColumnPresentation fieldName="lookup_help_category_id" caption="Lookup Help Category Id" showColumnFilter="false" selectedFilterOperators="1573119">
-                    <ViewProperties type="text">
-                      <Format type="number" thousandSeparator=","/>
-                    </ViewProperties>
-                    <EditProperties type="textBox" maxLength="0"/>
-                  </ColumnPresentation>
-                  <ColumnPresentation fieldName="category_name" caption="Category Name" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-                    <ViewProperties type="text"/>
-                    <EditProperties type="textBox" maxLength="45"/>
-                  </ColumnPresentation>
-                </ColumnPresentations>
-                <Columns>
-                  <List>
-                    <Column fieldName="lookup_help_category_id"/>
-                    <Column fieldName="category_name"/>
-                  </List>
-                  <View>
-                    <Column fieldName="lookup_help_category_id"/>
-                    <Column fieldName="category_name"/>
-                  </View>
-                  <Edit>
-                    <Column fieldName="lookup_help_category_id" visible="false"/>
-                    <Column fieldName="category_name"/>
-                  </Edit>
-                  <Insert>
-                    <Column fieldName="lookup_help_category_id" visible="false"/>
-                    <Column fieldName="category_name"/>
-                  </Insert>
-                  <QuickFilter>
-                    <Column fieldName="lookup_help_category_id"/>
-                    <Column fieldName="category_name"/>
-                  </QuickFilter>
-                  <FilterBuilder>
-                    <Column fieldName="lookup_help_category_id"/>
-                    <Column fieldName="category_name"/>
-                  </FilterBuilder>
-                  <Print>
-                    <Column fieldName="lookup_help_category_id"/>
-                    <Column fieldName="category_name"/>
-                  </Print>
-                  <Export>
-                    <Column fieldName="lookup_help_category_id"/>
-                    <Column fieldName="category_name"/>
-                  </Export>
-                  <Compare>
-                    <Column fieldName="lookup_help_category_id" visible="false"/>
-                    <Column fieldName="category_name"/>
-                  </Compare>
-                  <MultiEdit>
-                    <Column fieldName="lookup_help_category_id" visible="false"/>
-                    <Column fieldName="category_name" visible="false"/>
-                  </MultiEdit>
-                </Columns>
-                <Details/>
-                <RecordPermissions useRecordPermissions="false"/>
-                <PartitionNavigators/>
-              </OnTheFlyInsertPage>
-            </Lookup>
+            <Lookup tableName="lookup_help_category" linkFieldName="lookup_help_category_id" displayFieldName="category_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
             <ViewProperties type="text"/>
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="help_title" caption="Help Title" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text"/>
+            <ViewProperties type="text">
+              <DivAttributes align="left" bold="true"/>
+            </ViewProperties>
             <EditProperties type="textBox" maxLength="60"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="help_body" caption="Description" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
-            <ViewProperties type="text"/>
-            <EditProperties type="htmlWysiwyg"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="portal_rating" caption="Portal Rating" showColumnFilter="false" canSetNull="true" readOnly="true" selectedFilterOperators="1573119">
+          <ColumnPresentation fieldName="help_body" caption="Description" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1572864">
             <ViewProperties type="text">
-              <Format type="number" thousandSeparator=","/>
+              <DivAttributes inlineStyles="width: 100% !important;"/>
             </ViewProperties>
-            <EditProperties type="textBox" maxLength="0"/>
+            <EditProperties type="htmlWysiwyg"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="created_by" caption="Created By" showColumnFilter="false" canSetNull="true" readOnly="true" defaultInsertValue="%CURRENT_USER_NAME%" selectedFilterOperators="1589247">
             <ViewProperties type="text"/>
@@ -19488,20 +19500,18 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
           <List>
             <Column fieldName="portal_help_id" visible="false"/>
             <Column fieldName="category" visible="false"/>
-            <Column fieldName="help_title"/>
-            <Column fieldName="help_body"/>
-            <Column fieldName="portal_rating"/>
-            <Column fieldName="created_by" visible="false"/>
+            <Column fieldName="help_title" caption="Is your question below?"/>
+            <Column fieldName="help_body" visible="false"/>
+            <Column fieldName="created_by"/>
             <Column fieldName="created_date" visible="false"/>
-            <Column fieldName="modified_by"/>
-            <Column fieldName="modified_date"/>
+            <Column fieldName="modified_by" visible="false"/>
+            <Column fieldName="modified_date" visible="false"/>
           </List>
           <View>
             <Column fieldName="portal_help_id" visible="false"/>
             <Column fieldName="category"/>
             <Column fieldName="help_title"/>
             <Column fieldName="help_body"/>
-            <Column fieldName="portal_rating"/>
             <Column fieldName="created_by"/>
             <Column fieldName="created_date"/>
             <Column fieldName="modified_by"/>
@@ -19512,7 +19522,6 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <Column fieldName="category"/>
             <Column fieldName="help_title"/>
             <Column fieldName="help_body"/>
-            <Column fieldName="portal_rating"/>
             <Column fieldName="created_by" visible="false"/>
             <Column fieldName="created_date" visible="false"/>
             <Column fieldName="modified_by"/>
@@ -19523,7 +19532,6 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <Column fieldName="category"/>
             <Column fieldName="help_title"/>
             <Column fieldName="help_body"/>
-            <Column fieldName="portal_rating"/>
             <Column fieldName="created_by"/>
             <Column fieldName="created_date"/>
             <Column fieldName="modified_by" visible="false"/>
@@ -19538,14 +19546,12 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <Column fieldName="modified_by"/>
             <Column fieldName="modified_date"/>
             <Column fieldName="help_title"/>
-            <Column fieldName="portal_rating"/>
           </QuickFilter>
           <FilterBuilder>
             <Column fieldName="portal_help_id"/>
             <Column fieldName="category"/>
             <Column fieldName="help_title"/>
             <Column fieldName="help_body"/>
-            <Column fieldName="portal_rating"/>
             <Column fieldName="created_by"/>
             <Column fieldName="created_date"/>
             <Column fieldName="modified_by"/>
@@ -19556,7 +19562,6 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <Column fieldName="category"/>
             <Column fieldName="help_title"/>
             <Column fieldName="help_body"/>
-            <Column fieldName="portal_rating"/>
             <Column fieldName="created_by"/>
             <Column fieldName="created_date"/>
             <Column fieldName="modified_by"/>
@@ -19567,7 +19572,6 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <Column fieldName="category"/>
             <Column fieldName="help_title"/>
             <Column fieldName="help_body"/>
-            <Column fieldName="portal_rating"/>
             <Column fieldName="created_by"/>
             <Column fieldName="created_date"/>
             <Column fieldName="modified_by"/>
@@ -19578,7 +19582,6 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <Column fieldName="category"/>
             <Column fieldName="help_title"/>
             <Column fieldName="help_body"/>
-            <Column fieldName="portal_rating"/>
             <Column fieldName="created_by"/>
             <Column fieldName="created_date"/>
             <Column fieldName="modified_by"/>
@@ -19589,7 +19592,6 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <Column fieldName="category"/>
             <Column fieldName="help_title"/>
             <Column fieldName="help_body"/>
-            <Column fieldName="portal_rating"/>
             <Column fieldName="created_by" visible="false"/>
             <Column fieldName="created_date" visible="false"/>
             <Column fieldName="modified_by" visible="false"/>
@@ -19605,8 +19607,7 @@ $layout-&gt;setMode(FormLayoutMode::VERTICAL);
 $briefGroup = $layout-&gt;addGroup('Help Information', 12);
 $briefGroup-&gt;addRow()-&gt;addCol($columns['category'], 12);
 $briefGroup-&gt;addRow()-&gt;addCol($columns['help_title'], 12);
-$briefGroup-&gt;addRow()-&gt;addCol($columns['help_body'], 12);
-$briefGroup-&gt;addRow()-&gt;addCol($columns['portal_rating'], 12);          </OnGetCustomFormLayout>
+$briefGroup-&gt;addRow()-&gt;addCol($columns['help_body'], 12);          </OnGetCustomFormLayout>
           <OnGetCustomPagePermissions enabled="true">
 // do not apply these rules for site admins
 
@@ -19643,8 +19644,56 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
 
 }          </OnGetCustomPagePermissions>
         </EventHandlers>
-        <RecordPermissions useRecordPermissions="false"/>
-        <PartitionNavigators/>
+        <RecordPermissions useRecordPermissions="true" ownerIdFieldName="created_by">
+          <AllUsersPermission view="true" edit="false" delete="false"/>
+          <OwnerPermission view="true" edit="true" delete="true"/>
+        </RecordPermissions>
+        <PartitionNavigators>
+          <PartitionNavigator type="listBased" name="partition" caption="Filter by Category" navigationStyle="1" allowViewAllRecords="true" expression="category">
+            <Partition caption="Brief Request">
+              <Values>
+                <Value>
+2                </Value>
+              </Values>
+            </Partition>
+            <Partition caption="Campaign &amp; Events Calendar">
+              <Values>
+                <Value>
+1                </Value>
+              </Values>
+            </Partition>
+            <Partition caption="Comms Tracker">
+              <Values>
+                <Value>
+5                </Value>
+              </Values>
+            </Partition>
+            <Partition caption="Contact List Import">
+              <Values>
+                <Value>
+7                </Value>
+              </Values>
+            </Partition>
+            <Partition caption="Event List">
+              <Values>
+                <Value>
+3                </Value>
+              </Values>
+            </Partition>
+            <Partition caption="Program Name Generator">
+              <Values>
+                <Value>
+4                </Value>
+              </Values>
+            </Partition>
+            <Partition caption="UTM Link Generator">
+              <Values>
+                <Value>
+6                </Value>
+              </Values>
+            </Partition>
+          </PartitionNavigator>
+        </PartitionNavigators>
       </Page>
     </Pages>
     <UserAuthorization type="tableBased" tableName="phpgen_users" userIdField="user_id" userNameField="user_name" passwordField="user_password" userEmailField="user_email" userTokenField="user_token" userStatusField="user_status" allowUserToChangePassword="true" selfRegistrationEnabled="true" recoveringPasswordEnabled="true"/>
@@ -19653,22 +19702,52 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
     </UserGrants>
     <EventHandlers>
       <AfterLogin enabled="true">
-$connection-&gt;ExecSQL(&quot;INSERT INTO activity_log(action, user_id, activity_log) 
-  VALUES ('LOGGED IN', '$userName', CURRENT_TIMESTAMP)&quot;);      </AfterLogin>
+$connection-&gt;ExecSQL(&quot;INSERT INTO activity_user_login(user_name, log_date, status) 
+  VALUES ('$userName', CURRENT_TIMESTAMP, 'login')&quot;);      </AfterLogin>
+      <BeforeLogout enabled="true">
+$connection-&gt;ExecSQL(&quot;INSERT INTO activity_user_login(user_name, log_date, status) 
+  VALUES ('$userName', CURRENT_TIMESTAMP, 'logout')&quot;);      </BeforeLogout>
+      <CustomHTMLHeaderHandlerText enabled="true">
+$customHtmlHeaderText .= '&lt;link rel=&quot;shortcut icon&quot; href=&quot;https://media.mscsoftware.com/cdn/farfuture/xOwsKcC3mIm-Iqfj4r7XWg7lk-9NwPglxVzI7ZhQNBQ/mtime:1567191942/favicon.ico&quot; type=&quot;image/vnd.microsoft.icon&quot; /&gt;';      </CustomHTMLHeaderHandlerText>
       <OnGetCustomTemplate enabled="true">
 if ($part == PagePart::PageList) {
     $result = 'custom_menu.tpl';
 }      </OnGetCustomTemplate>
-      <CustomizePageList enabled="true">
-$pageList-&gt;addGroup('External links');
+      <OnGetCustomPagePermissions enabled="true">
+// do not apply these rules for site admins
 
-$pageList-&gt;addPage(new PageLink('Home Site', 'http://www.mscsoftware.com', 
+if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
 
-    'Vist my site', false, false, 'External links'));
+    // retrieving the ID of the current user
+    $userId = GetApplication()-&gt;GetCurrentUserId();
 
-$pageList-&gt;addPage(new PageLink('Get Support', 'portal_help.php',
+    // retrieving all user roles 
+    $sql =        
+      &quot;SELECT r.role_name &quot; .
+      &quot;FROM `phpgen_users` ur &quot; .
+      &quot;INNER JOIN `phpgen_user_roles` r ON r.user_id = ur.user_id &quot; .
+      &quot;WHERE ur.user_id = %d&quot;;    
+    $result = $page-&gt;GetConnection()-&gt;fetchAll(sprintf($sql, $userId));
 
-    'Get support for this application', false, false, 'External links'));      </CustomizePageList>
+ 
+
+    // iterating through retrieved roles
+    if (!empty($result)) {
+       foreach ($result as $row) {
+           // is current user a member of the Sales role?
+           if ($row['role_name'] === 'manager') {
+             // if yes, allow all actions.
+             // otherwise default permissions for this page will be applied
+             $permissions-&gt;setGrants(true, true, true, true);
+             break;
+           }                 
+       }
+    };    
+
+    // apply the new permissions
+    $handled = true;
+
+}      </OnGetCustomPagePermissions>
     </EventHandlers>
     <Header>
 &lt;div style=&quot;width:240px; padding:5px; 0;&quot;&gt;&lt;a href=&quot;http://mktportal.mscsoftware.com&quot;&gt;&lt;img src=&quot;https://documents.mscsoftware.com/cdn/farfuture/NPSxCF6sOluXCivzz8rQYbntpJ5OvR3pKrSJezOcrQ4/mtime:1575505133/sites/default/files/MSC_Cobrand.png&quot; style=&quot;width: 190px; padding: 10px 0;&quot;&gt;&lt;/a&gt;&lt;/div&gt;    </Header>
@@ -19678,11 +19757,11 @@ $pageList-&gt;addPage(new PageLink('Get Support', 'portal_help.php',
     <Groups>
       <Group caption="New Campaign">
         <Description>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.        </Description>
+This section of the portal is the most common place to start when setting up and event or a campaign of any sort.        </Description>
       </Group>
       <Group caption="Campaign Tools">
         <Description>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.        </Description>
+These campaign tools are carefull put together to help you track and support your campaign.        </Description>
       </Group>
       <Group caption="Campaign Manager">
         <Description>
@@ -19692,7 +19771,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis m
         <Description>
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.        </Description>
       </Group>
-      <Group caption="Tools">
+      <Group caption="Admin Tools">
         <Description>
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.        </Description>
       </Group>
@@ -19704,6 +19783,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis m
 @import &quot;../default/variables&quot;;
 @import &quot;https://fonts.googleapis.com/css?family=Montserrat:400&quot;;
 @import &quot;https://use.fontawesome.com/releases/v5.3.1/css/all.css&quot;;
+@import &quot;side_menu.css&quot;;
 
 @font-size-base:                12px;
 
@@ -19723,6 +19803,15 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis m
 
 .breadcrumb {
 	margin-top: 20px;
+}
+
+/*
+img {
+    width: 100%;
+}*/
+
+.sidebar {
+    top: 60px !important;
 }
 
 .well .description {
@@ -19988,6 +20077,6 @@ C:\Users\lspurgeon\Documents\GitHub\lances    </Path>
     <Path>
 \\10.59.32.155\mktportal    </Path>
   </AdditionalOutputPaths>
-  <DefaultPageProperties recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="1"/>
+  <DefaultPageProperties recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2"/>
   <DefaultDataFormats numberAfterDecimal="2" DecimalSeparator="." ThousandSeparator="," DateTimeFormat="d-m-Y H:i:s" DateFormat="d-m-Y" firstDayOfWeek="1"/>
 </Project>

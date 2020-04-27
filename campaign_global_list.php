@@ -2109,7 +2109,6 @@
             $this->setExportListRecordAvailable(array());
             $this->setExportOneRecordAvailable(array('pdf', 'excel', 'word', 'xml', 'csv'));
             $this->setShowFormErrorsOnTop(true);
-            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -4474,7 +4473,6 @@
             $this->setExportListRecordAvailable(array());
             $this->setExportOneRecordAvailable(array('pdf', 'excel', 'word', 'xml', 'csv'));
             $this->setShowFormErrorsOnTop(true);
-            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -7979,7 +7977,6 @@
             $this->setExportListRecordAvailable(array());
             $this->setExportOneRecordAvailable(array('pdf', 'excel', 'word', 'xml', 'csv'));
             $this->setShowFormErrorsOnTop(true);
-            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -10616,7 +10613,6 @@
             $this->setExportListRecordAvailable(array());
             $this->setExportOneRecordAvailable(array('pdf', 'excel', 'word', 'xml', 'csv'));
             $this->setShowFormErrorsOnTop(true);
-            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -12946,7 +12942,6 @@
             $this->setExportListRecordAvailable(array());
             $this->setExportOneRecordAvailable(array('pdf', 'excel', 'word', 'xml', 'csv'));
             $this->setShowFormErrorsOnTop(true);
-            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -14806,7 +14801,6 @@
             $this->setExportListRecordAvailable(array());
             $this->setExportOneRecordAvailable(array('pdf', 'excel', 'word', 'xml', 'csv'));
             $this->setShowFormErrorsOnTop(true);
-            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -17235,7 +17229,6 @@
             $this->setExportListRecordAvailable(array());
             $this->setExportOneRecordAvailable(array('pdf', 'excel', 'word', 'xml', 'csv'));
             $this->setShowFormErrorsOnTop(true);
-            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -19012,7 +19005,6 @@
             $this->setExportListRecordAvailable(array());
             $this->setExportOneRecordAvailable(array('pdf', 'excel', 'word', 'xml', 'csv'));
             $this->setShowFormErrorsOnTop(true);
-            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -22588,7 +22580,6 @@
                           </div>
                         </div>');
             $this->setShowFormErrorsOnTop(true);
-            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }

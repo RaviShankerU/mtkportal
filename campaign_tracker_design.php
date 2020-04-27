@@ -2106,7 +2106,6 @@
                           </div>
                         </div>');
             $this->setShowFormErrorsOnTop(true);
-            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }

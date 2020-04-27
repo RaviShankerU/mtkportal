@@ -1051,6 +1051,10 @@
             ApplyCommonPageSettings($this, $result);
             
             $result->SetUseImagesForActions(true);
+            $defaultSortedColumns = array();
+            $defaultSortedColumns[] = new SortColumn('tactic_name_tactic_description', 'ASC');
+            $defaultSortedColumns[] = new SortColumn('campaign_description', 'ASC');
+            $result->setDefaultOrdering($defaultSortedColumns);
             $result->SetUseFixedHeader(false);
             $result->SetShowLineNumbers(true);
             $result->SetShowKeyColumnsImagesInHeader(false);
@@ -1096,7 +1100,6 @@
                 </div>
             </div>');
             $this->setShowFormErrorsOnTop(true);
-            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }

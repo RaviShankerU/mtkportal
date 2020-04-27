@@ -1928,7 +1928,6 @@
             	</div>
             </div>');
             $this->setShowFormErrorsOnTop(true);
-            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -3654,7 +3653,7 @@
     {
         protected function DoBeforeCreate()
         {
-            $this->SetTitle('Campaign Program Name Generator');
+            $this->SetTitle('Program Name Generator');
             $this->SetMenuLabel('Program Generator');
             $this->SetHeader(GetPagesHeader());
             $this->SetFooter(GetPagesFooter());
@@ -3742,7 +3741,7 @@
         {
             return array(
                 new FilterColumn($this->dataset, 'program_generator_name_id', 'program_generator_name_id', 'Program Generator Name Id'),
-                new FilterColumn($this->dataset, 'master_campaign_id', 'master_campaign_id_campaign_name', 'Master Campaign Id'),
+                new FilterColumn($this->dataset, 'master_campaign_id', 'master_campaign_id_campaign_name', 'Brief Request'),
                 new FilterColumn($this->dataset, 'trackerid', 'trackerid', 'Trackerid'),
                 new FilterColumn($this->dataset, 'campaign_program_name', 'campaign_program_name', 'Campaign Program Name'),
                 new FilterColumn($this->dataset, 'SFDC_child_campaign', 'SFDC_child_campaign', 'SFDC Campaign Name'),
@@ -4554,7 +4553,7 @@
             //
             // View column for campaign_name field
             //
-            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Master Campaign Id', $this->dataset);
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Brief Request', $this->dataset);
             $column->SetOrderable(true);
             $column->setLookupRecordModalViewHandlerName(campaign_program_name_generator_master_campaign_idModalViewPage::getHandlerName());
             $grid->AddSingleRecordViewColumn($column);
@@ -4773,7 +4772,7 @@
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Master Campaign Id', 'master_campaign_id', 'master_campaign_id_campaign_name', 'edit_campaign_program_name_generator_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
+            $editColumn = new DynamicLookupEditColumn('Do you have brief request?', 'master_campaign_id', 'master_campaign_id_campaign_name', 'edit_campaign_program_name_generator_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -5136,7 +5135,7 @@
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Master Campaign Id', 'master_campaign_id', 'master_campaign_id_campaign_name', 'multi_edit_campaign_program_name_generator_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
+            $editColumn = new DynamicLookupEditColumn('Brief Request', 'master_campaign_id', 'master_campaign_id_campaign_name', 'multi_edit_campaign_program_name_generator_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -5520,7 +5519,7 @@
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Master Campaign Id', 'master_campaign_id', 'master_campaign_id_campaign_name', 'insert_campaign_program_name_generator_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
+            $editColumn = new DynamicLookupEditColumn('Brief Request', 'master_campaign_id', 'master_campaign_id_campaign_name', 'insert_campaign_program_name_generator_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -5852,7 +5851,7 @@
             //
             // View column for campaign_name field
             //
-            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Master Campaign Id', $this->dataset);
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Brief Request', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddPrintColumn($column);
             
@@ -6038,7 +6037,7 @@
             //
             // View column for campaign_name field
             //
-            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Master Campaign Id', $this->dataset);
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Brief Request', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddExportColumn($column);
             
@@ -6224,7 +6223,7 @@
             //
             // View column for campaign_name field
             //
-            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Master Campaign Id', $this->dataset);
+            $column = new TextViewColumn('master_campaign_id', 'master_campaign_id_campaign_name', 'Brief Request', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddCompareColumn($column);
             
@@ -6502,6 +6501,9 @@
             ApplyCommonPageSettings($this, $result);
             
             $result->SetUseImagesForActions(true);
+            $defaultSortedColumns = array();
+            $defaultSortedColumns[] = new SortColumn('created_date', 'ASC');
+            $result->setDefaultOrdering($defaultSortedColumns);
             $result->SetUseFixedHeader(false);
             $result->SetShowLineNumbers(true);
             $result->SetShowKeyColumnsImagesInHeader(false);
@@ -6542,76 +6544,120 @@
                           <div class="mark-bd-placeholder-img mr-3"><img src="apps/icons/program-generator-color.png" width="80" height="79"></div>
                           <div class="mark-media-body">
                             <h5 class="mt-0 h5">What will you find here</h5>
-                            <p class="mark-p">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-                            <a href="campaign_global_list.php" class="stretched-link">View Live Lists</a>
+                            <p class="mark-p">Marketo Program Name Generator, standardises the naming conversion for all Marketo programs for the purpose reporting in Salesforce.</p>
+                            <i class="far fa-life-ring"></i> If you need more help go to <a href="portal_help.php?partitionpage=6" class="stretched-link">portal help</a> section!
                           </div>
                         </div>');
             $this->setShowFormErrorsOnTop(true);
-            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
      
         protected function setClientSideEvents(Grid $grid) {
-            $grid->SetInsertClientEditorValueChangedScript('if (sender.getFieldName() == \'campaign_status\'){
+            $grid->SetInsertClientEditorValueChangedScript('if (sender.getFieldName() == \'campaign_type\'){
               if (sender.getValue() == \'LIP\'){
-                editors[\'import_total\'].setValue(\'\');
-                editors[\'import_total\'].setVisible(true);   
+                editors[\'import_total\'].setValue(\'0\');
+                editors[\'import_total\'].setVisible(true); 
+                editors[\'import_total\'].setRequired(true); 
+                editors[\'campaign_publish_date\'].setRequired(true); 
                 $(\'#import_total_edit\').next().show(); 
-                editors[\'create_import_list\'].setValue(\'\');
+                editors[\'short_description\'].setValue(\'-\');    
+                editors[\'create_import_list\'].setValue(\'1\');
                 editors[\'create_import_list\'].setVisible(true);   
                 $(\'#create_import_list_edit\').next().show(); 
               }
               else{
                 editors[\'import_total\'].setVisible(false); 
                 $(\'#import_total_edit\').next().hide();   
+                editors[\'import_total\'].setRequired(false); 
+                editors[\'short_description\'].setRequired(true);  
+                editors[\'campaign_publish_date\'].setRequired(true);  
                 editors[\'create_import_list\'].setVisible(false); 
-                $(\'#create_import_list_edit\').next().hide();   
+                $(\'#create_import_list_edit\').next().hide();
               }
-            }');
-            
-            $grid->SetEditClientEditorValueChangedScript('if (sender.getFieldName() == \'campaign_type\')
-            {
-              if (sender.getValue() == \'LIP\')
-              {
-                editors[\'import_total\'].setValue(\'0\');
-                editors[\'import_total\'].setVisible(true);  
-                $(\'#import_total_edit\').next().show(); 
-                editors[\'create_import_list\'].setValue(\'1\');
-                editors[\'create_import_list\'].setVisible(true);  
-                $(\'#create_import_list_edit\').next().show();     
-              }
-              else
-              {
-                editors[\'import_total\'].setVisible(false);  
-                $(\'#import_total_edit\').next().hide();  
-                editors[\'create_import_list\'].setVisible(false);  
-                $(\'#create_import_list_edit\').next().hide();    
-              }
-            }');
-            
-            $grid->SetInsertClientFormLoadedScript('if (editors[\'campaign_type\'].getValue() == \'\') {
-                editors[\'import_total\'].setValue(\'0\');
-                editors[\'import_total\'].setVisible(false);  
-                editors[\'create_import_list\'].setValue(\'0\');
-                editors[\'create_import_list\'].setVisible(false);  
             }
             
-            else {
-                editors[\'import_total\'].setVisible(true); 
+            if (sender.getFieldName() == \'pregion\'){
+              if (sender.getValue() != \'WW-ALL\'){
+              editors[\'sub_region\'].setRequired(true);
+              editors[\'territory\'].setRequired(true);
+              }
+              else{
+              editors[\'sub_region\'].enabled(false);
+              editors[\'territory\'].setRequired(false);
+              }
+            }
+            
+            
+            if (sender.getFieldName() == \'sub_region\'){
+              if (sender.getValue() == \'EM-EUR\'){
+              editors[\'territory\'].setRequired(true);
+              }
+              else{
+              editors[\'territory\'].enabled(false);
+              }
+            }
+            ');
+            
+            $grid->SetEditClientEditorValueChangedScript('console.log(sender);
+            if (sender.getFieldName() == \'campaign_type\'){
+              console.log(sender.getValue());
+              editors[\'campaign_status\'].enabled(sender.getValue() == \'LIP\');
+            
+              if (sender.getValue() == \'LIP\') { 
+                 editors[\'import_total\'].setValue(null);
+                 $(\'#import_total_edit\').setVisible.show();
+                 editors[\'create_import_list\'].setValue(null);
+                 $(\'#create_import_list_edit\').setVisible.show();
+              }
+              else{
+                 $(\'#import_total_edit\').setVisible.hide();
+                 $(\'#create_import_list\').setVisible.hide();
+              }
+            }
+            
+            if (sender.getFieldName() == \'pregion\'){
+              if (sender.getValue() != \'WW-ALL\'){
+              editors[\'sub_region\'].setRequired(true);
+              editors[\'territory\'].setRequired(true);
+              }
+              else{
+              editors[\'sub_region\'].enabled(false);
+              editors[\'territory\'].setRequired(false);
+              }
+            }
+            
+            
+            if (sender.getFieldName() == \'sub_region\'){
+              if (sender.getValue() == \'EM-EUR\'){
+              editors[\'territory\'].setRequired(true);
+              }
+              else{
+              editors[\'territory\'].enabled(false);
+              }
+            }
+            ');
+            
+            $grid->SetInsertClientFormLoadedScript('if (editors[\'campaign_type\'].getValue() == \'\') {
+                editors[\'import_total\'].setVisible(true);
+                editors[\'import_total\'].setValue(\'\');  
                 editors[\'create_import_list\'].setVisible(true);
+                editors[\'create_import_list\'].setValue(\'\'); 
+            }
+            else {
+                editors[\'import_total\'].setVisible(false); 
+                editors[\'create_import_list\'].setVisible(false);
             }');
             
             $grid->SetEditClientFormLoadedScript('if (editors[\'campaign_type\'].getValue() == \'LIP\') {
-                editors[\'import_total\'].setVisible(true); 
-                editors[\'create_import_list\'].setVisible(true);  
-            }
-            
-            else {
                 editors[\'import_total\'].setValue(\'0\');
+                editors[\'import_total\'].setVisible(true);  
+                editors[\'create_import_list\'].setValue(\'0\');
+                editors[\'create_import_list\'].setVisible(true); 
+            }
+            else {
                 editors[\'import_total\'].setVisible(false);  
-                editors[\'create_import_list\'].setValue(\'1\');
-                editors[\'create_import_list\'].setVisible(false);
+                editors[\'create_import_list\'].setVisible(false); 
             }');
         }
     
@@ -7623,7 +7669,7 @@
                   
                $sql =
                                      
-                  "CALL campaignProgramNameGenerator($sprogram_generator_name_id, '$smaster_campaign_id', '$username', '$currentDateTime', $trackerid, '$importlist');";
+                  "CALL campaignProgramNameGenerator($sprogram_generator_name_id, '$smaster_campaign_id', '$username', '$currentDateTime', '$trackerid', '$importlist');";
                   $this->GetConnection()->ExecSQL($sql);
                   
                   If ($emailcount != '0'){
@@ -7831,7 +7877,7 @@
                 if (!empty($result)) {
                    foreach ($result as $row) {
                        // is current user a member of the Sales role?
-                       if (($row['role_name'] === 'manager') || ($row['role_name'] === 'regional marketing')) {
+                       if (($row['role_name'] === 'manager')) {
                          // if yes, allow all actions.
                          // otherwise default permissions for this page will be applied
                          $permissions->setGrants(true, true, true, true);

@@ -26,101 +26,6 @@
 
     
     
-    class portal_help_categoryNestedPage extends NestedFormPage
-    {
-        protected function DoBeforeCreate()
-        {
-            $this->dataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`lookup_help_category`');
-            $this->dataset->addFields(
-                array(
-                    new IntegerField('lookup_help_category_id', true, true, true),
-                    new StringField('category_name')
-                )
-            );
-        }
-    
-        protected function DoPrepare() {
-    
-        }
-    
-        protected function AddInsertColumns(Grid $grid)
-        {
-            //
-            // Edit column for category_name field
-            //
-            $editor = new TextEdit('category_name_edit');
-            $editor->SetMaxLength(45);
-            $editColumn = new CustomEditColumn('Category Name', 'category_name', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-        }
-    
-        function GetCustomClientScript()
-        {
-            return ;
-        }
-        
-        function GetOnPageLoadedClientScript()
-        {
-            return ;
-        }
-    
-        protected function setClientSideEvents(Grid $grid) {
-    
-        }
-    
-        protected function ApplyCommonColumnEditProperties(CustomEditColumn $column)
-        {
-            $column->SetDisplaySetToNullCheckBox(false);
-            $column->SetDisplaySetToDefaultCheckBox(false);
-            $column->SetVariableContainer($this->GetColumnVariableContainer());
-        }
-    
-       static public function getNestedInsertHandlerName()
-        {
-            return get_class() . '_form_insert';
-        }
-    
-        public function GetGridInsertHandler()
-        {
-            return self::getNestedInsertHandlerName();
-        }
-    
-        protected function doGetCustomTemplate($type, $part, $mode, &$result, &$params)
-        {
-    
-        }
-    
-        protected function doGetCustomFormLayout($mode, FixedKeysArray $columns, FormLayout $layout)
-        {
-    
-        }
-    
-        protected function doFileUpload($fieldName, $rowData, &$result, &$accept, $originalFileName, $originalFileExtension, $fileSize, $tempFileName)
-        {
-    
-        }
-    
-        public function doCustomDefaultValues(&$values, &$handled) 
-        {
-    
-        }
-    
-        protected function doBeforeInsertRecord($page, &$rowData, $tableName, &$cancel, &$message, &$messageDisplayTime)
-        {
-    
-        }
-    
-        protected function doAfterInsertRecord($page, $rowData, $tableName, &$success, &$message, &$messageDisplayTime)
-        {
-    
-        }
-    
-    }
     
     // OnBeforePageExecute event handler
     
@@ -142,10 +47,9 @@
             $this->dataset->addFields(
                 array(
                     new IntegerField('portal_help_id', true, true, true),
-                    new IntegerField('category'),
+                    new StringField('category'),
                     new StringField('help_title'),
-                    new StringField('help_body'),
-                    new IntegerField('portal_rating'),
+                    new BlobField('help_body'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -153,6 +57,9 @@
                 )
             );
             $this->dataset->AddLookupField('category', 'lookup_help_category', new IntegerField('lookup_help_category_id'), new StringField('category_name', false, false, false, false, 'category_category_name', 'category_category_name_lookup_help_category'), 'category_category_name_lookup_help_category');
+            if (!$this->GetSecurityInfo()->HasAdminGrant()) {
+                $this->dataset->setRlsPolicy(new RlsPolicy('created_by', GetApplication()->GetCurrentUserId()));
+            }
         }
     
         protected function DoPrepare() {
@@ -162,6 +69,13 @@
         protected function CreatePageNavigator()
         {
             $result = new CompositePageNavigator($this);
+            
+            $partitionNavigator = new CustomPageNavigator('partition', $this, $this->dataset, 'Filter by Category', $result);
+            $partitionNavigator->OnGetPartitionCondition->AddListener('partition' . '_GetPartitionConditionHandler', $this);
+            $partitionNavigator->OnGetPartitions->AddListener('partition' . '_GetPartitionsHandler', $this);
+            $partitionNavigator->SetAllowViewAllRecords(true);
+            $partitionNavigator->SetNavigationStyle(NS_COMBOBOX);
+            $result->AddPageNavigator($partitionNavigator);
             
             $partitionNavigator = new PageNavigator('pnav', $this, $this->dataset);
             $partitionNavigator->SetRowsPerPage(20);
@@ -187,7 +101,6 @@
                 new FilterColumn($this->dataset, 'category', 'category_category_name', 'Category'),
                 new FilterColumn($this->dataset, 'help_title', 'help_title', 'Help Title'),
                 new FilterColumn($this->dataset, 'help_body', 'help_body', 'Description'),
-                new FilterColumn($this->dataset, 'portal_rating', 'portal_rating', 'Portal Rating'),
                 new FilterColumn($this->dataset, 'created_by', 'created_by', 'Created By'),
                 new FilterColumn($this->dataset, 'created_date', 'created_date', 'Created Date'),
                 new FilterColumn($this->dataset, 'modified_by', 'modified_by', 'Modified By'),
@@ -202,7 +115,6 @@
                 ->addColumn($columns['category'])
                 ->addColumn($columns['help_title'])
                 ->addColumn($columns['help_body'])
-                ->addColumn($columns['portal_rating'])
                 ->addColumn($columns['created_by'])
                 ->addColumn($columns['created_date'])
                 ->addColumn($columns['modified_by'])
@@ -211,8 +123,7 @@
     
         protected function setupColumnFilter(ColumnFilter $columnFilter)
         {
-            $columnFilter
-                ->setOptionsFor('modified_date');
+    
         }
     
         protected function setupFilterBuilder(FilterBuilder $filterBuilder, FixedKeysArray $columns)
@@ -292,38 +203,6 @@
             $filterBuilder->addColumn(
                 $columns['help_body'],
                 array(
-                    FilterConditionOperator::EQUALS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::CONTAINS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
-                    FilterConditionOperator::BEGINS_WITH => $main_editor,
-                    FilterConditionOperator::ENDS_WITH => $main_editor,
-                    FilterConditionOperator::IS_LIKE => $main_editor,
-                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
-                    FilterConditionOperator::IS_BLANK => null,
-                    FilterConditionOperator::IS_NOT_BLANK => null
-                )
-            );
-            
-            $main_editor = new TextEdit('portal_rating_edit');
-            
-            $filterBuilder->addColumn(
-                $columns['portal_rating'],
-                array(
-                    FilterConditionOperator::EQUALS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -475,52 +354,20 @@
             //
             // View column for help_title field
             //
-            $column = new TextViewColumn('help_title', 'help_title', 'Help Title', $this->dataset);
+            $column = new TextViewColumn('help_title', 'help_title', 'Is your question below?', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
+            $column->setAlign('left');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
             $grid->AddViewColumn($column);
             
             //
-            // View column for help_body field
+            // View column for created_by field
             //
-            $column = new TextViewColumn('help_body', 'help_body', 'Description', $this->dataset);
+            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
             $column->SetOrderable(true);
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for portal_rating field
-            //
-            $column = new NumberViewColumn('portal_rating', 'portal_rating', 'Portal Rating', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for modified_by field
-            //
-            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for modified_date field
-            //
-            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -541,6 +388,7 @@
             //
             $column = new TextViewColumn('help_title', 'help_title', 'Help Title', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -548,16 +396,7 @@
             //
             $column = new TextViewColumn('help_body', 'help_body', 'Description', $this->dataset);
             $column->SetOrderable(true);
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for portal_rating field
-            //
-            $column = new NumberViewColumn('portal_rating', 'portal_rating', 'Portal Rating', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $column->setInlineStyles('width: 100% !important;');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -611,9 +450,6 @@
             );
             $lookupDataset->setOrderByField('category_name', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Category', 'category', 'category_category_name', 'edit_portal_help_category_search', $editor, $this->dataset, $lookupDataset, 'lookup_help_category_id', 'category_name', '');
-            $editColumn->setNestedInsertFormLink(
-                $this->GetHandlerLink(portal_help_categoryNestedPage::getNestedInsertHandlerName())
-            );
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -633,16 +469,6 @@
             //
             $editor = new HtmlWysiwygEditor('help_body_edit');
             $editColumn = new CustomEditColumn('Description', 'help_body', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for portal_rating field
-            //
-            $editor = new TextEdit('portal_rating_edit');
-            $editColumn = new CustomEditColumn('Portal Rating', 'portal_rating', $editor, $this->dataset);
-            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -689,9 +515,6 @@
             );
             $lookupDataset->setOrderByField('category_name', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Category', 'category', 'category_category_name', 'multi_edit_portal_help_category_search', $editor, $this->dataset, $lookupDataset, 'lookup_help_category_id', 'category_name', '');
-            $editColumn->setNestedInsertFormLink(
-                $this->GetHandlerLink(portal_help_categoryNestedPage::getNestedInsertHandlerName())
-            );
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -711,16 +534,6 @@
             //
             $editor = new HtmlWysiwygEditor('help_body_edit');
             $editColumn = new CustomEditColumn('Description', 'help_body', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for portal_rating field
-            //
-            $editor = new TextEdit('portal_rating_edit');
-            $editColumn = new CustomEditColumn('Portal Rating', 'portal_rating', $editor, $this->dataset);
-            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -746,9 +559,6 @@
             );
             $lookupDataset->setOrderByField('category_name', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Category', 'category', 'category_category_name', 'insert_portal_help_category_search', $editor, $this->dataset, $lookupDataset, 'lookup_help_category_id', 'category_name', '');
-            $editColumn->setNestedInsertFormLink(
-                $this->GetHandlerLink(portal_help_categoryNestedPage::getNestedInsertHandlerName())
-            );
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -768,16 +578,6 @@
             //
             $editor = new HtmlWysiwygEditor('help_body_edit');
             $editColumn = new CustomEditColumn('Description', 'help_body', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for portal_rating field
-            //
-            $editor = new TextEdit('portal_rating_edit');
-            $editColumn = new CustomEditColumn('Portal Rating', 'portal_rating', $editor, $this->dataset);
-            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -836,6 +636,8 @@
             //
             $column = new TextViewColumn('help_title', 'help_title', 'Help Title', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
+            $column->setAlign('left');
             $grid->AddPrintColumn($column);
             
             //
@@ -843,16 +645,7 @@
             //
             $column = new TextViewColumn('help_body', 'help_body', 'Description', $this->dataset);
             $column->SetOrderable(true);
-            $grid->AddPrintColumn($column);
-            
-            //
-            // View column for portal_rating field
-            //
-            $column = new NumberViewColumn('portal_rating', 'portal_rating', 'Portal Rating', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $column->setInlineStyles('width: 100% !important;');
             $grid->AddPrintColumn($column);
             
             //
@@ -910,6 +703,8 @@
             //
             $column = new TextViewColumn('help_title', 'help_title', 'Help Title', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
+            $column->setAlign('left');
             $grid->AddExportColumn($column);
             
             //
@@ -917,16 +712,7 @@
             //
             $column = new TextViewColumn('help_body', 'help_body', 'Description', $this->dataset);
             $column->SetOrderable(true);
-            $grid->AddExportColumn($column);
-            
-            //
-            // View column for portal_rating field
-            //
-            $column = new NumberViewColumn('portal_rating', 'portal_rating', 'Portal Rating', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $column->setInlineStyles('width: 100% !important;');
             $grid->AddExportColumn($column);
             
             //
@@ -974,6 +760,8 @@
             //
             $column = new TextViewColumn('help_title', 'help_title', 'Help Title', $this->dataset);
             $column->SetOrderable(true);
+            $column->setBold(true);
+            $column->setAlign('left');
             $grid->AddCompareColumn($column);
             
             //
@@ -981,16 +769,7 @@
             //
             $column = new TextViewColumn('help_body', 'help_body', 'Description', $this->dataset);
             $column->SetOrderable(true);
-            $grid->AddCompareColumn($column);
-            
-            //
-            // View column for portal_rating field
-            //
-            $column = new NumberViewColumn('portal_rating', 'portal_rating', 'Portal Rating', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
+            $column->setInlineStyles('width: 100% !important;');
             $grid->AddCompareColumn($column);
             
             //
@@ -1064,6 +843,27 @@
         protected function GetEnableModalGridDelete() { return true; }
         
         public function GetEnableModalGridCopy() { return true; }
+        
+        private $partitions = array(1 => array('2'), 2 => array('1'), 3 => array('5'), 4 => array('7'), 5 => array('3'), 6 => array('4'), 7 => array('6'));
+        
+        function partition_GetPartitionsHandler(&$partitions)
+        {
+            $partitions[1] = 'Brief Request';
+            $partitions[2] = 'Campaign & Events Calendar';
+            $partitions[3] = 'Comms Tracker';
+            $partitions[4] = 'Contact List Import';
+            $partitions[5] = 'Event List';
+            $partitions[6] = 'Program Name Generator';
+            $partitions[7] = 'UTM Link Generator';
+        }
+        
+        function partition_GetPartitionConditionHandler($partitionName, &$condition)
+        {
+            $condition = '';
+            if (isset($partitionName) && isset($this->partitions[$partitionName]))
+                foreach ($this->partitions[$partitionName] as $value)
+                    AddStr($condition, sprintf('(category = %s)', $this->PrepareTextForSQL($value)), ' OR ');
+        }
     
         protected function CreateGrid()
         {
@@ -1076,6 +876,10 @@
             ApplyCommonPageSettings($this, $result);
             
             $result->SetUseImagesForActions(true);
+            $defaultSortedColumns = array();
+            $defaultSortedColumns[] = new SortColumn('category_category_name', 'ASC');
+            $defaultSortedColumns[] = new SortColumn('help_title', 'ASC');
+            $result->setDefaultOrdering($defaultSortedColumns);
             $result->SetUseFixedHeader(false);
             $result->SetShowLineNumbers(true);
             $result->SetShowKeyColumnsImagesInHeader(false);
@@ -1121,7 +925,6 @@
                           </div>
                         </div>');
             $this->setShowFormErrorsOnTop(true);
-            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -1186,10 +989,6 @@
             $lookupDataset->setOrderByField('category_name', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_portal_help_category_search', 'lookup_help_category_id', 'category_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
-            
-            
-            
-            new portal_help_categoryNestedPage($this, GetCurrentUserPermissionSetForDataSource('portal_help.category'));
         }
        
         protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
@@ -1311,7 +1110,6 @@
             $briefGroup->addRow()->addCol($columns['category'], 12);
             $briefGroup->addRow()->addCol($columns['help_title'], 12);
             $briefGroup->addRow()->addCol($columns['help_body'], 12);
-            $briefGroup->addRow()->addCol($columns['portal_rating'], 12);
         }
     
         protected function doGetCustomColumnGroup(FixedKeysArray $columns, ViewColumnGroup $columnGroup)

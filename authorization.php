@@ -18,12 +18,13 @@ $grants = array();
 
 $appGrants = array();
 
-$dataSourceRecordPermissions = array('brief' => new DataSourceRecordPermission('created_by', false, false, false, false, false, false),
-  'brief01' => new DataSourceRecordPermission('created_by', false, false, false, true, true, true),
-  'campaign_analysis' => new DataSourceRecordPermission('created_by', false, false, false, false, false, false),
-  'campaign_program_name_generator' => new DataSourceRecordPermission('created_by', false, false, false, true, true, true),
-  'campaign_tracker_utm' => new DataSourceRecordPermission('created_by', false, false, false, true, true, true),
-  'campaign_import' => new DataSourceRecordPermission('created_by', false, false, false, true, true, true));
+$dataSourceRecordPermissions = array('brief' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
+  'brief01' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
+  'campaign_analysis' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
+  'campaign_program_name_generator' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
+  'campaign_tracker_utm' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
+  'campaign_import' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
+  'portal_help' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true));
 
 $tableCaptions = array('campaign_calendar' => 'Campaign & Events Calendar',
 'brief' => 'Campaign Brief',

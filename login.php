@@ -21,8 +21,8 @@ function GetConnectionOptions() {
 }
 
 function OnAfterLogin($userName, EngConnection $connection, &$canLogin, &$errorMessage) {
-    $connection->ExecSQL("INSERT INTO activity_log(action, user_id, activity_log) 
-      VALUES ('LOGGED IN', '$userName', CURRENT_TIMESTAMP)");
+    $connection->ExecSQL("INSERT INTO activity_user_login(user_name, log_date, status) 
+      VALUES ('$userName', CURRENT_TIMESTAMP, 'login')");
 }
 
 function OnAfterFailedLoginAttempt($userName, EngConnection $connection, &$errorMessage) {
@@ -30,7 +30,8 @@ function OnAfterFailedLoginAttempt($userName, EngConnection $connection, &$error
 }
 
 function OnBeforeLogout($userName, EngConnection $connection) {
-
+    $connection->ExecSQL("INSERT INTO activity_user_login(user_name, log_date, status) 
+      VALUES ('$userName', CURRENT_TIMESTAMP, 'logout')");
 }
 
 SetUpUserAuthorization();

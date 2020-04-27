@@ -838,9 +838,9 @@
         protected function setupColumnFilter(ColumnFilter $columnFilter)
         {
             $columnFilter
+                ->setOptionsFor('cregion')
                 ->setOptionsFor('campaign_publish_date')
                 ->setOptionsFor('campaign_type')
-                ->setOptionsFor('cregion')
                 ->setOptionsFor('tracker_status')
                 ->setOptionsFor('campaign_utm_id');
         }
@@ -1221,6 +1221,29 @@
         protected function AddFieldColumns(Grid $grid, $withDetails = true)
         {
             //
+            // View column for Region field
+            //
+            $column = new TextViewColumn('cregion', 'cregion_Region', 'Region', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for campaign_description field
+            //
+            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_campaign_description_handler_list');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
             // View column for email_name field
             //
             $column = new TextViewColumn('email_name', 'email_name', 'Email Name', $this->dataset);
@@ -1245,34 +1268,11 @@
             $grid->AddViewColumn($column);
             
             //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_campaign_description_handler_list');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
             // View column for Type field
             //
             $column = new TextViewColumn('campaign_type', 'campaign_type_Type', 'Campaign Type', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for Region field
-            //
-            $column = new TextViewColumn('cregion', 'cregion_Region', 'Region', $this->dataset);
-            $column->SetOrderable(true);
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -2603,6 +2603,9 @@
             ApplyCommonPageSettings($this, $result);
             
             $result->SetUseImagesForActions(true);
+            $defaultSortedColumns = array();
+            $defaultSortedColumns[] = new SortColumn('campaign_publish_date', 'DESC');
+            $result->setDefaultOrdering($defaultSortedColumns);
             $result->SetUseFixedHeader(false);
             $result->SetShowLineNumbers(true);
             $result->SetShowKeyColumnsImagesInHeader(false);
@@ -2643,12 +2646,11 @@
             	<div class="mark-bd-placeholder-img mr-3"><img src="apps/icons/comms-color.png" width="80" height="79"></div>
             	<div class="mark-media-body">
             		<h5 class="mt-0 h5">What will you find here</h5>
-            		<p class="mark-p">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-            		<a href="campaign_program_name_generator.php" class="stretched-link">View Live Lists</a>
+            		<p class="mark-p">The Comms Tracker works side by side with the Program Generator and the Events List to displaying newly targetted channel communications in the Campaign Calendar.</p>
+            		<i class="far fa-life-ring"></i> If you need more help go to <a href="portal_help.php?partitionpage=3" class="stretched-link">portal help</a> section!
             	</div>
             </div>');
             $this->setShowFormErrorsOnTop(true);
-            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -2659,20 +2661,20 @@
     
         protected function doRegisterHandlers() {
             //
-            // View column for email_name field
-            //
-            $column = new TextViewColumn('email_name', 'email_name', 'Email Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_email_name_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
             // View column for campaign_description field
             //
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_campaign_description_handler_list', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for email_name field
+            //
+            $column = new TextViewColumn('email_name', 'email_name', 'Email Name', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_email_name_handler_list', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //

@@ -1,5 +1,6 @@
 @import "https://fonts.googleapis.com/css?family=Montserrat:400";
 @import "https://use.fontawesome.com/releases/v5.3.1/css/all.css";
+@import "side_menu.css";
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 
 html {
@@ -12150,6 +12151,14 @@ thead .details .link-icon {
 
 .breadcrumb {
   margin-top: 20px;
+}
+/*
+img {
+    width: 100%;
+}*/
+
+.sidebar {
+  top: 60px !important;
 }
 .well .description {
   padding-top: 10px !important;
