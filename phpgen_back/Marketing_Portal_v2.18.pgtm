@@ -142,6 +142,23 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
     <DataSource name="lookup_imported_obtained" createTopLevelPage="false"/>
     <DataSource name="lookup_help_category" createTopLevelPage="false"/>
     <DataSource name="portal_help"/>
+    <DataSource name="campaign_comm_regional_approval" type="query">
+      <PrimaryKeyFields>
+        <Field name="campaign_tracker_local_id"/>
+      </PrimaryKeyFields>
+      <SelectStatement>
+SELECT 
+    ct.campaign_tracker_local_id, 
+    ct.campaign_publish_date,
+    ct.campaign_description,
+    ct.modified_by as requested_by,
+    r.Region,
+    ct.region_approval
+FROM campaign_tracker_comms_local ct
+	JOIN lookup_region r ON ct.cregion = r.Region_Value
+	JOIN phpgen_user_roles u ON u.aregion = r.Region_ID
+WHERE ct.campaign_publish_date is not null AND ct.campaign_description is not null      </SelectStatement>
+    </DataSource>
   </DataSources>
   <Presentation disableMagicQuotesRuntime="false" showEnvironmentVariables="false" showExecutedQueries="false" showPHPErrorsAndWarnings="false" enableInactivityTimeout="true" inactivityTimeoutInterval="20" menuMode="1">
     <Pages>
@@ -8663,7 +8680,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
         <RecordPermissions useRecordPermissions="false"/>
         <PartitionNavigators/>
       </Page>
-      <Page type="table" tableName="campaign_program_name_generator" numberByDataSource="0" fileName="campaign_program_name_generator" caption="Program Name Generator" shortCaption="Program Generator" groupName="Campaign Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
+      <Page type="table" tableName="campaign_program_name_generator" numberByDataSource="0" fileName="campaign_program_name_generator" caption="Campaign Builder" shortCaption="Campaign Builder" groupName="Campaign Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
         <DefaultSortedColumns>
           <Column fieldName="created_date" orderType="0"/>
         </DefaultSortedColumns>
@@ -10101,6 +10118,20 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
                   <ViewProperties type="text"/>
                   <EditProperties type="dynamicCombobox"/>
                 </ColumnPresentation>
+                <ColumnPresentation fieldName="region_approval" caption="Region Approval" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                  <ViewProperties type="text">
+                    <Format type="number" thousandSeparator=","/>
+                  </ViewProperties>
+                  <EditProperties type="textBox" maxLength="0"/>
+                </ColumnPresentation>
+                <ColumnPresentation fieldName="region_approved_by" caption="Region Approved By" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                  <ViewProperties type="text"/>
+                  <EditProperties type="textBox" maxLength="65"/>
+                </ColumnPresentation>
+                <ColumnPresentation fieldName="region_approved_date" caption="Region Approved Date" canSetNull="true" selectedFilterOperators="2031871">
+                  <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
+                  <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
+                </ColumnPresentation>
               </ColumnPresentations>
               <Columns>
                 <List>
@@ -10118,6 +10149,9 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
                   <Column fieldName="modified_date"/>
                   <Column fieldName="trackerid" visible="false"/>
                   <Column fieldName="show_events_cal"/>
+                  <Column fieldName="region_approval"/>
+                  <Column fieldName="region_approved_by"/>
+                  <Column fieldName="region_approved_date"/>
                 </List>
                 <View>
                   <Column fieldName="campaign_tracker_local_id" visible="false"/>
@@ -10134,6 +10168,9 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
                   <Column fieldName="trackerid" visible="false"/>
                   <Column fieldName="show_events_cal"/>
                   <Column fieldName="cregion"/>
+                  <Column fieldName="region_approval"/>
+                  <Column fieldName="region_approved_by"/>
+                  <Column fieldName="region_approved_date"/>
                 </View>
                 <Edit>
                   <Column fieldName="campaign_tracker_local_id" visible="false"/>
@@ -10150,6 +10187,9 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
                   <Column fieldName="trackerid" visible="false"/>
                   <Column fieldName="show_events_cal"/>
                   <Column fieldName="cregion"/>
+                  <Column fieldName="region_approval"/>
+                  <Column fieldName="region_approved_by"/>
+                  <Column fieldName="region_approved_date"/>
                 </Edit>
                 <Insert>
                   <Column fieldName="campaign_tracker_local_id" visible="false"/>
@@ -10166,6 +10206,9 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
                   <Column fieldName="trackerid" visible="false"/>
                   <Column fieldName="show_events_cal"/>
                   <Column fieldName="cregion"/>
+                  <Column fieldName="region_approval"/>
+                  <Column fieldName="region_approved_by"/>
+                  <Column fieldName="region_approved_date"/>
                 </Insert>
                 <QuickFilter>
                   <Column fieldName="campaign_tracker_local_id"/>
@@ -10182,6 +10225,9 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
                   <Column fieldName="trackerid" visible="false"/>
                   <Column fieldName="show_events_cal"/>
                   <Column fieldName="cregion"/>
+                  <Column fieldName="region_approval"/>
+                  <Column fieldName="region_approved_by"/>
+                  <Column fieldName="region_approved_date"/>
                 </QuickFilter>
                 <FilterBuilder>
                   <Column fieldName="campaign_tracker_local_id"/>
@@ -10198,6 +10244,9 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
                   <Column fieldName="trackerid" visible="false"/>
                   <Column fieldName="show_events_cal"/>
                   <Column fieldName="cregion"/>
+                  <Column fieldName="region_approval"/>
+                  <Column fieldName="region_approved_by"/>
+                  <Column fieldName="region_approved_date"/>
                 </FilterBuilder>
                 <Print>
                   <Column fieldName="campaign_tracker_local_id"/>
@@ -10214,6 +10263,9 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
                   <Column fieldName="trackerid" visible="false"/>
                   <Column fieldName="show_events_cal"/>
                   <Column fieldName="cregion"/>
+                  <Column fieldName="region_approval"/>
+                  <Column fieldName="region_approved_by"/>
+                  <Column fieldName="region_approved_date"/>
                 </Print>
                 <Export>
                   <Column fieldName="campaign_tracker_local_id"/>
@@ -10230,6 +10282,9 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
                   <Column fieldName="trackerid" visible="false"/>
                   <Column fieldName="show_events_cal"/>
                   <Column fieldName="cregion"/>
+                  <Column fieldName="region_approval"/>
+                  <Column fieldName="region_approved_by"/>
+                  <Column fieldName="region_approved_date"/>
                 </Export>
                 <Compare>
                   <Column fieldName="campaign_tracker_local_id" visible="false"/>
@@ -10246,6 +10301,9 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
                   <Column fieldName="trackerid" visible="false"/>
                   <Column fieldName="show_events_cal"/>
                   <Column fieldName="cregion"/>
+                  <Column fieldName="region_approval"/>
+                  <Column fieldName="region_approved_by"/>
+                  <Column fieldName="region_approved_date"/>
                 </Compare>
                 <MultiEdit>
                   <Column fieldName="campaign_tracker_local_id" visible="false"/>
@@ -10262,6 +10320,9 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
                   <Column fieldName="trackerid" visible="false"/>
                   <Column fieldName="show_events_cal"/>
                   <Column fieldName="cregion"/>
+                  <Column fieldName="region_approval"/>
+                  <Column fieldName="region_approved_by"/>
+                  <Column fieldName="region_approved_date"/>
                 </MultiEdit>
               </Columns>
               <Details/>
@@ -11557,11 +11618,25 @@ else {
             <ViewProperties type="text"/>
             <EditProperties type="textBox" maxLength="45"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="show_events_cal" caption="Show Events Cal" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+          <ColumnPresentation fieldName="show_events_cal" caption="Show Events Cal" showColumnFilter="false" canSetNull="true" readOnly="true" selectedFilterOperators="1573119">
             <ViewProperties type="text">
               <Format type="number" thousandSeparator=","/>
             </ViewProperties>
             <EditProperties type="textBox" maxLength="0"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="region_approval" caption="Region Approval" showColumnFilter="false" canSetNull="true" readOnly="true" selectedFilterOperators="1573119">
+            <ViewProperties type="text">
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="textBox" maxLength="0"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="region_approved_by" caption="Region Approved By" showColumnFilter="false" canSetNull="true" readOnly="true" selectedFilterOperators="1589247">
+            <ViewProperties type="text"/>
+            <EditProperties type="textBox" maxLength="65"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="region_approved_date" caption="Region Approved Date" canSetNull="true" readOnly="true" selectedFilterOperators="2031871">
+            <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
+            <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
           </ColumnPresentation>
         </ColumnPresentations>
         <Columns>
@@ -11580,6 +11655,9 @@ else {
             <Column fieldName="modified_date" visible="false"/>
             <Column fieldName="trackerid" visible="false"/>
             <Column fieldName="show_events_cal"/>
+            <Column fieldName="region_approval"/>
+            <Column fieldName="region_approved_by" visible="false"/>
+            <Column fieldName="region_approved_date" visible="false"/>
           </List>
           <View>
             <Column fieldName="campaign_tracker_local_id" visible="false"/>
@@ -11596,6 +11674,9 @@ else {
             <Column fieldName="modified_date"/>
             <Column fieldName="trackerid" visible="false"/>
             <Column fieldName="show_events_cal"/>
+            <Column fieldName="region_approval"/>
+            <Column fieldName="region_approved_by"/>
+            <Column fieldName="region_approved_date"/>
           </View>
           <Edit>
             <Column fieldName="campaign_tracker_local_id" visible="false"/>
@@ -11612,6 +11693,9 @@ else {
             <Column fieldName="modified_date"/>
             <Column fieldName="trackerid" visible="false"/>
             <Column fieldName="show_events_cal"/>
+            <Column fieldName="region_approval"/>
+            <Column fieldName="region_approved_by"/>
+            <Column fieldName="region_approved_date"/>
           </Edit>
           <Insert>
             <Column fieldName="campaign_tracker_local_id" visible="false"/>
@@ -11628,6 +11712,9 @@ else {
             <Column fieldName="modified_date"/>
             <Column fieldName="trackerid" visible="false"/>
             <Column fieldName="show_events_cal"/>
+            <Column fieldName="region_approval"/>
+            <Column fieldName="region_approved_by"/>
+            <Column fieldName="region_approved_date"/>
           </Insert>
           <QuickFilter>
             <Column fieldName="campaign_tracker_local_id"/>
@@ -11644,6 +11731,9 @@ else {
             <Column fieldName="trackerid" visible="false"/>
             <Column fieldName="show_events_cal"/>
             <Column fieldName="cregion"/>
+            <Column fieldName="region_approval"/>
+            <Column fieldName="region_approved_by"/>
+            <Column fieldName="region_approved_date"/>
           </QuickFilter>
           <FilterBuilder>
             <Column fieldName="campaign_tracker_local_id"/>
@@ -11660,6 +11750,9 @@ else {
             <Column fieldName="modified_date"/>
             <Column fieldName="trackerid" visible="false"/>
             <Column fieldName="show_events_cal"/>
+            <Column fieldName="region_approval"/>
+            <Column fieldName="region_approved_by"/>
+            <Column fieldName="region_approved_date"/>
           </FilterBuilder>
           <Print>
             <Column fieldName="campaign_tracker_local_id"/>
@@ -11676,6 +11769,9 @@ else {
             <Column fieldName="modified_date"/>
             <Column fieldName="trackerid" visible="false"/>
             <Column fieldName="show_events_cal"/>
+            <Column fieldName="region_approval"/>
+            <Column fieldName="region_approved_by"/>
+            <Column fieldName="region_approved_date"/>
           </Print>
           <Export>
             <Column fieldName="campaign_tracker_local_id"/>
@@ -11692,6 +11788,9 @@ else {
             <Column fieldName="modified_date"/>
             <Column fieldName="trackerid" visible="false"/>
             <Column fieldName="show_events_cal"/>
+            <Column fieldName="region_approval"/>
+            <Column fieldName="region_approved_by"/>
+            <Column fieldName="region_approved_date"/>
           </Export>
           <Compare>
             <Column fieldName="campaign_tracker_local_id" visible="false"/>
@@ -11708,6 +11807,9 @@ else {
             <Column fieldName="modified_date"/>
             <Column fieldName="trackerid" visible="false"/>
             <Column fieldName="show_events_cal"/>
+            <Column fieldName="region_approval"/>
+            <Column fieldName="region_approved_by"/>
+            <Column fieldName="region_approved_date"/>
           </Compare>
           <MultiEdit>
             <Column fieldName="campaign_tracker_local_id" visible="false"/>
@@ -11724,6 +11826,9 @@ else {
             <Column fieldName="modified_date"/>
             <Column fieldName="trackerid" visible="false"/>
             <Column fieldName="show_events_cal"/>
+            <Column fieldName="region_approval"/>
+            <Column fieldName="region_approved_by"/>
+            <Column fieldName="region_approved_date"/>
           </MultiEdit>
         </Columns>
         <Details/>
@@ -19091,7 +19196,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             </ViewProperties>
             <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="user_id" caption="User Id" selectedFilterOperators="1573119">
+          <ColumnPresentation fieldName="user_id" caption="User Name" selectedFilterOperators="1573119">
             <Lookup tableName="phpgen_users" linkFieldName="user_id" displayFieldName="user_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" displayLookupRecord="true">
               <LookupRecordViewForm numberByDataSource="0" fileName="phpgen_users" caption="Phpgen Users" shortCaption="Phpgen Users" addSeparator="false" horizontalFilterCondition="" isLookupRecordViewForm="true" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
                 <BeforeGridText/>
@@ -19244,57 +19349,88 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
               </Values>
             </EditProperties>
           </ColumnPresentation>
+          <ColumnPresentation fieldName="approver" caption="Approver" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+            <ViewProperties type="text">
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="checkBox"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="aregion" caption="Region" canSetNull="true" selectedFilterOperators="1573119">
+            <Lookup tableName="lookup_region" linkFieldName="Region_ID" displayFieldName="Region" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
+            <ViewProperties type="text"/>
+            <EditProperties type="dynamicCombobox"/>
+          </ColumnPresentation>
         </ColumnPresentations>
         <Columns>
           <List>
             <Column fieldName="roles_id" visible="false"/>
             <Column fieldName="user_id"/>
             <Column fieldName="role_name"/>
+            <Column fieldName="approver"/>
+            <Column fieldName="aregion"/>
           </List>
           <View>
-            <Column fieldName="roles_id"/>
+            <Column fieldName="roles_id" visible="false"/>
             <Column fieldName="user_id"/>
             <Column fieldName="role_name"/>
+            <Column fieldName="approver"/>
+            <Column fieldName="aregion"/>
           </View>
           <Edit>
             <Column fieldName="roles_id" visible="false"/>
             <Column fieldName="user_id"/>
             <Column fieldName="role_name"/>
+            <Column fieldName="approver"/>
+            <Column fieldName="aregion"/>
           </Edit>
           <Insert>
             <Column fieldName="roles_id" visible="false"/>
             <Column fieldName="user_id"/>
             <Column fieldName="role_name"/>
+            <Column fieldName="approver"/>
+            <Column fieldName="aregion"/>
           </Insert>
           <QuickFilter>
-            <Column fieldName="roles_id"/>
+            <Column fieldName="roles_id" visible="false"/>
             <Column fieldName="user_id"/>
             <Column fieldName="role_name"/>
+            <Column fieldName="approver"/>
+            <Column fieldName="aregion"/>
           </QuickFilter>
           <FilterBuilder>
-            <Column fieldName="roles_id"/>
+            <Column fieldName="roles_id" visible="false"/>
             <Column fieldName="user_id"/>
             <Column fieldName="role_name"/>
+            <Column fieldName="approver"/>
+            <Column fieldName="aregion"/>
           </FilterBuilder>
           <Print>
-            <Column fieldName="roles_id"/>
+            <Column fieldName="roles_id" visible="false"/>
             <Column fieldName="user_id"/>
             <Column fieldName="role_name"/>
+            <Column fieldName="approver"/>
+            <Column fieldName="aregion"/>
           </Print>
           <Export>
-            <Column fieldName="roles_id"/>
+            <Column fieldName="roles_id" visible="false"/>
             <Column fieldName="user_id"/>
             <Column fieldName="role_name"/>
+            <Column fieldName="approver"/>
+            <Column fieldName="aregion"/>
           </Export>
           <Compare>
             <Column fieldName="roles_id" visible="false"/>
             <Column fieldName="user_id"/>
             <Column fieldName="role_name"/>
+            <Column fieldName="approver"/>
+            <Column fieldName="aregion"/>
           </Compare>
           <MultiEdit>
             <Column fieldName="roles_id" visible="false"/>
             <Column fieldName="user_id"/>
             <Column fieldName="role_name"/>
+            <Column fieldName="approver"/>
+            <Column fieldName="aregion"/>
           </MultiEdit>
         </Columns>
         <Details/>
@@ -19694,6 +19830,125 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
           </PartitionNavigator>
         </PartitionNavigators>
       </Page>
+      <Page type="query" queryName="campaign_comm_regional_approval" numberByDataSource="0" fileName="campaign_comm_regional_approval" caption="Campaign Comm: Regional Approval" shortCaption="Regional Campaign Approval" groupName="Admin Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="0" viewAbilityMode="3" editAbilityMode="0" multiEditAbility="0" copyAbilityMode="0" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
+        <BeforeGridText/>
+        <DetailedDescription/>
+        <ColumnPresentations>
+          <ColumnPresentation fieldName="campaign_tracker_local_id" caption="Campaign Tracker Local Id" showColumnFilter="false" selectedFilterOperators="1573119">
+            <ViewProperties type="text">
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="spinEdit" maxValue="100" minValue="0" useConstraints="false" step="1"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="campaign_publish_date" caption="Campaign Publish Date" readOnly="true" selectedFilterOperators="2031871">
+            <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1"/>
+            <EditProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1" firstDayOfWeek="0"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="campaign_description" caption="Campaign Description" showColumnFilter="false" readOnly="true" selectedFilterOperators="1589247">
+            <ViewProperties type="text"/>
+            <EditProperties type="textBox" maxLength="0"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="requested_by" caption="Requested By" showColumnFilter="false" readOnly="true" selectedFilterOperators="1589247">
+            <ViewProperties type="text"/>
+            <EditProperties type="textBox" maxLength="0"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="Region" caption="Region" showColumnFilter="false" readOnly="true" selectedFilterOperators="1589247">
+            <ViewProperties type="text"/>
+            <EditProperties type="textBox" maxLength="0"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="region_approval" caption="Region Approval" showColumnFilter="false" selectedFilterOperators="1573119">
+            <ViewProperties type="text">
+              <Format type="number" thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="spinEdit" maxValue="100" minValue="0" useConstraints="false" step="1"/>
+          </ColumnPresentation>
+        </ColumnPresentations>
+        <Columns>
+          <List>
+            <Column fieldName="campaign_tracker_local_id" visible="false"/>
+            <Column fieldName="campaign_publish_date"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="requested_by"/>
+            <Column fieldName="Region"/>
+            <Column fieldName="region_approval"/>
+          </List>
+          <View>
+            <Column fieldName="campaign_tracker_local_id" visible="false"/>
+            <Column fieldName="campaign_publish_date"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="requested_by"/>
+            <Column fieldName="Region"/>
+            <Column fieldName="region_approval"/>
+          </View>
+          <Edit>
+            <Column fieldName="campaign_tracker_local_id" visible="false"/>
+            <Column fieldName="campaign_publish_date"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="requested_by"/>
+            <Column fieldName="Region"/>
+            <Column fieldName="region_approval"/>
+          </Edit>
+          <Insert>
+            <Column fieldName="campaign_tracker_local_id" visible="false"/>
+            <Column fieldName="campaign_publish_date"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="requested_by"/>
+            <Column fieldName="Region"/>
+            <Column fieldName="region_approval"/>
+          </Insert>
+          <QuickFilter>
+            <Column fieldName="campaign_tracker_local_id" visible="false"/>
+            <Column fieldName="campaign_publish_date"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="requested_by"/>
+            <Column fieldName="Region"/>
+            <Column fieldName="region_approval"/>
+          </QuickFilter>
+          <FilterBuilder>
+            <Column fieldName="campaign_tracker_local_id" visible="false"/>
+            <Column fieldName="campaign_publish_date"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="requested_by"/>
+            <Column fieldName="Region"/>
+            <Column fieldName="region_approval"/>
+          </FilterBuilder>
+          <Print>
+            <Column fieldName="campaign_tracker_local_id" visible="false"/>
+            <Column fieldName="campaign_publish_date"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="requested_by"/>
+            <Column fieldName="Region"/>
+            <Column fieldName="region_approval"/>
+          </Print>
+          <Export>
+            <Column fieldName="campaign_tracker_local_id" visible="false"/>
+            <Column fieldName="campaign_publish_date"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="requested_by"/>
+            <Column fieldName="Region"/>
+            <Column fieldName="region_approval"/>
+          </Export>
+          <Compare>
+            <Column fieldName="campaign_tracker_local_id" visible="false"/>
+            <Column fieldName="campaign_publish_date"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="requested_by"/>
+            <Column fieldName="Region"/>
+            <Column fieldName="region_approval"/>
+          </Compare>
+          <MultiEdit>
+            <Column fieldName="campaign_tracker_local_id" visible="false"/>
+            <Column fieldName="campaign_publish_date"/>
+            <Column fieldName="campaign_description"/>
+            <Column fieldName="requested_by"/>
+            <Column fieldName="Region"/>
+            <Column fieldName="region_approval"/>
+          </MultiEdit>
+        </Columns>
+        <Details/>
+        <RecordPermissions useRecordPermissions="false"/>
+        <PartitionNavigators/>
+      </Page>
     </Pages>
     <UserAuthorization type="tableBased" tableName="phpgen_users" userIdField="user_id" userNameField="user_name" passwordField="user_password" userEmailField="user_email" userTokenField="user_token" userStatusField="user_status" allowUserToChangePassword="true" selfRegistrationEnabled="true" recoveringPasswordEnabled="true"/>
     <UserGrants enableGuestAccess="true" storageType="table">
@@ -19751,7 +20006,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
     <Header>
 &lt;div style=&quot;width:240px; padding:5px; 0;&quot;&gt;&lt;a href=&quot;http://mktportal.mscsoftware.com&quot;&gt;&lt;img src=&quot;https://documents.mscsoftware.com/cdn/farfuture/NPSxCF6sOluXCivzz8rQYbntpJ5OvR3pKrSJezOcrQ4/mtime:1575505133/sites/default/files/MSC_Cobrand.png&quot; style=&quot;width: 190px; padding: 10px 0;&quot;&gt;&lt;/a&gt;&lt;/div&gt;    </Header>
     <Footer>
-&lt;p align=&quot;right&quot;&gt;(C) &lt;span&gt;2020-&lt;script type=&quot;text/javascript&quot;&gt;document.write(new Date().getFullYear().toString())&lt;/script&gt;&lt;/span&gt;&lt;a href=&quot;#&quot;&gt; MSC Group Marketing&lt;/a&gt;. Release Version v2.17&lt;/p&gt;    </Footer>
+&lt;p align=&quot;right&quot;&gt;(C) &lt;span&gt;2020-&lt;script type=&quot;text/javascript&quot;&gt;document.write(new Date().getFullYear().toString())&lt;/script&gt;&lt;/span&gt;&lt;a href=&quot;#&quot;&gt; MSC Group Marketing&lt;/a&gt;. Release Version v2.18&lt;/p&gt;    </Footer>
     <PHPOptions/>
     <Groups>
       <Group caption="New Campaign">

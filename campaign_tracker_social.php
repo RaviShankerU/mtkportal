@@ -36,7 +36,7 @@
         protected function DoBeforeCreate()
         {
             $this->SetTitle('Campaign Tracker: Social');
-            $this->SetMenuLabel('Campaign Tracker Social');
+            $this->SetMenuLabel('Social Media');
             $this->SetHeader(GetPagesHeader());
             $this->SetFooter(GetPagesFooter());
     

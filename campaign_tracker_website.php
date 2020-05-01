@@ -562,7 +562,7 @@
         protected function DoBeforeCreate()
         {
             $this->SetTitle('Campaign Tracker: Website');
-            $this->SetMenuLabel('Campaign Tracker Website');
+            $this->SetMenuLabel('Website Listing');
             $this->SetHeader(GetPagesHeader());
             $this->SetFooter(GetPagesFooter());
     

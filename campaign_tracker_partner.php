@@ -36,7 +36,7 @@
         protected function DoBeforeCreate()
         {
             $this->SetTitle('Campaign Tracker: Partner');
-            $this->SetMenuLabel('Campaign Tracker Partner');
+            $this->SetMenuLabel('Partner Program');
             $this->SetHeader(GetPagesHeader());
             $this->SetFooter(GetPagesFooter());
     

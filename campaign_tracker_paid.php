@@ -36,7 +36,7 @@
         protected function DoBeforeCreate()
         {
             $this->SetTitle('Campaign Tracker: Paid');
-            $this->SetMenuLabel('Campaign Tracker Paid');
+            $this->SetMenuLabel('Paid');
             $this->SetHeader(GetPagesHeader());
             $this->SetFooter(GetPagesFooter());
     

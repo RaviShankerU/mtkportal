@@ -555,10 +555,7 @@
                 ->addColumn($columns['url'])
                 ->addColumn($columns['full_url'])
                 ->addColumn($columns['created_date'])
-                ->addColumn($columns['created_by'])
-                ->addColumn($columns['short_url'])
-                ->addColumn($columns['clicks'])
-                ->addColumn($columns['trackerid']);
+                ->addColumn($columns['created_by']);
         }
     
         protected function setupColumnFilter(ColumnFilter $columnFilter)
@@ -1066,74 +1063,6 @@
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
             );
-            
-            $main_editor = new TextEdit('short_url_edit');
-            $main_editor->SetMaxLength(100);
-            
-            $filterBuilder->addColumn(
-                $columns['short_url'],
-                array(
-                    FilterConditionOperator::EQUALS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::CONTAINS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
-                    FilterConditionOperator::BEGINS_WITH => $main_editor,
-                    FilterConditionOperator::ENDS_WITH => $main_editor,
-                    FilterConditionOperator::IS_LIKE => $main_editor,
-                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
-                    FilterConditionOperator::IS_BLANK => null,
-                    FilterConditionOperator::IS_NOT_BLANK => null
-                )
-            );
-            
-            $main_editor = new TextEdit('clicks_edit');
-            
-            $filterBuilder->addColumn(
-                $columns['clicks'],
-                array(
-                    FilterConditionOperator::EQUALS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_BLANK => null,
-                    FilterConditionOperator::IS_NOT_BLANK => null
-                )
-            );
-            
-            $main_editor = new TextEdit('trackerid_edit');
-            $main_editor->SetMaxLength(45);
-            
-            $filterBuilder->addColumn(
-                $columns['trackerid'],
-                array(
-                    FilterConditionOperator::EQUALS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::CONTAINS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
-                    FilterConditionOperator::BEGINS_WITH => $main_editor,
-                    FilterConditionOperator::ENDS_WITH => $main_editor,
-                    FilterConditionOperator::IS_LIKE => $main_editor,
-                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
-                    FilterConditionOperator::IS_BLANK => null,
-                    FilterConditionOperator::IS_NOT_BLANK => null
-                )
-            );
         }
     
         protected function AddOperationsColumns(Grid $grid)
@@ -1248,6 +1177,19 @@
             $grid->AddViewColumn($column);
             
             //
+            // View column for clicks field
+            //
+            $column = new NumberViewColumn('clicks', 'clicks', 'Clicks', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('.');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
             // View column for notes field
             //
             $column = new TextViewColumn('notes', 'notes', 'Notes', $this->dataset);
@@ -1277,41 +1219,6 @@
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_tracker_utm_created_by_handler_list');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for short_url field
-            //
-            $column = new TextViewColumn('short_url', 'short_url', 'Short Url', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_short_url_handler_list');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for clicks field
-            //
-            $column = new NumberViewColumn('clicks', 'clicks', 'Clicks', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('.');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for trackerid field
-            //
-            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
-            $column->SetOrderable(true);
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1463,32 +1370,6 @@
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_tracker_utm_created_by_handler_');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for short_url field
-            //
-            $column = new TextViewColumn('short_url', 'short_url', 'Short Url', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_short_url_handler_');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for clicks field
-            //
-            $column = new NumberViewColumn('clicks', 'clicks', 'Clicks', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('.');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for trackerid field
-            //
-            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
-            $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
         }
     
@@ -1774,36 +1655,6 @@
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for short_url field
-            //
-            $editor = new TextEdit('short_url_edit');
-            $editor->SetMaxLength(100);
-            $editColumn = new CustomEditColumn('Short Url', 'short_url', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for clicks field
-            //
-            $editor = new TextEdit('clicks_edit');
-            $editColumn = new CustomEditColumn('Clicks', 'clicks', $editor, $this->dataset);
-            $editColumn->SetReadOnly(true);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for trackerid field
-            //
-            $editor = new TextEdit('trackerid_edit');
-            $editor->SetMaxLength(45);
-            $editColumn = new CustomEditColumn('Trackerid', 'trackerid', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
         }
     
         protected function AddMultiEditColumns(Grid $grid)
@@ -2075,36 +1926,6 @@
             $editor->SetMaxLength(100);
             $editColumn = new CustomEditColumn('Created By', 'created_by', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for short_url field
-            //
-            $editor = new TextEdit('short_url_edit');
-            $editor->SetMaxLength(100);
-            $editColumn = new CustomEditColumn('Short Url', 'short_url', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for clicks field
-            //
-            $editor = new TextEdit('clicks_edit');
-            $editColumn = new CustomEditColumn('Clicks', 'clicks', $editor, $this->dataset);
-            $editColumn->SetReadOnly(true);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for trackerid field
-            //
-            $editor = new TextEdit('trackerid_edit');
-            $editor->SetMaxLength(45);
-            $editColumn = new CustomEditColumn('Trackerid', 'trackerid', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -2394,37 +2215,6 @@
             $editColumn->SetInsertDefaultValue('%CURRENT_USER_NAME%');
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for short_url field
-            //
-            $editor = new TextEdit('short_url_edit');
-            $editor->SetMaxLength(100);
-            $editColumn = new CustomEditColumn('Short Url', 'short_url', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for clicks field
-            //
-            $editor = new TextEdit('clicks_edit');
-            $editColumn = new CustomEditColumn('Clicks', 'clicks', $editor, $this->dataset);
-            $editColumn->SetReadOnly(true);
-            $editColumn->SetAllowSetToNull(true);
-            $editColumn->SetInsertDefaultValue('0');
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for trackerid field
-            //
-            $editor = new TextEdit('trackerid_edit');
-            $editor->SetMaxLength(45);
-            $editColumn = new CustomEditColumn('Trackerid', 'trackerid', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
             $grid->SetShowAddButton(true && $this->GetSecurityInfo()->HasAddGrant());
         }
     
@@ -2579,32 +2369,6 @@
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_tracker_utm_created_by_handler_print');
             $grid->AddPrintColumn($column);
-            
-            //
-            // View column for short_url field
-            //
-            $column = new TextViewColumn('short_url', 'short_url', 'Short Url', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_short_url_handler_print');
-            $grid->AddPrintColumn($column);
-            
-            //
-            // View column for clicks field
-            //
-            $column = new NumberViewColumn('clicks', 'clicks', 'Clicks', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('.');
-            $grid->AddPrintColumn($column);
-            
-            //
-            // View column for trackerid field
-            //
-            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddPrintColumn($column);
         }
     
         protected function AddExportColumns(Grid $grid)
@@ -2753,32 +2517,6 @@
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_tracker_utm_created_by_handler_export');
             $grid->AddExportColumn($column);
-            
-            //
-            // View column for short_url field
-            //
-            $column = new TextViewColumn('short_url', 'short_url', 'Short Url', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_short_url_handler_export');
-            $grid->AddExportColumn($column);
-            
-            //
-            // View column for clicks field
-            //
-            $column = new NumberViewColumn('clicks', 'clicks', 'Clicks', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('.');
-            $grid->AddExportColumn($column);
-            
-            //
-            // View column for trackerid field
-            //
-            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddExportColumn($column);
         }
     
         private function AddCompareColumns(Grid $grid)
@@ -2926,32 +2664,6 @@
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_tracker_utm_created_by_handler_compare');
-            $grid->AddCompareColumn($column);
-            
-            //
-            // View column for short_url field
-            //
-            $column = new TextViewColumn('short_url', 'short_url', 'Short Url', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_short_url_handler_compare');
-            $grid->AddCompareColumn($column);
-            
-            //
-            // View column for clicks field
-            //
-            $column = new NumberViewColumn('clicks', 'clicks', 'Clicks', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('.');
-            $grid->AddCompareColumn($column);
-            
-            //
-            // View column for trackerid field
-            //
-            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
-            $column->SetOrderable(true);
             $grid->AddCompareColumn($column);
         }
     
@@ -3223,14 +2935,6 @@
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for short_url field
-            //
-            $column = new TextViewColumn('short_url', 'short_url', 'Short Url', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_short_url_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
             // View column for notes field
             //
             $column = new TextViewColumn('notes', 'notes', 'Notes', $this->dataset);
@@ -3280,14 +2984,6 @@
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for short_url field
-            //
-            $column = new TextViewColumn('short_url', 'short_url', 'Short Url', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_short_url_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
             // View column for notes field
             //
             $column = new TextViewColumn('notes', 'notes', 'Notes', $this->dataset);
@@ -3334,14 +3030,6 @@
             $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
             $column->SetOrderable(true);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_created_by_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for short_url field
-            //
-            $column = new TextViewColumn('short_url', 'short_url', 'Short Url', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_short_url_handler_compare', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -3636,14 +3324,6 @@
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_created_by_handler_', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            //
-            // View column for short_url field
-            //
-            $column = new TextViewColumn('short_url', 'short_url', 'Short Url', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_short_url_handler_', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
@@ -3921,8 +3601,8 @@
             
                $this->GetConnection()->ExecSQL($sql);  
             
-               $message = '<p>Record processed successfully updated. To get your UTM Link click on <i class="icon-view"></i> below. ';
-               'Click on <a class="alert-link" href="campaign_events.php?operation=edit&pk0='. $fullurl .'">click right to copy</a> to complete your event setup.</p>';
+               $message = '<p>Record processed successfully. To get your UTM Link click on <i class="icon-view"></i> below. ';
+               'Click on <a class="alert-link" href="campaign_events.php?operation=edit&pk0=0">click right to copy</a> to complete your event setup.</p>';
             }
         }
     
@@ -3941,9 +3621,10 @@
                //print($return_value);
             
                $this->GetConnection()->ExecSQL($sql);  
+               
             
-               $message = '<p>Record processed successfully updated. To get your UTM Link click on <i class="icon-view"></i> below. ';
-               'Click on <a class="alert-link" href="campaign_events.php?operation=edit&pk0='. $fullurl .'">click right to copy</a> to complete your event setup.</p>';
+               $message = '<p>Record successfully updated. To get your UTM Link click on <i class="icon-view"></i> below. ';
+               'Click on <a class="alert-link" href="campaign_events.php?operation=edit&pk0=0">click right to copy</a> to complete your event setup.</p>';
             }
         }
     

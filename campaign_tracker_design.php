@@ -431,7 +431,7 @@
         protected function DoBeforeCreate()
         {
             $this->SetTitle('Campaign Tracker: Design');
-            $this->SetMenuLabel('Campaign Tracker Design');
+            $this->SetMenuLabel('Graphic Design');
             $this->SetHeader(GetPagesHeader());
             $this->SetFooter(GetPagesFooter());
     

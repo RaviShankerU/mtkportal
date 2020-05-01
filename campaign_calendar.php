@@ -36,7 +36,7 @@
         protected function DoBeforeCreate()
         {
             $this->SetTitle('Campaign & Events Calendar');
-            $this->SetMenuLabel('Campaign & Events Calendar');
+            $this->SetMenuLabel('Global Calendar');
             $this->SetHeader(GetPagesHeader());
             $this->SetFooter(GetPagesFooter());
     

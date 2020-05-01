@@ -464,7 +464,7 @@
         protected function DoBeforeCreate()
         {
             $this->SetTitle('Campaign Tracker: Global Comms');
-            $this->SetMenuLabel('Campaign Tracker Global Comms');
+            $this->SetMenuLabel('Global Comms Tracker');
             $this->SetHeader(GetPagesHeader());
             $this->SetFooter(GetPagesFooter());
     
