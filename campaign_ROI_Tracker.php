@@ -874,37 +874,6 @@
                 $operation->setUseImage(true);
                 $actions->addOperation($operation);
             }
-            
-            if ($this->GetSecurityInfo()->HasEditGrant())
-            {
-                $operation = new AjaxOperation(OPERATION_EDIT,
-                    $this->GetLocalizerCaptions()->GetMessageString('Edit'),
-                    $this->GetLocalizerCaptions()->GetMessageString('Edit'), $this->dataset,
-                    $this->GetGridEditHandler(), $grid);
-                $operation->setUseImage(true);
-                $actions->addOperation($operation);
-                $operation->OnShow->AddListener('ShowEditButtonHandler', $this);
-            }
-            
-            if ($this->GetSecurityInfo()->HasDeleteGrant())
-            {
-                $operation = new LinkOperation($this->GetLocalizerCaptions()->GetMessageString('Delete'), OPERATION_DELETE, $this->dataset, $grid);
-                $operation->setUseImage(true);
-                $actions->addOperation($operation);
-                $operation->OnShow->AddListener('ShowDeleteButtonHandler', $this);
-                $operation->SetAdditionalAttribute('data-modal-operation', 'delete');
-                $operation->SetAdditionalAttribute('data-delete-handler-name', $this->GetModalGridDeleteHandler());
-            }
-            
-            if ($this->GetSecurityInfo()->HasAddGrant())
-            {
-                $operation = new AjaxOperation(OPERATION_COPY,
-                    $this->GetLocalizerCaptions()->GetMessageString('Copy'),
-                    $this->GetLocalizerCaptions()->GetMessageString('Copy'), $this->dataset,
-                    $this->GetModalGridCopyHandler(), $grid);
-                $operation->setUseImage(true);
-                $actions->addOperation($operation);
-            }
         }
     
         protected function AddFieldColumns(Grid $grid, $withDetails = true)
@@ -1741,7 +1710,7 @@
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
-            $grid->SetShowAddButton(true && $this->GetSecurityInfo()->HasAddGrant());
+            $grid->SetShowAddButton(false && $this->GetSecurityInfo()->HasAddGrant());
         }
     
         private function AddMultiUploadColumn(Grid $grid)
@@ -2152,15 +2121,7 @@
         {
             return ;
         }
-        
-        public function GetEnableModalGridInsert() { return true; }
         public function GetEnableModalSingleRecordView() { return true; }
-        
-        public function GetEnableModalGridEdit() { return true; }
-        
-        protected function GetEnableModalGridDelete() { return true; }
-        
-        public function GetEnableModalGridCopy() { return true; }
         
         private $partitions = array(1 => array('\'Americas\''), 2 => array('\'EMEA\''), 3 => array('\'IndoPac\''), 4 => array('\'Japan\''), 5 => array('\'China\''), 6 => array('\'Korea\''));
         
@@ -2186,7 +2147,7 @@
         {
             $result = new Grid($this, $this->dataset);
             if ($this->GetSecurityInfo()->HasDeleteGrant())
-               $result->SetAllowDeleteSelected(true);
+               $result->SetAllowDeleteSelected(false);
             else
                $result->SetAllowDeleteSelected(false);   
             
@@ -2603,7 +2564,36 @@
     
         protected function doGetCustomPagePermissions(Page $page, PermissionSet &$permissions, &$handled)
         {
-    
+            // do not apply these rules for site admins
+            
+            if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+            
+            	// retrieving the ID of the current user
+            	$userId = GetApplication()->GetCurrentUserId();
+            
+            	// retrieving all user roles 
+            	$sql =        
+            	  "SELECT user_level " .
+            	  "FROM `phpgen_users` " .
+            	  "WHERE user_id = %d";    
+            	$result = $page->GetConnection()->fetchAll(sprintf($sql, $userId));
+            
+            	// iterating through retrieved roles
+            	if (!empty($result)) {
+            	   foreach ($result as $row) {
+            		   // is current user a member of the Sales role?
+            		   if (($row['user_level'] === '346')) {
+            			 // if yes, allow all actions.
+            			 // otherwise default permissions for this page will be applied
+            			 $permissions->setGrants(true, true, true, true);
+            			 break;
+            		   }                 
+            	   }
+            	};    
+            
+            	// apply the new permissions
+            	$handled = true;
+            }
         }
     
         protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)

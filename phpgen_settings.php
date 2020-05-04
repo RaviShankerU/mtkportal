@@ -148,12 +148,12 @@ function GetPageInfos()
           <img src="apps/icons/program-generator.png"  class="icon-size-desk">
       </div>
       <div class="text-content">
-        <span class=card-title><strong>Program Name Generator</strong></span>
+        <span class=card-title><strong>Campaign Builder</strong></span>
         <p>Marketo Program Name Generator, standardises the naming conversion for all Marketo programs for the purpose reporting in Salesforce.</p>
       </div>
     </div>
     </a>');
-    $result[] = array('caption' => 'Campaign Tracker Comms', 'short_caption' => 'Campaign Tracker: Comms', 'filename' => 'campaign_tracker_comms_local.php', 'name' => 'campaign_tracker_comms_local', 'group_name' => 'Campaign Tools', 'add_separator' => false, 'description' => '<a href="campaign_tracker_comms_local.php" style="text-decoration:none;">
+    $result[] = array('caption' => 'Comms Tracker', 'short_caption' => 'Campaign Tracker: Comms', 'filename' => 'campaign_tracker_comms_local.php', 'name' => 'campaign_tracker_comms_local', 'group_name' => 'Campaign Tools', 'add_separator' => false, 'description' => '<a href="campaign_tracker_comms_local.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
           <img src="apps/icons/comms.png" class="icon-size-desk">
@@ -164,6 +164,7 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
+    $result[] = array('caption' => 'Comms Approval', 'short_caption' => 'Campaign Comm Regional Approval', 'filename' => 'campaign_comm_regional_approval.php', 'name' => 'campaign_comm_regional_approval', 'group_name' => 'Campaign Tools', 'add_separator' => false, 'description' => '');
     $result[] = array('caption' => 'UTM Link Generator', 'short_caption' => 'Campaign Tracker: UTM Link Generator', 'filename' => 'campaign_tracker_utm.php', 'name' => 'campaign_tracker_utm', 'group_name' => 'Campaign Tools', 'add_separator' => false, 'description' => '<a href="campaign_tracker_utm.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
@@ -296,17 +297,6 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
-    $result[] = array('caption' => 'User Roles', 'short_caption' => 'User Roles', 'filename' => 'phpgen_user_roles.php', 'name' => 'phpgen_user_roles', 'group_name' => 'Admin Tools', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/phpgen_user_roles.php" style="text-decoration:none;">
-    <div class="card">
-        <div class="card-circle">
-          <img src="apps/icons/role.png"  class="icon-size-desk">
-      </div>
-      <div class="text-content">
-        <span class=card-title><strong>User Roles</strong></span>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. </p>
-      </div>
-    </div>
-    </a>');
     $result[] = array('caption' => 'Activity Log', 'short_caption' => 'Activity Log', 'filename' => 'activity_log.php', 'name' => 'activity_log', 'group_name' => 'Admin Tools', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/activity_log.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
@@ -318,7 +308,7 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
-    $result[] = array('caption' => 'Regional Campaign Approval', 'short_caption' => 'Campaign Comm: Regional Approval', 'filename' => 'campaign_comm_regional_approval.php', 'name' => 'campaign_comm_regional_approval', 'group_name' => 'Admin Tools', 'add_separator' => false, 'description' => '');
+    $result[] = array('caption' => 'System Users', 'short_caption' => 'System Users & Reports', 'filename' => 'phpgen_users.php', 'name' => 'phpgen_users', 'group_name' => 'Admin Tools', 'add_separator' => false, 'description' => '');
     return $result;
 }
 

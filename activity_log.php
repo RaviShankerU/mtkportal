@@ -436,7 +436,10 @@
                     new StringField('user_email', true),
                     new StringField('user_token'),
                     new IntegerField('user_status', true),
-                    new StringField('user_level', true)
+                    new StringField('user_level', true),
+                    new IntegerField('is_head_manager'),
+                    new IntegerField('region_id'),
+                    new IntegerField('manager_id')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -500,7 +503,10 @@
                     new StringField('user_email', true),
                     new StringField('user_token'),
                     new IntegerField('user_status', true),
-                    new StringField('user_level', true)
+                    new StringField('user_level', true),
+                    new IntegerField('is_head_manager'),
+                    new IntegerField('region_id'),
+                    new IntegerField('manager_id')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -762,7 +768,10 @@
                     new StringField('user_email', true),
                     new StringField('user_token'),
                     new IntegerField('user_status', true),
-                    new StringField('user_level', true)
+                    new StringField('user_level', true),
+                    new IntegerField('is_head_manager'),
+                    new IntegerField('region_id'),
+                    new IntegerField('manager_id')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -781,7 +790,10 @@
                     new StringField('user_email', true),
                     new StringField('user_token'),
                     new IntegerField('user_status', true),
-                    new StringField('user_level', true)
+                    new StringField('user_level', true),
+                    new IntegerField('is_head_manager'),
+                    new IntegerField('region_id'),
+                    new IntegerField('manager_id')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -800,7 +812,10 @@
                     new StringField('user_email', true),
                     new StringField('user_token'),
                     new IntegerField('user_status', true),
-                    new StringField('user_level', true)
+                    new StringField('user_level', true),
+                    new IntegerField('is_head_manager'),
+                    new IntegerField('region_id'),
+                    new IntegerField('manager_id')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');

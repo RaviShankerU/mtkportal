@@ -20952,7 +20952,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
     <Header>
 &lt;div style=&quot;width:240px; padding:5px; 0;&quot;&gt;&lt;a href=&quot;http://mktportal.mscsoftware.com&quot;&gt;&lt;img src=&quot;https://documents.mscsoftware.com/cdn/farfuture/NPSxCF6sOluXCivzz8rQYbntpJ5OvR3pKrSJezOcrQ4/mtime:1575505133/sites/default/files/MSC_Cobrand.png&quot; style=&quot;width: 190px; padding: 10px 0;&quot;&gt;&lt;/a&gt;&lt;/div&gt;    </Header>
     <Footer>
-&lt;p align=&quot;right&quot;&gt;(C) &lt;span&gt;2020-&lt;script type=&quot;text/javascript&quot;&gt;document.write(new Date().getFullYear().toString())&lt;/script&gt;&lt;/span&gt;&lt;a href=&quot;#&quot;&gt; MSC Group Marketing&lt;/a&gt;. Release Version v2.18&lt;/p&gt;    </Footer>
+&lt;p align=&quot;right&quot;&gt;(C) &lt;span&gt;2020-&lt;script type=&quot;text/javascript&quot;&gt;document.write(new Date().getFullYear().toString())&lt;/script&gt;&lt;/span&gt;&lt;a href=&quot;#&quot;&gt; MSC Group Marketing&lt;/a&gt;. Release Version v2.19&lt;/p&gt;    </Footer>
     <PHPOptions/>
     <Groups>
       <Group caption="New Campaign">

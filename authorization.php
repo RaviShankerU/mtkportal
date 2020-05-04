@@ -22,6 +22,7 @@ $dataSourceRecordPermissions = array('brief' => new DataSourceRecordPermission('
   'brief01' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
   'campaign_analysis' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
   'campaign_program_name_generator' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
+  'campaign_comm_regional_approval' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
   'campaign_tracker_utm' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
   'campaign_import' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
   'portal_help' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true));
@@ -44,7 +45,8 @@ $tableCaptions = array('campaign_calendar' => 'Global Calendar',
 'campaign_group' => 'Campaign Tracker',
 'campaign_program_name_generator' => 'Campaign Builder',
 'campaign_program_name_generator.campaign_tracker_comms_local' => 'Campaign Builder->Campaign Tracker Comms',
-'campaign_tracker_comms_local' => 'Campaign Tracker Comms',
+'campaign_tracker_comms_local' => 'Comms Tracker',
+'campaign_comm_regional_approval' => 'Comms Approval',
 'campaign_tracker_utm' => 'UTM Link Generator',
 'campaign_import' => 'Contact List Import',
 'campaign_tracker_website' => 'Website Listing',
@@ -60,7 +62,7 @@ $tableCaptions = array('campaign_calendar' => 'Global Calendar',
 'phpgen_user_roles' => 'User Roles',
 'activity_log' => 'Activity Log',
 'portal_help' => 'Portal Help',
-'campaign_comm_regional_approval' => 'Regional Campaign Approval');
+'phpgen_users' => 'System Users');
 
 $usersTableInfo = array(
     'TableName' => 'phpgen_users',

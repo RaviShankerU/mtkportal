@@ -3728,39 +3728,34 @@
         protected function doGetCustomPagePermissions(Page $page, PermissionSet &$permissions, &$handled)
         {
             // do not apply these rules for site admins
-            //"products=Product Manager","marketing=Regional Marketing",manager=Manager
             
             if (!GetApplication()->HasAdminGrantForCurrentUser()) {
             
-                // retrieving the ID of the current user
-                $userId = GetApplication()->GetCurrentUserId();
+            	// retrieving the ID of the current user
+            	$userId = GetApplication()->GetCurrentUserId();
             
-                // retrieving all user roles 
-                $sql =        
-                  "SELECT r.role_name " .
-                  "FROM `phpgen_users` ur " .
-                  "INNER JOIN `phpgen_user_roles` r ON r.user_id = ur.user_id " .
-                  "WHERE ur.user_id = %d";    
-                $result = $page->GetConnection()->fetchAll(sprintf($sql, $userId));
+            	// retrieving all user roles 
+            	$sql =        
+            	  "SELECT user_level " .
+            	  "FROM `phpgen_users` " .
+            	  "WHERE user_id = %d";    
+            	$result = $page->GetConnection()->fetchAll(sprintf($sql, $userId));
             
-             
+            	// iterating through retrieved roles
+            	if (!empty($result)) {
+            	   foreach ($result as $row) {
+            		   // is current user a member of the Sales role?
+            		   if (($row['user_level'] === '346')) {
+            			 // if yes, allow all actions.
+            			 // otherwise default permissions for this page will be applied
+            			 $permissions->setGrants(true, true, true, true);
+            			 break;
+            		   }                 
+            	   }
+            	};    
             
-                // iterating through retrieved roles
-                if (!empty($result)) {
-                   foreach ($result as $row) {
-                       // is current user a member of the Sales role?
-                       if (($row['role_name'] === 'manager') || ($row['role_name'] === 'Regional Marketing')) {
-                         // if yes, allow all actions.
-                         // otherwise default permissions for this page will be applied
-                         $permissions->setGrants(true, true, true, true);
-                         break;
-                       }                 
-                   }
-                };    
-            
-                // apply the new permissions
-                $handled = true;
-            
+            	// apply the new permissions
+            	$handled = true;
             }
         }
     

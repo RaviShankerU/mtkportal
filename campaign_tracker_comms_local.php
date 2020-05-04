@@ -38,6 +38,7 @@
                 array(
                     new IntegerField('program_generator_name_id', true, true, true),
                     new IntegerField('master_campaign_id'),
+                    new IntegerField('campaign_event_id'),
                     new StringField('trackerid'),
                     new StringField('SFDC_child_campaign'),
                     new StringField('campaign_program_name'),
@@ -243,6 +244,16 @@
             // View column for create_import_list field
             //
             $column = new NumberViewColumn('create_import_list', 'create_import_list', 'Create Import List', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for campaign_event_id field
+            //
+            $column = new NumberViewColumn('campaign_event_id', 'campaign_event_id', 'Campaign Event Id', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -731,7 +742,7 @@
         protected function DoBeforeCreate()
         {
             $this->SetTitle('Campaign Tracker: Comms');
-            $this->SetMenuLabel('Campaign Tracker Comms');
+            $this->SetMenuLabel('Comms Tracker');
             $this->SetHeader(GetPagesHeader());
             $this->SetFooter(GetPagesFooter());
     
@@ -1537,6 +1548,7 @@
                 array(
                     new IntegerField('program_generator_name_id', true, true, true),
                     new IntegerField('master_campaign_id'),
+                    new IntegerField('campaign_event_id'),
                     new StringField('trackerid'),
                     new StringField('SFDC_child_campaign'),
                     new StringField('campaign_program_name'),
@@ -1834,6 +1846,7 @@
                 array(
                     new IntegerField('program_generator_name_id', true, true, true),
                     new IntegerField('master_campaign_id'),
+                    new IntegerField('campaign_event_id'),
                     new StringField('trackerid'),
                     new StringField('SFDC_child_campaign'),
                     new StringField('campaign_program_name'),
@@ -2131,6 +2144,7 @@
                 array(
                     new IntegerField('program_generator_name_id', true, true, true),
                     new IntegerField('master_campaign_id'),
+                    new IntegerField('campaign_event_id'),
                     new StringField('trackerid'),
                     new StringField('SFDC_child_campaign'),
                     new StringField('campaign_program_name'),
@@ -3001,6 +3015,7 @@
                 array(
                     new IntegerField('program_generator_name_id', true, true, true),
                     new IntegerField('master_campaign_id'),
+                    new IntegerField('campaign_event_id'),
                     new StringField('trackerid'),
                     new StringField('SFDC_child_campaign'),
                     new StringField('campaign_program_name'),
@@ -3157,6 +3172,7 @@
                 array(
                     new IntegerField('program_generator_name_id', true, true, true),
                     new IntegerField('master_campaign_id'),
+                    new IntegerField('campaign_event_id'),
                     new StringField('trackerid'),
                     new StringField('SFDC_child_campaign'),
                     new StringField('campaign_program_name'),
@@ -3329,6 +3345,7 @@
                 array(
                     new IntegerField('program_generator_name_id', true, true, true),
                     new IntegerField('master_campaign_id'),
+                    new IntegerField('campaign_event_id'),
                     new StringField('trackerid'),
                     new StringField('SFDC_child_campaign'),
                     new StringField('campaign_program_name'),
@@ -3485,6 +3502,7 @@
                 array(
                     new IntegerField('program_generator_name_id', true, true, true),
                     new IntegerField('master_campaign_id'),
+                    new IntegerField('campaign_event_id'),
                     new StringField('trackerid'),
                     new StringField('SFDC_child_campaign'),
                     new StringField('campaign_program_name'),
@@ -3728,6 +3746,8 @@
                   $this->GetConnection()->ExecSQL($sql);
                   
                   $message = '<p>Record processed successfully, goto Comms Tracker (Local) to update the send dates .</p>';
+                  
+                  sendMailMessage('lance.spurgeon@hexagon.com', 'Message subject', 'Message body');
               }                                    
             }
         }
@@ -3816,35 +3836,31 @@
             
             if (!GetApplication()->HasAdminGrantForCurrentUser()) {
             
-                // retrieving the ID of the current user
-                $userId = GetApplication()->GetCurrentUserId();
+            	// retrieving the ID of the current user
+            	$userId = GetApplication()->GetCurrentUserId();
             
-                // retrieving all user roles 
-                $sql =        
-                  "SELECT r.role_name " .
-                  "FROM `phpgen_users` ur " .
-                  "INNER JOIN `phpgen_user_roles` r ON r.user_id = ur.user_id " .
-                  "WHERE ur.user_id = %d";    
-                $result = $page->GetConnection()->fetchAll(sprintf($sql, $userId));
+            	// retrieving all user roles 
+            	$sql =        
+            	  "SELECT user_level " .
+            	  "FROM `phpgen_users` " .
+            	  "WHERE user_id = %d";    
+            	$result = $page->GetConnection()->fetchAll(sprintf($sql, $userId));
             
-             
+            	// iterating through retrieved roles
+            	if (!empty($result)) {
+            	   foreach ($result as $row) {
+            		   // is current user a member of the Sales role?
+            		   if (($row['user_level'] === '346')) {
+            			 // if yes, allow all actions.
+            			 // otherwise default permissions for this page will be applied
+            			 $permissions->setGrants(true, true, true, true);
+            			 break;
+            		   }                 
+            	   }
+            	};    
             
-                // iterating through retrieved roles
-                if (!empty($result)) {
-                   foreach ($result as $row) {
-                       // is current user a member of the Sales role?
-                       if ($row['role_name'] === 'manager') {
-                         // if yes, allow all actions.
-                         // otherwise default permissions for this page will be applied
-                         $permissions->setGrants(true, true, true, true);
-                         break;
-                       }                 
-                   }
-                };    
-            
-                // apply the new permissions
-                $handled = true;
-            
+            	// apply the new permissions
+            	$handled = true;
             }
         }
     

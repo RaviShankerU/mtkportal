@@ -26,10 +26,20 @@
 
     
     
-    class phpgen_user_roles_user_idModalViewPage extends ViewBasedPage
+    
+    // OnBeforePageExecute event handler
+    
+    
+    
+    class phpgen_usersPage extends Page
     {
         protected function DoBeforeCreate()
         {
+            $this->SetTitle('System Users & Reports');
+            $this->SetMenuLabel('System Users');
+            $this->SetHeader(GetPagesHeader());
+            $this->SetFooter(GetPagesFooter());
+    
             $this->dataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
@@ -48,203 +58,9 @@
                     new IntegerField('manager_id')
                 )
             );
-        }
-    
-        protected function DoPrepare() {
-    
-        }
-    
-        protected function AddSingleRecordViewColumns(Grid $grid)
-        {
-            //
-            // View column for user_name field
-            //
-            $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('phpgen_user_roles_user_idModalViewPage_user_name_handler_view');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for user_password field
-            //
-            $column = new TextViewColumn('user_password', 'user_password', 'User Password', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('phpgen_user_roles_user_idModalViewPage_user_password_handler_view');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for user_email field
-            //
-            $column = new TextViewColumn('user_email', 'user_email', 'User Email', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('phpgen_user_roles_user_idModalViewPage_user_email_handler_view');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for user_token field
-            //
-            $column = new TextViewColumn('user_token', 'user_token', 'User Token', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('phpgen_user_roles_user_idModalViewPage_user_token_handler_view');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for user_status field
-            //
-            $column = new NumberViewColumn('user_status', 'user_status', 'User Status', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for is_head_manager field
-            //
-            $column = new NumberViewColumn('is_head_manager', 'is_head_manager', 'Is Head Manager', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for region_id field
-            //
-            $column = new NumberViewColumn('region_id', 'region_id', 'Region Id', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for manager_id field
-            //
-            $column = new NumberViewColumn('manager_id', 'manager_id', 'Manager Id', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $grid->AddSingleRecordViewColumn($column);
-        }
-    
-        function GetCustomClientScript()
-        {
-            return ;
-        }
-        
-        function GetOnPageLoadedClientScript()
-        {
-            return ;
-        }
-    
-        protected function setClientSideEvents(Grid $grid) {
-    
-        }
-    
-        protected function doRegisterHandlers() {
-            
-            
-            //
-            // View column for user_name field
-            //
-            $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_user_roles_user_idModalViewPage_user_name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for user_password field
-            //
-            $column = new TextViewColumn('user_password', 'user_password', 'User Password', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_user_roles_user_idModalViewPage_user_password_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for user_email field
-            //
-            $column = new TextViewColumn('user_email', 'user_email', 'User Email', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_user_roles_user_idModalViewPage_user_email_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for user_token field
-            //
-            $column = new TextViewColumn('user_token', 'user_token', 'User Token', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_user_roles_user_idModalViewPage_user_token_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-        }
-    
-        static public function getHandlerName() {
-            return get_class() . '_modal_view';
-        }
-    
-        public function GetModalGridViewHandler() {
-            return self::getHandlerName();
-        }
-    
-        protected function ApplyCommonColumnEditProperties(CustomEditColumn $column)
-        {
-            $column->SetVariableContainer($this->GetColumnVariableContainer());
-        }
-    
-        protected function doGetCustomFormLayout($mode, FixedKeysArray $columns, FormLayout $layout)
-        {
-    
-        }
-    
-        protected function doGetCustomTemplate($type, $part, $mode, &$result, &$params)
-        {
-    
-        }
-    
-        protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
-        { 
-    
-        }
-    
-        protected function doCalculateFields($rowData, $fieldName, &$value)
-        {
-    
-        }
-    }
-    
-    // OnBeforePageExecute event handler
-    
-    
-    
-    class phpgen_user_rolesPage extends Page
-    {
-        protected function DoBeforeCreate()
-        {
-            $this->SetTitle('User Roles');
-            $this->SetMenuLabel('User Roles');
-            $this->SetHeader(GetPagesHeader());
-            $this->SetFooter(GetPagesFooter());
-    
-            $this->dataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`phpgen_user_roles`');
-            $this->dataset->addFields(
-                array(
-                    new IntegerField('roles_id', true, true, true),
-                    new IntegerField('user_id', true),
-                    new StringField('role_name', true),
-                    new IntegerField('approver'),
-                    new IntegerField('aregion')
-                )
-            );
-            $this->dataset->AddLookupField('user_id', 'phpgen_users', new IntegerField('user_id'), new StringField('user_name', false, false, false, false, 'user_id_user_name', 'user_id_user_name_phpgen_users'), 'user_id_user_name_phpgen_users');
-            $this->dataset->AddLookupField('aregion', 'lookup_region', new IntegerField('Region_ID'), new StringField('Region', false, false, false, false, 'aregion_Region', 'aregion_Region_lookup_region'), 'aregion_Region_lookup_region');
+            $this->dataset->AddLookupField('user_level', 'lookup_user_roles', new IntegerField('lookup_user_roleid'), new StringField('role_description', false, false, false, false, 'user_level_role_description', 'user_level_role_description_lookup_user_roles'), 'user_level_role_description_lookup_user_roles');
+            $this->dataset->AddLookupField('region_id', 'lookup_region', new IntegerField('Region_ID'), new StringField('Region', false, false, false, false, 'region_id_Region', 'region_id_Region_lookup_region'), 'region_id_Region_lookup_region');
+            $this->dataset->AddLookupField('manager_id', 'phpgen_users', new IntegerField('user_id'), new StringField('user_name', false, false, false, false, 'manager_id_user_name', 'manager_id_user_name_phpgen_users'), 'manager_id_user_name_phpgen_users');
         }
     
         protected function DoPrepare() {
@@ -275,11 +91,16 @@
         protected function getFiltersColumns()
         {
             return array(
-                new FilterColumn($this->dataset, 'roles_id', 'roles_id', 'Roles Id'),
-                new FilterColumn($this->dataset, 'user_id', 'user_id_user_name', 'User Name'),
-                new FilterColumn($this->dataset, 'role_name', 'role_name', 'Role Name'),
-                new FilterColumn($this->dataset, 'approver', 'approver', 'Approver'),
-                new FilterColumn($this->dataset, 'aregion', 'aregion_Region', 'Region')
+                new FilterColumn($this->dataset, 'user_id', 'user_id', 'User Id'),
+                new FilterColumn($this->dataset, 'user_name', 'user_name', 'User Name'),
+                new FilterColumn($this->dataset, 'user_password', 'user_password', 'User Password'),
+                new FilterColumn($this->dataset, 'user_email', 'user_email', 'User Email'),
+                new FilterColumn($this->dataset, 'user_token', 'user_token', 'User Token'),
+                new FilterColumn($this->dataset, 'user_status', 'user_status', 'User Status'),
+                new FilterColumn($this->dataset, 'user_level', 'user_level_role_description', 'User Level'),
+                new FilterColumn($this->dataset, 'is_head_manager', 'is_head_manager', 'Is Head Manager'),
+                new FilterColumn($this->dataset, 'region_id', 'region_id_Region', 'Region'),
+                new FilterColumn($this->dataset, 'manager_id', 'manager_id_user_name', 'Reports Manager')
             );
         }
     
@@ -287,28 +108,25 @@
         {
             $quickFilter
                 ->addColumn($columns['user_id'])
-                ->addColumn($columns['role_name'])
-                ->addColumn($columns['approver'])
-                ->addColumn($columns['aregion']);
+                ->addColumn($columns['user_name'])
+                ->addColumn($columns['user_email'])
+                ->addColumn($columns['user_level'])
+                ->addColumn($columns['is_head_manager'])
+                ->addColumn($columns['region_id'])
+                ->addColumn($columns['manager_id']);
         }
     
         protected function setupColumnFilter(ColumnFilter $columnFilter)
         {
             $columnFilter
-                ->setOptionsFor('user_id')
-                ->setOptionsFor('aregion');
+                ->setOptionsFor('user_level')
+                ->setOptionsFor('region_id')
+                ->setOptionsFor('manager_id');
         }
     
         protected function setupFilterBuilder(FilterBuilder $filterBuilder, FixedKeysArray $columns)
         {
-            $main_editor = new DynamicCombobox('user_id_edit', $this->CreateLinkBuilder());
-            $main_editor->setAllowClear(true);
-            $main_editor->setMinimumInputLength(0);
-            $main_editor->SetAllowNullValue(false);
-            $main_editor->SetHandlerName('filter_builder_phpgen_user_roles_user_id_search');
-            
-            $multi_value_select_editor = new RemoteMultiValueSelect('user_id', $this->CreateLinkBuilder());
-            $multi_value_select_editor->SetHandlerName('filter_builder_phpgen_user_roles_user_id_search');
+            $main_editor = new TextEdit('user_id_edit');
             
             $filterBuilder->addColumn(
                 $columns['user_id'],
@@ -321,26 +139,72 @@
                     FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
                     FilterConditionOperator::IS_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::IN => $multi_value_select_editor,
-                    FilterConditionOperator::NOT_IN => $multi_value_select_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
             );
             
-            $main_editor = new ComboBox('role_name_edit', $this->GetLocalizerCaptions()->GetMessageString('PleaseSelect'));
-            $main_editor->addChoice('products', 'Product Manager');
-            $main_editor->addChoice('marketing', 'Regional Marketing');
-            $main_editor->addChoice('manager', 'Manager');
-            $main_editor->SetAllowNullValue(false);
-            
-            $multi_value_select_editor = new MultiValueSelect('role_name');
-            $multi_value_select_editor->setChoices($main_editor->getChoices());
-            
-            $text_editor = new TextEdit('role_name');
+            $main_editor = new TextEdit('user_name_edit');
             
             $filterBuilder->addColumn(
-                $columns['role_name'],
+                $columns['user_name'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('user_email_edit');
+            
+            $filterBuilder->addColumn(
+                $columns['user_email'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new DynamicCombobox('user_level_edit', $this->CreateLinkBuilder());
+            $main_editor->setAllowClear(true);
+            $main_editor->setMinimumInputLength(0);
+            $main_editor->SetAllowNullValue(false);
+            $main_editor->SetHandlerName('filter_builder_phpgen_users_user_level_search');
+            
+            $multi_value_select_editor = new RemoteMultiValueSelect('user_level', $this->CreateLinkBuilder());
+            $multi_value_select_editor->SetHandlerName('filter_builder_phpgen_users_user_level_search');
+            
+            $text_editor = new TextEdit('user_level');
+            
+            $filterBuilder->addColumn(
+                $columns['user_level'],
                 array(
                     FilterConditionOperator::EQUALS => $main_editor,
                     FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
@@ -363,13 +227,13 @@
                 )
             );
             
-            $main_editor = new ComboBox('approver');
+            $main_editor = new ComboBox('is_head_manager');
             $main_editor->SetAllowNullValue(false);
             $main_editor->addChoice(true, $this->GetLocalizerCaptions()->GetMessageString('True'));
             $main_editor->addChoice(false, $this->GetLocalizerCaptions()->GetMessageString('False'));
             
             $filterBuilder->addColumn(
-                $columns['approver'],
+                $columns['is_head_manager'],
                 array(
                     FilterConditionOperator::EQUALS => $main_editor,
                     FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
@@ -378,17 +242,44 @@
                 )
             );
             
-            $main_editor = new DynamicCombobox('aregion_edit', $this->CreateLinkBuilder());
+            $main_editor = new DynamicCombobox('region_id_edit', $this->CreateLinkBuilder());
             $main_editor->setAllowClear(true);
             $main_editor->setMinimumInputLength(0);
             $main_editor->SetAllowNullValue(false);
-            $main_editor->SetHandlerName('filter_builder_phpgen_user_roles_aregion_search');
+            $main_editor->SetHandlerName('filter_builder_phpgen_users_region_id_search');
             
-            $multi_value_select_editor = new RemoteMultiValueSelect('aregion', $this->CreateLinkBuilder());
-            $multi_value_select_editor->SetHandlerName('filter_builder_phpgen_user_roles_aregion_search');
+            $multi_value_select_editor = new RemoteMultiValueSelect('region_id', $this->CreateLinkBuilder());
+            $multi_value_select_editor->SetHandlerName('filter_builder_phpgen_users_region_id_search');
             
             $filterBuilder->addColumn(
-                $columns['aregion'],
+                $columns['region_id'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::IN => $multi_value_select_editor,
+                    FilterConditionOperator::NOT_IN => $multi_value_select_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new DynamicCombobox('manager_id_edit', $this->CreateLinkBuilder());
+            $main_editor->setAllowClear(true);
+            $main_editor->setMinimumInputLength(0);
+            $main_editor->SetAllowNullValue(false);
+            $main_editor->SetHandlerName('filter_builder_phpgen_users_manager_id_search');
+            
+            $multi_value_select_editor = new RemoteMultiValueSelect('manager_id', $this->CreateLinkBuilder());
+            $multi_value_select_editor->SetHandlerName('filter_builder_phpgen_users_manager_id_search');
+            
+            $filterBuilder->addColumn(
+                $columns['manager_id'],
                 array(
                     FilterConditionOperator::EQUALS => $main_editor,
                     FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
@@ -459,19 +350,20 @@
             //
             // View column for user_name field
             //
-            $column = new TextViewColumn('user_id', 'user_id_user_name', 'User Name', $this->dataset);
+            $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
-            $column->setLookupRecordModalViewHandlerName(phpgen_user_roles_user_idModalViewPage::getHandlerName());
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('phpgen_users_user_name_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
             $grid->AddViewColumn($column);
             
             //
-            // View column for role_name field
+            // View column for role_description field
             //
-            $column = new TextViewColumn('role_name', 'role_name', 'Role Name', $this->dataset);
+            $column = new TextViewColumn('user_level', 'user_level_role_description', 'User Level', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
@@ -480,9 +372,9 @@
             $grid->AddViewColumn($column);
             
             //
-            // View column for approver field
+            // View column for is_head_manager field
             //
-            $column = new NumberViewColumn('approver', 'approver', 'Approver', $this->dataset);
+            $column = new NumberViewColumn('is_head_manager', 'is_head_manager', 'Is Head Manager', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -495,7 +387,18 @@
             //
             // View column for Region field
             //
-            $column = new TextViewColumn('aregion', 'aregion_Region', 'Region', $this->dataset);
+            $column = new TextViewColumn('region_id', 'region_id_Region', 'Region', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for user_name field
+            //
+            $column = new TextViewColumn('manager_id', 'manager_id_user_name', 'Reports Manager', $this->dataset);
             $column->SetOrderable(true);
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
@@ -508,22 +411,32 @@
             //
             // View column for user_name field
             //
-            $column = new TextViewColumn('user_id', 'user_id_user_name', 'User Name', $this->dataset);
+            $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
             $column->SetOrderable(true);
-            $column->setLookupRecordModalViewHandlerName(phpgen_user_roles_user_idModalViewPage::getHandlerName());
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('phpgen_users_user_name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for role_name field
+            // View column for user_email field
             //
-            $column = new TextViewColumn('role_name', 'role_name', 'Role Name', $this->dataset);
+            $column = new TextViewColumn('user_email', 'user_email', 'User Email', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('phpgen_users_user_email_handler_view');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for role_description field
+            //
+            $column = new TextViewColumn('user_level', 'user_level_role_description', 'User Level', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for approver field
+            // View column for is_head_manager field
             //
-            $column = new NumberViewColumn('approver', 'approver', 'Approver', $this->dataset);
+            $column = new NumberViewColumn('is_head_manager', 'is_head_manager', 'Is Head Manager', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -533,7 +446,14 @@
             //
             // View column for Region field
             //
-            $column = new TextViewColumn('aregion', 'aregion_Region', 'Region', $this->dataset);
+            $column = new TextViewColumn('region_id', 'region_id_Region', 'Region', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for user_name field
+            //
+            $column = new TextViewColumn('manager_id', 'manager_id_user_name', 'Reports Manager', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
         }
@@ -541,9 +461,87 @@
         protected function AddEditColumns(Grid $grid)
         {
             //
-            // Edit column for user_id field
+            // Edit column for user_name field
             //
-            $editor = new DynamicCombobox('user_id_edit', $this->CreateLinkBuilder());
+            $editor = new TextEdit('user_name_edit');
+            $editColumn = new CustomEditColumn('User Name', 'user_name', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for user_email field
+            //
+            $editor = new TextEdit('user_email_edit');
+            $editColumn = new CustomEditColumn('User Email', 'user_email', $editor, $this->dataset);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for user_level field
+            //
+            $editor = new ComboBox('user_level_edit', $this->GetLocalizerCaptions()->GetMessageString('PleaseSelect'));
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_user_roles`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('lookup_user_roleid', true, true, true),
+                    new StringField('role_description')
+                )
+            );
+            $lookupDataset->setOrderByField('role_description', 'ASC');
+            $editColumn = new LookUpEditColumn(
+                'User Level', 
+                'user_level', 
+                $editor, 
+                $this->dataset, 'lookup_user_roleid', 'role_description', $lookupDataset);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for is_head_manager field
+            //
+            $editor = new CheckBox('is_head_manager_edit');
+            $editColumn = new CustomEditColumn('Is Head Manager', 'is_head_manager', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for region_id field
+            //
+            $editor = new DynamicCombobox('region_id_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_region`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('Region_ID', true, true, true),
+                    new StringField('Region', true),
+                    new StringField('Region_Value', true)
+                )
+            );
+            $lookupDataset->setOrderByField('Region', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Region', 'region_id', 'region_id_Region', 'edit_phpgen_users_region_id_search', $editor, $this->dataset, $lookupDataset, 'Region_ID', 'Region', '');
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for manager_id field
+            //
+            $editor = new DynamicCombobox('manager_id_edit', $this->CreateLinkBuilder());
             $editor->setAllowClear(true);
             $editor->setMinimumInputLength(0);
             $lookupDataset = new TableDataset(
@@ -565,53 +563,7 @@
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('User Name', 'user_id', 'user_id_user_name', 'edit_phpgen_user_roles_user_id_search', $editor, $this->dataset, $lookupDataset, 'user_id', 'user_name', '');
-            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
-            $editor->GetValidatorCollection()->AddValidator($validator);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for role_name field
-            //
-            $editor = new ComboBox('role_name_edit', $this->GetLocalizerCaptions()->GetMessageString('PleaseSelect'));
-            $editor->addChoice('products', 'Product Manager');
-            $editor->addChoice('marketing', 'Regional Marketing');
-            $editor->addChoice('manager', 'Manager');
-            $editColumn = new CustomEditColumn('Role Name', 'role_name', $editor, $this->dataset);
-            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
-            $editor->GetValidatorCollection()->AddValidator($validator);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for approver field
-            //
-            $editor = new CheckBox('approver_edit');
-            $editColumn = new CustomEditColumn('Approver', 'approver', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for aregion field
-            //
-            $editor = new DynamicCombobox('aregion_edit', $this->CreateLinkBuilder());
-            $editor->setAllowClear(true);
-            $editor->setMinimumInputLength(0);
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`lookup_region`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('Region_ID', true, true, true),
-                    new StringField('Region', true),
-                    new StringField('Region_Value', true)
-                )
-            );
-            $lookupDataset->setOrderByField('Region', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Region', 'aregion', 'aregion_Region', 'edit_phpgen_user_roles_aregion_search', $editor, $this->dataset, $lookupDataset, 'Region_ID', 'Region', '');
+            $editColumn = new DynamicLookupEditColumn('Reports Manager', 'manager_id', 'manager_id_user_name', 'edit_phpgen_users_manager_id_search', $editor, $this->dataset, $lookupDataset, 'user_id', 'user_name', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -620,9 +572,87 @@
         protected function AddMultiEditColumns(Grid $grid)
         {
             //
-            // Edit column for user_id field
+            // Edit column for user_name field
             //
-            $editor = new DynamicCombobox('user_id_edit', $this->CreateLinkBuilder());
+            $editor = new TextEdit('user_name_edit');
+            $editColumn = new CustomEditColumn('User Name', 'user_name', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for user_email field
+            //
+            $editor = new TextEdit('user_email_edit');
+            $editColumn = new CustomEditColumn('User Email', 'user_email', $editor, $this->dataset);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for user_level field
+            //
+            $editor = new ComboBox('user_level_edit', $this->GetLocalizerCaptions()->GetMessageString('PleaseSelect'));
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_user_roles`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('lookup_user_roleid', true, true, true),
+                    new StringField('role_description')
+                )
+            );
+            $lookupDataset->setOrderByField('role_description', 'ASC');
+            $editColumn = new LookUpEditColumn(
+                'User Level', 
+                'user_level', 
+                $editor, 
+                $this->dataset, 'lookup_user_roleid', 'role_description', $lookupDataset);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for is_head_manager field
+            //
+            $editor = new CheckBox('is_head_manager_edit');
+            $editColumn = new CustomEditColumn('Is Head Manager', 'is_head_manager', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for region_id field
+            //
+            $editor = new DynamicCombobox('region_id_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_region`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('Region_ID', true, true, true),
+                    new StringField('Region', true),
+                    new StringField('Region_Value', true)
+                )
+            );
+            $lookupDataset->setOrderByField('Region', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Region', 'region_id', 'region_id_Region', 'multi_edit_phpgen_users_region_id_search', $editor, $this->dataset, $lookupDataset, 'Region_ID', 'Region', '');
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for manager_id field
+            //
+            $editor = new DynamicCombobox('manager_id_edit', $this->CreateLinkBuilder());
             $editor->setAllowClear(true);
             $editor->setMinimumInputLength(0);
             $lookupDataset = new TableDataset(
@@ -644,53 +674,7 @@
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('User Name', 'user_id', 'user_id_user_name', 'multi_edit_phpgen_user_roles_user_id_search', $editor, $this->dataset, $lookupDataset, 'user_id', 'user_name', '');
-            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
-            $editor->GetValidatorCollection()->AddValidator($validator);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for role_name field
-            //
-            $editor = new ComboBox('role_name_edit', $this->GetLocalizerCaptions()->GetMessageString('PleaseSelect'));
-            $editor->addChoice('products', 'Product Manager');
-            $editor->addChoice('marketing', 'Regional Marketing');
-            $editor->addChoice('manager', 'Manager');
-            $editColumn = new CustomEditColumn('Role Name', 'role_name', $editor, $this->dataset);
-            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
-            $editor->GetValidatorCollection()->AddValidator($validator);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for approver field
-            //
-            $editor = new CheckBox('approver_edit');
-            $editColumn = new CustomEditColumn('Approver', 'approver', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for aregion field
-            //
-            $editor = new DynamicCombobox('aregion_edit', $this->CreateLinkBuilder());
-            $editor->setAllowClear(true);
-            $editor->setMinimumInputLength(0);
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`lookup_region`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('Region_ID', true, true, true),
-                    new StringField('Region', true),
-                    new StringField('Region_Value', true)
-                )
-            );
-            $lookupDataset->setOrderByField('Region', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Region', 'aregion', 'aregion_Region', 'multi_edit_phpgen_user_roles_aregion_search', $editor, $this->dataset, $lookupDataset, 'Region_ID', 'Region', '');
+            $editColumn = new DynamicLookupEditColumn('Reports Manager', 'manager_id', 'manager_id_user_name', 'multi_edit_phpgen_users_manager_id_search', $editor, $this->dataset, $lookupDataset, 'user_id', 'user_name', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -699,9 +683,87 @@
         protected function AddInsertColumns(Grid $grid)
         {
             //
-            // Edit column for user_id field
+            // Edit column for user_name field
             //
-            $editor = new DynamicCombobox('user_id_edit', $this->CreateLinkBuilder());
+            $editor = new TextEdit('user_name_edit');
+            $editColumn = new CustomEditColumn('User Name', 'user_name', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for user_email field
+            //
+            $editor = new TextEdit('user_email_edit');
+            $editColumn = new CustomEditColumn('User Email', 'user_email', $editor, $this->dataset);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for user_level field
+            //
+            $editor = new ComboBox('user_level_edit', $this->GetLocalizerCaptions()->GetMessageString('PleaseSelect'));
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_user_roles`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('lookup_user_roleid', true, true, true),
+                    new StringField('role_description')
+                )
+            );
+            $lookupDataset->setOrderByField('role_description', 'ASC');
+            $editColumn = new LookUpEditColumn(
+                'User Level', 
+                'user_level', 
+                $editor, 
+                $this->dataset, 'lookup_user_roleid', 'role_description', $lookupDataset);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for is_head_manager field
+            //
+            $editor = new CheckBox('is_head_manager_edit');
+            $editColumn = new CustomEditColumn('Is Head Manager', 'is_head_manager', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for region_id field
+            //
+            $editor = new DynamicCombobox('region_id_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_region`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('Region_ID', true, true, true),
+                    new StringField('Region', true),
+                    new StringField('Region_Value', true)
+                )
+            );
+            $lookupDataset->setOrderByField('Region', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Region', 'region_id', 'region_id_Region', 'insert_phpgen_users_region_id_search', $editor, $this->dataset, $lookupDataset, 'Region_ID', 'Region', '');
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for manager_id field
+            //
+            $editor = new DynamicCombobox('manager_id_edit', $this->CreateLinkBuilder());
             $editor->setAllowClear(true);
             $editor->setMinimumInputLength(0);
             $lookupDataset = new TableDataset(
@@ -723,53 +785,7 @@
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('User Name', 'user_id', 'user_id_user_name', 'insert_phpgen_user_roles_user_id_search', $editor, $this->dataset, $lookupDataset, 'user_id', 'user_name', '');
-            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
-            $editor->GetValidatorCollection()->AddValidator($validator);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for role_name field
-            //
-            $editor = new ComboBox('role_name_edit', $this->GetLocalizerCaptions()->GetMessageString('PleaseSelect'));
-            $editor->addChoice('products', 'Product Manager');
-            $editor->addChoice('marketing', 'Regional Marketing');
-            $editor->addChoice('manager', 'Manager');
-            $editColumn = new CustomEditColumn('Role Name', 'role_name', $editor, $this->dataset);
-            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
-            $editor->GetValidatorCollection()->AddValidator($validator);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for approver field
-            //
-            $editor = new CheckBox('approver_edit');
-            $editColumn = new CustomEditColumn('Approver', 'approver', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for aregion field
-            //
-            $editor = new DynamicCombobox('aregion_edit', $this->CreateLinkBuilder());
-            $editor->setAllowClear(true);
-            $editor->setMinimumInputLength(0);
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`lookup_region`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('Region_ID', true, true, true),
-                    new StringField('Region', true),
-                    new StringField('Region_Value', true)
-                )
-            );
-            $lookupDataset->setOrderByField('Region', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Region', 'aregion', 'aregion_Region', 'insert_phpgen_user_roles_aregion_search', $editor, $this->dataset, $lookupDataset, 'Region_ID', 'Region', '');
+            $editColumn = new DynamicLookupEditColumn('Reports Manager', 'manager_id', 'manager_id_user_name', 'insert_phpgen_users_manager_id_search', $editor, $this->dataset, $lookupDataset, 'user_id', 'user_name', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -784,25 +800,47 @@
         protected function AddPrintColumns(Grid $grid)
         {
             //
+            // View column for user_id field
+            //
+            $column = new NumberViewColumn('user_id', 'user_id', 'User Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddPrintColumn($column);
+            
+            //
             // View column for user_name field
             //
-            $column = new TextViewColumn('user_id', 'user_id_user_name', 'User Name', $this->dataset);
+            $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('phpgen_users_user_name_handler_print');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for user_email field
+            //
+            $column = new TextViewColumn('user_email', 'user_email', 'User Email', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('phpgen_users_user_email_handler_print');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for role_description field
+            //
+            $column = new TextViewColumn('user_level', 'user_level_role_description', 'User Level', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $grid->AddPrintColumn($column);
             
             //
-            // View column for role_name field
+            // View column for is_head_manager field
             //
-            $column = new TextViewColumn('role_name', 'role_name', 'Role Name', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $grid->AddPrintColumn($column);
-            
-            //
-            // View column for approver field
-            //
-            $column = new NumberViewColumn('approver', 'approver', 'Approver', $this->dataset);
+            $column = new NumberViewColumn('is_head_manager', 'is_head_manager', 'Is Head Manager', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -812,7 +850,15 @@
             //
             // View column for Region field
             //
-            $column = new TextViewColumn('aregion', 'aregion_Region', 'Region', $this->dataset);
+            $column = new TextViewColumn('region_id', 'region_id_Region', 'Region', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for user_name field
+            //
+            $column = new TextViewColumn('manager_id', 'manager_id_user_name', 'Reports Manager', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddPrintColumn($column);
         }
@@ -820,25 +866,47 @@
         protected function AddExportColumns(Grid $grid)
         {
             //
+            // View column for user_id field
+            //
+            $column = new NumberViewColumn('user_id', 'user_id', 'User Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddExportColumn($column);
+            
+            //
             // View column for user_name field
             //
-            $column = new TextViewColumn('user_id', 'user_id_user_name', 'User Name', $this->dataset);
+            $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('phpgen_users_user_name_handler_export');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for user_email field
+            //
+            $column = new TextViewColumn('user_email', 'user_email', 'User Email', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('phpgen_users_user_email_handler_export');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for role_description field
+            //
+            $column = new TextViewColumn('user_level', 'user_level_role_description', 'User Level', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $grid->AddExportColumn($column);
             
             //
-            // View column for role_name field
+            // View column for is_head_manager field
             //
-            $column = new TextViewColumn('role_name', 'role_name', 'Role Name', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $grid->AddExportColumn($column);
-            
-            //
-            // View column for approver field
-            //
-            $column = new NumberViewColumn('approver', 'approver', 'Approver', $this->dataset);
+            $column = new NumberViewColumn('is_head_manager', 'is_head_manager', 'Is Head Manager', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -848,7 +916,15 @@
             //
             // View column for Region field
             //
-            $column = new TextViewColumn('aregion', 'aregion_Region', 'Region', $this->dataset);
+            $column = new TextViewColumn('region_id', 'region_id_Region', 'Region', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for user_name field
+            //
+            $column = new TextViewColumn('manager_id', 'manager_id_user_name', 'Reports Manager', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddExportColumn($column);
         }
@@ -858,23 +934,35 @@
             //
             // View column for user_name field
             //
-            $column = new TextViewColumn('user_id', 'user_id_user_name', 'User Name', $this->dataset);
+            $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('phpgen_users_user_name_handler_compare');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for user_email field
+            //
+            $column = new TextViewColumn('user_email', 'user_email', 'User Email', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('phpgen_users_user_email_handler_compare');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for role_description field
+            //
+            $column = new TextViewColumn('user_level', 'user_level_role_description', 'User Level', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $grid->AddCompareColumn($column);
             
             //
-            // View column for role_name field
+            // View column for is_head_manager field
             //
-            $column = new TextViewColumn('role_name', 'role_name', 'Role Name', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $grid->AddCompareColumn($column);
-            
-            //
-            // View column for approver field
-            //
-            $column = new NumberViewColumn('approver', 'approver', 'Approver', $this->dataset);
+            $column = new NumberViewColumn('is_head_manager', 'is_head_manager', 'Is Head Manager', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -884,7 +972,15 @@
             //
             // View column for Region field
             //
-            $column = new TextViewColumn('aregion', 'aregion_Region', 'Region', $this->dataset);
+            $column = new TextViewColumn('region_id', 'region_id_Region', 'Region', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for user_name field
+            //
+            $column = new TextViewColumn('manager_id', 'manager_id_user_name', 'Reports Manager', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddCompareColumn($column);
         }
@@ -978,13 +1074,13 @@
             $this->setExportListRecordAvailable(array());
             $this->setExportOneRecordAvailable(array('pdf', 'excel', 'word', 'xml', 'csv'));
             $this->setDescription('<div class="mark-media mark-position-relative">
-                          <div class="mark-bd-placeholder-img mr-3"><img src="apps/icons/role-color.png" width="80" height="79"></div>
-                          <div class="mark-media-body">
-                            <h5 class="mt-0 h5">What will you find here</h5>
-                            <p class="mark-p">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-                            <a href="http://mktportal.mscsoftware.com" class="stretched-link">Go to Master Campaign</a>
-                          </div>
-                        </div>');
+            	<div class="mark-bd-placeholder-img mr-3"><img src="apps/icons/system_user_color.png" width="80" height="79"></div>
+            	<div class="mark-media-body">
+            		<h5 class="mt-0 h5">What will you find here</h5>
+            		<p class="mark-p">Marketing portal users, with their responsible managers and permissions.</p>
+            		<i class="far fa-life-ring"></i> If you need more help go to <a href="portal_help.php" class="stretched-link">portal help</a> section!
+            	</div>
+            </div>');
             $this->setShowFormErrorsOnTop(true);
     
             return $result;
@@ -995,26 +1091,49 @@
         }
     
         protected function doRegisterHandlers() {
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`phpgen_users`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('user_id', true, true, true),
-                    new StringField('user_name', true),
-                    new StringField('user_password', true),
-                    new StringField('user_email', true),
-                    new StringField('user_token'),
-                    new IntegerField('user_status', true),
-                    new StringField('user_level', true),
-                    new IntegerField('is_head_manager'),
-                    new IntegerField('region_id'),
-                    new IntegerField('manager_id')
-                )
-            );
-            $lookupDataset->setOrderByField('user_name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_phpgen_user_roles_user_id_search', 'user_id', 'user_name', null, 20);
+            //
+            // View column for user_name field
+            //
+            $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_users_user_name_handler_list', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for user_name field
+            //
+            $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_users_user_name_handler_print', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for user_email field
+            //
+            $column = new TextViewColumn('user_email', 'user_email', 'User Email', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_users_user_email_handler_print', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for user_name field
+            //
+            $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_users_user_name_handler_compare', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for user_email field
+            //
+            $column = new TextViewColumn('user_email', 'user_email', 'User Email', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_users_user_email_handler_compare', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -1029,81 +1148,7 @@
                 )
             );
             $lookupDataset->setOrderByField('Region', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_phpgen_user_roles_aregion_search', 'Region_ID', 'Region', null, 20);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`phpgen_users`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('user_id', true, true, true),
-                    new StringField('user_name', true),
-                    new StringField('user_password', true),
-                    new StringField('user_email', true),
-                    new StringField('user_token'),
-                    new IntegerField('user_status', true),
-                    new StringField('user_level', true),
-                    new IntegerField('is_head_manager'),
-                    new IntegerField('region_id'),
-                    new IntegerField('manager_id')
-                )
-            );
-            $lookupDataset->setOrderByField('user_name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_phpgen_user_roles_user_id_search', 'user_id', 'user_name', null, 20);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`lookup_region`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('Region_ID', true, true, true),
-                    new StringField('Region', true),
-                    new StringField('Region_Value', true)
-                )
-            );
-            $lookupDataset->setOrderByField('Region', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_phpgen_user_roles_aregion_search', 'Region_ID', 'Region', null, 20);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`phpgen_users`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('user_id', true, true, true),
-                    new StringField('user_name', true),
-                    new StringField('user_password', true),
-                    new StringField('user_email', true),
-                    new StringField('user_token'),
-                    new IntegerField('user_status', true),
-                    new StringField('user_level', true),
-                    new IntegerField('is_head_manager'),
-                    new IntegerField('region_id'),
-                    new IntegerField('manager_id')
-                )
-            );
-            $lookupDataset->setOrderByField('user_name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_phpgen_user_roles_user_id_search', 'user_id', 'user_name', null, 20);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`lookup_region`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('Region_ID', true, true, true),
-                    new StringField('Region', true),
-                    new StringField('Region_Value', true)
-                )
-            );
-            $lookupDataset->setOrderByField('Region', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_phpgen_user_roles_aregion_search', 'Region_ID', 'Region', null, 20);
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_phpgen_users_region_id_search', 'Region_ID', 'Region', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -1125,7 +1170,35 @@
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_phpgen_user_roles_user_id_search', 'user_id', 'user_name', null, 20);
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_phpgen_users_manager_id_search', 'user_id', 'user_name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_user_roles`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('lookup_user_roleid', true, true, true),
+                    new StringField('role_description')
+                )
+            );
+            $lookupDataset->setOrderByField('role_description', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_phpgen_users_user_level_search', 'lookup_user_roleid', 'role_description', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_user_roles`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('lookup_user_roleid', true, true, true),
+                    new StringField('role_description')
+                )
+            );
+            $lookupDataset->setOrderByField('role_description', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_phpgen_users_user_level_search', 'lookup_user_roleid', 'role_description', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -1140,14 +1213,128 @@
                 )
             );
             $lookupDataset->setOrderByField('Region', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_phpgen_user_roles_aregion_search', 'Region_ID', 'Region', null, 20);
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_phpgen_users_region_id_search', 'Region_ID', 'Region', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
-            new phpgen_user_roles_user_idModalViewPage($this, GetCurrentUserPermissionSetForDataSource('phpgen_user_roles.user_id'));
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`phpgen_users`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('user_id', true, true, true),
+                    new StringField('user_name', true),
+                    new StringField('user_password', true),
+                    new StringField('user_email', true),
+                    new StringField('user_token'),
+                    new IntegerField('user_status', true),
+                    new StringField('user_level', true),
+                    new IntegerField('is_head_manager'),
+                    new IntegerField('region_id'),
+                    new IntegerField('manager_id')
+                )
+            );
+            $lookupDataset->setOrderByField('user_name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_phpgen_users_manager_id_search', 'user_id', 'user_name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for user_name field
+            //
+            $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_users_user_name_handler_view', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for user_email field
+            //
+            $column = new TextViewColumn('user_email', 'user_email', 'User Email', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_users_user_email_handler_view', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_region`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('Region_ID', true, true, true),
+                    new StringField('Region', true),
+                    new StringField('Region_Value', true)
+                )
+            );
+            $lookupDataset->setOrderByField('Region', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_phpgen_users_region_id_search', 'Region_ID', 'Region', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`phpgen_users`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('user_id', true, true, true),
+                    new StringField('user_name', true),
+                    new StringField('user_password', true),
+                    new StringField('user_email', true),
+                    new StringField('user_token'),
+                    new IntegerField('user_status', true),
+                    new StringField('user_level', true),
+                    new IntegerField('is_head_manager'),
+                    new IntegerField('region_id'),
+                    new IntegerField('manager_id')
+                )
+            );
+            $lookupDataset->setOrderByField('user_name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_phpgen_users_manager_id_search', 'user_id', 'user_name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_region`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('Region_ID', true, true, true),
+                    new StringField('Region', true),
+                    new StringField('Region_Value', true)
+                )
+            );
+            $lookupDataset->setOrderByField('Region', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_phpgen_users_region_id_search', 'Region_ID', 'Region', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`phpgen_users`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('user_id', true, true, true),
+                    new StringField('user_name', true),
+                    new StringField('user_password', true),
+                    new StringField('user_email', true),
+                    new StringField('user_token'),
+                    new IntegerField('user_status', true),
+                    new StringField('user_level', true),
+                    new IntegerField('is_head_manager'),
+                    new IntegerField('region_id'),
+                    new IntegerField('manager_id')
+                )
+            );
+            $lookupDataset->setOrderByField('user_name', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_phpgen_users_manager_id_search', 'user_id', 'user_name', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
         }
        
         protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
         { 
-    
+            if ($fieldName == 'is_head_manager') {
+              $customText = $rowData['is_head_manager'] == 1 ? 'Yes' : 'No';
+              $handled = true;
+            }
         }
     
         protected function doCustomRenderPrintColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
@@ -1257,7 +1444,7 @@
     
         protected function doGetCustomFormLayout($mode, FixedKeysArray $columns, FormLayout $layout)
         {
-    
+            $layout->setMode(FormLayoutMode::VERTICAL);
         }
     
         protected function doGetCustomColumnGroup(FixedKeysArray $columns, ViewColumnGroup $columnGroup)
@@ -1291,8 +1478,8 @@
 
     try
     {
-        $Page = new phpgen_user_rolesPage("phpgen_user_roles", "phpgen_user_roles.php", GetCurrentUserPermissionSetForDataSource("phpgen_user_roles"), 'UTF-8');
-        $Page->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource("phpgen_user_roles"));
+        $Page = new phpgen_usersPage("phpgen_users", "phpgen_users.php", GetCurrentUserPermissionSetForDataSource("phpgen_users"), 'UTF-8');
+        $Page->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource("phpgen_users"));
         GetApplication()->SetMainPage($Page);
         GetApplication()->Run();
     }
