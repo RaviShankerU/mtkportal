@@ -59,6 +59,7 @@ function GetPageGroups()
     $result[] = array('caption' => 'Campaign Manager', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.');
     $result[] = array('caption' => 'Global Marketing', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.');
     $result[] = array('caption' => 'Admin Tools', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.');
+    $result[] = array('caption' => 'Default', 'description' => '');
     return $result;
 }
 
@@ -72,7 +73,7 @@ function GetPageInfos()
       </div>
       <div class="text-content">
         <span class=card-title><strong>Campaign Calendar</strong></span>
-        <p>Campaign calendar, host a central view of all events, marketing communications and global marketing activities in all regions. </p>
+        <p>Step 1:  Please check here first to see the campaigns running and to find an available date. </p>
       </div>
     </div>
     </a>');
@@ -149,7 +150,7 @@ function GetPageInfos()
       </div>
       <div class="text-content">
         <span class=card-title><strong>Campaign Builder</strong></span>
-        <p>Marketo Program Name Generator, standardises the naming conversion for all Marketo programs for the purpose reporting in Salesforce.</p>
+        <p>Step 2:  Please plan and enter the details of  your campaign here. Click on +Add New.</p>
       </div>
     </div>
     </a>');
@@ -308,6 +309,7 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
+    $result[] = array('caption' => 'Portal Help', 'short_caption' => 'Portal Help', 'filename' => 'portal_help.php', 'name' => 'portal_help', 'group_name' => 'Default', 'add_separator' => true, 'description' => '');
     $result[] = array('caption' => 'System Users', 'short_caption' => 'System Users & Reports', 'filename' => 'phpgen_users.php', 'name' => 'phpgen_users', 'group_name' => 'Admin Tools', 'add_separator' => false, 'description' => '');
     return $result;
 }

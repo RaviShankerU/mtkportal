@@ -49,7 +49,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -815,15 +815,15 @@
         {
             return array(
                 new FilterColumn($this->dataset, 'campaign_tracker_local_id', 'campaign_tracker_local_id', 'Campaign Tracker Local Id'),
-                new FilterColumn($this->dataset, 'program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Marketo Program Name'),
+                new FilterColumn($this->dataset, 'program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Campaign Builder'),
                 new FilterColumn($this->dataset, 'master_campaign_id', 'master_campaign_id_campaign_name', 'Associated Brief'),
                 new FilterColumn($this->dataset, 'email_name', 'email_name', 'Email Name'),
                 new FilterColumn($this->dataset, 'campaign_publish_date', 'campaign_publish_date', 'Email Send Date'),
                 new FilterColumn($this->dataset, 'campaign_description', 'campaign_description', 'Campaign Description'),
                 new FilterColumn($this->dataset, 'campaign_type', 'campaign_type_Type', 'Campaign Type'),
                 new FilterColumn($this->dataset, 'cregion', 'cregion_Region', 'Region'),
-                new FilterColumn($this->dataset, 'tracker_status', 'tracker_status_Status_Type', 'Tracker Status'),
-                new FilterColumn($this->dataset, 'campaign_utm_id', 'campaign_utm_id_campaign_name', 'Campaign Utm Id'),
+                new FilterColumn($this->dataset, 'tracker_status', 'tracker_status_Status_Type', 'Send Status'),
+                new FilterColumn($this->dataset, 'campaign_utm_id', 'campaign_utm_id_campaign_name', 'UTM Tracking'),
                 new FilterColumn($this->dataset, 'modified_by', 'modified_by', 'Modified By'),
                 new FilterColumn($this->dataset, 'modified_date', 'modified_date', 'Modified Date'),
                 new FilterColumn($this->dataset, 'trackerid', 'trackerid', 'Trackerid'),
@@ -1365,7 +1365,7 @@
             //
             // View column for Status_Type field
             //
-            $column = new TextViewColumn('tracker_status', 'tracker_status_Status_Type', 'Tracker Status', $this->dataset);
+            $column = new TextViewColumn('tracker_status', 'tracker_status_Status_Type', 'Send Status', $this->dataset);
             $column->SetOrderable(true);
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
@@ -1375,7 +1375,7 @@
             //
             // View column for campaign_name field
             //
-            $column = new TextViewColumn('campaign_utm_id', 'campaign_utm_id_campaign_name', 'Campaign Utm Id', $this->dataset);
+            $column = new TextViewColumn('campaign_utm_id', 'campaign_utm_id_campaign_name', 'UTM Tracking', $this->dataset);
             $column->SetOrderable(true);
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
@@ -1414,7 +1414,7 @@
             //
             // View column for campaign_program_name field
             //
-            $column = new TextViewColumn('program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Marketo Program Name', $this->dataset);
+            $column = new TextViewColumn('program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Campaign Builder', $this->dataset);
             $column->SetOrderable(true);
             $column->setLookupRecordModalViewHandlerName(campaign_tracker_comms_local_program_generator_name_idModalViewPage::getHandlerName());
             $grid->AddSingleRecordViewColumn($column);
@@ -1470,14 +1470,14 @@
             //
             // View column for Status_Type field
             //
-            $column = new TextViewColumn('tracker_status', 'tracker_status_Status_Type', 'Tracker Status', $this->dataset);
+            $column = new TextViewColumn('tracker_status', 'tracker_status_Status_Type', 'Send Status', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
             
             //
             // View column for campaign_name field
             //
-            $column = new TextViewColumn('campaign_utm_id', 'campaign_utm_id_campaign_name', 'Campaign Utm Id', $this->dataset);
+            $column = new TextViewColumn('campaign_utm_id', 'campaign_utm_id_campaign_name', 'UTM Tracking', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
             
@@ -1559,7 +1559,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -1574,8 +1574,9 @@
                 )
             );
             $lookupDataset->setOrderByField('campaign_program_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Marketo Program Name', 'program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'edit_campaign_tracker_comms_local_program_generator_name_id_search', $editor, $this->dataset, $lookupDataset, 'program_generator_name_id', 'campaign_program_name', '');
-            $editColumn->SetAllowSetToNull(true);
+            $editColumn = new DynamicLookupEditColumn('Campaign Builder', 'program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'edit_campaign_tracker_comms_local_program_generator_name_id_search', $editor, $this->dataset, $lookupDataset, 'program_generator_name_id', 'campaign_program_name', '');
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
@@ -1622,6 +1623,7 @@
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Associated Brief', 'master_campaign_id', 'master_campaign_id_campaign_name', 'edit_campaign_tracker_comms_local_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -1696,6 +1698,7 @@
             );
             $lookupDataset->setOrderByField('Region', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Region', 'cregion', 'cregion_Region', 'edit_campaign_tracker_comms_local_cregion_search', $editor, $this->dataset, $lookupDataset, 'Region_Value', 'Region', '');
+            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -1720,7 +1723,7 @@
             );
             $lookupDataset->setOrderByField('Status_Type', 'ASC');
             $lookupDataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'Status_Filters=\'png\''));
-            $editColumn = new DynamicLookupEditColumn('Tracker Status', 'tracker_status', 'tracker_status_Status_Type', 'edit_campaign_tracker_comms_local_tracker_status_search', $editor, $this->dataset, $lookupDataset, 'Status_Type_ID', 'Status_Type', '');
+            $editColumn = new DynamicLookupEditColumn('Send Status', 'tracker_status', 'tracker_status_Status_Type', 'edit_campaign_tracker_comms_local_tracker_status_search', $editor, $this->dataset, $lookupDataset, 'Status_Type_ID', 'Status_Type', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -1762,7 +1765,7 @@
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Campaign Utm Id', 'campaign_utm_id', 'campaign_utm_id_campaign_name', 'edit_campaign_tracker_comms_local_campaign_utm_id_search', $editor, $this->dataset, $lookupDataset, 'campaign_utm_id', 'campaign_name', '');
+            $editColumn = new DynamicLookupEditColumn('UTM Tracking', 'campaign_utm_id', 'campaign_utm_id_campaign_name', 'edit_campaign_tracker_comms_local_campaign_utm_id_search', $editor, $this->dataset, $lookupDataset, 'campaign_utm_id', 'campaign_name', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -1804,6 +1807,7 @@
             $editor = new TextEdit('region_approval_edit');
             $editColumn = new CustomEditColumn('Region Approval', 'region_approval', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -1815,6 +1819,7 @@
             $editor->SetMaxLength(65);
             $editColumn = new CustomEditColumn('Region Approved By', 'region_approved_by', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -1825,6 +1830,7 @@
             $editor = new DateTimeEdit('region_approved_date_edit', false, 'd-m-Y H:i:s');
             $editColumn = new CustomEditColumn('Region Approved Date', 'region_approved_date', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -1857,7 +1863,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -1872,8 +1878,9 @@
                 )
             );
             $lookupDataset->setOrderByField('campaign_program_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Marketo Program Name', 'program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'multi_edit_campaign_tracker_comms_local_program_generator_name_id_search', $editor, $this->dataset, $lookupDataset, 'program_generator_name_id', 'campaign_program_name', '');
-            $editColumn->SetAllowSetToNull(true);
+            $editColumn = new DynamicLookupEditColumn('Campaign Builder', 'program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'multi_edit_campaign_tracker_comms_local_program_generator_name_id_search', $editor, $this->dataset, $lookupDataset, 'program_generator_name_id', 'campaign_program_name', '');
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
             
@@ -1920,6 +1927,7 @@
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Associated Brief', 'master_campaign_id', 'master_campaign_id_campaign_name', 'multi_edit_campaign_tracker_comms_local_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -1994,6 +2002,7 @@
             );
             $lookupDataset->setOrderByField('Region', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Region', 'cregion', 'cregion_Region', 'multi_edit_campaign_tracker_comms_local_cregion_search', $editor, $this->dataset, $lookupDataset, 'Region_Value', 'Region', '');
+            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -2018,7 +2027,7 @@
             );
             $lookupDataset->setOrderByField('Status_Type', 'ASC');
             $lookupDataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'Status_Filters=\'png\''));
-            $editColumn = new DynamicLookupEditColumn('Tracker Status', 'tracker_status', 'tracker_status_Status_Type', 'multi_edit_campaign_tracker_comms_local_tracker_status_search', $editor, $this->dataset, $lookupDataset, 'Status_Type_ID', 'Status_Type', '');
+            $editColumn = new DynamicLookupEditColumn('Send Status', 'tracker_status', 'tracker_status_Status_Type', 'multi_edit_campaign_tracker_comms_local_tracker_status_search', $editor, $this->dataset, $lookupDataset, 'Status_Type_ID', 'Status_Type', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -2060,7 +2069,7 @@
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Campaign Utm Id', 'campaign_utm_id', 'campaign_utm_id_campaign_name', 'multi_edit_campaign_tracker_comms_local_campaign_utm_id_search', $editor, $this->dataset, $lookupDataset, 'campaign_utm_id', 'campaign_name', '');
+            $editColumn = new DynamicLookupEditColumn('UTM Tracking', 'campaign_utm_id', 'campaign_utm_id_campaign_name', 'multi_edit_campaign_tracker_comms_local_campaign_utm_id_search', $editor, $this->dataset, $lookupDataset, 'campaign_utm_id', 'campaign_name', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -2102,6 +2111,7 @@
             $editor = new TextEdit('region_approval_edit');
             $editColumn = new CustomEditColumn('Region Approval', 'region_approval', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -2113,6 +2123,7 @@
             $editor->SetMaxLength(65);
             $editColumn = new CustomEditColumn('Region Approved By', 'region_approved_by', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -2123,6 +2134,7 @@
             $editor = new DateTimeEdit('region_approved_date_edit', false, 'd-m-Y H:i:s');
             $editColumn = new CustomEditColumn('Region Approved Date', 'region_approved_date', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -2155,7 +2167,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -2170,8 +2182,9 @@
                 )
             );
             $lookupDataset->setOrderByField('campaign_program_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Marketo Program Name', 'program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'insert_campaign_tracker_comms_local_program_generator_name_id_search', $editor, $this->dataset, $lookupDataset, 'program_generator_name_id', 'campaign_program_name', '');
-            $editColumn->SetAllowSetToNull(true);
+            $editColumn = new DynamicLookupEditColumn('Campaign Builder', 'program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'insert_campaign_tracker_comms_local_program_generator_name_id_search', $editor, $this->dataset, $lookupDataset, 'program_generator_name_id', 'campaign_program_name', '');
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
             
@@ -2218,6 +2231,7 @@
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Associated Brief', 'master_campaign_id', 'master_campaign_id_campaign_name', 'insert_campaign_tracker_comms_local_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -2292,6 +2306,7 @@
             );
             $lookupDataset->setOrderByField('Region', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Region', 'cregion', 'cregion_Region', 'insert_campaign_tracker_comms_local_cregion_search', $editor, $this->dataset, $lookupDataset, 'Region_Value', 'Region', '');
+            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -2316,7 +2331,7 @@
             );
             $lookupDataset->setOrderByField('Status_Type', 'ASC');
             $lookupDataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'Status_Filters=\'png\''));
-            $editColumn = new DynamicLookupEditColumn('Tracker Status', 'tracker_status', 'tracker_status_Status_Type', 'insert_campaign_tracker_comms_local_tracker_status_search', $editor, $this->dataset, $lookupDataset, 'Status_Type_ID', 'Status_Type', '');
+            $editColumn = new DynamicLookupEditColumn('Send Status', 'tracker_status', 'tracker_status_Status_Type', 'insert_campaign_tracker_comms_local_tracker_status_search', $editor, $this->dataset, $lookupDataset, 'Status_Type_ID', 'Status_Type', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -2358,7 +2373,7 @@
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Campaign Utm Id', 'campaign_utm_id', 'campaign_utm_id_campaign_name', 'insert_campaign_tracker_comms_local_campaign_utm_id_search', $editor, $this->dataset, $lookupDataset, 'campaign_utm_id', 'campaign_name', '');
+            $editColumn = new DynamicLookupEditColumn('UTM Tracking', 'campaign_utm_id', 'campaign_utm_id_campaign_name', 'insert_campaign_tracker_comms_local_campaign_utm_id_search', $editor, $this->dataset, $lookupDataset, 'campaign_utm_id', 'campaign_name', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -2402,6 +2417,7 @@
             $editor = new TextEdit('region_approval_edit');
             $editColumn = new CustomEditColumn('Region Approval', 'region_approval', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -2413,6 +2429,7 @@
             $editor->SetMaxLength(65);
             $editColumn = new CustomEditColumn('Region Approved By', 'region_approved_by', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -2423,6 +2440,7 @@
             $editor = new DateTimeEdit('region_approved_date_edit', false, 'd-m-Y H:i:s');
             $editColumn = new CustomEditColumn('Region Approved Date', 'region_approved_date', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -2449,7 +2467,7 @@
             //
             // View column for campaign_program_name field
             //
-            $column = new TextViewColumn('program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Marketo Program Name', $this->dataset);
+            $column = new TextViewColumn('program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Campaign Builder', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddPrintColumn($column);
             
@@ -2506,14 +2524,14 @@
             //
             // View column for Status_Type field
             //
-            $column = new TextViewColumn('tracker_status', 'tracker_status_Status_Type', 'Tracker Status', $this->dataset);
+            $column = new TextViewColumn('tracker_status', 'tracker_status_Status_Type', 'Send Status', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddPrintColumn($column);
             
             //
             // View column for campaign_name field
             //
-            $column = new TextViewColumn('campaign_utm_id', 'campaign_utm_id_campaign_name', 'Campaign Utm Id', $this->dataset);
+            $column = new TextViewColumn('campaign_utm_id', 'campaign_utm_id_campaign_name', 'UTM Tracking', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddPrintColumn($column);
             
@@ -2583,7 +2601,7 @@
             //
             // View column for campaign_program_name field
             //
-            $column = new TextViewColumn('program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Marketo Program Name', $this->dataset);
+            $column = new TextViewColumn('program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Campaign Builder', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddExportColumn($column);
             
@@ -2640,14 +2658,14 @@
             //
             // View column for Status_Type field
             //
-            $column = new TextViewColumn('tracker_status', 'tracker_status_Status_Type', 'Tracker Status', $this->dataset);
+            $column = new TextViewColumn('tracker_status', 'tracker_status_Status_Type', 'Send Status', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddExportColumn($column);
             
             //
             // View column for campaign_name field
             //
-            $column = new TextViewColumn('campaign_utm_id', 'campaign_utm_id_campaign_name', 'Campaign Utm Id', $this->dataset);
+            $column = new TextViewColumn('campaign_utm_id', 'campaign_utm_id_campaign_name', 'UTM Tracking', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddExportColumn($column);
             
@@ -2707,7 +2725,7 @@
             //
             // View column for campaign_program_name field
             //
-            $column = new TextViewColumn('program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Marketo Program Name', $this->dataset);
+            $column = new TextViewColumn('program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Campaign Builder', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddCompareColumn($column);
             
@@ -2764,14 +2782,14 @@
             //
             // View column for Status_Type field
             //
-            $column = new TextViewColumn('tracker_status', 'tracker_status_Status_Type', 'Tracker Status', $this->dataset);
+            $column = new TextViewColumn('tracker_status', 'tracker_status_Status_Type', 'Send Status', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddCompareColumn($column);
             
             //
             // View column for campaign_name field
             //
-            $column = new TextViewColumn('campaign_utm_id', 'campaign_utm_id_campaign_name', 'Campaign Utm Id', $this->dataset);
+            $column = new TextViewColumn('campaign_utm_id', 'campaign_utm_id_campaign_name', 'UTM Tracking', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddCompareColumn($column);
             
@@ -3026,7 +3044,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -3183,7 +3201,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -3356,7 +3374,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -3513,7 +3531,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),

@@ -1535,7 +1535,7 @@
                           <div class="mark-bd-placeholder-img mr-3"><img src="apps/icons/event_cal-color.png" width="80" height="79"></div>
                           <div class="mark-media-body">
                             <h5 class="mt-0 h5">What will you find here</h5>
-                            <p class="mark-p">Campaign calendar, hosts a central view of all events, marketing communications and global marketing activities in all regions.</p>
+                            <p class="mark-p">Step 1:  Please check here first to see the campaigns running and to find an available date. </p>
                             <i class="far fa-life-ring"></i> If you need more help go to <a href="portal_help.php?partitionpage=1" class="stretched-link">portal help</a> section!
                           </div>
                         </div>');

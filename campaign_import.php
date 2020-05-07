@@ -49,7 +49,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -1182,7 +1182,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -1379,7 +1379,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -1597,7 +1597,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -2286,7 +2286,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -2354,7 +2354,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -2422,7 +2422,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -2490,7 +2490,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -2761,7 +2761,7 @@
             	if (!empty($result)) {
             	   foreach ($result as $row) {
             		   // is current user a member of the Sales role?
-            		   if (($row['role_name'] === '346') || ($row['role_name'] === '347')) {
+            		   if ($row['role_name'] === '346') {
             			 // if yes, allow all actions.
             			 // otherwise default permissions for this page will be applied
             			 $permissions->setGrants(true, true, true, true);
@@ -2772,25 +2772,6 @@
             
             	// apply the new permissions
             	$handled = true;
-            }
-            
-            
-                // iterating through retrieved roles
-                if (!empty($result)) {
-                   foreach ($result as $row) {
-                       // is current user a member of the Sales role?
-                       if (($row['role_name'] === 'manager') || ($row['role_name'] === 'regional marketing')) {
-                         // if yes, allow all actions.
-                         // otherwise default permissions for this page will be applied
-                         $permissions->setGrants(true, true, true, true);
-                         break;
-                       }                 
-                   }
-                };    
-            
-                // apply the new permissions
-                $handled = true;
-            
             }
         }
     

@@ -226,7 +226,7 @@
             $this->dataset->addFields(
                 array(
                     new IntegerField('campaign_tracker_local_id', true, true, true),
-                    new DateField('campaign_publish_date'),
+                    new DateField('a_campaign_publish_date'),
                     new StringField('campaign_description'),
                     new StringField('created_by'),
                     new StringField('Region', true),
@@ -237,6 +237,7 @@
             );
             $this->dataset->AddLookupField('campaign_tracker_local_id', 'campaign_tracker_comms_local', new IntegerField('campaign_tracker_local_id'), new StringField('email_name', false, false, false, false, 'campaign_tracker_local_id_email_name', 'campaign_tracker_local_id_email_name_campaign_tracker_comms_local'), 'campaign_tracker_local_id_email_name_campaign_tracker_comms_local');
             $this->dataset->AddLookupField('approver', 'phpgen_users', new IntegerField('user_id'), new StringField('user_name', false, false, false, false, 'approver_user_name', 'approver_user_name_phpgen_users'), 'approver_user_name_phpgen_users');
+            $this->dataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'a_campaign_publish_date > CURDATE()'));
             if (!$this->GetSecurityInfo()->HasAdminGrant()) {
                 $this->dataset->setRlsPolicy(new RlsPolicy('created_by', GetApplication()->GetCurrentUserId()));
             }
@@ -278,12 +279,12 @@
         {
             return array(
                 new FilterColumn($this->dataset, 'campaign_tracker_local_id', 'campaign_tracker_local_id_email_name', 'Campaign Builder'),
-                new FilterColumn($this->dataset, 'campaign_publish_date', 'campaign_publish_date', 'Campaign Publish Date'),
-                new FilterColumn($this->dataset, 'campaign_description', 'campaign_description', 'Campaign Description'),
+                new FilterColumn($this->dataset, 'campaign_description', 'campaign_description', 'Email Description'),
+                new FilterColumn($this->dataset, 'a_campaign_publish_date', 'a_campaign_publish_date', 'Email Send Date'),
                 new FilterColumn($this->dataset, 'Region', 'Region', 'Region'),
                 new FilterColumn($this->dataset, 'region_approval', 'region_approval', 'Region Approval'),
                 new FilterColumn($this->dataset, 'approver', 'approver_user_name', 'Approver'),
-                new FilterColumn($this->dataset, 'created_by', 'created_by', 'Created By'),
+                new FilterColumn($this->dataset, 'created_by', 'created_by', 'Requested By'),
                 new FilterColumn($this->dataset, 'complete', 'complete', 'Complete')
             );
         }
@@ -292,8 +293,8 @@
         {
             $quickFilter
                 ->addColumn($columns['campaign_tracker_local_id'])
-                ->addColumn($columns['campaign_publish_date'])
                 ->addColumn($columns['campaign_description'])
+                ->addColumn($columns['a_campaign_publish_date'])
                 ->addColumn($columns['Region'])
                 ->addColumn($columns['region_approval'])
                 ->addColumn($columns['approver'])
@@ -305,7 +306,7 @@
         {
             $columnFilter
                 ->setOptionsFor('campaign_tracker_local_id')
-                ->setOptionsFor('campaign_publish_date')
+                ->setOptionsFor('a_campaign_publish_date')
                 ->setOptionsFor('Region')
                 ->setOptionsFor('region_approval')
                 ->setOptionsFor('approver');
@@ -340,27 +341,6 @@
                 )
             );
             
-            $main_editor = new DateTimeEdit('campaign_publish_date_edit', false, 'd-m-Y');
-            
-            $filterBuilder->addColumn(
-                $columns['campaign_publish_date'],
-                array(
-                    FilterConditionOperator::EQUALS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::DATE_EQUALS => $main_editor,
-                    FilterConditionOperator::DATE_DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::TODAY => null,
-                    FilterConditionOperator::IS_BLANK => null,
-                    FilterConditionOperator::IS_NOT_BLANK => null
-                )
-            );
-            
             $main_editor = new TextEdit('campaign_description_edit');
             $main_editor->SetMaxLength(100);
             
@@ -381,6 +361,27 @@
                     FilterConditionOperator::ENDS_WITH => $main_editor,
                     FilterConditionOperator::IS_LIKE => $main_editor,
                     FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new DateTimeEdit('a_campaign_publish_date_edit', false, 'd-m-Y');
+            
+            $filterBuilder->addColumn(
+                $columns['a_campaign_publish_date'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::DATE_EQUALS => $main_editor,
+                    FilterConditionOperator::DATE_DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::TODAY => null,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -557,25 +558,24 @@
             $grid->AddViewColumn($column);
             
             //
-            // View column for campaign_publish_date field
+            // View column for campaign_description field
             //
-            $column = new DateTimeViewColumn('campaign_publish_date', 'campaign_publish_date', 'Campaign Publish Date', $this->dataset);
+            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Email Description', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
-            $column->SetDateTimeFormat('d-m-Y');
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_comm_regional_approval_campaign_description_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
             $grid->AddViewColumn($column);
             
             //
-            // View column for campaign_description field
+            // View column for a_campaign_publish_date field
             //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
+            $column = new DateTimeViewColumn('a_campaign_publish_date', 'a_campaign_publish_date', 'Email Send Date', $this->dataset);
             $column->SetOrderable(true);
-            $column->setAlign('left');
-            $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_comm_regional_approval_campaign_description_handler_list');
+            $column->SetDateTimeFormat('d-m-Y');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -620,7 +620,7 @@
             //
             // View column for created_by field
             //
-            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
+            $column = new TextViewColumn('created_by', 'created_by', 'Requested By', $this->dataset);
             $column->SetOrderable(true);
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
@@ -649,20 +649,20 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for campaign_publish_date field
-            //
-            $column = new DateTimeViewColumn('campaign_publish_date', 'campaign_publish_date', 'Campaign Publish Date', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetDateTimeFormat('d-m-Y');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
             // View column for campaign_description field
             //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
+            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Email Description', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_comm_regional_approval_campaign_description_handler_view');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for a_campaign_publish_date field
+            //
+            $column = new DateTimeViewColumn('a_campaign_publish_date', 'a_campaign_publish_date', 'Email Send Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -693,7 +693,7 @@
             //
             // View column for created_by field
             //
-            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
+            $column = new TextViewColumn('created_by', 'created_by', 'Requested By', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
             
@@ -707,6 +707,15 @@
     
         protected function AddEditColumns(Grid $grid)
         {
+            //
+            // Edit column for a_campaign_publish_date field
+            //
+            $editor = new DateTimeEdit('a_campaign_publish_date_edit', false, 'd-m-Y');
+            $editColumn = new CustomEditColumn('Email Send Date', 'a_campaign_publish_date', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
             //
             // Edit column for region_approval field
             //
@@ -726,7 +735,7 @@
             //
             $editor = new TextEdit('created_by_edit');
             $editor->SetMaxLength(45);
-            $editColumn = new CustomEditColumn('Created By', 'created_by', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('Requested By', 'created_by', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -747,22 +756,21 @@
         protected function AddMultiEditColumns(Grid $grid)
         {
             //
-            // Edit column for campaign_publish_date field
+            // Edit column for campaign_description field
             //
-            $editor = new DateTimeEdit('campaign_publish_date_edit', false, 'd-m-Y');
-            $editColumn = new CustomEditColumn('Campaign Publish Date', 'campaign_publish_date', $editor, $this->dataset);
+            $editor = new TextEdit('campaign_description_edit');
+            $editor->SetMaxLength(100);
+            $editColumn = new CustomEditColumn('Email Description', 'campaign_description', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
             
             //
-            // Edit column for campaign_description field
+            // Edit column for a_campaign_publish_date field
             //
-            $editor = new TextEdit('campaign_description_edit');
-            $editor->SetMaxLength(100);
-            $editColumn = new CustomEditColumn('Campaign Description', 'campaign_description', $editor, $this->dataset);
-            $editColumn->SetReadOnly(true);
+            $editor = new DateTimeEdit('a_campaign_publish_date_edit', false, 'd-m-Y');
+            $editColumn = new CustomEditColumn('Email Send Date', 'a_campaign_publish_date', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -827,7 +835,7 @@
             //
             $editor = new TextEdit('created_by_edit');
             $editor->SetMaxLength(45);
-            $editColumn = new CustomEditColumn('Created By', 'created_by', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('Requested By', 'created_by', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -848,22 +856,21 @@
         protected function AddInsertColumns(Grid $grid)
         {
             //
-            // Edit column for campaign_publish_date field
+            // Edit column for campaign_description field
             //
-            $editor = new DateTimeEdit('campaign_publish_date_edit', false, 'd-m-Y');
-            $editColumn = new CustomEditColumn('Campaign Publish Date', 'campaign_publish_date', $editor, $this->dataset);
+            $editor = new TextEdit('campaign_description_edit');
+            $editor->SetMaxLength(100);
+            $editColumn = new CustomEditColumn('Email Description', 'campaign_description', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
             
             //
-            // Edit column for campaign_description field
+            // Edit column for a_campaign_publish_date field
             //
-            $editor = new TextEdit('campaign_description_edit');
-            $editor->SetMaxLength(100);
-            $editColumn = new CustomEditColumn('Campaign Description', 'campaign_description', $editor, $this->dataset);
-            $editColumn->SetReadOnly(true);
+            $editor = new DateTimeEdit('a_campaign_publish_date_edit', false, 'd-m-Y');
+            $editColumn = new CustomEditColumn('Email Send Date', 'a_campaign_publish_date', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -929,7 +936,7 @@
             //
             $editor = new TextEdit('created_by_edit');
             $editor->SetMaxLength(45);
-            $editColumn = new CustomEditColumn('Created By', 'created_by', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('Requested By', 'created_by', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -963,22 +970,21 @@
             $grid->AddPrintColumn($column);
             
             //
-            // View column for campaign_publish_date field
-            //
-            $column = new DateTimeViewColumn('campaign_publish_date', 'campaign_publish_date', 'Campaign Publish Date', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $column->SetDateTimeFormat('d-m-Y');
-            $grid->AddPrintColumn($column);
-            
-            //
             // View column for campaign_description field
             //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
+            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Email Description', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_comm_regional_approval_campaign_description_handler_print');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for a_campaign_publish_date field
+            //
+            $column = new DateTimeViewColumn('a_campaign_publish_date', 'a_campaign_publish_date', 'Email Send Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y');
             $grid->AddPrintColumn($column);
             
             //
@@ -1011,7 +1017,7 @@
             //
             // View column for created_by field
             //
-            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
+            $column = new TextViewColumn('created_by', 'created_by', 'Requested By', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddPrintColumn($column);
             
@@ -1033,22 +1039,21 @@
             $grid->AddExportColumn($column);
             
             //
-            // View column for campaign_publish_date field
-            //
-            $column = new DateTimeViewColumn('campaign_publish_date', 'campaign_publish_date', 'Campaign Publish Date', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $column->SetDateTimeFormat('d-m-Y');
-            $grid->AddExportColumn($column);
-            
-            //
             // View column for campaign_description field
             //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
+            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Email Description', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_comm_regional_approval_campaign_description_handler_export');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for a_campaign_publish_date field
+            //
+            $column = new DateTimeViewColumn('a_campaign_publish_date', 'a_campaign_publish_date', 'Email Send Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y');
             $grid->AddExportColumn($column);
             
             //
@@ -1081,7 +1086,7 @@
             //
             // View column for created_by field
             //
-            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
+            $column = new TextViewColumn('created_by', 'created_by', 'Requested By', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddExportColumn($column);
             
@@ -1096,22 +1101,21 @@
         private function AddCompareColumns(Grid $grid)
         {
             //
-            // View column for campaign_publish_date field
-            //
-            $column = new DateTimeViewColumn('campaign_publish_date', 'campaign_publish_date', 'Campaign Publish Date', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $column->SetDateTimeFormat('d-m-Y');
-            $grid->AddCompareColumn($column);
-            
-            //
             // View column for campaign_description field
             //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
+            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Email Description', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_comm_regional_approval_campaign_description_handler_compare');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for a_campaign_publish_date field
+            //
+            $column = new DateTimeViewColumn('a_campaign_publish_date', 'a_campaign_publish_date', 'Email Send Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y');
             $grid->AddCompareColumn($column);
             
             //
@@ -1144,7 +1148,7 @@
             //
             // View column for created_by field
             //
-            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
+            $column = new TextViewColumn('created_by', 'created_by', 'Requested By', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddCompareColumn($column);
             
@@ -1280,7 +1284,7 @@
             //
             // View column for campaign_description field
             //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
+            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Email Description', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_comm_regional_approval_campaign_description_handler_list', $column);
@@ -1289,7 +1293,7 @@
             //
             // View column for campaign_description field
             //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
+            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Email Description', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_comm_regional_approval_campaign_description_handler_print', $column);
@@ -1298,7 +1302,7 @@
             //
             // View column for campaign_description field
             //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
+            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Email Description', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_comm_regional_approval_campaign_description_handler_compare', $column);
@@ -1380,7 +1384,7 @@
             //
             // View column for campaign_description field
             //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
+            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Email Description', $this->dataset);
             $column->SetOrderable(true);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_comm_regional_approval_campaign_description_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);

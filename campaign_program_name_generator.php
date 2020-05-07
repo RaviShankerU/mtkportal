@@ -140,10 +140,7 @@
                 ->addColumn($columns['modified_by'])
                 ->addColumn($columns['modified_date'])
                 ->addColumn($columns['show_events_cal'])
-                ->addColumn($columns['cregion'])
-                ->addColumn($columns['region_approval'])
-                ->addColumn($columns['region_approved_by'])
-                ->addColumn($columns['region_approved_date']);
+                ->addColumn($columns['cregion']);
         }
     
         protected function setupColumnFilter(ColumnFilter $columnFilter)
@@ -154,8 +151,7 @@
                 ->setOptionsFor('campaign_publish_date')
                 ->setOptionsFor('tracker_status')
                 ->setOptionsFor('campaign_utm_id')
-                ->setOptionsFor('modified_date')
-                ->setOptionsFor('region_approved_date');
+                ->setOptionsFor('modified_date');
         }
     
         protected function setupFilterBuilder(FilterBuilder $filterBuilder, FixedKeysArray $columns)
@@ -429,19 +425,16 @@
                 )
             );
             
-            $main_editor = new TextEdit('show_events_cal_edit');
+            $main_editor = new ComboBox('show_events_cal');
+            $main_editor->SetAllowNullValue(false);
+            $main_editor->addChoice(true, $this->GetLocalizerCaptions()->GetMessageString('True'));
+            $main_editor->addChoice(false, $this->GetLocalizerCaptions()->GetMessageString('False'));
             
             $filterBuilder->addColumn(
                 $columns['show_events_cal'],
                 array(
                     FilterConditionOperator::EQUALS => $main_editor,
                     FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -706,40 +699,6 @@
             $column->SetDescription('');
             $column->SetFixedWidth(null);
             $grid->AddViewColumn($column);
-            
-            //
-            // View column for region_approval field
-            //
-            $column = new NumberViewColumn('region_approval', 'region_approval', 'Region Approval', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for region_approved_by field
-            //
-            $column = new TextViewColumn('region_approved_by', 'region_approved_by', 'Region Approved By', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for region_approved_date field
-            //
-            $column = new DateTimeViewColumn('region_approved_date', 'region_approved_date', 'Region Approved Date', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetDateTimeFormat('d-m-Y H:i:s');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
         }
     
         protected function AddSingleRecordViewColumns(Grid $grid)
@@ -838,31 +797,6 @@
             $column = new TextViewColumn('cregion', 'cregion_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for region_approval field
-            //
-            $column = new NumberViewColumn('region_approval', 'region_approval', 'Region Approval', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for region_approved_by field
-            //
-            $column = new TextViewColumn('region_approved_by', 'region_approved_by', 'Region Approved By', $this->dataset);
-            $column->SetOrderable(true);
-            $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for region_approved_date field
-            //
-            $column = new DateTimeViewColumn('region_approved_date', 'region_approved_date', 'Region Approved Date', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetDateTimeFormat('d-m-Y H:i:s');
-            $grid->AddSingleRecordViewColumn($column);
         }
     
         protected function AddEditColumns(Grid $grid)
@@ -892,7 +826,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -957,6 +891,7 @@
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Brief Request', 'master_campaign_id', 'master_campaign_id_campaign_name', 'edit_campaign_program_name_generator_campaign_tracker_comms_local_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
             $editColumn->SetReadOnly(true);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -1097,7 +1032,7 @@
             //
             // Edit column for show_events_cal field
             //
-            $editor = new TextEdit('show_events_cal_edit');
+            $editor = new CheckBox('show_events_cal_edit');
             $editColumn = new CustomEditColumn('Show Events Cal', 'show_events_cal', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -1122,34 +1057,7 @@
             );
             $lookupDataset->setOrderByField('Region', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Region', 'cregion', 'cregion_Region', '_campaign_program_name_generator_campaign_tracker_comms_local_cregion_search', $editor, $this->dataset, $lookupDataset, 'Region_Value', 'Region', '');
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for region_approval field
-            //
-            $editor = new TextEdit('region_approval_edit');
-            $editColumn = new CustomEditColumn('Region Approval', 'region_approval', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for region_approved_by field
-            //
-            $editor = new TextEdit('region_approved_by_edit');
-            $editor->SetMaxLength(65);
-            $editColumn = new CustomEditColumn('Region Approved By', 'region_approved_by', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for region_approved_date field
-            //
-            $editor = new DateTimeEdit('region_approved_date_edit', false, 'd-m-Y H:i:s');
-            $editColumn = new CustomEditColumn('Region Approved Date', 'region_approved_date', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -1182,7 +1090,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -1247,6 +1155,7 @@
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Brief Request', 'master_campaign_id', 'master_campaign_id_campaign_name', 'multi_edit_campaign_program_name_generator_campaign_tracker_comms_local_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
             $editColumn->SetReadOnly(true);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -1387,7 +1296,7 @@
             //
             // Edit column for show_events_cal field
             //
-            $editor = new TextEdit('show_events_cal_edit');
+            $editor = new CheckBox('show_events_cal_edit');
             $editColumn = new CustomEditColumn('Show Events Cal', 'show_events_cal', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -1412,34 +1321,7 @@
             );
             $lookupDataset->setOrderByField('Region', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Region', 'cregion', 'cregion_Region', 'multi_edit_campaign_program_name_generator_campaign_tracker_comms_local_cregion_search', $editor, $this->dataset, $lookupDataset, 'Region_Value', 'Region', '');
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for region_approval field
-            //
-            $editor = new TextEdit('region_approval_edit');
-            $editColumn = new CustomEditColumn('Region Approval', 'region_approval', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for region_approved_by field
-            //
-            $editor = new TextEdit('region_approved_by_edit');
-            $editor->SetMaxLength(65);
-            $editColumn = new CustomEditColumn('Region Approved By', 'region_approved_by', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for region_approved_date field
-            //
-            $editor = new DateTimeEdit('region_approved_date_edit', false, 'd-m-Y H:i:s');
-            $editColumn = new CustomEditColumn('Region Approved Date', 'region_approved_date', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -1472,7 +1354,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -1537,6 +1419,7 @@
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Brief Request', 'master_campaign_id', 'master_campaign_id_campaign_name', 'insert_campaign_program_name_generator_campaign_tracker_comms_local_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
             $editColumn->SetReadOnly(true);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -1679,7 +1562,7 @@
             //
             // Edit column for show_events_cal field
             //
-            $editor = new TextEdit('show_events_cal_edit');
+            $editor = new CheckBox('show_events_cal_edit');
             $editColumn = new CustomEditColumn('Show Events Cal', 'show_events_cal', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -1704,34 +1587,7 @@
             );
             $lookupDataset->setOrderByField('Region', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Region', 'cregion', 'cregion_Region', 'insert_campaign_program_name_generator_campaign_tracker_comms_local_cregion_search', $editor, $this->dataset, $lookupDataset, 'Region_Value', 'Region', '');
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for region_approval field
-            //
-            $editor = new TextEdit('region_approval_edit');
-            $editColumn = new CustomEditColumn('Region Approval', 'region_approval', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for region_approved_by field
-            //
-            $editor = new TextEdit('region_approved_by_edit');
-            $editor->SetMaxLength(65);
-            $editColumn = new CustomEditColumn('Region Approved By', 'region_approved_by', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for region_approved_date field
-            //
-            $editor = new DateTimeEdit('region_approved_date_edit', false, 'd-m-Y H:i:s');
-            $editColumn = new CustomEditColumn('Region Approved Date', 'region_approved_date', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -2299,7 +2155,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -2443,7 +2299,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -2603,7 +2459,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -2747,7 +2603,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -3171,7 +3027,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -3982,7 +3838,7 @@
                     new StringField('territory'),
                     new StringField('country'),
                     new StringField('industry'),
-                    new IntegerField('job_function'),
+                    new StringField('job_function'),
                     new StringField('campaign_type'),
                     new StringField('product'),
                     new StringField('m_ID'),
@@ -4003,11 +3859,9 @@
             $this->dataset->AddLookupField('pregion', 'lookup_region', new StringField('Region_Value'), new StringField('Region', false, false, false, false, 'pregion_Region', 'pregion_Region_lookup_region'), 'pregion_Region_lookup_region');
             $this->dataset->AddLookupField('sub_region', 'lookup_sub_regions', new StringField('Sub_Region_Value'), new StringField('Sub_Region', false, false, false, false, 'sub_region_Sub_Region', 'sub_region_Sub_Region_lookup_sub_regions'), 'sub_region_Sub_Region_lookup_sub_regions');
             $this->dataset->AddLookupField('territory', 'lookup_territory', new StringField('Territory_Value'), new StringField('Territory', false, false, false, false, 'territory_Territory', 'territory_Territory_lookup_territory'), 'territory_Territory_lookup_territory');
-            $this->dataset->AddLookupField('industry', 'lookup_industries', new IntegerField('Industry_ID'), new StringField('Industry_Name', false, false, false, false, 'industry_Industry_Name', 'industry_Industry_Name_lookup_industries'), 'industry_Industry_Name_lookup_industries');
-            $this->dataset->AddLookupField('job_function', 'lookup_job_functions', new IntegerField('Job_Functions_ID'), new StringField('Job Function', false, false, false, false, 'job_function_Job Function', 'job_function_Job Function_lookup_job_functions'), 'job_function_Job Function_lookup_job_functions');
-            $this->dataset->AddLookupField('product', 'lookup_products', new StringField('Product_Value'), new StringField('Product', false, false, false, false, 'product_Product', 'product_Product_lookup_products'), 'product_Product_lookup_products');
             $this->dataset->AddLookupField('emails_tracker', 'lookup_email_tracker', new IntegerField('qty'), new StringField('email_tracker_description', false, false, false, false, 'emails_tracker_email_tracker_description', 'emails_tracker_email_tracker_description_lookup_email_tracker'), 'emails_tracker_email_tracker_description_lookup_email_tracker');
             $this->dataset->AddLookupField('created_by', 'phpgen_users', new IntegerField('user_id'), new StringField('user_name', false, false, false, false, 'created_by_user_name', 'created_by_user_name_phpgen_users'), 'created_by_user_name_phpgen_users');
+            $this->dataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'campaign_publish_date > CURDATE()'));
             if (!$this->GetSecurityInfo()->HasAdminGrant()) {
                 $this->dataset->setRlsPolicy(new RlsPolicy('created_by', GetApplication()->GetCurrentUserId()));
             }
@@ -4061,13 +3915,13 @@
                 new FilterColumn($this->dataset, 'sub_region', 'sub_region_Sub_Region', 'Sub Region'),
                 new FilterColumn($this->dataset, 'territory', 'territory_Territory', 'Territory'),
                 new FilterColumn($this->dataset, 'country', 'country', 'Country'),
-                new FilterColumn($this->dataset, 'industry', 'industry_Industry_Name', 'Industry'),
-                new FilterColumn($this->dataset, 'job_function', 'job_function_Job Function', 'Job Function'),
-                new FilterColumn($this->dataset, 'product', 'product_Product', 'Product'),
+                new FilterColumn($this->dataset, 'industry', 'industry', 'Industry'),
+                new FilterColumn($this->dataset, 'job_function', 'job_function', 'Job Function'),
+                new FilterColumn($this->dataset, 'product', 'product', 'Product'),
                 new FilterColumn($this->dataset, 'm_ID', 'm_ID', 'M ID'),
                 new FilterColumn($this->dataset, 'import_total', 'import_total', 'Import Total'),
                 new FilterColumn($this->dataset, 'create_import_list', 'create_import_list', 'Create Import List'),
-                new FilterColumn($this->dataset, 'campaign_publish_date', 'campaign_publish_date', 'Go Live Date'),
+                new FilterColumn($this->dataset, 'campaign_publish_date', 'campaign_publish_date', 'Campaign Launch Date'),
                 new FilterColumn($this->dataset, 'emails_tracker', 'emails_tracker_email_tracker_description', 'Emails Tracker'),
                 new FilterColumn($this->dataset, 'created_by', 'created_by_user_name', 'Created By'),
                 new FilterColumn($this->dataset, 'created_date', 'created_date', 'Created Date'),
@@ -4171,6 +4025,7 @@
             );
             
             $main_editor = new TextEdit('campaign_program_name_edit');
+            $main_editor->SetPlaceholder('[ System generated Marketo campaign name ]');
             
             $filterBuilder->addColumn(
                 $columns['campaign_program_name'],
@@ -4196,6 +4051,7 @@
             
             $main_editor = new TextEdit('sfdc_child_campaign_edit');
             $main_editor->SetMaxLength(18);
+            $main_editor->SetPlaceholder('[ System generated SFDC campaign ]');
             
             $filterBuilder->addColumn(
                 $columns['SFDC_child_campaign'],
@@ -4440,14 +4296,9 @@
                 )
             );
             
-            $main_editor = new DynamicCombobox('industry_edit', $this->CreateLinkBuilder());
-            $main_editor->setAllowClear(true);
-            $main_editor->setMinimumInputLength(0);
-            $main_editor->SetAllowNullValue(false);
-            $main_editor->SetHandlerName('filter_builder_campaign_program_name_generator_industry_search');
-            
-            $multi_value_select_editor = new RemoteMultiValueSelect('industry', $this->CreateLinkBuilder());
-            $multi_value_select_editor->SetHandlerName('filter_builder_campaign_program_name_generator_industry_search');
+            $main_editor = new RemoteMultiValueSelect('industry_edit', $this->CreateLinkBuilder());
+            $main_editor->SetHandlerName('filter_builder_industry_Industry_ID_Industry_Name_search');
+            $main_editor->setMaxSelectionSize(0);
             
             $text_editor = new TextEdit('industry');
             
@@ -4468,21 +4319,14 @@
                     FilterConditionOperator::ENDS_WITH => $text_editor,
                     FilterConditionOperator::IS_LIKE => $text_editor,
                     FilterConditionOperator::IS_NOT_LIKE => $text_editor,
-                    FilterConditionOperator::IN => $multi_value_select_editor,
-                    FilterConditionOperator::NOT_IN => $multi_value_select_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
             );
             
-            $main_editor = new DynamicCombobox('job_function_edit', $this->CreateLinkBuilder());
-            $main_editor->setAllowClear(true);
-            $main_editor->setMinimumInputLength(0);
-            $main_editor->SetAllowNullValue(false);
-            $main_editor->SetHandlerName('filter_builder_campaign_program_name_generator_job_function_search');
-            
-            $multi_value_select_editor = new RemoteMultiValueSelect('job_function', $this->CreateLinkBuilder());
-            $multi_value_select_editor->SetHandlerName('filter_builder_campaign_program_name_generator_job_function_search');
+            $main_editor = new RemoteMultiValueSelect('job_function_edit', $this->CreateLinkBuilder());
+            $main_editor->SetHandlerName('filter_builder_job_function_Job_Functions_ID_Job Function_search');
+            $main_editor->setMaxSelectionSize(0);
             
             $filterBuilder->addColumn(
                 $columns['job_function'],
@@ -4495,21 +4339,14 @@
                     FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
                     FilterConditionOperator::IS_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::IN => $multi_value_select_editor,
-                    FilterConditionOperator::NOT_IN => $multi_value_select_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
             );
             
-            $main_editor = new DynamicCombobox('product_edit', $this->CreateLinkBuilder());
-            $main_editor->setAllowClear(true);
-            $main_editor->setMinimumInputLength(0);
-            $main_editor->SetAllowNullValue(false);
-            $main_editor->SetHandlerName('filter_builder_campaign_program_name_generator_product_search');
-            
-            $multi_value_select_editor = new RemoteMultiValueSelect('product', $this->CreateLinkBuilder());
-            $multi_value_select_editor->SetHandlerName('filter_builder_campaign_program_name_generator_product_search');
+            $main_editor = new RemoteMultiValueSelect('product_edit', $this->CreateLinkBuilder());
+            $main_editor->SetHandlerName('filter_builder_product_Product_ID_Product_search');
+            $main_editor->setMaxSelectionSize(0);
             
             $text_editor = new TextEdit('product');
             
@@ -4530,8 +4367,6 @@
                     FilterConditionOperator::ENDS_WITH => $text_editor,
                     FilterConditionOperator::IS_LIKE => $text_editor,
                     FilterConditionOperator::IS_NOT_LIKE => $text_editor,
-                    FilterConditionOperator::IN => $multi_value_select_editor,
-                    FilterConditionOperator::NOT_IN => $multi_value_select_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -4867,7 +4702,7 @@
             //
             // View column for campaign_publish_date field
             //
-            $column = new DateTimeViewColumn('campaign_publish_date', 'campaign_publish_date', 'Published On', $this->dataset);
+            $column = new DateTimeViewColumn('campaign_publish_date', 'campaign_publish_date', 'Campaign Launch Date', $this->dataset);
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
@@ -4988,25 +4823,28 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for Industry_Name field
+            // View column for industry field
             //
-            $column = new TextViewColumn('industry', 'industry_Industry_Name', 'Industry', $this->dataset);
+            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_program_name_generator_industry_Industry_Name_handler_');
+            $column->SetFullTextWindowHandlerName('campaign_program_name_generator_industry_handler_');
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for Job Function field
+            // View column for job_function field
             //
-            $column = new TextViewColumn('job_function', 'job_function_Job Function', 'Job Function', $this->dataset);
+            $column = new NumberViewColumn('job_function', 'job_function', 'Job Function', $this->dataset);
             $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(2);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('.');
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for Product field
+            // View column for product field
             //
-            $column = new TextViewColumn('product', 'product_Product', 'Product', $this->dataset);
+            $column = new TextViewColumn('product', 'product', 'Product', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
             
@@ -5040,7 +4878,7 @@
             //
             // View column for campaign_publish_date field
             //
-            $column = new DateTimeViewColumn('campaign_publish_date', 'campaign_publish_date', 'Published On', $this->dataset);
+            $column = new DateTimeViewColumn('campaign_publish_date', 'campaign_publish_date', 'Campaign Launch Date', $this->dataset);
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y');
             $grid->AddSingleRecordViewColumn($column);
@@ -5128,6 +4966,8 @@
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Do you have brief request?', 'master_campaign_id', 'master_campaign_id_campaign_name', 'edit_campaign_program_name_generator_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
+            $editColumn->SetReadOnly(true);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -5190,6 +5030,8 @@
             );
             $lookupDataset->setOrderByField('Event_Name', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Do you have an associated Event to link?', 'campaign_event_id', 'campaign_event_id_Event_Name', 'edit_campaign_program_name_generator_campaign_event_id_search', $editor, $this->dataset, $lookupDataset, 'campaign_event_id', 'Event_Name', '');
+            $editColumn->SetReadOnly(true);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -5198,6 +5040,7 @@
             // Edit column for campaign_program_name field
             //
             $editor = new TextEdit('campaign_program_name_edit');
+            $editor->SetPlaceholder('[ System generated Marketo campaign name ]');
             $editColumn = new CustomEditColumn('Campaign Program Name', 'campaign_program_name', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
@@ -5209,7 +5052,9 @@
             //
             $editor = new TextEdit('sfdc_child_campaign_edit');
             $editor->SetMaxLength(18);
+            $editor->SetPlaceholder('[ System generated SFDC campaign ]');
             $editColumn = new CustomEditColumn('SFDC Campaign Name', 'SFDC_child_campaign', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -5268,7 +5113,8 @@
             $editor->SetMaxLength(45);
             $editor->setMinimumInputLength(4);
             $editColumn = new CustomEditColumn('Short Description', 'short_description', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
@@ -5358,21 +5204,10 @@
             //
             // Edit column for industry field
             //
-            $editor = new DynamicCombobox('industry_edit', $this->CreateLinkBuilder());
-            $editor->setAllowClear(true);
-            $editor->setMinimumInputLength(0);
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`lookup_industries`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('Industry_ID', true, true, true),
-                    new StringField('Industry_Name')
-                )
-            );
-            $lookupDataset->setOrderByField('Industry_Name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Industry', 'industry', 'industry_Industry_Name', 'edit_campaign_program_name_generator_industry_search', $editor, $this->dataset, $lookupDataset, 'Industry_ID', 'Industry_Name', '');
+            $editor = new RemoteMultiValueSelect('industry_edit', $this->CreateLinkBuilder());
+            $editor->SetHandlerName('edit_industry_Industry_ID_Industry_Name_search');
+            $editor->setMaxSelectionSize(0);
+            $editColumn = new CustomEditColumn('Industry', 'industry', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -5380,21 +5215,10 @@
             //
             // Edit column for job_function field
             //
-            $editor = new DynamicCombobox('job_function_edit', $this->CreateLinkBuilder());
-            $editor->setAllowClear(true);
-            $editor->setMinimumInputLength(0);
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`lookup_job_functions`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('Job_Functions_ID', true, true, true),
-                    new StringField('Job Function')
-                )
-            );
-            $lookupDataset->setOrderByField('Job Function', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Job Function', 'job_function', 'job_function_Job Function', 'edit_campaign_program_name_generator_job_function_search', $editor, $this->dataset, $lookupDataset, 'Job_Functions_ID', 'Job Function', '');
+            $editor = new RemoteMultiValueSelect('job_function_edit', $this->CreateLinkBuilder());
+            $editor->SetHandlerName('edit_job_function_Job_Functions_ID_Job Function_search');
+            $editor->setMaxSelectionSize(0);
+            $editColumn = new CustomEditColumn('Job Function', 'job_function', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -5402,22 +5226,10 @@
             //
             // Edit column for product field
             //
-            $editor = new DynamicCombobox('product_edit', $this->CreateLinkBuilder());
-            $editor->setAllowClear(true);
-            $editor->setMinimumInputLength(0);
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`lookup_products`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('Product_ID', true, true, true),
-                    new StringField('Product'),
-                    new StringField('Product_Value')
-                )
-            );
-            $lookupDataset->setOrderByField('Product', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Product', 'product', 'product_Product', 'edit_campaign_program_name_generator_product_search', $editor, $this->dataset, $lookupDataset, 'Product_Value', 'Product', '');
+            $editor = new RemoteMultiValueSelect('product_edit', $this->CreateLinkBuilder());
+            $editor->SetHandlerName('edit_product_Product_ID_Product_search');
+            $editor->setMaxSelectionSize(0);
+            $editColumn = new CustomEditColumn('Product', 'product', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -5428,6 +5240,8 @@
             $editor = new TextEdit('m_id_edit');
             $editor->SetMaxLength(11);
             $editColumn = new CustomEditColumn('M ID', 'm_ID', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -5457,8 +5271,9 @@
             // Edit column for campaign_publish_date field
             //
             $editor = new DateTimeEdit('campaign_publish_date_edit', false, 'd-m-Y');
-            $editColumn = new CustomEditColumn('Go Live Date', 'campaign_publish_date', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
+            $editColumn = new CustomEditColumn('Campaign Launch Date', 'campaign_publish_date', $editor, $this->dataset);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
@@ -5553,6 +5368,8 @@
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Brief Request', 'master_campaign_id', 'master_campaign_id_campaign_name', 'multi_edit_campaign_program_name_generator_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
+            $editColumn->SetReadOnly(true);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -5615,6 +5432,8 @@
             );
             $lookupDataset->setOrderByField('Event_Name', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Campaign Event', 'campaign_event_id', 'campaign_event_id_Event_Name', 'multi_edit_campaign_program_name_generator_campaign_event_id_search', $editor, $this->dataset, $lookupDataset, 'campaign_event_id', 'Event_Name', '');
+            $editColumn->SetReadOnly(true);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -5623,6 +5442,7 @@
             // Edit column for campaign_program_name field
             //
             $editor = new TextEdit('campaign_program_name_edit');
+            $editor->SetPlaceholder('[ System generated Marketo campaign name ]');
             $editColumn = new CustomEditColumn('Campaign Program Name', 'campaign_program_name', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
@@ -5634,7 +5454,9 @@
             //
             $editor = new TextEdit('sfdc_child_campaign_edit');
             $editor->SetMaxLength(18);
+            $editor->SetPlaceholder('[ System generated SFDC campaign ]');
             $editColumn = new CustomEditColumn('SFDC Campaign Name', 'SFDC_child_campaign', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -5693,7 +5515,8 @@
             $editor->SetMaxLength(45);
             $editor->setMinimumInputLength(4);
             $editColumn = new CustomEditColumn('Short Description', 'short_description', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
             
@@ -5783,21 +5606,10 @@
             //
             // Edit column for industry field
             //
-            $editor = new DynamicCombobox('industry_edit', $this->CreateLinkBuilder());
-            $editor->setAllowClear(true);
-            $editor->setMinimumInputLength(0);
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`lookup_industries`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('Industry_ID', true, true, true),
-                    new StringField('Industry_Name')
-                )
-            );
-            $lookupDataset->setOrderByField('Industry_Name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Industry', 'industry', 'industry_Industry_Name', 'multi_edit_campaign_program_name_generator_industry_search', $editor, $this->dataset, $lookupDataset, 'Industry_ID', 'Industry_Name', '');
+            $editor = new RemoteMultiValueSelect('industry_edit', $this->CreateLinkBuilder());
+            $editor->SetHandlerName('multi_edit_industry_Industry_ID_Industry_Name_search');
+            $editor->setMaxSelectionSize(0);
+            $editColumn = new CustomEditColumn('Industry', 'industry', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -5805,21 +5617,10 @@
             //
             // Edit column for job_function field
             //
-            $editor = new DynamicCombobox('job_function_edit', $this->CreateLinkBuilder());
-            $editor->setAllowClear(true);
-            $editor->setMinimumInputLength(0);
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`lookup_job_functions`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('Job_Functions_ID', true, true, true),
-                    new StringField('Job Function')
-                )
-            );
-            $lookupDataset->setOrderByField('Job Function', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Job Function', 'job_function', 'job_function_Job Function', 'multi_edit_campaign_program_name_generator_job_function_search', $editor, $this->dataset, $lookupDataset, 'Job_Functions_ID', 'Job Function', '');
+            $editor = new RemoteMultiValueSelect('job_function_edit', $this->CreateLinkBuilder());
+            $editor->SetHandlerName('multi_edit_job_function_Job_Functions_ID_Job Function_search');
+            $editor->setMaxSelectionSize(0);
+            $editColumn = new CustomEditColumn('Job Function', 'job_function', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -5827,22 +5628,10 @@
             //
             // Edit column for product field
             //
-            $editor = new DynamicCombobox('product_edit', $this->CreateLinkBuilder());
-            $editor->setAllowClear(true);
-            $editor->setMinimumInputLength(0);
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`lookup_products`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('Product_ID', true, true, true),
-                    new StringField('Product'),
-                    new StringField('Product_Value')
-                )
-            );
-            $lookupDataset->setOrderByField('Product', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Product', 'product', 'product_Product', 'multi_edit_campaign_program_name_generator_product_search', $editor, $this->dataset, $lookupDataset, 'Product_Value', 'Product', '');
+            $editor = new RemoteMultiValueSelect('product_edit', $this->CreateLinkBuilder());
+            $editor->SetHandlerName('multi_edit_product_Product_ID_Product_search');
+            $editor->setMaxSelectionSize(0);
+            $editColumn = new CustomEditColumn('Product', 'product', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -5853,6 +5642,8 @@
             $editor = new TextEdit('m_id_edit');
             $editor->SetMaxLength(11);
             $editColumn = new CustomEditColumn('M ID', 'm_ID', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -5882,8 +5673,9 @@
             // Edit column for campaign_publish_date field
             //
             $editor = new DateTimeEdit('campaign_publish_date_edit', false, 'd-m-Y');
-            $editColumn = new CustomEditColumn('Go Live Date', 'campaign_publish_date', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
+            $editColumn = new CustomEditColumn('Campaign Launch Date', 'campaign_publish_date', $editor, $this->dataset);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
             
@@ -6019,6 +5811,8 @@
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Brief Request', 'master_campaign_id', 'master_campaign_id_campaign_name', 'insert_campaign_program_name_generator_master_campaign_id_search', $editor, $this->dataset, $lookupDataset, 'master_campaign_id', 'campaign_name', '');
+            $editColumn->SetReadOnly(true);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -6081,6 +5875,8 @@
             );
             $lookupDataset->setOrderByField('Event_Name', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Campaign Event', 'campaign_event_id', 'campaign_event_id_Event_Name', 'insert_campaign_program_name_generator_campaign_event_id_search', $editor, $this->dataset, $lookupDataset, 'campaign_event_id', 'Event_Name', '');
+            $editColumn->SetReadOnly(true);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -6089,6 +5885,7 @@
             // Edit column for campaign_program_name field
             //
             $editor = new TextEdit('campaign_program_name_edit');
+            $editor->SetPlaceholder('[ System generated Marketo campaign name ]');
             $editColumn = new CustomEditColumn('Campaign Program Name', 'campaign_program_name', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
@@ -6100,7 +5897,9 @@
             //
             $editor = new TextEdit('sfdc_child_campaign_edit');
             $editor->SetMaxLength(18);
+            $editor->SetPlaceholder('[ System generated SFDC campaign ]');
             $editColumn = new CustomEditColumn('SFDC Campaign Name', 'SFDC_child_campaign', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -6159,7 +5958,8 @@
             $editor->SetMaxLength(45);
             $editor->setMinimumInputLength(4);
             $editColumn = new CustomEditColumn('Short Description', 'short_description', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
             
@@ -6249,21 +6049,10 @@
             //
             // Edit column for industry field
             //
-            $editor = new DynamicCombobox('industry_edit', $this->CreateLinkBuilder());
-            $editor->setAllowClear(true);
-            $editor->setMinimumInputLength(0);
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`lookup_industries`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('Industry_ID', true, true, true),
-                    new StringField('Industry_Name')
-                )
-            );
-            $lookupDataset->setOrderByField('Industry_Name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Industry', 'industry', 'industry_Industry_Name', 'insert_campaign_program_name_generator_industry_search', $editor, $this->dataset, $lookupDataset, 'Industry_ID', 'Industry_Name', '');
+            $editor = new RemoteMultiValueSelect('industry_edit', $this->CreateLinkBuilder());
+            $editor->SetHandlerName('insert_industry_Industry_ID_Industry_Name_search');
+            $editor->setMaxSelectionSize(0);
+            $editColumn = new CustomEditColumn('Industry', 'industry', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -6271,21 +6060,10 @@
             //
             // Edit column for job_function field
             //
-            $editor = new DynamicCombobox('job_function_edit', $this->CreateLinkBuilder());
-            $editor->setAllowClear(true);
-            $editor->setMinimumInputLength(0);
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`lookup_job_functions`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('Job_Functions_ID', true, true, true),
-                    new StringField('Job Function')
-                )
-            );
-            $lookupDataset->setOrderByField('Job Function', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Job Function', 'job_function', 'job_function_Job Function', 'insert_campaign_program_name_generator_job_function_search', $editor, $this->dataset, $lookupDataset, 'Job_Functions_ID', 'Job Function', '');
+            $editor = new RemoteMultiValueSelect('job_function_edit', $this->CreateLinkBuilder());
+            $editor->SetHandlerName('insert_job_function_Job_Functions_ID_Job Function_search');
+            $editor->setMaxSelectionSize(0);
+            $editColumn = new CustomEditColumn('Job Function', 'job_function', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -6293,22 +6071,10 @@
             //
             // Edit column for product field
             //
-            $editor = new DynamicCombobox('product_edit', $this->CreateLinkBuilder());
-            $editor->setAllowClear(true);
-            $editor->setMinimumInputLength(0);
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`lookup_products`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('Product_ID', true, true, true),
-                    new StringField('Product'),
-                    new StringField('Product_Value')
-                )
-            );
-            $lookupDataset->setOrderByField('Product', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Product', 'product', 'product_Product', 'insert_campaign_program_name_generator_product_search', $editor, $this->dataset, $lookupDataset, 'Product_Value', 'Product', '');
+            $editor = new RemoteMultiValueSelect('product_edit', $this->CreateLinkBuilder());
+            $editor->SetHandlerName('insert_product_Product_ID_Product_search');
+            $editor->setMaxSelectionSize(0);
+            $editColumn = new CustomEditColumn('Product', 'product', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -6319,6 +6085,8 @@
             $editor = new TextEdit('m_id_edit');
             $editor->SetMaxLength(11);
             $editColumn = new CustomEditColumn('M ID', 'm_ID', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
+            $editColumn->setVisible(false);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -6348,8 +6116,9 @@
             // Edit column for campaign_publish_date field
             //
             $editor = new DateTimeEdit('campaign_publish_date_edit', false, 'd-m-Y');
-            $editColumn = new CustomEditColumn('Go Live Date', 'campaign_publish_date', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
+            $editColumn = new CustomEditColumn('Campaign Launch Date', 'campaign_publish_date', $editor, $this->dataset);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
             
@@ -6526,25 +6295,28 @@
             $grid->AddPrintColumn($column);
             
             //
-            // View column for Industry_Name field
+            // View column for industry field
             //
-            $column = new TextViewColumn('industry', 'industry_Industry_Name', 'Industry', $this->dataset);
+            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_program_name_generator_industry_Industry_Name_handler_print');
+            $column->SetFullTextWindowHandlerName('campaign_program_name_generator_industry_handler_print');
             $grid->AddPrintColumn($column);
             
             //
-            // View column for Job Function field
+            // View column for job_function field
             //
-            $column = new TextViewColumn('job_function', 'job_function_Job Function', 'Job Function', $this->dataset);
+            $column = new NumberViewColumn('job_function', 'job_function', 'Job Function', $this->dataset);
             $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(2);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('.');
             $grid->AddPrintColumn($column);
             
             //
-            // View column for Product field
+            // View column for product field
             //
-            $column = new TextViewColumn('product', 'product_Product', 'Product', $this->dataset);
+            $column = new TextViewColumn('product', 'product', 'Product', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddPrintColumn($column);
             
@@ -6578,7 +6350,7 @@
             //
             // View column for campaign_publish_date field
             //
-            $column = new DateTimeViewColumn('campaign_publish_date', 'campaign_publish_date', 'Go Live Date', $this->dataset);
+            $column = new DateTimeViewColumn('campaign_publish_date', 'campaign_publish_date', 'Campaign Launch Date', $this->dataset);
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y');
             $grid->AddPrintColumn($column);
@@ -6720,25 +6492,28 @@
             $grid->AddExportColumn($column);
             
             //
-            // View column for Industry_Name field
+            // View column for industry field
             //
-            $column = new TextViewColumn('industry', 'industry_Industry_Name', 'Industry', $this->dataset);
+            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_program_name_generator_industry_Industry_Name_handler_export');
+            $column->SetFullTextWindowHandlerName('campaign_program_name_generator_industry_handler_export');
             $grid->AddExportColumn($column);
             
             //
-            // View column for Job Function field
+            // View column for job_function field
             //
-            $column = new TextViewColumn('job_function', 'job_function_Job Function', 'Job Function', $this->dataset);
+            $column = new NumberViewColumn('job_function', 'job_function', 'Job Function', $this->dataset);
             $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(2);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('.');
             $grid->AddExportColumn($column);
             
             //
-            // View column for Product field
+            // View column for product field
             //
-            $column = new TextViewColumn('product', 'product_Product', 'Product', $this->dataset);
+            $column = new TextViewColumn('product', 'product', 'Product', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddExportColumn($column);
             
@@ -6772,7 +6547,7 @@
             //
             // View column for campaign_publish_date field
             //
-            $column = new DateTimeViewColumn('campaign_publish_date', 'campaign_publish_date', 'Go Live Date', $this->dataset);
+            $column = new DateTimeViewColumn('campaign_publish_date', 'campaign_publish_date', 'Campaign Launch Date', $this->dataset);
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y');
             $grid->AddExportColumn($column);
@@ -6914,25 +6689,28 @@
             $grid->AddCompareColumn($column);
             
             //
-            // View column for Industry_Name field
+            // View column for industry field
             //
-            $column = new TextViewColumn('industry', 'industry_Industry_Name', 'Industry', $this->dataset);
+            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_program_name_generator_industry_Industry_Name_handler_compare');
+            $column->SetFullTextWindowHandlerName('campaign_program_name_generator_industry_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
-            // View column for Job Function field
+            // View column for job_function field
             //
-            $column = new TextViewColumn('job_function', 'job_function_Job Function', 'Job Function', $this->dataset);
+            $column = new NumberViewColumn('job_function', 'job_function', 'Job Function', $this->dataset);
             $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(2);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('.');
             $grid->AddCompareColumn($column);
             
             //
-            // View column for Product field
+            // View column for product field
             //
-            $column = new TextViewColumn('product', 'product_Product', 'Product', $this->dataset);
+            $column = new TextViewColumn('product', 'product', 'Product', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddCompareColumn($column);
             
@@ -6966,7 +6744,7 @@
             //
             // View column for campaign_publish_date field
             //
-            $column = new DateTimeViewColumn('campaign_publish_date', 'campaign_publish_date', 'Go Live Date', $this->dataset);
+            $column = new DateTimeViewColumn('campaign_publish_date', 'campaign_publish_date', 'Campaign Launch Date', $this->dataset);
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y');
             $grid->AddCompareColumn($column);
@@ -7107,7 +6885,7 @@
             
             $result->SetUseImagesForActions(true);
             $defaultSortedColumns = array();
-            $defaultSortedColumns[] = new SortColumn('created_date', 'ASC');
+            $defaultSortedColumns[] = new SortColumn('campaign_publish_date', 'ASC');
             $result->setDefaultOrdering($defaultSortedColumns);
             $result->SetUseFixedHeader(false);
             $result->SetShowLineNumbers(true);
@@ -7149,7 +6927,7 @@
                           <div class="mark-bd-placeholder-img mr-3"><img src="apps/icons/program-generator-color.png" width="80" height="79"></div>
                           <div class="mark-media-body">
                             <h5 class="mt-0 h5">What will you find here</h5>
-                            <p class="mark-p">Marketo Program Name Generator, standardises the naming conversion for all Marketo programs for the purpose reporting in Salesforce.</p>
+                            <p class="mark-p">Step 2:  Please plan and enter the details of  your campaign here. Click on +Add New.</p>
                             <i class="far fa-life-ring"></i> If you need more help go to <a href="portal_help.php?partitionpage=6" class="stretched-link">portal help</a> section!
                           </div>
                         </div>');
@@ -7240,7 +7018,6 @@
               editors[\'territory\'].enabled(false);
               }
             }
-            
             ');
             
             $grid->SetInsertClientFormLoadedScript('if (editors[\'campaign_type\'].getValue() == \'\') {
@@ -7304,11 +7081,11 @@
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for Industry_Name field
+            // View column for industry field
             //
-            $column = new TextViewColumn('industry', 'industry_Industry_Name', 'Industry', $this->dataset);
+            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_program_name_generator_industry_Industry_Name_handler_print', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_program_name_generator_industry_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -7332,11 +7109,11 @@
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for Industry_Name field
+            // View column for industry field
             //
-            $column = new TextViewColumn('industry', 'industry_Industry_Name', 'Industry', $this->dataset);
+            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_program_name_generator_industry_Industry_Name_handler_compare', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_program_name_generator_industry_handler_compare', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -7542,47 +7319,50 @@
             $handler = new DynamicSearchHandler($valuesDataset, $this, 'insert_country_2_ISO_Country_Name_search', '2_ISO', 'Country_Name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
+            $valuesDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
                 '`lookup_industries`');
-            $lookupDataset->addFields(
+            $valuesDataset->addFields(
                 array(
                     new IntegerField('Industry_ID', true, true, true),
                     new StringField('Industry_Name')
                 )
             );
-            $lookupDataset->setOrderByField('Industry_Name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_program_name_generator_industry_search', 'Industry_ID', 'Industry_Name', null, 20);
+            $valuesDataset->setOrderByField('Industry_Name', 'ASC');
+            $valuesDataset->addDistinct('Industry_ID');
+            $handler = new DynamicSearchHandler($valuesDataset, $this, 'insert_industry_Industry_ID_Industry_Name_search', 'Industry_ID', 'Industry_Name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
+            $valuesDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
                 '`lookup_job_functions`');
-            $lookupDataset->addFields(
+            $valuesDataset->addFields(
                 array(
                     new IntegerField('Job_Functions_ID', true, true, true),
                     new StringField('Job Function')
                 )
             );
-            $lookupDataset->setOrderByField('Job Function', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_program_name_generator_job_function_search', 'Job_Functions_ID', 'Job Function', null, 20);
+            $valuesDataset->setOrderByField('Job Function', 'ASC');
+            $valuesDataset->addDistinct('Job_Functions_ID');
+            $handler = new DynamicSearchHandler($valuesDataset, $this, 'insert_job_function_Job_Functions_ID_Job Function_search', 'Job_Functions_ID', 'Job Function', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
+            $valuesDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
                 '`lookup_products`');
-            $lookupDataset->addFields(
+            $valuesDataset->addFields(
                 array(
                     new IntegerField('Product_ID', true, true, true),
                     new StringField('Product'),
                     new StringField('Product_Value')
                 )
             );
-            $lookupDataset->setOrderByField('Product', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_program_name_generator_product_search', 'Product_Value', 'Product', null, 20);
+            $valuesDataset->setOrderByField('Product', 'ASC');
+            $valuesDataset->addDistinct('Product_ID');
+            $handler = new DynamicSearchHandler($valuesDataset, $this, 'insert_product_Product_ID_Product_search', 'Product_ID', 'Product', null, 30);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -7825,47 +7605,50 @@
             $handler = new DynamicSearchHandler($valuesDataset, $this, 'filter_builder_country_2_ISO_Country_Name_search', '2_ISO', 'Country_Name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
+            $valuesDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
                 '`lookup_industries`');
-            $lookupDataset->addFields(
+            $valuesDataset->addFields(
                 array(
                     new IntegerField('Industry_ID', true, true, true),
                     new StringField('Industry_Name')
                 )
             );
-            $lookupDataset->setOrderByField('Industry_Name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_program_name_generator_industry_search', 'Industry_ID', 'Industry_Name', null, 20);
+            $valuesDataset->setOrderByField('Industry_Name', 'ASC');
+            $valuesDataset->addDistinct('Industry_ID');
+            $handler = new DynamicSearchHandler($valuesDataset, $this, 'filter_builder_industry_Industry_ID_Industry_Name_search', 'Industry_ID', 'Industry_Name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
+            $valuesDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
                 '`lookup_job_functions`');
-            $lookupDataset->addFields(
+            $valuesDataset->addFields(
                 array(
                     new IntegerField('Job_Functions_ID', true, true, true),
                     new StringField('Job Function')
                 )
             );
-            $lookupDataset->setOrderByField('Job Function', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_program_name_generator_job_function_search', 'Job_Functions_ID', 'Job Function', null, 20);
+            $valuesDataset->setOrderByField('Job Function', 'ASC');
+            $valuesDataset->addDistinct('Job_Functions_ID');
+            $handler = new DynamicSearchHandler($valuesDataset, $this, 'filter_builder_job_function_Job_Functions_ID_Job Function_search', 'Job_Functions_ID', 'Job Function', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
+            $valuesDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
                 '`lookup_products`');
-            $lookupDataset->addFields(
+            $valuesDataset->addFields(
                 array(
                     new IntegerField('Product_ID', true, true, true),
                     new StringField('Product'),
                     new StringField('Product_Value')
                 )
             );
-            $lookupDataset->setOrderByField('Product', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_program_name_generator_product_search', 'Product_Value', 'Product', null, 20);
+            $valuesDataset->setOrderByField('Product', 'ASC');
+            $valuesDataset->addDistinct('Product_ID');
+            $handler = new DynamicSearchHandler($valuesDataset, $this, 'filter_builder_product_Product_ID_Product_search', 'Product_ID', 'Product', null, 30);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -7924,11 +7707,11 @@
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
-            // View column for Industry_Name field
+            // View column for industry field
             //
-            $column = new TextViewColumn('industry', 'industry_Industry_Name', 'Industry', $this->dataset);
+            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
             $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_program_name_generator_industry_Industry_Name_handler_', $column);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_program_name_generator_industry_handler_', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -8134,47 +7917,50 @@
             $handler = new DynamicSearchHandler($valuesDataset, $this, 'edit_country_2_ISO_Country_Name_search', '2_ISO', 'Country_Name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
+            $valuesDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
                 '`lookup_industries`');
-            $lookupDataset->addFields(
+            $valuesDataset->addFields(
                 array(
                     new IntegerField('Industry_ID', true, true, true),
                     new StringField('Industry_Name')
                 )
             );
-            $lookupDataset->setOrderByField('Industry_Name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_program_name_generator_industry_search', 'Industry_ID', 'Industry_Name', null, 20);
+            $valuesDataset->setOrderByField('Industry_Name', 'ASC');
+            $valuesDataset->addDistinct('Industry_ID');
+            $handler = new DynamicSearchHandler($valuesDataset, $this, 'edit_industry_Industry_ID_Industry_Name_search', 'Industry_ID', 'Industry_Name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
+            $valuesDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
                 '`lookup_job_functions`');
-            $lookupDataset->addFields(
+            $valuesDataset->addFields(
                 array(
                     new IntegerField('Job_Functions_ID', true, true, true),
                     new StringField('Job Function')
                 )
             );
-            $lookupDataset->setOrderByField('Job Function', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_program_name_generator_job_function_search', 'Job_Functions_ID', 'Job Function', null, 20);
+            $valuesDataset->setOrderByField('Job Function', 'ASC');
+            $valuesDataset->addDistinct('Job_Functions_ID');
+            $handler = new DynamicSearchHandler($valuesDataset, $this, 'edit_job_function_Job_Functions_ID_Job Function_search', 'Job_Functions_ID', 'Job Function', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
+            $valuesDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
                 '`lookup_products`');
-            $lookupDataset->addFields(
+            $valuesDataset->addFields(
                 array(
                     new IntegerField('Product_ID', true, true, true),
                     new StringField('Product'),
                     new StringField('Product_Value')
                 )
             );
-            $lookupDataset->setOrderByField('Product', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_program_name_generator_product_search', 'Product_Value', 'Product', null, 20);
+            $valuesDataset->setOrderByField('Product', 'ASC');
+            $valuesDataset->addDistinct('Product_ID');
+            $handler = new DynamicSearchHandler($valuesDataset, $this, 'edit_product_Product_ID_Product_search', 'Product_ID', 'Product', null, 30);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -8395,47 +8181,50 @@
             $handler = new DynamicSearchHandler($valuesDataset, $this, 'multi_edit_country_2_ISO_Country_Name_search', '2_ISO', 'Country_Name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
+            $valuesDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
                 '`lookup_industries`');
-            $lookupDataset->addFields(
+            $valuesDataset->addFields(
                 array(
                     new IntegerField('Industry_ID', true, true, true),
                     new StringField('Industry_Name')
                 )
             );
-            $lookupDataset->setOrderByField('Industry_Name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_program_name_generator_industry_search', 'Industry_ID', 'Industry_Name', null, 20);
+            $valuesDataset->setOrderByField('Industry_Name', 'ASC');
+            $valuesDataset->addDistinct('Industry_ID');
+            $handler = new DynamicSearchHandler($valuesDataset, $this, 'multi_edit_industry_Industry_ID_Industry_Name_search', 'Industry_ID', 'Industry_Name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
+            $valuesDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
                 '`lookup_job_functions`');
-            $lookupDataset->addFields(
+            $valuesDataset->addFields(
                 array(
                     new IntegerField('Job_Functions_ID', true, true, true),
                     new StringField('Job Function')
                 )
             );
-            $lookupDataset->setOrderByField('Job Function', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_program_name_generator_job_function_search', 'Job_Functions_ID', 'Job Function', null, 20);
+            $valuesDataset->setOrderByField('Job Function', 'ASC');
+            $valuesDataset->addDistinct('Job_Functions_ID');
+            $handler = new DynamicSearchHandler($valuesDataset, $this, 'multi_edit_job_function_Job_Functions_ID_Job Function_search', 'Job_Functions_ID', 'Job Function', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
+            $valuesDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
                 '`lookup_products`');
-            $lookupDataset->addFields(
+            $valuesDataset->addFields(
                 array(
                     new IntegerField('Product_ID', true, true, true),
                     new StringField('Product'),
                     new StringField('Product_Value')
                 )
             );
-            $lookupDataset->setOrderByField('Product', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_program_name_generator_product_search', 'Product_Value', 'Product', null, 20);
+            $valuesDataset->setOrderByField('Product', 'ASC');
+            $valuesDataset->addDistinct('Product_ID');
+            $handler = new DynamicSearchHandler($valuesDataset, $this, 'multi_edit_product_Product_ID_Product_search', 'Product_ID', 'Product', null, 30);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -8712,14 +8501,15 @@
             $storageGroup->addRow()
                     ->addCol($columns['industry'], 6)
                     ->addCol($columns['job_function'], 6);
+            $storageGroup->addRow()
+                    ->addCol($columns['product'], 12);
             
                 
             $storageGroup = $layout->addGroup('Program Information', 12);
             $storageGroup->addRow()
                     ->addCol($columns['short_description'], 12);
             $storageGroup->addRow()
-                    ->addCol($columns['product'], 6)
-                    ->addCol($columns['m_ID'], 6);
+                    ->addCol($columns['m_ID'], 12);
             $storageGroup->addRow()
                     ->addCol($columns['import_total'], 4)
                     ->addCol($columns['create_import_list'], 8);

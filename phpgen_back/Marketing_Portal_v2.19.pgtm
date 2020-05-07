@@ -157,7 +157,7 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/event_cal-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
-                &lt;p class=&quot;mark-p&quot;&gt;Campaign calendar, hosts a central view of all events, marketing communications and global marketing activities in all regions.&lt;/p&gt;
+                &lt;p class=&quot;mark-p&quot;&gt;Step 1:  Please check here first to see the campaigns running and to find an available date. &lt;/p&gt;
                 &lt;i class=&quot;far fa-life-ring&quot;&gt;&lt;/i&gt; If you need more help go to &lt;a href=&quot;portal_help.php?partitionpage=1&quot; class=&quot;stretched-link&quot;&gt;portal help&lt;/a&gt; section!
               &lt;/div&gt;
             &lt;/div&gt;        </BeforeGridText>
@@ -170,7 +170,7 @@ WHERE campaign_publish_date IS NOT NULL      </SelectStatement>
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Campaign Calendar&lt;/strong&gt;&lt;/span&gt;
-    &lt;p&gt;Campaign calendar, host a central view of all events, marketing communications and global marketing activities in all regions. &lt;/p&gt;
+    &lt;p&gt;Step 1:  Please check here first to see the campaigns running and to find an available date. &lt;/p&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 &lt;/a&gt;        </homePageDescription>
@@ -1234,8 +1234,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
 	// apply the new permissions
 	$handled = true;
 
-}
-          </OnGetCustomPagePermissions>
+}          </OnGetCustomPagePermissions>
           <OnInsertFormEditorValueChanged enabled="true">
 if (sender.getFieldName() == 'channel_types')
 {
@@ -2241,8 +2240,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
 
 	// apply the new permissions
 	$handled = true;
-}
-          </OnGetCustomPagePermissions>
+}          </OnGetCustomPagePermissions>
           <OnEditFormEditorValueChanged enabled="true">
 if (sender.getFieldName() == 'channel_types')
 {
@@ -3796,8 +3794,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
 
 	// apply the new permissions
 	$handled = true;
-}
-          </OnGetCustomPagePermissions>
+}          </OnGetCustomPagePermissions>
           <OnEditFormEditorValueChanged enabled="true">
 if (sender.getFieldName() == 'send_note')
 {
@@ -7047,8 +7044,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
 
 	// apply the new permissions
 	$handled = true;
-}
-          </OnGetCustomPagePermissions>
+}          </OnGetCustomPagePermissions>
           <OnBeforePageLoad enabled="true">
 function expandFirstDetail() {
   if ($('table.pgui-grid').data('grid-class')){
@@ -7934,8 +7930,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
 
 	// apply the new permissions
 	$handled = true;
-}
-          </OnGetCustomPagePermissions>
+}          </OnGetCustomPagePermissions>
         </EventHandlers>
         <RecordPermissions useRecordPermissions="false"/>
         <PartitionNavigators>
@@ -8458,8 +8453,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
 
 	// apply the new permissions
 	$handled = true;
-}
-          </OnGetCustomPagePermissions>
+}          </OnGetCustomPagePermissions>
         </EventHandlers>
         <RecordPermissions useRecordPermissions="true" ownerIdFieldName="created_by">
           <AllUsersPermission view="true" edit="false" delete="false"/>
@@ -8841,16 +8835,16 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
         <RecordPermissions useRecordPermissions="false"/>
         <PartitionNavigators/>
       </Page>
-      <Page type="table" tableName="campaign_program_name_generator" numberByDataSource="0" fileName="campaign_program_name_generator" caption="Campaign Builder" shortCaption="Campaign Builder" groupName="Campaign Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
+      <Page type="table" tableName="campaign_program_name_generator" numberByDataSource="0" fileName="campaign_program_name_generator" caption="Campaign Builder" shortCaption="Campaign Builder" groupName="Campaign Tools" addSeparator="false" horizontalFilterCondition="campaign_publish_date &gt; CURDATE()" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
         <DefaultSortedColumns>
-          <Column fieldName="created_date" orderType="0"/>
+          <Column fieldName="campaign_publish_date" orderType="0"/>
         </DefaultSortedColumns>
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
               &lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/program-generator-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
               &lt;div class=&quot;mark-media-body&quot;&gt;
                 &lt;h5 class=&quot;mt-0 h5&quot;&gt;What will you find here&lt;/h5&gt;
-                &lt;p class=&quot;mark-p&quot;&gt;Marketo Program Name Generator, standardises the naming conversion for all Marketo programs for the purpose reporting in Salesforce.&lt;/p&gt;
+                &lt;p class=&quot;mark-p&quot;&gt;Step 2:  Please plan and enter the details of  your campaign here. Click on +Add New.&lt;/p&gt;
                 &lt;i class=&quot;far fa-life-ring&quot;&gt;&lt;/i&gt; If you need more help go to &lt;a href=&quot;portal_help.php?partitionpage=6&quot; class=&quot;stretched-link&quot;&gt;portal help&lt;/a&gt; section!
               &lt;/div&gt;
             &lt;/div&gt;        </BeforeGridText>
@@ -8863,7 +8857,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
   &lt;/div&gt;
   &lt;div class=&quot;text-content&quot;&gt;
     &lt;span class=card-title&gt;&lt;strong&gt;Campaign Builder&lt;/strong&gt;&lt;/span&gt;
-    &lt;p&gt;Marketo Program Name Generator, standardises the naming conversion for all Marketo programs for the purpose reporting in Salesforce.&lt;/p&gt;
+    &lt;p&gt;Step 2:  Please plan and enter the details of  your campaign here. Click on +Add New.&lt;/p&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 &lt;/a&gt;        </homePageDescription>
@@ -8874,7 +8868,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             </ViewProperties>
             <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="master_campaign_id" caption="Brief Request" canSetNull="true" selectedFilterOperators="1573119">
+          <ColumnPresentation fieldName="master_campaign_id" caption="Brief Request" headerHint="This is a feature release and has been locked." canSetNull="true" readOnly="true" controlVisible="false" selectedFilterOperators="1573119">
             <Lookup tableName="brief" linkFieldName="master_campaign_id" displayFieldName="campaign_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" displayLookupRecord="true">
               <LookupRecordViewForm numberByDataSource="0" fileName="brief" caption="Brief" shortCaption="Brief" addSeparator="false" horizontalFilterCondition="" isLookupRecordViewForm="true" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
                 <BeforeGridText/>
@@ -9311,7 +9305,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <ViewProperties type="text"/>
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="campaign_event_id" caption="Campaign Event" canSetNull="true" selectedFilterOperators="1573119">
+          <ColumnPresentation fieldName="campaign_event_id" caption="Campaign Event" headerHint="This is a feature release and has been locked." canSetNull="true" readOnly="true" controlVisible="false" selectedFilterOperators="1573119">
             <Lookup tableName="campaign_events" linkFieldName="campaign_event_id" displayFieldName="Event_Name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
             <ViewProperties type="text">
               <DivAttributes align="left"/>
@@ -9326,13 +9320,13 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <ViewProperties type="text" maxLength="75">
               <DivAttributes align="left" bold="true"/>
             </ViewProperties>
-            <EditProperties type="textBox" maxLength="0"/>
+            <EditProperties type="textBox" maxLength="0" placeholder="[ System generated Marketo campaign name ]"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="SFDC_child_campaign" caption="SFDC Campaign Name" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="SFDC_child_campaign" caption="SFDC Campaign Name" showColumnFilter="false" canSetNull="true" readOnly="true" selectedFilterOperators="1589247">
             <ViewProperties type="text" UseDefaultNullLabel="false" nullLabel="[SFDC Campaign Required]" escapeHTMLChars="true" wrapWords="false">
               <DivAttributes align="left"/>
             </ViewProperties>
-            <EditProperties type="textBox" maxLength="18"/>
+            <EditProperties type="textBox" maxLength="18" placeholder="[ System generated SFDC campaign ]"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="campaign_type" caption="Campaign Type" selectedFilterOperators="1589247">
             <Lookup tableName="lookup_campaign_type" linkFieldName="Type_Value" displayFieldName="Type" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
@@ -9348,7 +9342,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             </ViewProperties>
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="short_description" caption="Short Description" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="short_description" caption="Short Description" showColumnFilter="false" selectedFilterOperators="1589247">
             <ViewProperties type="text" UseDefaultNullLabel="false" nullLabel="No Information ">
               <DivAttributes align="left"/>
             </ViewProperties>
@@ -9378,21 +9372,20 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <EditProperties type="multiSelect" retrieveValuesFromDatabase="true" dataSourceName="country_list" storedFieldName="2_ISO" displayedFieldName="Country_Name"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="industry" caption="Industry" canSetNull="true" selectedFilterOperators="1589247">
-            <Lookup tableName="lookup_industries" linkFieldName="Industry_ID" displayFieldName="Industry_Name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
             <ViewProperties type="text" maxLength="75"/>
-            <EditProperties type="dynamicCombobox"/>
+            <EditProperties type="multiSelect" retrieveValuesFromDatabase="true" dataSourceName="lookup_industries" storedFieldName="Industry_ID" displayedFieldName="Industry_Name"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="job_function" caption="Job Function" canSetNull="true" selectedFilterOperators="1573119">
-            <Lookup tableName="lookup_job_functions" linkFieldName="Job_Functions_ID" displayFieldName="Job Function" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
-            <ViewProperties type="text"/>
-            <EditProperties type="dynamicCombobox"/>
+            <ViewProperties type="text">
+              <Format type="number" numberAfterDecimal="2" decimalSeparator="." thousandSeparator=","/>
+            </ViewProperties>
+            <EditProperties type="multiSelect" retrieveValuesFromDatabase="true" dataSourceName="lookup_job_functions" storedFieldName="Job_Functions_ID" displayedFieldName="Job Function"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="product" caption="Product" canSetNull="true" selectedFilterOperators="1589247">
-            <Lookup tableName="lookup_products" linkFieldName="Product_Value" displayFieldName="Product" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
             <ViewProperties type="text"/>
-            <EditProperties type="dynamicCombobox"/>
+            <EditProperties type="multiSelect" retrieveValuesFromDatabase="true" dataSourceName="lookup_products" storedFieldName="Product_ID" displayedFieldName="Product" numberOfValuesToDisplay="30"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="m_ID" caption="M ID" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="m_ID" caption="M ID" showColumnFilter="false" canSetNull="true" readOnly="true" controlVisible="false" selectedFilterOperators="1589247">
             <ViewProperties type="text"/>
             <EditProperties type="textBox" maxLength="11"/>
           </ColumnPresentation>
@@ -9413,7 +9406,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
               </Values>
             </EditProperties>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="campaign_publish_date" caption="Go Live Date" canSetNull="true" selectedFilterOperators="2031871">
+          <ColumnPresentation fieldName="campaign_publish_date" caption="Campaign Launch Date" selectedFilterOperators="2031871">
             <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1"/>
             <EditProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1" firstDayOfWeek="0"/>
           </ColumnPresentation>
@@ -9461,7 +9454,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <Column fieldName="m_ID" visible="false"/>
             <Column fieldName="import_total" visible="false"/>
             <Column fieldName="create_import_list" visible="false"/>
-            <Column fieldName="campaign_publish_date" caption="Published On"/>
+            <Column fieldName="campaign_publish_date"/>
             <Column fieldName="emails_tracker"/>
             <Column fieldName="created_by"/>
             <Column fieldName="created_date" visible="false"/>
@@ -9488,7 +9481,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <Column fieldName="m_ID"/>
             <Column fieldName="import_total"/>
             <Column fieldName="create_import_list"/>
-            <Column fieldName="campaign_publish_date" caption="Published On"/>
+            <Column fieldName="campaign_publish_date"/>
             <Column fieldName="emails_tracker" caption="How many emails will you be sending?"/>
             <Column fieldName="created_by"/>
             <Column fieldName="created_date"/>
@@ -10135,7 +10128,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
                   <ViewProperties type="text"/>
                   <EditProperties type="dynamicCombobox"/>
                 </ColumnPresentation>
-                <ColumnPresentation fieldName="master_campaign_id" caption="Brief Request" canSetNull="true" readOnly="true" selectedFilterOperators="1573119">
+                <ColumnPresentation fieldName="master_campaign_id" caption="Brief Request" canSetNull="true" readOnly="true" controlVisible="false" selectedFilterOperators="1573119">
                   <Lookup tableName="brief" linkFieldName="master_campaign_id" displayFieldName="campaign_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
                   <ViewProperties type="text"/>
                   <EditProperties type="dynamicCombobox"/>
@@ -10298,7 +10291,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
                   <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
                   <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
                 </ColumnPresentation>
-                <ColumnPresentation fieldName="trackerid" caption="Trackerid" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                <ColumnPresentation fieldName="trackerid" caption="Trackerid" showColumnFilter="false" canSetNull="true" controlVisible="false" selectedFilterOperators="1589247">
                   <ViewProperties type="text"/>
                   <EditProperties type="textBox" maxLength="45"/>
                 </ColumnPresentation>
@@ -10306,24 +10299,24 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
                   <ViewProperties type="text">
                     <Format type="number" thousandSeparator=","/>
                   </ViewProperties>
-                  <EditProperties type="textBox" maxLength="0"/>
+                  <EditProperties type="checkBox"/>
                 </ColumnPresentation>
-                <ColumnPresentation fieldName="cregion" caption="Region" canSetNull="true" selectedFilterOperators="1589247">
+                <ColumnPresentation fieldName="cregion" caption="Region" canSetNull="true" readOnly="true" selectedFilterOperators="1589247">
                   <Lookup tableName="lookup_region" linkFieldName="Region_Value" displayFieldName="Region" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
                   <ViewProperties type="text"/>
                   <EditProperties type="dynamicCombobox"/>
                 </ColumnPresentation>
-                <ColumnPresentation fieldName="region_approval" caption="Region Approval" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1573119">
+                <ColumnPresentation fieldName="region_approval" caption="Region Approval" showColumnFilter="false" canSetNull="true" controlVisible="false" selectedFilterOperators="1573119">
                   <ViewProperties type="text">
                     <Format type="number" thousandSeparator=","/>
                   </ViewProperties>
                   <EditProperties type="textBox" maxLength="0"/>
                 </ColumnPresentation>
-                <ColumnPresentation fieldName="region_approved_by" caption="Region Approved By" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+                <ColumnPresentation fieldName="region_approved_by" caption="Region Approved By" showColumnFilter="false" canSetNull="true" controlVisible="false" selectedFilterOperators="1589247">
                   <ViewProperties type="text"/>
                   <EditProperties type="textBox" maxLength="65"/>
                 </ColumnPresentation>
-                <ColumnPresentation fieldName="region_approved_date" caption="Region Approved Date" canSetNull="true" selectedFilterOperators="2031871">
+                <ColumnPresentation fieldName="region_approved_date" caption="Region Approved Date" canSetNull="true" controlVisible="false" selectedFilterOperators="2031871">
                   <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
                   <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
                 </ColumnPresentation>
@@ -10344,9 +10337,9 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
                   <Column fieldName="modified_date"/>
                   <Column fieldName="trackerid" visible="false"/>
                   <Column fieldName="show_events_cal"/>
-                  <Column fieldName="region_approval"/>
-                  <Column fieldName="region_approved_by"/>
-                  <Column fieldName="region_approved_date"/>
+                  <Column fieldName="region_approval" visible="false"/>
+                  <Column fieldName="region_approved_by" visible="false"/>
+                  <Column fieldName="region_approved_date" visible="false"/>
                 </List>
                 <View>
                   <Column fieldName="campaign_tracker_local_id" visible="false"/>
@@ -10363,9 +10356,9 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
                   <Column fieldName="trackerid" visible="false"/>
                   <Column fieldName="show_events_cal"/>
                   <Column fieldName="cregion"/>
-                  <Column fieldName="region_approval"/>
-                  <Column fieldName="region_approved_by"/>
-                  <Column fieldName="region_approved_date"/>
+                  <Column fieldName="region_approval" visible="false"/>
+                  <Column fieldName="region_approved_by" visible="false"/>
+                  <Column fieldName="region_approved_date" visible="false"/>
                 </View>
                 <Edit>
                   <Column fieldName="campaign_tracker_local_id" visible="false"/>
@@ -10382,9 +10375,9 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
                   <Column fieldName="trackerid" visible="false"/>
                   <Column fieldName="show_events_cal"/>
                   <Column fieldName="cregion"/>
-                  <Column fieldName="region_approval"/>
-                  <Column fieldName="region_approved_by"/>
-                  <Column fieldName="region_approved_date"/>
+                  <Column fieldName="region_approval" visible="false"/>
+                  <Column fieldName="region_approved_by" visible="false"/>
+                  <Column fieldName="region_approved_date" visible="false"/>
                 </Edit>
                 <Insert>
                   <Column fieldName="campaign_tracker_local_id" visible="false"/>
@@ -10401,9 +10394,9 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
                   <Column fieldName="trackerid" visible="false"/>
                   <Column fieldName="show_events_cal"/>
                   <Column fieldName="cregion"/>
-                  <Column fieldName="region_approval"/>
-                  <Column fieldName="region_approved_by"/>
-                  <Column fieldName="region_approved_date"/>
+                  <Column fieldName="region_approval" visible="false"/>
+                  <Column fieldName="region_approved_by" visible="false"/>
+                  <Column fieldName="region_approved_date" visible="false"/>
                 </Insert>
                 <QuickFilter>
                   <Column fieldName="campaign_tracker_local_id"/>
@@ -10420,9 +10413,9 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
                   <Column fieldName="trackerid" visible="false"/>
                   <Column fieldName="show_events_cal"/>
                   <Column fieldName="cregion"/>
-                  <Column fieldName="region_approval"/>
-                  <Column fieldName="region_approved_by"/>
-                  <Column fieldName="region_approved_date"/>
+                  <Column fieldName="region_approval" visible="false"/>
+                  <Column fieldName="region_approved_by" visible="false"/>
+                  <Column fieldName="region_approved_date" visible="false"/>
                 </QuickFilter>
                 <FilterBuilder>
                   <Column fieldName="campaign_tracker_local_id"/>
@@ -10515,9 +10508,9 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
                   <Column fieldName="trackerid" visible="false"/>
                   <Column fieldName="show_events_cal"/>
                   <Column fieldName="cregion"/>
-                  <Column fieldName="region_approval"/>
-                  <Column fieldName="region_approved_by"/>
-                  <Column fieldName="region_approved_date"/>
+                  <Column fieldName="region_approval" visible="false"/>
+                  <Column fieldName="region_approved_by" visible="false"/>
+                  <Column fieldName="region_approved_date" visible="false"/>
                 </MultiEdit>
               </Columns>
               <Details/>
@@ -10596,14 +10589,15 @@ $storageGroup-&gt;addRow()
 $storageGroup-&gt;addRow()
         -&gt;addCol($columns['industry'], 6)
         -&gt;addCol($columns['job_function'], 6);
+$storageGroup-&gt;addRow()
+        -&gt;addCol($columns['product'], 12);
 
     
 $storageGroup = $layout-&gt;addGroup('Program Information', 12);
 $storageGroup-&gt;addRow()
         -&gt;addCol($columns['short_description'], 12);
 $storageGroup-&gt;addRow()
-        -&gt;addCol($columns['product'], 6)
-        -&gt;addCol($columns['m_ID'], 6);
+        -&gt;addCol($columns['m_ID'], 12);
 $storageGroup-&gt;addRow()
         -&gt;addCol($columns['import_total'], 4)
         -&gt;addCol($columns['create_import_list'], 8);
@@ -10739,8 +10733,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
 
 	// apply the new permissions
 	$handled = true;
-}
-          </OnGetCustomPagePermissions>
+}          </OnGetCustomPagePermissions>
           <OnInsertFormEditorValueChanged enabled="true">
 if (sender.getFieldName() == 'campaign_type'){
   if (sender.getValue() == 'LIP'){
@@ -10823,7 +10816,6 @@ if (sender.getFieldName() == 'sub_region'){
   editors['territory'].enabled(false);
   }
 }
-
           </OnEditFormEditorValueChanged>
           <OnInsertFormLoaded enabled="true">
 if (editors['campaign_type'].getValue() == '') {
@@ -10936,7 +10928,7 @@ else {
             </ViewProperties>
             <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="program_generator_name_id" caption="Marketo Program Name" canSetNull="true" selectedFilterOperators="1573119">
+          <ColumnPresentation fieldName="program_generator_name_id" caption="Campaign Builder" selectedFilterOperators="1573119">
             <Lookup tableName="campaign_program_name_generator" linkFieldName="program_generator_name_id" displayFieldName="campaign_program_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" displayLookupRecord="true">
               <LookupRecordViewForm numberByDataSource="0" fileName="campaign_program_name_generator" caption="Campaign Program Name Generator" shortCaption="Campaign Program Name Generator" addSeparator="false" horizontalFilterCondition="" isLookupRecordViewForm="true" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
                 <BeforeGridText/>
@@ -11338,7 +11330,7 @@ else {
             <ViewProperties type="text"/>
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="master_campaign_id" caption="Associated Brief" canSetNull="true" selectedFilterOperators="1573119">
+          <ColumnPresentation fieldName="master_campaign_id" caption="Associated Brief" canSetNull="true" controlVisible="false" selectedFilterOperators="1573119">
             <Lookup tableName="brief" linkFieldName="master_campaign_id" displayFieldName="campaign_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0" displayLookupRecord="true">
               <LookupRecordViewForm numberByDataSource="0" fileName="brief" caption="Brief" shortCaption="Brief" addSeparator="false" horizontalFilterCondition="" isLookupRecordViewForm="true" recordsPerPage="20" NavigatorPosition="1" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" hideSideBarByDefault="true" formErrorsPlacement="1">
                 <BeforeGridText/>
@@ -11798,17 +11790,17 @@ else {
             </ViewProperties>
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="cregion" caption="Region" canSetNull="true" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="cregion" caption="Region" canSetNull="true" readOnly="true" selectedFilterOperators="1589247">
             <Lookup tableName="lookup_region" linkFieldName="Region_Value" displayFieldName="Region" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
             <ViewProperties type="text"/>
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="tracker_status" caption="Tracker Status" canSetNull="true" selectedFilterOperators="1573119">
+          <ColumnPresentation fieldName="tracker_status" caption="Send Status" canSetNull="true" selectedFilterOperators="1573119">
             <Lookup tableName="lookup_status_types" linkFieldName="Status_Type_ID" displayFieldName="Status_Type" lookupFilter="Status_Filters='png'" useLookupOrdering="true" lookupOrdering="0"/>
             <ViewProperties type="text"/>
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="campaign_utm_id" caption="Campaign Utm Id" canSetNull="true" selectedFilterOperators="1573119">
+          <ColumnPresentation fieldName="campaign_utm_id" caption="UTM Tracking" canSetNull="true" selectedFilterOperators="1573119">
             <Lookup tableName="campaign_tracker_utm" linkFieldName="campaign_utm_id" displayFieldName="campaign_name" lookupFilter="" useLookupOrdering="true" lookupOrdering="0"/>
             <ViewProperties type="text"/>
             <EditProperties type="dynamicCombobox"/>
@@ -11821,7 +11813,7 @@ else {
             <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
             <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="trackerid" caption="Trackerid" showColumnFilter="false" canSetNull="true" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="trackerid" caption="Trackerid" showColumnFilter="false" canSetNull="true" controlVisible="false" selectedFilterOperators="1589247">
             <ViewProperties type="text"/>
             <EditProperties type="textBox" maxLength="45"/>
           </ColumnPresentation>
@@ -11831,17 +11823,17 @@ else {
             </ViewProperties>
             <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="region_approval" caption="Region Approval" showColumnFilter="false" canSetNull="true" readOnly="true" selectedFilterOperators="1573119">
+          <ColumnPresentation fieldName="region_approval" caption="Region Approval" showColumnFilter="false" canSetNull="true" readOnly="true" controlVisible="false" selectedFilterOperators="1573119">
             <ViewProperties type="text">
               <Format type="number" thousandSeparator=","/>
             </ViewProperties>
             <EditProperties type="textBox" maxLength="0"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="region_approved_by" caption="Region Approved By" showColumnFilter="false" canSetNull="true" readOnly="true" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="region_approved_by" caption="Region Approved By" showColumnFilter="false" canSetNull="true" readOnly="true" controlVisible="false" selectedFilterOperators="1589247">
             <ViewProperties type="text"/>
             <EditProperties type="textBox" maxLength="65"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="region_approved_date" caption="Region Approved Date" canSetNull="true" readOnly="true" selectedFilterOperators="2031871">
+          <ColumnPresentation fieldName="region_approved_date" caption="Region Approved Date" canSetNull="true" readOnly="true" controlVisible="false" selectedFilterOperators="2031871">
             <ViewProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s"/>
             <EditProperties type="dateTime" dateTimeFormat="d-m-Y H:i:s" firstDayOfWeek="0"/>
           </ColumnPresentation>
@@ -12120,8 +12112,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
 
 	// apply the new permissions
 	$handled = true;
-}
-          </OnGetCustomPagePermissions>
+}          </OnGetCustomPagePermissions>
         </EventHandlers>
         <RecordPermissions useRecordPermissions="false"/>
         <PartitionNavigators>
@@ -12171,7 +12162,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
           </PartitionNavigator>
         </PartitionNavigators>
       </Page>
-      <Page type="table" tableName="campaign_comm_regional_approval" numberByDataSource="0" fileName="campaign_comm_regional_approval" caption="Campaign Comm Regional Approval" shortCaption="Comms Approval" groupName="Campaign Tools" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="0" viewAbilityMode="3" editAbilityMode="2" copyAbilityMode="0" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
+      <Page type="table" tableName="campaign_comm_regional_approval" numberByDataSource="0" fileName="campaign_comm_regional_approval" caption="Campaign Comm Regional Approval" shortCaption="Comms Approval" groupName="Campaign Tools" addSeparator="false" horizontalFilterCondition="a_campaign_publish_date &gt; CURDATE()" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="0" viewAbilityMode="3" editAbilityMode="2" copyAbilityMode="0" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
         <BeforeGridText>
 &lt;div class=&quot;mark-media mark-position-relative&quot;&gt;
 	&lt;div class=&quot;mark-bd-placeholder-img mr-3&quot;&gt;&lt;img src=&quot;apps/icons/approved-color.png&quot; width=&quot;80&quot; height=&quot;79&quot;&gt;&lt;/div&gt;
@@ -12471,17 +12462,15 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             <ViewProperties type="text"/>
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="campaign_publish_date" caption="Campaign Publish Date" canSetNull="true" readOnly="true" selectedFilterOperators="2031871">
-            <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1">
-              <DivAttributes align="left"/>
-            </ViewProperties>
-            <EditProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1" firstDayOfWeek="0"/>
-          </ColumnPresentation>
-          <ColumnPresentation fieldName="campaign_description" caption="Campaign Description" showColumnFilter="false" canSetNull="true" readOnly="true" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="campaign_description" caption="Email Description" showColumnFilter="false" canSetNull="true" readOnly="true" selectedFilterOperators="1589247">
             <ViewProperties type="text" maxLength="75">
               <DivAttributes align="left"/>
             </ViewProperties>
             <EditProperties type="textBox" maxLength="100"/>
+          </ColumnPresentation>
+          <ColumnPresentation fieldName="a_campaign_publish_date" caption="Email Send Date" canSetNull="true" selectedFilterOperators="2031871">
+            <ViewProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1"/>
+            <EditProperties type="dateTime" dateTimeFormat="d-m-Y" dateTimeKind="1" firstDayOfWeek="0"/>
           </ColumnPresentation>
           <ColumnPresentation fieldName="Region" caption="Region" canSetNull="true" readOnly="true" selectedFilterOperators="1589247">
             <ViewProperties type="text">
@@ -12508,7 +12497,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
             </ViewProperties>
             <EditProperties type="dynamicCombobox"/>
           </ColumnPresentation>
-          <ColumnPresentation fieldName="created_by" caption="Created By" showColumnFilter="false" canSetNull="true" readOnly="true" selectedFilterOperators="1589247">
+          <ColumnPresentation fieldName="created_by" caption="Requested By" showColumnFilter="false" canSetNull="true" readOnly="true" selectedFilterOperators="1589247">
             <ViewProperties type="text"/>
             <EditProperties type="textBox" maxLength="45"/>
           </ColumnPresentation>
@@ -12520,8 +12509,8 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
         <Columns>
           <List>
             <Column fieldName="campaign_tracker_local_id"/>
-            <Column fieldName="campaign_publish_date"/>
             <Column fieldName="campaign_description"/>
+            <Column fieldName="a_campaign_publish_date"/>
             <Column fieldName="Region"/>
             <Column fieldName="region_approval"/>
             <Column fieldName="approver"/>
@@ -12530,8 +12519,8 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
           </List>
           <View>
             <Column fieldName="campaign_tracker_local_id"/>
-            <Column fieldName="campaign_publish_date"/>
             <Column fieldName="campaign_description"/>
+            <Column fieldName="a_campaign_publish_date"/>
             <Column fieldName="Region"/>
             <Column fieldName="region_approval"/>
             <Column fieldName="approver"/>
@@ -12540,8 +12529,8 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
           </View>
           <Edit>
             <Column fieldName="campaign_tracker_local_id" visible="false"/>
-            <Column fieldName="campaign_publish_date" visible="false"/>
             <Column fieldName="campaign_description" visible="false"/>
+            <Column fieldName="a_campaign_publish_date"/>
             <Column fieldName="Region" visible="false"/>
             <Column fieldName="region_approval"/>
             <Column fieldName="approver" visible="false"/>
@@ -12550,8 +12539,8 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
           </Edit>
           <Insert>
             <Column fieldName="campaign_tracker_local_id" visible="false"/>
-            <Column fieldName="campaign_publish_date"/>
             <Column fieldName="campaign_description"/>
+            <Column fieldName="a_campaign_publish_date"/>
             <Column fieldName="Region"/>
             <Column fieldName="region_approval"/>
             <Column fieldName="approver"/>
@@ -12560,18 +12549,18 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
           </Insert>
           <QuickFilter>
             <Column fieldName="campaign_tracker_local_id"/>
-            <Column fieldName="campaign_publish_date"/>
             <Column fieldName="campaign_description"/>
             <Column fieldName="Region"/>
             <Column fieldName="region_approval"/>
             <Column fieldName="approver"/>
             <Column fieldName="created_by"/>
             <Column fieldName="complete"/>
+            <Column fieldName="a_campaign_publish_date"/>
           </QuickFilter>
           <FilterBuilder>
             <Column fieldName="campaign_tracker_local_id"/>
-            <Column fieldName="campaign_publish_date"/>
             <Column fieldName="campaign_description"/>
+            <Column fieldName="a_campaign_publish_date"/>
             <Column fieldName="Region"/>
             <Column fieldName="region_approval"/>
             <Column fieldName="approver"/>
@@ -12580,8 +12569,8 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
           </FilterBuilder>
           <Print>
             <Column fieldName="campaign_tracker_local_id"/>
-            <Column fieldName="campaign_publish_date"/>
             <Column fieldName="campaign_description"/>
+            <Column fieldName="a_campaign_publish_date"/>
             <Column fieldName="Region"/>
             <Column fieldName="region_approval"/>
             <Column fieldName="approver"/>
@@ -12590,8 +12579,8 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
           </Print>
           <Export>
             <Column fieldName="campaign_tracker_local_id"/>
-            <Column fieldName="campaign_publish_date"/>
             <Column fieldName="campaign_description"/>
+            <Column fieldName="a_campaign_publish_date"/>
             <Column fieldName="Region"/>
             <Column fieldName="region_approval"/>
             <Column fieldName="approver"/>
@@ -12600,8 +12589,8 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
           </Export>
           <Compare>
             <Column fieldName="campaign_tracker_local_id" visible="false"/>
-            <Column fieldName="campaign_publish_date"/>
             <Column fieldName="campaign_description"/>
+            <Column fieldName="a_campaign_publish_date"/>
             <Column fieldName="Region"/>
             <Column fieldName="region_approval"/>
             <Column fieldName="approver"/>
@@ -12610,8 +12599,8 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
           </Compare>
           <MultiEdit>
             <Column fieldName="campaign_tracker_local_id" visible="false"/>
-            <Column fieldName="campaign_publish_date"/>
             <Column fieldName="campaign_description"/>
+            <Column fieldName="a_campaign_publish_date"/>
             <Column fieldName="Region"/>
             <Column fieldName="region_approval"/>
             <Column fieldName="approver"/>
@@ -12656,8 +12645,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
 
 	// apply the new permissions
 	$handled = true;
-}
-          </OnGetCustomPagePermissions>
+}          </OnGetCustomPagePermissions>
           <OnGetCustomRecordPermissions enabled="true">
 // do not apply these rules for site admins
 if (GetApplication()-&gt;IsLoggedInAsAdmin()) {
@@ -13681,8 +13669,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
 
 	// apply the new permissions
 	$handled = true;
-}
-          </OnGetCustomPagePermissions>
+}          </OnGetCustomPagePermissions>
           <OnInsertFormEditorValueChanged enabled="true">
 //hide show if its a brief or not
 if (sender.getFieldName() == 'has_brief'){
@@ -14710,7 +14697,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
 	if (!empty($result)) {
 	   foreach ($result as $row) {
 		   // is current user a member of the Sales role?
-		   if (($row['role_name'] === '346') || ($row['role_name'] === '347')) {
+		   if ($row['role_name'] === '346') {
 			 // if yes, allow all actions.
 			 // otherwise default permissions for this page will be applied
 			 $permissions-&gt;setGrants(true, true, true, true);
@@ -14722,25 +14709,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
 	// apply the new permissions
 	$handled = true;
 }
-
-
-    // iterating through retrieved roles
-    if (!empty($result)) {
-       foreach ($result as $row) {
-           // is current user a member of the Sales role?
-           if (($row['role_name'] === 'manager') || ($row['role_name'] === 'regional marketing')) {
-             // if yes, allow all actions.
-             // otherwise default permissions for this page will be applied
-             $permissions-&gt;setGrants(true, true, true, true);
-             break;
-           }                 
-       }
-    };    
-
-    // apply the new permissions
-    $handled = true;
-
-}          </OnGetCustomPagePermissions>
+          </OnGetCustomPagePermissions>
         </EventHandlers>
         <RecordPermissions useRecordPermissions="true" ownerIdFieldName="created_by">
           <AllUsersPermission view="true" edit="false" delete="false"/>
@@ -15890,35 +15859,31 @@ else {
 
 if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
 
-    // retrieving the ID of the current user
-    $userId = GetApplication()-&gt;GetCurrentUserId();
+	// retrieving the ID of the current user
+	$userId = GetApplication()-&gt;GetCurrentUserId();
 
-    // retrieving all user roles 
-    $sql =        
-      &quot;SELECT r.role_name &quot; .
-      &quot;FROM `phpgen_users` ur &quot; .
-      &quot;INNER JOIN `phpgen_user_roles` r ON r.user_id = ur.user_id &quot; .
-      &quot;WHERE ur.user_id = %d&quot;;    
-    $result = $page-&gt;GetConnection()-&gt;fetchAll(sprintf($sql, $userId));
+	// retrieving all user roles 
+	$sql =        
+	  &quot;SELECT user_level &quot; .
+	  &quot;FROM `phpgen_users` &quot; .
+	  &quot;WHERE user_id = %d&quot;;    
+	$result = $page-&gt;GetConnection()-&gt;fetchAll(sprintf($sql, $userId));
 
- 
+	// iterating through retrieved roles
+	if (!empty($result)) {
+	   foreach ($result as $row) {
+		   // is current user a member of the Sales role?
+		   if (($row['role_name'] === '346') || ($row['role_name'] === '347')) {
+			 // if yes, allow all actions.
+			 // otherwise default permissions for this page will be applied
+			 $permissions-&gt;setGrants(true, true, true, true);
+			 break;
+		   }                 
+	   }
+	};    
 
-    // iterating through retrieved roles
-    if (!empty($result)) {
-       foreach ($result as $row) {
-           // is current user a member of the Sales role?
-           if ($row['role_name'] === 'manager') {
-             // if yes, allow all actions.
-             // otherwise default permissions for this page will be applied
-             $permissions-&gt;setGrants(true, true, true, true);
-             break;
-           }                 
-       }
-    };    
-
-    // apply the new permissions
-    $handled = true;
-
+	// apply the new permissions
+	$handled = true;
 }          </OnGetCustomPagePermissions>
         </EventHandlers>
         <RecordPermissions useRecordPermissions="false"/>
@@ -20435,7 +20400,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
         <RecordPermissions useRecordPermissions="false"/>
         <PartitionNavigators/>
       </Page>
-      <Page type="table" tableName="portal_help" includedIntoPageList="false" numberByDataSource="0" fileName="portal_help" caption="Portal Help" shortCaption="Portal Help" addSeparator="false" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
+      <Page type="table" tableName="portal_help" numberByDataSource="0" fileName="portal_help" caption="Portal Help" shortCaption="Portal Help" addSeparator="true" horizontalFilterCondition="" recordsPerPage="20" NavigatorPosition="3" insertAbilityMode="3" viewAbilityMode="3" editAbilityMode="3" deleteAbilityMode="3" copyAbilityMode="3" deleteSelectedAbilityMode="3" contentEncoding="UTF-8" exportAllRecordsAvailable="31" exportSelectedRecordsAvailable="31" exportSingleRecordFromGridAvailable="0" exportRecordFromViewFormAvailable="31" printAvailable="13" highlightRowOnMouseHover="true" useActionImages="true" showKeyColumnsImagesInGridHeader="false" showLineNumbers="true" formErrorsPlacement="2">
         <DefaultSortedColumns>
           <Column fieldName="category" orderType="0"/>
           <Column fieldName="help_title" orderType="0"/>
@@ -20952,7 +20917,7 @@ if (!GetApplication()-&gt;HasAdminGrantForCurrentUser()) {
     <Header>
 &lt;div style=&quot;width:240px; padding:5px; 0;&quot;&gt;&lt;a href=&quot;http://mktportal.mscsoftware.com&quot;&gt;&lt;img src=&quot;https://documents.mscsoftware.com/cdn/farfuture/NPSxCF6sOluXCivzz8rQYbntpJ5OvR3pKrSJezOcrQ4/mtime:1575505133/sites/default/files/MSC_Cobrand.png&quot; style=&quot;width: 190px; padding: 10px 0;&quot;&gt;&lt;/a&gt;&lt;/div&gt;    </Header>
     <Footer>
-&lt;p align=&quot;right&quot;&gt;(C) &lt;span&gt;2020-&lt;script type=&quot;text/javascript&quot;&gt;document.write(new Date().getFullYear().toString())&lt;/script&gt;&lt;/span&gt;&lt;a href=&quot;#&quot;&gt; MSC Group Marketing&lt;/a&gt;. Release Version v2.19&lt;/p&gt;    </Footer>
+&lt;p align=&quot;right&quot;&gt;(C) &lt;span&gt;2020-&lt;script type=&quot;text/javascript&quot;&gt;document.write(new Date().getFullYear().toString())&lt;/script&gt;&lt;/span&gt;&lt;a href=&quot;#&quot;&gt; MSC Group Marketing&lt;/a&gt;. Release Version v2.18&lt;/p&gt;    </Footer>
     <PHPOptions/>
     <Groups>
       <Group caption="New Campaign">
