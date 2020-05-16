@@ -59,7 +59,7 @@
                 )
             );
             $this->dataset->AddLookupField('user_level', 'lookup_user_roles', new IntegerField('lookup_user_roleid'), new StringField('role_description', false, false, false, false, 'user_level_role_description', 'user_level_role_description_lookup_user_roles'), 'user_level_role_description_lookup_user_roles');
-            $this->dataset->AddLookupField('region_id', 'lookup_region', new IntegerField('Region_ID'), new StringField('Region', false, false, false, false, 'region_id_Region', 'region_id_Region_lookup_region'), 'region_id_Region_lookup_region');
+            $this->dataset->AddLookupField('region_id', 'lookup_user_approval_region', new IntegerField('lookup_user_approval_regionid'), new StringField('user_approval_region_description', false, false, false, false, 'region_id_user_approval_region_description', 'region_id_user_approval_region_description_lookup_user_approval_region'), 'region_id_user_approval_region_description_lookup_user_approval_region');
             $this->dataset->AddLookupField('manager_id', 'phpgen_users', new IntegerField('user_id'), new StringField('user_name', false, false, false, false, 'manager_id_user_name', 'manager_id_user_name_phpgen_users'), 'manager_id_user_name_phpgen_users');
         }
     
@@ -99,7 +99,7 @@
                 new FilterColumn($this->dataset, 'user_status', 'user_status', 'User Status'),
                 new FilterColumn($this->dataset, 'user_level', 'user_level_role_description', 'User Level'),
                 new FilterColumn($this->dataset, 'is_head_manager', 'is_head_manager', 'Is Head Manager'),
-                new FilterColumn($this->dataset, 'region_id', 'region_id_Region', 'Region'),
+                new FilterColumn($this->dataset, 'region_id', 'region_id_user_approval_region_description', 'User Region'),
                 new FilterColumn($this->dataset, 'manager_id', 'manager_id_user_name', 'Reports Manager')
             );
         }
@@ -323,26 +323,6 @@
                 $actions->addOperation($operation);
                 $operation->OnShow->AddListener('ShowEditButtonHandler', $this);
             }
-            
-            if ($this->GetSecurityInfo()->HasDeleteGrant())
-            {
-                $operation = new LinkOperation($this->GetLocalizerCaptions()->GetMessageString('Delete'), OPERATION_DELETE, $this->dataset, $grid);
-                $operation->setUseImage(true);
-                $actions->addOperation($operation);
-                $operation->OnShow->AddListener('ShowDeleteButtonHandler', $this);
-                $operation->SetAdditionalAttribute('data-modal-operation', 'delete');
-                $operation->SetAdditionalAttribute('data-delete-handler-name', $this->GetModalGridDeleteHandler());
-            }
-            
-            if ($this->GetSecurityInfo()->HasAddGrant())
-            {
-                $operation = new AjaxOperation(OPERATION_COPY,
-                    $this->GetLocalizerCaptions()->GetMessageString('Copy'),
-                    $this->GetLocalizerCaptions()->GetMessageString('Copy'), $this->dataset,
-                    $this->GetModalGridCopyHandler(), $grid);
-                $operation->setUseImage(true);
-                $actions->addOperation($operation);
-            }
         }
     
         protected function AddFieldColumns(Grid $grid, $withDetails = true)
@@ -385,9 +365,9 @@
             $grid->AddViewColumn($column);
             
             //
-            // View column for Region field
+            // View column for user_approval_region_description field
             //
-            $column = new TextViewColumn('region_id', 'region_id_Region', 'Region', $this->dataset);
+            $column = new TextViewColumn('region_id', 'region_id_user_approval_region_description', 'User Region', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
@@ -400,6 +380,7 @@
             //
             $column = new TextViewColumn('manager_id', 'manager_id_user_name', 'Reports Manager', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -444,9 +425,9 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for Region field
+            // View column for user_approval_region_description field
             //
-            $column = new TextViewColumn('region_id', 'region_id_Region', 'Region', $this->dataset);
+            $column = new TextViewColumn('region_id', 'region_id_user_approval_region_description', 'User Region', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
             
@@ -468,6 +449,8 @@
             $editColumn->SetReadOnly(true);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
+            $editColumn->setAllowListCellEdit(false);
+            $editColumn->setAllowSingleViewCellEdit(false);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
@@ -478,6 +461,8 @@
             $editColumn = new CustomEditColumn('User Email', 'user_email', $editor, $this->dataset);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
+            $editColumn->setAllowListCellEdit(false);
+            $editColumn->setAllowSingleViewCellEdit(false);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
@@ -503,6 +488,8 @@
                 $this->dataset, 'lookup_user_roleid', 'role_description', $lookupDataset);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
+            $editColumn->setAllowListCellEdit(false);
+            $editColumn->setAllowSingleViewCellEdit(false);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
@@ -512,6 +499,8 @@
             $editor = new CheckBox('is_head_manager_edit');
             $editColumn = new CustomEditColumn('Is Head Manager', 'is_head_manager', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
+            $editColumn->setAllowListCellEdit(false);
+            $editColumn->setAllowSingleViewCellEdit(false);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
@@ -524,17 +513,18 @@
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
-                '`lookup_region`');
+                '`lookup_user_approval_region`');
             $lookupDataset->addFields(
                 array(
-                    new IntegerField('Region_ID', true, true, true),
-                    new StringField('Region', true),
-                    new StringField('Region_Value', true)
+                    new IntegerField('lookup_user_approval_regionid', true, true, true),
+                    new StringField('user_approval_region_description')
                 )
             );
-            $lookupDataset->setOrderByField('Region', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Region', 'region_id', 'region_id_Region', 'edit_phpgen_users_region_id_search', $editor, $this->dataset, $lookupDataset, 'Region_ID', 'Region', '');
+            $lookupDataset->setOrderByField('user_approval_region_description', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('User Region', 'region_id', 'region_id_user_approval_region_description', 'edit_phpgen_users_region_id_search', $editor, $this->dataset, $lookupDataset, 'lookup_user_approval_regionid', 'user_approval_region_description', '');
             $editColumn->SetAllowSetToNull(true);
+            $editColumn->setAllowListCellEdit(false);
+            $editColumn->setAllowSingleViewCellEdit(false);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
@@ -565,6 +555,8 @@
             $lookupDataset->setOrderByField('user_name', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Reports Manager', 'manager_id', 'manager_id_user_name', 'edit_phpgen_users_manager_id_search', $editor, $this->dataset, $lookupDataset, 'user_id', 'user_name', '');
             $editColumn->SetAllowSetToNull(true);
+            $editColumn->setAllowListCellEdit(false);
+            $editColumn->setAllowSingleViewCellEdit(false);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
         }
@@ -635,16 +627,15 @@
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
-                '`lookup_region`');
+                '`lookup_user_approval_region`');
             $lookupDataset->addFields(
                 array(
-                    new IntegerField('Region_ID', true, true, true),
-                    new StringField('Region', true),
-                    new StringField('Region_Value', true)
+                    new IntegerField('lookup_user_approval_regionid', true, true, true),
+                    new StringField('user_approval_region_description')
                 )
             );
-            $lookupDataset->setOrderByField('Region', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Region', 'region_id', 'region_id_Region', 'multi_edit_phpgen_users_region_id_search', $editor, $this->dataset, $lookupDataset, 'Region_ID', 'Region', '');
+            $lookupDataset->setOrderByField('user_approval_region_description', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('User Region', 'region_id', 'region_id_user_approval_region_description', 'multi_edit_phpgen_users_region_id_search', $editor, $this->dataset, $lookupDataset, 'lookup_user_approval_regionid', 'user_approval_region_description', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -746,16 +737,15 @@
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
-                '`lookup_region`');
+                '`lookup_user_approval_region`');
             $lookupDataset->addFields(
                 array(
-                    new IntegerField('Region_ID', true, true, true),
-                    new StringField('Region', true),
-                    new StringField('Region_Value', true)
+                    new IntegerField('lookup_user_approval_regionid', true, true, true),
+                    new StringField('user_approval_region_description')
                 )
             );
-            $lookupDataset->setOrderByField('Region', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Region', 'region_id', 'region_id_Region', 'insert_phpgen_users_region_id_search', $editor, $this->dataset, $lookupDataset, 'Region_ID', 'Region', '');
+            $lookupDataset->setOrderByField('user_approval_region_description', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('User Region', 'region_id', 'region_id_user_approval_region_description', 'insert_phpgen_users_region_id_search', $editor, $this->dataset, $lookupDataset, 'lookup_user_approval_regionid', 'user_approval_region_description', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -789,7 +779,7 @@
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
-            $grid->SetShowAddButton(true && $this->GetSecurityInfo()->HasAddGrant());
+            $grid->SetShowAddButton(false && $this->GetSecurityInfo()->HasAddGrant());
         }
     
         private function AddMultiUploadColumn(Grid $grid)
@@ -848,9 +838,9 @@
             $grid->AddPrintColumn($column);
             
             //
-            // View column for Region field
+            // View column for user_approval_region_description field
             //
-            $column = new TextViewColumn('region_id', 'region_id_Region', 'Region', $this->dataset);
+            $column = new TextViewColumn('region_id', 'region_id_user_approval_region_description', 'User Region', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $grid->AddPrintColumn($column);
@@ -860,6 +850,7 @@
             //
             $column = new TextViewColumn('manager_id', 'manager_id_user_name', 'Reports Manager', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddPrintColumn($column);
         }
     
@@ -914,9 +905,9 @@
             $grid->AddExportColumn($column);
             
             //
-            // View column for Region field
+            // View column for user_approval_region_description field
             //
-            $column = new TextViewColumn('region_id', 'region_id_Region', 'Region', $this->dataset);
+            $column = new TextViewColumn('region_id', 'region_id_user_approval_region_description', 'User Region', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $grid->AddExportColumn($column);
@@ -926,6 +917,7 @@
             //
             $column = new TextViewColumn('manager_id', 'manager_id_user_name', 'Reports Manager', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddExportColumn($column);
         }
     
@@ -970,9 +962,9 @@
             $grid->AddCompareColumn($column);
             
             //
-            // View column for Region field
+            // View column for user_approval_region_description field
             //
-            $column = new TextViewColumn('region_id', 'region_id_Region', 'Region', $this->dataset);
+            $column = new TextViewColumn('region_id', 'region_id_user_approval_region_description', 'User Region', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $grid->AddCompareColumn($column);
@@ -982,6 +974,7 @@
             //
             $column = new TextViewColumn('manager_id', 'manager_id_user_name', 'Reports Manager', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddCompareColumn($column);
         }
     
@@ -1016,21 +1009,15 @@
         {
             return ;
         }
-        
-        public function GetEnableModalGridInsert() { return true; }
         public function GetEnableModalSingleRecordView() { return true; }
         
         public function GetEnableModalGridEdit() { return true; }
-        
-        protected function GetEnableModalGridDelete() { return true; }
-        
-        public function GetEnableModalGridCopy() { return true; }
     
         protected function CreateGrid()
         {
             $result = new Grid($this, $this->dataset);
             if ($this->GetSecurityInfo()->HasDeleteGrant())
-               $result->SetAllowDeleteSelected(true);
+               $result->SetAllowDeleteSelected(false);
             else
                $result->SetAllowDeleteSelected(false);   
             
@@ -1045,7 +1032,7 @@
             $result->setAllowCompare(true);
             $this->AddCompareHeaderColumns($result);
             $this->AddCompareColumns($result);
-            $result->setMultiEditAllowed($this->GetSecurityInfo()->HasEditGrant() && true);
+            $result->setMultiEditAllowed($this->GetSecurityInfo()->HasEditGrant() && false);
             $result->setTableBordered(false);
             $result->setTableCondensed(false);
             
@@ -1139,16 +1126,15 @@
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
-                '`lookup_region`');
+                '`lookup_user_approval_region`');
             $lookupDataset->addFields(
                 array(
-                    new IntegerField('Region_ID', true, true, true),
-                    new StringField('Region', true),
-                    new StringField('Region_Value', true)
+                    new IntegerField('lookup_user_approval_regionid', true, true, true),
+                    new StringField('user_approval_region_description')
                 )
             );
-            $lookupDataset->setOrderByField('Region', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_phpgen_users_region_id_search', 'Region_ID', 'Region', null, 20);
+            $lookupDataset->setOrderByField('user_approval_region_description', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_phpgen_users_region_id_search', 'lookup_user_approval_regionid', 'user_approval_region_description', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -1204,16 +1190,15 @@
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
-                '`lookup_region`');
+                '`lookup_user_approval_region`');
             $lookupDataset->addFields(
                 array(
-                    new IntegerField('Region_ID', true, true, true),
-                    new StringField('Region', true),
-                    new StringField('Region_Value', true)
+                    new IntegerField('lookup_user_approval_regionid', true, true, true),
+                    new StringField('user_approval_region_description')
                 )
             );
-            $lookupDataset->setOrderByField('Region', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_phpgen_users_region_id_search', 'Region_ID', 'Region', null, 20);
+            $lookupDataset->setOrderByField('user_approval_region_description', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_phpgen_users_region_id_search', 'lookup_user_approval_regionid', 'user_approval_region_description', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -1257,16 +1242,15 @@
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
-                '`lookup_region`');
+                '`lookup_user_approval_region`');
             $lookupDataset->addFields(
                 array(
-                    new IntegerField('Region_ID', true, true, true),
-                    new StringField('Region', true),
-                    new StringField('Region_Value', true)
+                    new IntegerField('lookup_user_approval_regionid', true, true, true),
+                    new StringField('user_approval_region_description')
                 )
             );
-            $lookupDataset->setOrderByField('Region', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_phpgen_users_region_id_search', 'Region_ID', 'Region', null, 20);
+            $lookupDataset->setOrderByField('user_approval_region_description', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_phpgen_users_region_id_search', 'lookup_user_approval_regionid', 'user_approval_region_description', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -1294,16 +1278,15 @@
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
-                '`lookup_region`');
+                '`lookup_user_approval_region`');
             $lookupDataset->addFields(
                 array(
-                    new IntegerField('Region_ID', true, true, true),
-                    new StringField('Region', true),
-                    new StringField('Region_Value', true)
+                    new IntegerField('lookup_user_approval_regionid', true, true, true),
+                    new StringField('user_approval_region_description')
                 )
             );
-            $lookupDataset->setOrderByField('Region', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_phpgen_users_region_id_search', 'Region_ID', 'Region', null, 20);
+            $lookupDataset->setOrderByField('user_approval_region_description', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_phpgen_users_region_id_search', 'lookup_user_approval_regionid', 'user_approval_region_description', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -1394,7 +1377,16 @@
     
         protected function doAfterUpdateRecord($page, $oldRowData, $rowData, $tableName, &$success, &$message, &$messageDisplayTime)
         {
-    
+            if ($success) {
+              $suserid = $rowData['user_id'];
+              $suser_level = $rowData['user_level'];
+            
+              $sql = 
+                "CALL user_marketingUsersFeatures($suserid, '$suser_level');";
+            
+              $this->GetConnection()->ExecSQL($sql);
+              $message = '<p>User Permissions has been updated and processed successfully.</p>';
+            }
         }
     
         protected function doAfterDeleteRecord($page, $rowData, $tableName, &$success, &$message, &$messageDisplayTime)

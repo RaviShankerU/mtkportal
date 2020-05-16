@@ -54,7 +54,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -224,6 +227,32 @@
             // View column for campaign_event_id field
             //
             $column = new NumberViewColumn('campaign_event_id', 'campaign_event_id', 'Campaign Event Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for campaign_time_start field
+            //
+            $column = new DateTimeViewColumn('campaign_time_start', 'campaign_time_start', 'Campaign Time Start', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for campaign_time_end field
+            //
+            $column = new DateTimeViewColumn('campaign_time_end', 'campaign_time_end', 'Campaign Time End', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for webinar_tracker field
+            //
+            $column = new NumberViewColumn('webinar_tracker', 'webinar_tracker', 'Webinar Tracker', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -477,9 +506,9 @@
         {
             return array(
                 new FilterColumn($this->dataset, 'campaign_import_id', 'campaign_import_id', 'Campaign Import Id'),
-                new FilterColumn($this->dataset, 'program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Program Generator Name'),
+                new FilterColumn($this->dataset, 'program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Acquisition Program'),
                 new FilterColumn($this->dataset, 'import_status', 'import_status_Status_Type', 'Import Status'),
-                new FilterColumn($this->dataset, 'csv_list_location', 'csv_list_location', 'CSV. File Location'),
+                new FilterColumn($this->dataset, 'csv_list_location', 'csv_list_location', 'File URL (CSV stored in Teams)'),
                 new FilterColumn($this->dataset, 'trackerid', 'trackerid', 'Trackerid'),
                 new FilterColumn($this->dataset, 'list_total', 'list_total', 'List Total'),
                 new FilterColumn($this->dataset, 'cleaned', 'cleaned', 'Cleaned'),
@@ -510,8 +539,7 @@
                 ->addColumn($columns['created_by'])
                 ->addColumn($columns['created_date'])
                 ->addColumn($columns['modified_by'])
-                ->addColumn($columns['modified_date'])
-                ->addColumn($columns['png_trackerid']);
+                ->addColumn($columns['modified_date']);
         }
     
         protected function setupColumnFilter(ColumnFilter $columnFilter)
@@ -580,8 +608,7 @@
             );
             
             $main_editor = new TextEdit('csv_list_location_edit');
-            $main_editor->SetPrefix('Import Folder');
-            $main_editor->SetSuffix('Teams URL');
+            $main_editor->SetPrefix('URL');
             $main_editor->SetPlaceholder('Copy the full shared list url in teams to the CSV files location');
             
             $filterBuilder->addColumn(
@@ -815,24 +842,6 @@
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
             );
-            
-            $main_editor = new TextEdit('png_trackerid_edit');
-            
-            $filterBuilder->addColumn(
-                $columns['png_trackerid'],
-                array(
-                    FilterConditionOperator::EQUALS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
-                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
-                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
-                    FilterConditionOperator::IS_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::IS_BLANK => null,
-                    FilterConditionOperator::IS_NOT_BLANK => null
-                )
-            );
         }
     
         protected function AddOperationsColumns(Grid $grid)
@@ -888,7 +897,7 @@
             //
             // View column for campaign_program_name field
             //
-            $column = new TextViewColumn('program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Program Generator Name', $this->dataset);
+            $column = new TextViewColumn('program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Acquisition Program', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->setLookupRecordModalViewHandlerName(campaign_import_program_generator_name_idModalViewPage::getHandlerName());
@@ -903,16 +912,6 @@
             $column = new TextViewColumn('import_status', 'import_status_Status_Type', 'Import Status', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for csv_list_location field
-            //
-            $column = new DownloadExternalDataColumn('csv_list_location', 'csv_list_location', 'CSV. File Location', $this->dataset, '');
-            $column->SetOrderable(true);
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1003,6 +1002,7 @@
             //
             $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1018,19 +1018,6 @@
             $column->SetDescription('');
             $column->SetFixedWidth(null);
             $grid->AddViewColumn($column);
-            
-            //
-            // View column for png_trackerid field
-            //
-            $column = new NumberViewColumn('png_trackerid', 'png_trackerid', 'Png Trackerid', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
         }
     
         protected function AddSingleRecordViewColumns(Grid $grid)
@@ -1038,7 +1025,7 @@
             //
             // View column for campaign_program_name field
             //
-            $column = new TextViewColumn('program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Program Generator Name', $this->dataset);
+            $column = new TextViewColumn('program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Acquisition Program', $this->dataset);
             $column->SetOrderable(true);
             $column->setLookupRecordModalViewHandlerName(campaign_import_program_generator_name_idModalViewPage::getHandlerName());
             $grid->AddSingleRecordViewColumn($column);
@@ -1053,7 +1040,7 @@
             //
             // View column for csv_list_location field
             //
-            $column = new DownloadExternalDataColumn('csv_list_location', 'csv_list_location', 'CSV. File Location', $this->dataset, '');
+            $column = new DownloadExternalDataColumn('csv_list_location', 'csv_list_location', 'File URL (CSV stored in Teams)', $this->dataset, '');
             $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
             
@@ -1143,16 +1130,6 @@
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddSingleRecordViewColumn($column);
-            
-            //
-            // View column for png_trackerid field
-            //
-            $column = new NumberViewColumn('png_trackerid', 'png_trackerid', 'Png Trackerid', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
-            $grid->AddSingleRecordViewColumn($column);
         }
     
         protected function AddEditColumns(Grid $grid)
@@ -1187,7 +1164,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -1197,7 +1177,7 @@
                 )
             );
             $lookupDataset->setOrderByField('campaign_program_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Program Generator Name', 'program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'edit_campaign_import_program_generator_name_id_search', $editor, $this->dataset, $lookupDataset, 'program_generator_name_id', 'campaign_program_name', '');
+            $editColumn = new DynamicLookupEditColumn('Acquisition Program', 'program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'edit_campaign_import_program_generator_name_id_search', $editor, $this->dataset, $lookupDataset, 'program_generator_name_id', 'campaign_program_name', '');
             $editColumn->SetReadOnly(true);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
@@ -1234,10 +1214,9 @@
             // Edit column for csv_list_location field
             //
             $editor = new TextEdit('csv_list_location_edit');
-            $editor->SetPrefix('Import Folder');
-            $editor->SetSuffix('Teams URL');
+            $editor->SetPrefix('URL');
             $editor->SetPlaceholder('Copy the full shared list url in teams to the CSV files location');
-            $editColumn = new CustomEditColumn('CSV. File Location', 'csv_list_location', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('File URL (CSV stored in Teams)', 'csv_list_location', $editor, $this->dataset);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $validator = new UrlValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('UrlValidationMessage'), $editColumn->GetCaption()));
@@ -1341,15 +1320,6 @@
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for png_trackerid field
-            //
-            $editor = new TextEdit('png_trackerid_edit');
-            $editColumn = new CustomEditColumn('Png Trackerid', 'png_trackerid', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
         }
     
         protected function AddMultiEditColumns(Grid $grid)
@@ -1384,7 +1354,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -1394,7 +1367,7 @@
                 )
             );
             $lookupDataset->setOrderByField('campaign_program_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Program Generator Name', 'program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'multi_edit_campaign_import_program_generator_name_id_search', $editor, $this->dataset, $lookupDataset, 'program_generator_name_id', 'campaign_program_name', '');
+            $editColumn = new DynamicLookupEditColumn('Acquisition Program', 'program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'multi_edit_campaign_import_program_generator_name_id_search', $editor, $this->dataset, $lookupDataset, 'program_generator_name_id', 'campaign_program_name', '');
             $editColumn->SetReadOnly(true);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
@@ -1431,10 +1404,9 @@
             // Edit column for csv_list_location field
             //
             $editor = new TextEdit('csv_list_location_edit');
-            $editor->SetPrefix('Import Folder');
-            $editor->SetSuffix('Teams URL');
+            $editor->SetPrefix('URL');
             $editor->SetPlaceholder('Copy the full shared list url in teams to the CSV files location');
-            $editColumn = new CustomEditColumn('CSV. File Location', 'csv_list_location', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('File URL (CSV stored in Teams)', 'csv_list_location', $editor, $this->dataset);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $validator = new UrlValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('UrlValidationMessage'), $editColumn->GetCaption()));
@@ -1559,15 +1531,6 @@
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for png_trackerid field
-            //
-            $editor = new TextEdit('png_trackerid_edit');
-            $editColumn = new CustomEditColumn('Png Trackerid', 'png_trackerid', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
         }
     
         protected function AddInsertColumns(Grid $grid)
@@ -1602,7 +1565,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -1612,7 +1578,7 @@
                 )
             );
             $lookupDataset->setOrderByField('campaign_program_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Program Generator Name', 'program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'insert_campaign_import_program_generator_name_id_search', $editor, $this->dataset, $lookupDataset, 'program_generator_name_id', 'campaign_program_name', '');
+            $editColumn = new DynamicLookupEditColumn('Acquisition Program', 'program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'insert_campaign_import_program_generator_name_id_search', $editor, $this->dataset, $lookupDataset, 'program_generator_name_id', 'campaign_program_name', '');
             $editColumn->SetReadOnly(true);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
@@ -1650,10 +1616,9 @@
             // Edit column for csv_list_location field
             //
             $editor = new TextEdit('csv_list_location_edit');
-            $editor->SetPrefix('Import Folder');
-            $editor->SetSuffix('Teams URL');
+            $editor->SetPrefix('URL');
             $editor->SetPlaceholder('Copy the full shared list url in teams to the CSV files location');
-            $editColumn = new CustomEditColumn('CSV. File Location', 'csv_list_location', $editor, $this->dataset);
+            $editColumn = new CustomEditColumn('File URL (CSV stored in Teams)', 'csv_list_location', $editor, $this->dataset);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $validator = new UrlValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('UrlValidationMessage'), $editColumn->GetCaption()));
@@ -1745,6 +1710,7 @@
             $editColumn = new CustomEditColumn('Created By', 'created_by', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
+            $editColumn->SetInsertDefaultValue('%CURRENT_USER_NAME%');
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
             
@@ -1755,15 +1721,7 @@
             $editColumn = new CustomEditColumn('Created Date', 'created_date', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for png_trackerid field
-            //
-            $editor = new TextEdit('png_trackerid_edit');
-            $editColumn = new CustomEditColumn('Png Trackerid', 'png_trackerid', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
+            $editColumn->SetInsertDefaultValue('%CURRENT_DATETIME%');
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
             $grid->SetShowAddButton(true && $this->GetSecurityInfo()->HasAddGrant());
@@ -1779,7 +1737,7 @@
             //
             // View column for campaign_program_name field
             //
-            $column = new TextViewColumn('program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Program Generator Name', $this->dataset);
+            $column = new TextViewColumn('program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Acquisition Program', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $grid->AddPrintColumn($column);
@@ -1795,7 +1753,7 @@
             //
             // View column for csv_list_location field
             //
-            $column = new DownloadExternalDataColumn('csv_list_location', 'csv_list_location', 'CSV. File Location', $this->dataset, '');
+            $column = new DownloadExternalDataColumn('csv_list_location', 'csv_list_location', 'File URL (CSV stored in Teams)', $this->dataset, '');
             $column->SetOrderable(true);
             $grid->AddPrintColumn($column);
             
@@ -1866,6 +1824,7 @@
             //
             $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddPrintColumn($column);
             
             //
@@ -1889,16 +1848,6 @@
             $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y H:i:s');
-            $grid->AddPrintColumn($column);
-            
-            //
-            // View column for png_trackerid field
-            //
-            $column = new NumberViewColumn('png_trackerid', 'png_trackerid', 'Png Trackerid', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
             $grid->AddPrintColumn($column);
         }
     
@@ -1907,7 +1856,7 @@
             //
             // View column for campaign_program_name field
             //
-            $column = new TextViewColumn('program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Program Generator Name', $this->dataset);
+            $column = new TextViewColumn('program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Acquisition Program', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $grid->AddExportColumn($column);
@@ -1923,7 +1872,7 @@
             //
             // View column for csv_list_location field
             //
-            $column = new DownloadExternalDataColumn('csv_list_location', 'csv_list_location', 'CSV. File Location', $this->dataset, '');
+            $column = new DownloadExternalDataColumn('csv_list_location', 'csv_list_location', 'File URL (CSV stored in Teams)', $this->dataset, '');
             $column->SetOrderable(true);
             $grid->AddExportColumn($column);
             
@@ -1994,6 +1943,7 @@
             //
             $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddExportColumn($column);
             
             //
@@ -2017,16 +1967,6 @@
             $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y H:i:s');
-            $grid->AddExportColumn($column);
-            
-            //
-            // View column for png_trackerid field
-            //
-            $column = new NumberViewColumn('png_trackerid', 'png_trackerid', 'Png Trackerid', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
             $grid->AddExportColumn($column);
         }
     
@@ -2035,7 +1975,7 @@
             //
             // View column for campaign_program_name field
             //
-            $column = new TextViewColumn('program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Program Generator Name', $this->dataset);
+            $column = new TextViewColumn('program_generator_name_id', 'program_generator_name_id_campaign_program_name', 'Acquisition Program', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $grid->AddCompareColumn($column);
@@ -2051,7 +1991,7 @@
             //
             // View column for csv_list_location field
             //
-            $column = new DownloadExternalDataColumn('csv_list_location', 'csv_list_location', 'CSV. File Location', $this->dataset, '');
+            $column = new DownloadExternalDataColumn('csv_list_location', 'csv_list_location', 'File URL (CSV stored in Teams)', $this->dataset, '');
             $column->SetOrderable(true);
             $grid->AddCompareColumn($column);
             
@@ -2122,6 +2062,7 @@
             //
             $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddCompareColumn($column);
             
             //
@@ -2145,16 +2086,6 @@
             $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y H:i:s');
-            $grid->AddCompareColumn($column);
-            
-            //
-            // View column for png_trackerid field
-            //
-            $column = new NumberViewColumn('png_trackerid', 'png_trackerid', 'Png Trackerid', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setNumberAfterDecimal(0);
-            $column->setThousandsSeparator(',');
-            $column->setDecimalSeparator('');
             $grid->AddCompareColumn($column);
         }
     
@@ -2291,7 +2222,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -2359,7 +2293,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -2427,7 +2364,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -2495,7 +2435,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -2761,7 +2704,7 @@
             	if (!empty($result)) {
             	   foreach ($result as $row) {
             		   // is current user a member of the Sales role?
-            		   if ($row['role_name'] === '346') {
+            		   if (($row['user_level'] === '346')) {
             			 // if yes, allow all actions.
             			 // otherwise default permissions for this page will be applied
             			 $permissions->setGrants(true, true, true, true);

@@ -853,7 +853,7 @@
             $partitions[3] = 'Comms Tracker';
             $partitions[4] = 'Contact List Import';
             $partitions[5] = 'Event List';
-            $partitions[6] = 'Program Name Generator';
+            $partitions[6] = 'Campaign Builder';
             $partitions[7] = 'UTM Link Generator';
         }
         

@@ -150,7 +150,6 @@
                 ->setOptionsFor('cregion')
                 ->setOptionsFor('campaign_publish_date')
                 ->setOptionsFor('tracker_status')
-                ->setOptionsFor('campaign_utm_id')
                 ->setOptionsFor('modified_date');
         }
     
@@ -595,6 +594,7 @@
             //
             $column = new TextViewColumn('campaign_type', 'campaign_type_Type', 'Campaign Type', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -627,6 +627,7 @@
             //
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_program_name_generator_campaign_tracker_comms_local_campaign_description_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
@@ -650,17 +651,7 @@
             //
             $column = new TextViewColumn('tracker_status', 'tracker_status_Status_Type', 'Send Status', $this->dataset);
             $column->SetOrderable(true);
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
-            
-            //
-            // View column for utm_created field
-            //
-            $column = new TextViewColumn('campaign_utm_id', 'campaign_utm_id_utm_created', 'UTM Tracking', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setLookupRecordModalViewHandlerName(campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idModalViewPage::getHandlerName());
+            $column->setAlign('left');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -831,7 +822,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -1034,6 +1028,7 @@
             //
             $editor = new CheckBox('show_events_cal_edit');
             $editColumn = new CustomEditColumn('Show Events Cal', 'show_events_cal', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -1095,7 +1090,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -1298,6 +1296,7 @@
             //
             $editor = new CheckBox('show_events_cal_edit');
             $editColumn = new CustomEditColumn('Show Events Cal', 'show_events_cal', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -1359,7 +1358,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -1564,7 +1566,9 @@
             //
             $editor = new CheckBox('show_events_cal_edit');
             $editColumn = new CustomEditColumn('Show Events Cal', 'show_events_cal', $editor, $this->dataset);
+            $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
+            $editColumn->SetInsertDefaultValue('No Approved');
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
             
@@ -1630,6 +1634,7 @@
             //
             $column = new TextViewColumn('campaign_type', 'campaign_type_Type', 'Campaign Type', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddPrintColumn($column);
             
             //
@@ -1646,6 +1651,7 @@
             //
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_program_name_generator_campaign_tracker_comms_local_campaign_description_handler_print');
             $grid->AddPrintColumn($column);
@@ -1663,6 +1669,7 @@
             //
             $column = new TextViewColumn('tracker_status', 'tracker_status_Status_Type', 'Send Status', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddPrintColumn($column);
             
             //
@@ -1761,6 +1768,7 @@
             //
             $column = new TextViewColumn('campaign_type', 'campaign_type_Type', 'Campaign Type', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddExportColumn($column);
             
             //
@@ -1777,6 +1785,7 @@
             //
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_program_name_generator_campaign_tracker_comms_local_campaign_description_handler_export');
             $grid->AddExportColumn($column);
@@ -1794,6 +1803,7 @@
             //
             $column = new TextViewColumn('tracker_status', 'tracker_status_Status_Type', 'Send Status', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddExportColumn($column);
             
             //
@@ -1882,6 +1892,7 @@
             //
             $column = new TextViewColumn('campaign_type', 'campaign_type_Type', 'Campaign Type', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddCompareColumn($column);
             
             //
@@ -1898,6 +1909,7 @@
             //
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetMaxLength(75);
             $column->SetFullTextWindowHandlerName('campaign_program_name_generator_campaign_tracker_comms_local_campaign_description_handler_compare');
             $grid->AddCompareColumn($column);
@@ -1915,6 +1927,7 @@
             //
             $column = new TextViewColumn('tracker_status', 'tracker_status_Status_Type', 'Send Status', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddCompareColumn($column);
             
             //
@@ -2101,6 +2114,7 @@
             //
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_program_name_generator_campaign_tracker_comms_local_campaign_description_handler_list', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
@@ -2117,6 +2131,7 @@
             //
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_program_name_generator_campaign_tracker_comms_local_campaign_description_handler_print', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
@@ -2133,6 +2148,7 @@
             //
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_program_name_generator_campaign_tracker_comms_local_campaign_description_handler_compare', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
@@ -2160,7 +2176,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -2304,7 +2323,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -2464,7 +2486,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -2608,7 +2633,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -2904,25 +2932,39 @@
     
     }
     
-    class campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idModalViewPage extends ViewBasedPage
+    
+    
+    
+    // OnBeforePageExecute event handler
+    
+    
+    
+    class campaign_program_name_generator_campaign_builder_webinar_seriesPage extends DetailPage
     {
         protected function DoBeforeCreate()
         {
-            $selectQuery = 'SELECT campaign_utm_id,
-            CONCAT(`campaign_name`, \' [ \',`content`,\' - \',`campaign_publish_date`, \' \',`created_by`,\' ]\') as utm_created
-            FROM `marketing_portal_v2`.`campaign_tracker_utm`
-            WHERE campaign_publish_date IS NOT NULL';
-            $insertQuery = array();
-            $updateQuery = array();
-            $deleteQuery = array();
-            $this->dataset = new QueryDataset(
-              MySqlIConnectionFactory::getInstance(), 
-              GetConnectionOptions(),
-              $selectQuery, $insertQuery, $updateQuery, $deleteQuery, 'lookup_utm_filtered');
+            $this->SetTitle('Campaign Builder Webinar Series');
+            $this->SetMenuLabel('Campaign Builder Webinar Series');
+            $this->SetHeader(GetPagesHeader());
+            $this->SetFooter(GetPagesFooter());
+    
+            $this->dataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`campaign_builder_webinar_series`');
             $this->dataset->addFields(
                 array(
-                    new IntegerField('campaign_utm_id', true, true, true),
-                    new StringField('utm_created')
+                    new IntegerField('campaign_builder_webinar_series_id', true, true, true),
+                    new IntegerField('program_generator_name_id'),
+                    new StringField('trackerid'),
+                    new StringField('webinar_session_name'),
+                    new DateField('webinar_publish_date'),
+                    new TimeField('webinar_time_start'),
+                    new TimeField('webinar_time_end'),
+                    new IntegerField('tracker_status'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date'),
+                    new IntegerField('show_events_cal')
                 )
             );
         }
@@ -2931,12 +2973,481 @@
     
         }
     
+        protected function CreatePageNavigator()
+        {
+            $result = new CompositePageNavigator($this);
+            
+            $partitionNavigator = new PageNavigator('pnav', $this, $this->dataset);
+            $partitionNavigator->SetRowsPerPage(20);
+            $result->AddPageNavigator($partitionNavigator);
+            
+            return $result;
+        }
+    
+        protected function CreateRssGenerator()
+        {
+            return null;
+        }
+    
+        protected function setupCharts()
+        {
+    
+        }
+    
+        protected function getFiltersColumns()
+        {
+            return array(
+                new FilterColumn($this->dataset, 'campaign_builder_webinar_series_id', 'campaign_builder_webinar_series_id', 'Campaign Builder Webinar Series Id'),
+                new FilterColumn($this->dataset, 'program_generator_name_id', 'program_generator_name_id', 'Program Generator Name Id'),
+                new FilterColumn($this->dataset, 'trackerid', 'trackerid', 'Trackerid'),
+                new FilterColumn($this->dataset, 'webinar_session_name', 'webinar_session_name', 'Webinar Session Name'),
+                new FilterColumn($this->dataset, 'webinar_publish_date', 'webinar_publish_date', 'Webinar Publish Date'),
+                new FilterColumn($this->dataset, 'webinar_time_start', 'webinar_time_start', 'Webinar Time Start'),
+                new FilterColumn($this->dataset, 'webinar_time_end', 'webinar_time_end', 'Webinar Time End'),
+                new FilterColumn($this->dataset, 'tracker_status', 'tracker_status', 'Tracker Status'),
+                new FilterColumn($this->dataset, 'modified_by', 'modified_by', 'Modified By'),
+                new FilterColumn($this->dataset, 'modified_date', 'modified_date', 'Modified Date'),
+                new FilterColumn($this->dataset, 'show_events_cal', 'show_events_cal', 'Show Events Cal')
+            );
+        }
+    
+        protected function setupQuickFilter(QuickFilter $quickFilter, FixedKeysArray $columns)
+        {
+            $quickFilter
+                ->addColumn($columns['campaign_builder_webinar_series_id'])
+                ->addColumn($columns['program_generator_name_id'])
+                ->addColumn($columns['trackerid'])
+                ->addColumn($columns['webinar_session_name'])
+                ->addColumn($columns['webinar_publish_date'])
+                ->addColumn($columns['webinar_time_start'])
+                ->addColumn($columns['webinar_time_end'])
+                ->addColumn($columns['tracker_status'])
+                ->addColumn($columns['modified_by'])
+                ->addColumn($columns['modified_date'])
+                ->addColumn($columns['show_events_cal']);
+        }
+    
+        protected function setupColumnFilter(ColumnFilter $columnFilter)
+        {
+            $columnFilter
+                ->setOptionsFor('webinar_publish_date')
+                ->setOptionsFor('webinar_time_start')
+                ->setOptionsFor('webinar_time_end')
+                ->setOptionsFor('modified_date');
+        }
+    
+        protected function setupFilterBuilder(FilterBuilder $filterBuilder, FixedKeysArray $columns)
+        {
+            $main_editor = new TextEdit('campaign_builder_webinar_series_id_edit');
+            
+            $filterBuilder->addColumn(
+                $columns['campaign_builder_webinar_series_id'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('program_generator_name_id_edit');
+            
+            $filterBuilder->addColumn(
+                $columns['program_generator_name_id'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('trackerid_edit');
+            $main_editor->SetMaxLength(45);
+            
+            $filterBuilder->addColumn(
+                $columns['trackerid'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('webinar_session_name');
+            
+            $filterBuilder->addColumn(
+                $columns['webinar_session_name'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new DateTimeEdit('webinar_publish_date_edit', false, 'd-m-Y');
+            
+            $filterBuilder->addColumn(
+                $columns['webinar_publish_date'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::DATE_EQUALS => $main_editor,
+                    FilterConditionOperator::DATE_DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::TODAY => null,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TimeEdit('webinar_time_start_edit', 'H:i:s');
+            
+            $filterBuilder->addColumn(
+                $columns['webinar_time_start'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TimeEdit('webinar_time_end_edit', 'H:i:s');
+            
+            $filterBuilder->addColumn(
+                $columns['webinar_time_end'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('tracker_status_edit');
+            
+            $filterBuilder->addColumn(
+                $columns['tracker_status'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('modified_by_edit');
+            $main_editor->SetMaxLength(45);
+            
+            $filterBuilder->addColumn(
+                $columns['modified_by'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new DateTimeEdit('modified_date_edit', false, 'd-m-Y H:i:s');
+            
+            $filterBuilder->addColumn(
+                $columns['modified_date'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::DATE_EQUALS => $main_editor,
+                    FilterConditionOperator::DATE_DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::TODAY => null,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('show_events_cal_edit');
+            
+            $filterBuilder->addColumn(
+                $columns['show_events_cal'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+        }
+    
+        protected function AddOperationsColumns(Grid $grid)
+        {
+            $actions = $grid->getActions();
+            $actions->setCaption($this->GetLocalizerCaptions()->GetMessageString('Actions'));
+            $actions->setPosition(ActionList::POSITION_LEFT);
+            
+            if ($this->GetSecurityInfo()->HasViewGrant())
+            {
+                $operation = new AjaxOperation(OPERATION_VIEW,
+                    $this->GetLocalizerCaptions()->GetMessageString('View'),
+                    $this->GetLocalizerCaptions()->GetMessageString('View'), $this->dataset,
+                    $this->GetModalGridViewHandler(), $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+            }
+            
+            if ($this->GetSecurityInfo()->HasEditGrant())
+            {
+                $operation = new AjaxOperation(OPERATION_EDIT,
+                    $this->GetLocalizerCaptions()->GetMessageString('Edit'),
+                    $this->GetLocalizerCaptions()->GetMessageString('Edit'), $this->dataset,
+                    $this->GetGridEditHandler(), $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+                $operation->OnShow->AddListener('ShowEditButtonHandler', $this);
+            }
+            
+            if ($this->GetSecurityInfo()->HasDeleteGrant())
+            {
+                $operation = new LinkOperation($this->GetLocalizerCaptions()->GetMessageString('Delete'), OPERATION_DELETE, $this->dataset, $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+                $operation->OnShow->AddListener('ShowDeleteButtonHandler', $this);
+                $operation->SetAdditionalAttribute('data-modal-operation', 'delete');
+                $operation->SetAdditionalAttribute('data-delete-handler-name', $this->GetModalGridDeleteHandler());
+            }
+            
+            if ($this->GetSecurityInfo()->HasAddGrant())
+            {
+                $operation = new AjaxOperation(OPERATION_COPY,
+                    $this->GetLocalizerCaptions()->GetMessageString('Copy'),
+                    $this->GetLocalizerCaptions()->GetMessageString('Copy'), $this->dataset,
+                    $this->GetModalGridCopyHandler(), $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+            }
+        }
+    
+        protected function AddFieldColumns(Grid $grid, $withDetails = true)
+        {
+            //
+            // View column for campaign_builder_webinar_series_id field
+            //
+            $column = new NumberViewColumn('campaign_builder_webinar_series_id', 'campaign_builder_webinar_series_id', 'Campaign Builder Webinar Series Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for program_generator_name_id field
+            //
+            $column = new NumberViewColumn('program_generator_name_id', 'program_generator_name_id', 'Program Generator Name Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for trackerid field
+            //
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for webinar_session_name field
+            //
+            $column = new TextViewColumn('webinar_session_name', 'webinar_session_name', 'Webinar Session Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_program_name_generator_campaign_builder_webinar_series_webinar_session_name_handler_list');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for webinar_publish_date field
+            //
+            $column = new DateTimeViewColumn('webinar_publish_date', 'webinar_publish_date', 'Webinar Publish Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for webinar_time_start field
+            //
+            $column = new DateTimeViewColumn('webinar_time_start', 'webinar_time_start', 'Webinar Time Start', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for webinar_time_end field
+            //
+            $column = new DateTimeViewColumn('webinar_time_end', 'webinar_time_end', 'Webinar Time End', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for tracker_status field
+            //
+            $column = new NumberViewColumn('tracker_status', 'tracker_status', 'Tracker Status', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for show_events_cal field
+            //
+            $column = new NumberViewColumn('show_events_cal', 'show_events_cal', 'Show Events Cal', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+        }
+    
         protected function AddSingleRecordViewColumns(Grid $grid)
         {
             //
-            // View column for campaign_utm_id field
+            // View column for campaign_builder_webinar_series_id field
             //
-            $column = new NumberViewColumn('campaign_utm_id', 'campaign_utm_id', 'Campaign Utm Id', $this->dataset);
+            $column = new NumberViewColumn('campaign_builder_webinar_series_id', 'campaign_builder_webinar_series_id', 'Campaign Builder Webinar Series Id', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -2944,11 +3455,676 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for utm_created field
+            // View column for program_generator_name_id field
             //
-            $column = new TextViewColumn('utm_created', 'utm_created', 'Utm Created', $this->dataset);
+            $column = new NumberViewColumn('program_generator_name_id', 'program_generator_name_id', 'Program Generator Name Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for trackerid field
+            //
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for webinar_session_name field
+            //
+            $column = new TextViewColumn('webinar_session_name', 'webinar_session_name', 'Webinar Session Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_program_name_generator_campaign_builder_webinar_series_webinar_session_name_handler_view');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for webinar_publish_date field
+            //
+            $column = new DateTimeViewColumn('webinar_publish_date', 'webinar_publish_date', 'Webinar Publish Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for webinar_time_start field
+            //
+            $column = new DateTimeViewColumn('webinar_time_start', 'webinar_time_start', 'Webinar Time Start', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for webinar_time_end field
+            //
+            $column = new DateTimeViewColumn('webinar_time_end', 'webinar_time_end', 'Webinar Time End', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for tracker_status field
+            //
+            $column = new NumberViewColumn('tracker_status', 'tracker_status', 'Tracker Status', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for show_events_cal field
+            //
+            $column = new NumberViewColumn('show_events_cal', 'show_events_cal', 'Show Events Cal', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+        }
+    
+        protected function AddEditColumns(Grid $grid)
+        {
+            //
+            // Edit column for program_generator_name_id field
+            //
+            $editor = new TextEdit('program_generator_name_id_edit');
+            $editColumn = new CustomEditColumn('Program Generator Name Id', 'program_generator_name_id', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for trackerid field
+            //
+            $editor = new TextEdit('trackerid_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Trackerid', 'trackerid', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for webinar_session_name field
+            //
+            $editor = new TextAreaEdit('webinar_session_name_edit', 50, 8);
+            $editColumn = new CustomEditColumn('Webinar Session Name', 'webinar_session_name', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for webinar_publish_date field
+            //
+            $editor = new DateTimeEdit('webinar_publish_date_edit', false, 'd-m-Y');
+            $editColumn = new CustomEditColumn('Webinar Publish Date', 'webinar_publish_date', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for webinar_time_start field
+            //
+            $editor = new TimeEdit('webinar_time_start_edit', 'H:i:s');
+            $editColumn = new CustomEditColumn('Webinar Time Start', 'webinar_time_start', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for webinar_time_end field
+            //
+            $editor = new TimeEdit('webinar_time_end_edit', 'H:i:s');
+            $editColumn = new CustomEditColumn('Webinar Time End', 'webinar_time_end', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for tracker_status field
+            //
+            $editor = new TextEdit('tracker_status_edit');
+            $editColumn = new CustomEditColumn('Tracker Status', 'tracker_status', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for modified_by field
+            //
+            $editor = new TextEdit('modified_by_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Modified By', 'modified_by', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for modified_date field
+            //
+            $editor = new DateTimeEdit('modified_date_edit', false, 'd-m-Y H:i:s');
+            $editColumn = new CustomEditColumn('Modified Date', 'modified_date', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for show_events_cal field
+            //
+            $editor = new TextEdit('show_events_cal_edit');
+            $editColumn = new CustomEditColumn('Show Events Cal', 'show_events_cal', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+        }
+    
+        protected function AddMultiEditColumns(Grid $grid)
+        {
+            //
+            // Edit column for program_generator_name_id field
+            //
+            $editor = new TextEdit('program_generator_name_id_edit');
+            $editColumn = new CustomEditColumn('Program Generator Name Id', 'program_generator_name_id', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for webinar_session_name field
+            //
+            $editor = new TextAreaEdit('webinar_session_name_edit', 50, 8);
+            $editColumn = new CustomEditColumn('Webinar Session Name', 'webinar_session_name', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for webinar_publish_date field
+            //
+            $editor = new DateTimeEdit('webinar_publish_date_edit', false, 'd-m-Y');
+            $editColumn = new CustomEditColumn('Webinar Publish Date', 'webinar_publish_date', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for webinar_time_start field
+            //
+            $editor = new TimeEdit('webinar_time_start_edit', 'H:i:s');
+            $editColumn = new CustomEditColumn('Webinar Time Start', 'webinar_time_start', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for webinar_time_end field
+            //
+            $editor = new TimeEdit('webinar_time_end_edit', 'H:i:s');
+            $editColumn = new CustomEditColumn('Webinar Time End', 'webinar_time_end', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for tracker_status field
+            //
+            $editor = new TextEdit('tracker_status_edit');
+            $editColumn = new CustomEditColumn('Tracker Status', 'tracker_status', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for modified_by field
+            //
+            $editor = new TextEdit('modified_by_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Modified By', 'modified_by', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for modified_date field
+            //
+            $editor = new DateTimeEdit('modified_date_edit', false, 'd-m-Y H:i:s');
+            $editColumn = new CustomEditColumn('Modified Date', 'modified_date', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for show_events_cal field
+            //
+            $editor = new TextEdit('show_events_cal_edit');
+            $editColumn = new CustomEditColumn('Show Events Cal', 'show_events_cal', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+        }
+    
+        protected function AddInsertColumns(Grid $grid)
+        {
+            //
+            // Edit column for program_generator_name_id field
+            //
+            $editor = new TextEdit('program_generator_name_id_edit');
+            $editColumn = new CustomEditColumn('Program Generator Name Id', 'program_generator_name_id', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for trackerid field
+            //
+            $editor = new TextEdit('trackerid_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Trackerid', 'trackerid', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for webinar_session_name field
+            //
+            $editor = new TextAreaEdit('webinar_session_name_edit', 50, 8);
+            $editColumn = new CustomEditColumn('Webinar Session Name', 'webinar_session_name', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for webinar_publish_date field
+            //
+            $editor = new DateTimeEdit('webinar_publish_date_edit', false, 'd-m-Y');
+            $editColumn = new CustomEditColumn('Webinar Publish Date', 'webinar_publish_date', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for webinar_time_start field
+            //
+            $editor = new TimeEdit('webinar_time_start_edit', 'H:i:s');
+            $editColumn = new CustomEditColumn('Webinar Time Start', 'webinar_time_start', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for webinar_time_end field
+            //
+            $editor = new TimeEdit('webinar_time_end_edit', 'H:i:s');
+            $editColumn = new CustomEditColumn('Webinar Time End', 'webinar_time_end', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for tracker_status field
+            //
+            $editor = new TextEdit('tracker_status_edit');
+            $editColumn = new CustomEditColumn('Tracker Status', 'tracker_status', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for modified_by field
+            //
+            $editor = new TextEdit('modified_by_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Modified By', 'modified_by', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for modified_date field
+            //
+            $editor = new DateTimeEdit('modified_date_edit', false, 'd-m-Y H:i:s');
+            $editColumn = new CustomEditColumn('Modified Date', 'modified_date', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for show_events_cal field
+            //
+            $editor = new TextEdit('show_events_cal_edit');
+            $editColumn = new CustomEditColumn('Show Events Cal', 'show_events_cal', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            $grid->SetShowAddButton(true && $this->GetSecurityInfo()->HasAddGrant());
+        }
+    
+        private function AddMultiUploadColumn(Grid $grid)
+        {
+    
+        }
+    
+        protected function AddPrintColumns(Grid $grid)
+        {
+            //
+            // View column for campaign_builder_webinar_series_id field
+            //
+            $column = new NumberViewColumn('campaign_builder_webinar_series_id', 'campaign_builder_webinar_series_id', 'Campaign Builder Webinar Series Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for program_generator_name_id field
+            //
+            $column = new NumberViewColumn('program_generator_name_id', 'program_generator_name_id', 'Program Generator Name Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for trackerid field
+            //
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for webinar_session_name field
+            //
+            $column = new TextViewColumn('webinar_session_name', 'webinar_session_name', 'Webinar Session Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_program_name_generator_campaign_builder_webinar_series_webinar_session_name_handler_print');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for webinar_publish_date field
+            //
+            $column = new DateTimeViewColumn('webinar_publish_date', 'webinar_publish_date', 'Webinar Publish Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for webinar_time_start field
+            //
+            $column = new DateTimeViewColumn('webinar_time_start', 'webinar_time_start', 'Webinar Time Start', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for webinar_time_end field
+            //
+            $column = new DateTimeViewColumn('webinar_time_end', 'webinar_time_end', 'Webinar Time End', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for tracker_status field
+            //
+            $column = new NumberViewColumn('tracker_status', 'tracker_status', 'Tracker Status', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for show_events_cal field
+            //
+            $column = new NumberViewColumn('show_events_cal', 'show_events_cal', 'Show Events Cal', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddPrintColumn($column);
+        }
+    
+        protected function AddExportColumns(Grid $grid)
+        {
+            //
+            // View column for campaign_builder_webinar_series_id field
+            //
+            $column = new NumberViewColumn('campaign_builder_webinar_series_id', 'campaign_builder_webinar_series_id', 'Campaign Builder Webinar Series Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for program_generator_name_id field
+            //
+            $column = new NumberViewColumn('program_generator_name_id', 'program_generator_name_id', 'Program Generator Name Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for trackerid field
+            //
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for webinar_session_name field
+            //
+            $column = new TextViewColumn('webinar_session_name', 'webinar_session_name', 'Webinar Session Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_program_name_generator_campaign_builder_webinar_series_webinar_session_name_handler_export');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for webinar_publish_date field
+            //
+            $column = new DateTimeViewColumn('webinar_publish_date', 'webinar_publish_date', 'Webinar Publish Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for webinar_time_start field
+            //
+            $column = new DateTimeViewColumn('webinar_time_start', 'webinar_time_start', 'Webinar Time Start', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for webinar_time_end field
+            //
+            $column = new DateTimeViewColumn('webinar_time_end', 'webinar_time_end', 'Webinar Time End', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for tracker_status field
+            //
+            $column = new NumberViewColumn('tracker_status', 'tracker_status', 'Tracker Status', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for show_events_cal field
+            //
+            $column = new NumberViewColumn('show_events_cal', 'show_events_cal', 'Show Events Cal', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddExportColumn($column);
+        }
+    
+        private function AddCompareColumns(Grid $grid)
+        {
+            //
+            // View column for program_generator_name_id field
+            //
+            $column = new NumberViewColumn('program_generator_name_id', 'program_generator_name_id', 'Program Generator Name Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for trackerid field
+            //
+            $column = new TextViewColumn('trackerid', 'trackerid', 'Trackerid', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for webinar_session_name field
+            //
+            $column = new TextViewColumn('webinar_session_name', 'webinar_session_name', 'Webinar Session Name', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetMaxLength(75);
+            $column->SetFullTextWindowHandlerName('campaign_program_name_generator_campaign_builder_webinar_series_webinar_session_name_handler_compare');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for webinar_publish_date field
+            //
+            $column = new DateTimeViewColumn('webinar_publish_date', 'webinar_publish_date', 'Webinar Publish Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for webinar_time_start field
+            //
+            $column = new DateTimeViewColumn('webinar_time_start', 'webinar_time_start', 'Webinar Time Start', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for webinar_time_end field
+            //
+            $column = new DateTimeViewColumn('webinar_time_end', 'webinar_time_end', 'Webinar Time End', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for tracker_status field
+            //
+            $column = new NumberViewColumn('tracker_status', 'tracker_status', 'Tracker Status', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for show_events_cal field
+            //
+            $column = new NumberViewColumn('show_events_cal', 'show_events_cal', 'Show Events Cal', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddCompareColumn($column);
+        }
+    
+        private function AddCompareHeaderColumns(Grid $grid)
+        {
+    
+        }
+    
+        public function GetPageDirection()
+        {
+            return null;
+        }
+    
+        public function isFilterConditionRequired()
+        {
+            return false;
+        }
+    
+        protected function ApplyCommonColumnEditProperties(CustomEditColumn $column)
+        {
+            $column->SetDisplaySetToNullCheckBox(false);
+            $column->SetDisplaySetToDefaultCheckBox(false);
+    		$column->SetVariableContainer($this->GetColumnVariableContainer());
         }
     
         function GetCustomClientScript()
@@ -2960,31 +4136,178 @@
         {
             return ;
         }
+        
+        public function GetEnableModalGridInsert() { return true; }
+        public function GetEnableModalSingleRecordView() { return true; }
+        
+        public function GetEnableModalGridEdit() { return true; }
+        
+        protected function GetEnableModalGridDelete() { return true; }
+        
+        public function GetEnableModalGridCopy() { return true; }
     
+        protected function CreateGrid()
+        {
+            $result = new Grid($this, $this->dataset);
+            if ($this->GetSecurityInfo()->HasDeleteGrant())
+               $result->SetAllowDeleteSelected(true);
+            else
+               $result->SetAllowDeleteSelected(false);   
+            
+            ApplyCommonPageSettings($this, $result);
+            
+            $result->SetUseImagesForActions(true);
+            $result->SetUseFixedHeader(false);
+            $result->SetShowLineNumbers(true);
+            $result->SetShowKeyColumnsImagesInHeader(false);
+            $result->SetViewMode(ViewMode::TABLE);
+            $result->setEnableRuntimeCustomization(true);
+            $result->setAllowCompare(true);
+            $this->AddCompareHeaderColumns($result);
+            $this->AddCompareColumns($result);
+            $result->setMultiEditAllowed($this->GetSecurityInfo()->HasEditGrant() && true);
+            $result->setTableBordered(false);
+            $result->setTableCondensed(false);
+            
+            $result->SetHighlightRowAtHover(true);
+            $result->SetWidth('');
+            $this->AddOperationsColumns($result);
+            $this->AddFieldColumns($result);
+            $this->AddSingleRecordViewColumns($result);
+            $this->AddEditColumns($result);
+            $this->AddMultiEditColumns($result);
+            $this->AddInsertColumns($result);
+            $this->AddPrintColumns($result);
+            $this->AddExportColumns($result);
+            $this->AddMultiUploadColumn($result);
+    
+    
+            $this->SetShowPageList(true);
+            $this->SetShowTopPageNavigator(true);
+            $this->SetShowBottomPageNavigator(true);
+            $this->setPrintListAvailable(true);
+            $this->setPrintListRecordAvailable(false);
+            $this->setPrintOneRecordAvailable(true);
+            $this->setAllowPrintSelectedRecords(true);
+            $this->setExportListAvailable(array('pdf', 'excel', 'word', 'xml', 'csv'));
+            $this->setExportSelectedRecordsAvailable(array('pdf', 'excel', 'word', 'xml', 'csv'));
+            $this->setExportListRecordAvailable(array());
+            $this->setExportOneRecordAvailable(array('pdf', 'excel', 'word', 'xml', 'csv'));
+            $this->setShowFormErrorsOnTop(true);
+    
+            return $result;
+        }
+     
         protected function setClientSideEvents(Grid $grid) {
     
         }
     
         protected function doRegisterHandlers() {
+            //
+            // View column for webinar_session_name field
+            //
+            $column = new TextViewColumn('webinar_session_name', 'webinar_session_name', 'Webinar Session Name', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_program_name_generator_campaign_builder_webinar_series_webinar_session_name_handler_list', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
             
+            //
+            // View column for webinar_session_name field
+            //
+            $column = new TextViewColumn('webinar_session_name', 'webinar_session_name', 'Webinar Session Name', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_program_name_generator_campaign_builder_webinar_series_webinar_session_name_handler_print', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
             
+            //
+            // View column for webinar_session_name field
+            //
+            $column = new TextViewColumn('webinar_session_name', 'webinar_session_name', 'Webinar Session Name', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_program_name_generator_campaign_builder_webinar_series_webinar_session_name_handler_compare', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            //
+            // View column for webinar_session_name field
+            //
+            $column = new TextViewColumn('webinar_session_name', 'webinar_session_name', 'Webinar Session Name', $this->dataset);
+            $column->SetOrderable(true);
+            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_program_name_generator_campaign_builder_webinar_series_webinar_session_name_handler_view', $column);
+            GetApplication()->RegisterHTTPHandler($handler);
+        }
+       
+        protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
+        { 
+    
         }
     
-        static public function getHandlerName() {
-            return get_class() . '_modal_view';
+        protected function doCustomRenderPrintColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
+        { 
+    
         }
     
-        public function GetModalGridViewHandler() {
-            return self::getHandlerName();
+        protected function doCustomRenderExportColumn($exportType, $fieldName, $fieldData, $rowData, &$customText, &$handled)
+        { 
+    
         }
     
-        protected function ApplyCommonColumnEditProperties(CustomEditColumn $column)
+        protected function doCustomDrawRow($rowData, &$cellFontColor, &$cellFontSize, &$cellBgColor, &$cellItalicAttr, &$cellBoldAttr)
         {
-            $column->SetVariableContainer($this->GetColumnVariableContainer());
+    
         }
     
-        protected function doGetCustomFormLayout($mode, FixedKeysArray $columns, FormLayout $layout)
+        protected function doExtendedCustomDrawRow($rowData, &$rowCellStyles, &$rowStyles, &$rowClasses, &$cellClasses)
         {
+    
+        }
+    
+        protected function doCustomRenderTotal($totalValue, $aggregate, $columnName, &$customText, &$handled)
+        {
+    
+        }
+    
+        protected function doCustomDefaultValues(&$values, &$handled) 
+        {
+    
+        }
+    
+        protected function doCustomCompareColumn($columnName, $valueA, $valueB, &$result)
+        {
+    
+        }
+    
+        protected function doBeforeInsertRecord($page, &$rowData, $tableName, &$cancel, &$message, &$messageDisplayTime)
+        {
+    
+        }
+    
+        protected function doBeforeUpdateRecord($page, $oldRowData, &$rowData, $tableName, &$cancel, &$message, &$messageDisplayTime)
+        {
+    
+        }
+    
+        protected function doBeforeDeleteRecord($page, &$rowData, $tableName, &$cancel, &$message, &$messageDisplayTime)
+        {
+    
+        }
+    
+        protected function doAfterInsertRecord($page, $rowData, $tableName, &$success, &$message, &$messageDisplayTime)
+        {
+    
+        }
+    
+        protected function doAfterUpdateRecord($page, $oldRowData, $rowData, $tableName, &$success, &$message, &$messageDisplayTime)
+        {
+    
+        }
+    
+        protected function doAfterDeleteRecord($page, $rowData, $tableName, &$success, &$message, &$messageDisplayTime)
+        {
+    
+        }
+    
+        protected function doCustomHTMLHeader($page, &$customHtmlHeaderText)
+        { 
     
         }
     
@@ -2993,8 +4316,48 @@
     
         }
     
-        protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
-        { 
+        protected function doGetCustomExportOptions(Page $page, $exportType, $rowData, &$options)
+        {
+    
+        }
+    
+        protected function doFileUpload($fieldName, $rowData, &$result, &$accept, $originalFileName, $originalFileExtension, $fileSize, $tempFileName)
+        {
+    
+        }
+    
+        protected function doPrepareChart(Chart $chart)
+        {
+    
+        }
+    
+        protected function doPrepareColumnFilter(ColumnFilter $columnFilter)
+        {
+    
+        }
+    
+        protected function doPrepareFilterBuilder(FilterBuilder $filterBuilder, FixedKeysArray $columns)
+        {
+    
+        }
+    
+        protected function doGetSelectionFilters(FixedKeysArray $columns, &$result)
+        {
+    
+        }
+    
+        protected function doGetCustomFormLayout($mode, FixedKeysArray $columns, FormLayout $layout)
+        {
+    
+        }
+    
+        protected function doGetCustomColumnGroup(FixedKeysArray $columns, ViewColumnGroup $columnGroup)
+        {
+    
+        }
+    
+        protected function doPageLoaded()
+        {
     
         }
     
@@ -3002,6 +4365,17 @@
         {
     
         }
+    
+        protected function doGetCustomPagePermissions(Page $page, PermissionSet &$permissions, &$handled)
+        {
+    
+        }
+    
+        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
+        {
+    
+        }
+    
     }
     
     class campaign_program_name_generator_campaign_tracker_comms_local_program_generator_name_idModalViewPage extends ViewBasedPage
@@ -3032,7 +4406,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -3237,6 +4614,32 @@
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
             $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for campaign_time_start field
+            //
+            $column = new DateTimeViewColumn('campaign_time_start', 'campaign_time_start', 'Campaign Time Start', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for campaign_time_end field
+            //
+            $column = new DateTimeViewColumn('campaign_time_end', 'campaign_time_end', 'Campaign Time End', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for webinar_tracker field
+            //
+            $column = new NumberViewColumn('webinar_tracker', 'webinar_tracker', 'Webinar Tracker', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
         }
     
         function GetCustomClientScript()
@@ -3271,6 +4674,106 @@
             $column->SetOrderable(true);
             $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_program_name_generator_campaign_tracker_comms_local_program_generator_name_idModalViewPage_industry_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);
+        }
+    
+        static public function getHandlerName() {
+            return get_class() . '_modal_view';
+        }
+    
+        public function GetModalGridViewHandler() {
+            return self::getHandlerName();
+        }
+    
+        protected function ApplyCommonColumnEditProperties(CustomEditColumn $column)
+        {
+            $column->SetVariableContainer($this->GetColumnVariableContainer());
+        }
+    
+        protected function doGetCustomFormLayout($mode, FixedKeysArray $columns, FormLayout $layout)
+        {
+    
+        }
+    
+        protected function doGetCustomTemplate($type, $part, $mode, &$result, &$params)
+        {
+    
+        }
+    
+        protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
+        { 
+    
+        }
+    
+        protected function doCalculateFields($rowData, $fieldName, &$value)
+        {
+    
+        }
+    }
+    
+    class campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idModalViewPage extends ViewBasedPage
+    {
+        protected function DoBeforeCreate()
+        {
+            $selectQuery = 'SELECT campaign_utm_id,
+            CONCAT(`campaign_name`, \' [ \',`content`,\' - \',`campaign_publish_date`, \' \',`created_by`,\' ]\') as utm_created
+            FROM `marketing_portal_v2`.`campaign_tracker_utm`
+            WHERE campaign_publish_date IS NOT NULL';
+            $insertQuery = array();
+            $updateQuery = array();
+            $deleteQuery = array();
+            $this->dataset = new QueryDataset(
+              MySqlIConnectionFactory::getInstance(), 
+              GetConnectionOptions(),
+              $selectQuery, $insertQuery, $updateQuery, $deleteQuery, 'lookup_utm_filtered');
+            $this->dataset->addFields(
+                array(
+                    new IntegerField('campaign_utm_id', true, true, true),
+                    new StringField('utm_created')
+                )
+            );
+        }
+    
+        protected function DoPrepare() {
+    
+        }
+    
+        protected function AddSingleRecordViewColumns(Grid $grid)
+        {
+            //
+            // View column for campaign_utm_id field
+            //
+            $column = new NumberViewColumn('campaign_utm_id', 'campaign_utm_id', 'Campaign Utm Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for utm_created field
+            //
+            $column = new TextViewColumn('utm_created', 'utm_created', 'Utm Created', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+        }
+    
+        function GetCustomClientScript()
+        {
+            return ;
+        }
+        
+        function GetOnPageLoadedClientScript()
+        {
+            return ;
+        }
+    
+        protected function setClientSideEvents(Grid $grid) {
+    
+        }
+    
+        protected function doRegisterHandlers() {
+            
+            
         }
     
         static public function getHandlerName() {
@@ -3843,7 +5346,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -3860,7 +5366,7 @@
             $this->dataset->AddLookupField('sub_region', 'lookup_sub_regions', new StringField('Sub_Region_Value'), new StringField('Sub_Region', false, false, false, false, 'sub_region_Sub_Region', 'sub_region_Sub_Region_lookup_sub_regions'), 'sub_region_Sub_Region_lookup_sub_regions');
             $this->dataset->AddLookupField('territory', 'lookup_territory', new StringField('Territory_Value'), new StringField('Territory', false, false, false, false, 'territory_Territory', 'territory_Territory_lookup_territory'), 'territory_Territory_lookup_territory');
             $this->dataset->AddLookupField('emails_tracker', 'lookup_email_tracker', new IntegerField('qty'), new StringField('email_tracker_description', false, false, false, false, 'emails_tracker_email_tracker_description', 'emails_tracker_email_tracker_description_lookup_email_tracker'), 'emails_tracker_email_tracker_description_lookup_email_tracker');
-            $this->dataset->AddLookupField('created_by', 'phpgen_users', new IntegerField('user_id'), new StringField('user_name', false, false, false, false, 'created_by_user_name', 'created_by_user_name_phpgen_users'), 'created_by_user_name_phpgen_users');
+            $this->dataset->AddLookupField('webinar_tracker', 'lookup_email_tracker', new IntegerField('qty'), new StringField('email_tracker_description', false, false, false, false, 'webinar_tracker_email_tracker_description', 'webinar_tracker_email_tracker_description_lookup_email_tracker'), 'webinar_tracker_email_tracker_description_lookup_email_tracker');
             $this->dataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'campaign_publish_date > CURDATE()'));
             if (!$this->GetSecurityInfo()->HasAdminGrant()) {
                 $this->dataset->setRlsPolicy(new RlsPolicy('created_by', GetApplication()->GetCurrentUserId()));
@@ -3922,8 +5428,11 @@
                 new FilterColumn($this->dataset, 'import_total', 'import_total', 'Import Total'),
                 new FilterColumn($this->dataset, 'create_import_list', 'create_import_list', 'Create Import List'),
                 new FilterColumn($this->dataset, 'campaign_publish_date', 'campaign_publish_date', 'Campaign Launch Date'),
+                new FilterColumn($this->dataset, 'campaign_time_start', 'campaign_time_start', 'Start Time'),
+                new FilterColumn($this->dataset, 'campaign_time_end', 'campaign_time_end', 'End Time'),
                 new FilterColumn($this->dataset, 'emails_tracker', 'emails_tracker_email_tracker_description', 'Emails Tracker'),
-                new FilterColumn($this->dataset, 'created_by', 'created_by_user_name', 'Created By'),
+                new FilterColumn($this->dataset, 'webinar_tracker', 'webinar_tracker_email_tracker_description', 'Webinar Tracker'),
+                new FilterColumn($this->dataset, 'created_by', 'created_by', 'Created By'),
                 new FilterColumn($this->dataset, 'created_date', 'created_date', 'Created Date'),
                 new FilterColumn($this->dataset, 'modified_by', 'modified_by', 'Modified By'),
                 new FilterColumn($this->dataset, 'modified_date', 'modified_date', 'Modified Date')
@@ -3951,7 +5460,10 @@
                 ->addColumn($columns['import_total'])
                 ->addColumn($columns['create_import_list'])
                 ->addColumn($columns['campaign_publish_date'])
+                ->addColumn($columns['campaign_time_start'])
+                ->addColumn($columns['campaign_time_end'])
                 ->addColumn($columns['emails_tracker'])
+                ->addColumn($columns['webinar_tracker'])
                 ->addColumn($columns['created_by'])
                 ->addColumn($columns['created_date'])
                 ->addColumn($columns['modified_by'])
@@ -3963,8 +5475,10 @@
             $columnFilter
                 ->setOptionsFor('campaign_type')
                 ->setOptionsFor('pregion')
+                ->setOptionsFor('sub_region')
                 ->setOptionsFor('campaign_publish_date')
                 ->setOptionsFor('emails_tracker')
+                ->setOptionsFor('webinar_tracker')
                 ->setOptionsFor('created_by');
         }
     
@@ -4050,7 +5564,7 @@
             );
             
             $main_editor = new TextEdit('sfdc_child_campaign_edit');
-            $main_editor->SetMaxLength(18);
+            $main_editor->SetMaxLength(50);
             $main_editor->SetPlaceholder('[ System generated SFDC campaign ]');
             
             $filterBuilder->addColumn(
@@ -4462,6 +5976,42 @@
                 )
             );
             
+            $main_editor = new TimeEdit('campaign_time_start_edit', 'H:i:s');
+            
+            $filterBuilder->addColumn(
+                $columns['campaign_time_start'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TimeEdit('campaign_time_end_edit', 'H:i:s');
+            
+            $filterBuilder->addColumn(
+                $columns['campaign_time_end'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
             $main_editor = new DynamicCombobox('emails_tracker_edit', $this->CreateLinkBuilder());
             $main_editor->setAllowClear(true);
             $main_editor->setMinimumInputLength(0);
@@ -4489,16 +6039,34 @@
                 )
             );
             
-            $main_editor = new DynamicCombobox('created_by_edit', $this->CreateLinkBuilder());
+            $main_editor = new DynamicCombobox('webinar_tracker_edit', $this->CreateLinkBuilder());
             $main_editor->setAllowClear(true);
             $main_editor->setMinimumInputLength(0);
             $main_editor->SetAllowNullValue(false);
-            $main_editor->SetHandlerName('filter_builder_campaign_program_name_generator_created_by_search');
+            $main_editor->SetHandlerName('filter_builder_campaign_program_name_generator_webinar_tracker_search');
             
-            $multi_value_select_editor = new RemoteMultiValueSelect('created_by', $this->CreateLinkBuilder());
-            $multi_value_select_editor->SetHandlerName('filter_builder_campaign_program_name_generator_created_by_search');
+            $multi_value_select_editor = new RemoteMultiValueSelect('webinar_tracker', $this->CreateLinkBuilder());
+            $multi_value_select_editor->SetHandlerName('filter_builder_campaign_program_name_generator_webinar_tracker_search');
             
-            $text_editor = new TextEdit('created_by');
+            $filterBuilder->addColumn(
+                $columns['webinar_tracker'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::IN => $multi_value_select_editor,
+                    FilterConditionOperator::NOT_IN => $multi_value_select_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new TextEdit('created_by_edit');
             
             $filterBuilder->addColumn(
                 $columns['created_by'],
@@ -4511,14 +6079,12 @@
                     FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
                     FilterConditionOperator::IS_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::CONTAINS => $text_editor,
-                    FilterConditionOperator::DOES_NOT_CONTAIN => $text_editor,
-                    FilterConditionOperator::BEGINS_WITH => $text_editor,
-                    FilterConditionOperator::ENDS_WITH => $text_editor,
-                    FilterConditionOperator::IS_LIKE => $text_editor,
-                    FilterConditionOperator::IS_NOT_LIKE => $text_editor,
-                    FilterConditionOperator::IN => $multi_value_select_editor,
-                    FilterConditionOperator::NOT_IN => $multi_value_select_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -4652,6 +6218,16 @@
             $grid->AddViewColumn($column);
             }
             
+            if (GetCurrentUserPermissionSetForDataSource('campaign_program_name_generator.campaign_builder_webinar_series')->HasViewGrant() && $withDetails)
+            {
+            //
+            // View column for campaign_program_name_generator_campaign_builder_webinar_series detail
+            //
+            $column = new DetailColumn(array('program_generator_name_id'), 'campaign_program_name_generator.campaign_builder_webinar_series', 'campaign_program_name_generator_campaign_builder_webinar_series_handler', $this->dataset, 'Campaign Builder Webinar Series');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $grid->AddViewColumn($column);
+            }
+            
             //
             // View column for campaign_program_name field
             //
@@ -4694,6 +6270,19 @@
             //
             $column = new TextViewColumn('pregion', 'pregion_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for Sub_Region field
+            //
+            $column = new TextViewColumn('sub_region', 'sub_region_Sub_Region', 'Sub Region', $this->dataset);
+            $column->setNullLabel('');
+            $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -4704,6 +6293,7 @@
             //
             $column = new DateTimeViewColumn('campaign_publish_date', 'campaign_publish_date', 'Campaign Launch Date', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetDateTimeFormat('d-m-Y');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
@@ -4721,10 +6311,21 @@
             $grid->AddViewColumn($column);
             
             //
-            // View column for user_name field
+            // View column for email_tracker_description field
             //
-            $column = new TextViewColumn('created_by', 'created_by_user_name', 'Created By', $this->dataset);
+            $column = new TextViewColumn('webinar_tracker', 'webinar_tracker_email_tracker_description', 'Webinar Tracker', $this->dataset);
             $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for created_by field
+            //
+            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -4884,6 +6485,22 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
+            // View column for campaign_time_start field
+            //
+            $column = new DateTimeViewColumn('campaign_time_start', 'campaign_time_start', 'Start Time', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for campaign_time_end field
+            //
+            $column = new DateTimeViewColumn('campaign_time_end', 'campaign_time_end', 'End Time', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
             // View column for email_tracker_description field
             //
             $column = new TextViewColumn('emails_tracker', 'emails_tracker_email_tracker_description', 'How many emails will you be sending?', $this->dataset);
@@ -4891,9 +6508,16 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for user_name field
+            // View column for email_tracker_description field
             //
-            $column = new TextViewColumn('created_by', 'created_by_user_name', 'Created By', $this->dataset);
+            $column = new TextViewColumn('webinar_tracker', 'webinar_tracker_email_tracker_description', 'Webinar Tracker', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for created_by field
+            //
+            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
             
@@ -5051,7 +6675,7 @@
             // Edit column for SFDC_child_campaign field
             //
             $editor = new TextEdit('sfdc_child_campaign_edit');
-            $editor->SetMaxLength(18);
+            $editor->SetMaxLength(50);
             $editor->SetPlaceholder('[ System generated SFDC campaign ]');
             $editColumn = new CustomEditColumn('SFDC Campaign Name', 'SFDC_child_campaign', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
@@ -5169,9 +6793,7 @@
             //
             // Edit column for territory field
             //
-            $editor = new DynamicCombobox('territory_edit', $this->CreateLinkBuilder());
-            $editor->setAllowClear(true);
-            $editor->setMinimumInputLength(0);
+            $editor = new ComboBox('territory_edit', $this->GetLocalizerCaptions()->GetMessageString('PleaseSelect'));
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
@@ -5185,7 +6807,11 @@
                 )
             );
             $lookupDataset->setOrderByField('Territory', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Territory', 'territory', 'territory_Territory', 'edit_campaign_program_name_generator_territory_search', $editor, $this->dataset, $lookupDataset, 'Territory_Value', 'Territory', '');
+            $editColumn = new LookUpEditColumn(
+                'Territory', 
+                'territory', 
+                $editor, 
+                $this->dataset, 'Territory_Value', 'Territory', $lookupDataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -5278,6 +6904,24 @@
             $grid->AddEditColumn($editColumn);
             
             //
+            // Edit column for campaign_time_start field
+            //
+            $editor = new TimeEdit('campaign_time_start_edit', 'H:i:s');
+            $editColumn = new CustomEditColumn('Start Time', 'campaign_time_start', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for campaign_time_end field
+            //
+            $editor = new TimeEdit('campaign_time_end_edit', 'H:i:s');
+            $editColumn = new CustomEditColumn('End Time', 'campaign_time_end', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
             // Edit column for emails_tracker field
             //
             $editor = new DynamicCombobox('emails_tracker_edit', $this->CreateLinkBuilder());
@@ -5291,13 +6935,39 @@
                 array(
                     new IntegerField('lookup_email_tracker_id', true, true, true),
                     new StringField('email_tracker_description'),
-                    new IntegerField('qty')
+                    new IntegerField('qty'),
+                    new StringField('tracker_filters')
                 )
             );
-            $lookupDataset->setOrderByField('email_tracker_description', 'ASC');
+            $lookupDataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'tracker_filters=\'edm\''));
             $editColumn = new DynamicLookupEditColumn('How many emails will you be sending?', 'emails_tracker', 'emails_tracker_email_tracker_description', 'edit_campaign_program_name_generator_emails_tracker_search', $editor, $this->dataset, $lookupDataset, 'qty', 'email_tracker_description', '');
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for webinar_tracker field
+            //
+            $editor = new DynamicCombobox('webinar_tracker_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_email_tracker`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('lookup_email_tracker_id', true, true, true),
+                    new StringField('email_tracker_description'),
+                    new IntegerField('qty'),
+                    new StringField('tracker_filters')
+                )
+            );
+            $lookupDataset->setOrderByField('email_tracker_description', 'ASC');
+            $lookupDataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'tracker_filters=\'wbn\''));
+            $editColumn = new DynamicLookupEditColumn('Webinar Tracker', 'webinar_tracker', 'webinar_tracker_email_tracker_description', 'edit_campaign_program_name_generator_webinar_tracker_search', $editor, $this->dataset, $lookupDataset, 'qty', 'email_tracker_description', '');
+            $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
@@ -5453,7 +7123,7 @@
             // Edit column for SFDC_child_campaign field
             //
             $editor = new TextEdit('sfdc_child_campaign_edit');
-            $editor->SetMaxLength(18);
+            $editor->SetMaxLength(50);
             $editor->SetPlaceholder('[ System generated SFDC campaign ]');
             $editColumn = new CustomEditColumn('SFDC Campaign Name', 'SFDC_child_campaign', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
@@ -5571,9 +7241,7 @@
             //
             // Edit column for territory field
             //
-            $editor = new DynamicCombobox('territory_edit', $this->CreateLinkBuilder());
-            $editor->setAllowClear(true);
-            $editor->setMinimumInputLength(0);
+            $editor = new ComboBox('territory_edit', $this->GetLocalizerCaptions()->GetMessageString('PleaseSelect'));
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
@@ -5587,7 +7255,11 @@
                 )
             );
             $lookupDataset->setOrderByField('Territory', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Territory', 'territory', 'territory_Territory', 'multi_edit_campaign_program_name_generator_territory_search', $editor, $this->dataset, $lookupDataset, 'Territory_Value', 'Territory', '');
+            $editColumn = new LookUpEditColumn(
+                'Territory', 
+                'territory', 
+                $editor, 
+                $this->dataset, 'Territory_Value', 'Territory', $lookupDataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -5680,6 +7352,24 @@
             $grid->AddMultiEditColumn($editColumn);
             
             //
+            // Edit column for campaign_time_start field
+            //
+            $editor = new TimeEdit('campaign_time_start_edit', 'H:i:s');
+            $editColumn = new CustomEditColumn('Start Time', 'campaign_time_start', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for campaign_time_end field
+            //
+            $editor = new TimeEdit('campaign_time_end_edit', 'H:i:s');
+            $editColumn = new CustomEditColumn('End Time', 'campaign_time_end', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
             // Edit column for emails_tracker field
             //
             $editor = new DynamicCombobox('emails_tracker_edit', $this->CreateLinkBuilder());
@@ -5693,10 +7383,11 @@
                 array(
                     new IntegerField('lookup_email_tracker_id', true, true, true),
                     new StringField('email_tracker_description'),
-                    new IntegerField('qty')
+                    new IntegerField('qty'),
+                    new StringField('tracker_filters')
                 )
             );
-            $lookupDataset->setOrderByField('email_tracker_description', 'ASC');
+            $lookupDataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'tracker_filters=\'edm\''));
             $editColumn = new DynamicLookupEditColumn('Emails Tracker', 'emails_tracker', 'emails_tracker_email_tracker_description', 'multi_edit_campaign_program_name_generator_emails_tracker_search', $editor, $this->dataset, $lookupDataset, 'qty', 'email_tracker_description', '');
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
@@ -5704,31 +7395,35 @@
             $grid->AddMultiEditColumn($editColumn);
             
             //
-            // Edit column for created_by field
+            // Edit column for webinar_tracker field
             //
-            $editor = new DynamicCombobox('created_by_edit', $this->CreateLinkBuilder());
+            $editor = new DynamicCombobox('webinar_tracker_edit', $this->CreateLinkBuilder());
             $editor->setAllowClear(true);
             $editor->setMinimumInputLength(0);
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
-                '`phpgen_users`');
+                '`lookup_email_tracker`');
             $lookupDataset->addFields(
                 array(
-                    new IntegerField('user_id', true, true, true),
-                    new StringField('user_name', true),
-                    new StringField('user_password', true),
-                    new StringField('user_email', true),
-                    new StringField('user_token'),
-                    new IntegerField('user_status', true),
-                    new StringField('user_level', true),
-                    new IntegerField('is_head_manager'),
-                    new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('lookup_email_tracker_id', true, true, true),
+                    new StringField('email_tracker_description'),
+                    new IntegerField('qty'),
+                    new StringField('tracker_filters')
                 )
             );
-            $lookupDataset->setOrderByField('user_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Created By', 'created_by', 'created_by_user_name', 'multi_edit_campaign_program_name_generator_created_by_search', $editor, $this->dataset, $lookupDataset, 'user_id', 'user_name', '');
+            $lookupDataset->setOrderByField('email_tracker_description', 'ASC');
+            $lookupDataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'tracker_filters=\'wbn\''));
+            $editColumn = new DynamicLookupEditColumn('Webinar Tracker', 'webinar_tracker', 'webinar_tracker_email_tracker_description', 'multi_edit_campaign_program_name_generator_webinar_tracker_search', $editor, $this->dataset, $lookupDataset, 'qty', 'email_tracker_description', '');
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for created_by field
+            //
+            $editor = new TextEdit('created_by_edit');
+            $editColumn = new CustomEditColumn('Created By', 'created_by', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -5896,7 +7591,7 @@
             // Edit column for SFDC_child_campaign field
             //
             $editor = new TextEdit('sfdc_child_campaign_edit');
-            $editor->SetMaxLength(18);
+            $editor->SetMaxLength(50);
             $editor->SetPlaceholder('[ System generated SFDC campaign ]');
             $editColumn = new CustomEditColumn('SFDC Campaign Name', 'SFDC_child_campaign', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
@@ -6014,9 +7709,7 @@
             //
             // Edit column for territory field
             //
-            $editor = new DynamicCombobox('territory_edit', $this->CreateLinkBuilder());
-            $editor->setAllowClear(true);
-            $editor->setMinimumInputLength(0);
+            $editor = new ComboBox('territory_edit', $this->GetLocalizerCaptions()->GetMessageString('PleaseSelect'));
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
@@ -6030,7 +7723,11 @@
                 )
             );
             $lookupDataset->setOrderByField('Territory', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Territory', 'territory', 'territory_Territory', 'insert_campaign_program_name_generator_territory_search', $editor, $this->dataset, $lookupDataset, 'Territory_Value', 'Territory', '');
+            $editColumn = new LookUpEditColumn(
+                'Territory', 
+                'territory', 
+                $editor, 
+                $this->dataset, 'Territory_Value', 'Territory', $lookupDataset);
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -6123,6 +7820,26 @@
             $grid->AddInsertColumn($editColumn);
             
             //
+            // Edit column for campaign_time_start field
+            //
+            $editor = new TimeEdit('campaign_time_start_edit', 'H:i:s');
+            $editColumn = new CustomEditColumn('Start Time', 'campaign_time_start', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $editColumn->SetInsertDefaultValue('%CURRENT_TIME%');
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for campaign_time_end field
+            //
+            $editor = new TimeEdit('campaign_time_end_edit', 'H:i:s');
+            $editColumn = new CustomEditColumn('End Time', 'campaign_time_end', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $editColumn->SetInsertDefaultValue('%CURRENT_TIME%');
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
             // Edit column for emails_tracker field
             //
             $editor = new DynamicCombobox('emails_tracker_edit', $this->CreateLinkBuilder());
@@ -6136,10 +7853,11 @@
                 array(
                     new IntegerField('lookup_email_tracker_id', true, true, true),
                     new StringField('email_tracker_description'),
-                    new IntegerField('qty')
+                    new IntegerField('qty'),
+                    new StringField('tracker_filters')
                 )
             );
-            $lookupDataset->setOrderByField('email_tracker_description', 'ASC');
+            $lookupDataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'tracker_filters=\'edm\''));
             $editColumn = new DynamicLookupEditColumn('Emails Tracker', 'emails_tracker', 'emails_tracker_email_tracker_description', 'insert_campaign_program_name_generator_emails_tracker_search', $editor, $this->dataset, $lookupDataset, 'qty', 'email_tracker_description', '');
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
@@ -6147,31 +7865,35 @@
             $grid->AddInsertColumn($editColumn);
             
             //
-            // Edit column for created_by field
+            // Edit column for webinar_tracker field
             //
-            $editor = new DynamicCombobox('created_by_edit', $this->CreateLinkBuilder());
+            $editor = new DynamicCombobox('webinar_tracker_edit', $this->CreateLinkBuilder());
             $editor->setAllowClear(true);
             $editor->setMinimumInputLength(0);
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
-                '`phpgen_users`');
+                '`lookup_email_tracker`');
             $lookupDataset->addFields(
                 array(
-                    new IntegerField('user_id', true, true, true),
-                    new StringField('user_name', true),
-                    new StringField('user_password', true),
-                    new StringField('user_email', true),
-                    new StringField('user_token'),
-                    new IntegerField('user_status', true),
-                    new StringField('user_level', true),
-                    new IntegerField('is_head_manager'),
-                    new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('lookup_email_tracker_id', true, true, true),
+                    new StringField('email_tracker_description'),
+                    new IntegerField('qty'),
+                    new StringField('tracker_filters')
                 )
             );
-            $lookupDataset->setOrderByField('user_name', 'ASC');
-            $editColumn = new DynamicLookupEditColumn('Created By', 'created_by', 'created_by_user_name', 'insert_campaign_program_name_generator_created_by_search', $editor, $this->dataset, $lookupDataset, 'user_id', 'user_name', '');
+            $lookupDataset->setOrderByField('email_tracker_description', 'ASC');
+            $lookupDataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'tracker_filters=\'wbn\''));
+            $editColumn = new DynamicLookupEditColumn('Webinar Tracker', 'webinar_tracker', 'webinar_tracker_email_tracker_description', 'insert_campaign_program_name_generator_webinar_tracker_search', $editor, $this->dataset, $lookupDataset, 'qty', 'email_tracker_description', '');
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for created_by field
+            //
+            $editor = new TextEdit('created_by_edit');
+            $editColumn = new CustomEditColumn('Created By', 'created_by', $editor, $this->dataset);
             $editColumn->SetReadOnly(true);
             $editColumn->SetAllowSetToNull(true);
             $editColumn->SetInsertDefaultValue('%CURRENT_USER_NAME%');
@@ -6265,6 +7987,7 @@
             //
             $column = new TextViewColumn('pregion', 'pregion_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddPrintColumn($column);
             
             //
@@ -6352,7 +8075,24 @@
             //
             $column = new DateTimeViewColumn('campaign_publish_date', 'campaign_publish_date', 'Campaign Launch Date', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetDateTimeFormat('d-m-Y');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for campaign_time_start field
+            //
+            $column = new DateTimeViewColumn('campaign_time_start', 'campaign_time_start', 'Start Time', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for campaign_time_end field
+            //
+            $column = new DateTimeViewColumn('campaign_time_end', 'campaign_time_end', 'End Time', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
             $grid->AddPrintColumn($column);
             
             //
@@ -6363,10 +8103,18 @@
             $grid->AddPrintColumn($column);
             
             //
-            // View column for user_name field
+            // View column for email_tracker_description field
             //
-            $column = new TextViewColumn('created_by', 'created_by_user_name', 'Created By', $this->dataset);
+            $column = new TextViewColumn('webinar_tracker', 'webinar_tracker_email_tracker_description', 'Webinar Tracker', $this->dataset);
             $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for created_by field
+            //
+            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddPrintColumn($column);
             
             //
@@ -6462,6 +8210,7 @@
             //
             $column = new TextViewColumn('pregion', 'pregion_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddExportColumn($column);
             
             //
@@ -6549,7 +8298,24 @@
             //
             $column = new DateTimeViewColumn('campaign_publish_date', 'campaign_publish_date', 'Campaign Launch Date', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetDateTimeFormat('d-m-Y');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for campaign_time_start field
+            //
+            $column = new DateTimeViewColumn('campaign_time_start', 'campaign_time_start', 'Start Time', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for campaign_time_end field
+            //
+            $column = new DateTimeViewColumn('campaign_time_end', 'campaign_time_end', 'End Time', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
             $grid->AddExportColumn($column);
             
             //
@@ -6560,10 +8326,18 @@
             $grid->AddExportColumn($column);
             
             //
-            // View column for user_name field
+            // View column for email_tracker_description field
             //
-            $column = new TextViewColumn('created_by', 'created_by_user_name', 'Created By', $this->dataset);
+            $column = new TextViewColumn('webinar_tracker', 'webinar_tracker_email_tracker_description', 'Webinar Tracker', $this->dataset);
             $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for created_by field
+            //
+            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddExportColumn($column);
             
             //
@@ -6659,6 +8433,7 @@
             //
             $column = new TextViewColumn('pregion', 'pregion_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddCompareColumn($column);
             
             //
@@ -6746,7 +8521,24 @@
             //
             $column = new DateTimeViewColumn('campaign_publish_date', 'campaign_publish_date', 'Campaign Launch Date', $this->dataset);
             $column->SetOrderable(true);
+            $column->setAlign('left');
             $column->SetDateTimeFormat('d-m-Y');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for campaign_time_start field
+            //
+            $column = new DateTimeViewColumn('campaign_time_start', 'campaign_time_start', 'Start Time', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for campaign_time_end field
+            //
+            $column = new DateTimeViewColumn('campaign_time_end', 'campaign_time_end', 'End Time', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
             $grid->AddCompareColumn($column);
             
             //
@@ -6757,10 +8549,18 @@
             $grid->AddCompareColumn($column);
             
             //
-            // View column for user_name field
+            // View column for email_tracker_description field
             //
-            $column = new TextViewColumn('created_by', 'created_by_user_name', 'Created By', $this->dataset);
+            $column = new TextViewColumn('webinar_tracker', 'webinar_tracker_email_tracker_description', 'Webinar Tracker', $this->dataset);
             $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for created_by field
+            //
+            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setAlign('left');
             $grid->AddCompareColumn($column);
             
             //
@@ -6947,38 +8747,99 @@
                 editors[\'short_description\'].setValue(\'-\');    
                 editors[\'create_import_list\'].setValue(\'1\');
                 editors[\'create_import_list\'].setVisible(true);   
-                $(\'#create_import_list_edit\').next().show(); 
+                $(\'#create_import_list_edit\').next().show();  
+                editors[\'webinar_tracker\'].setVisible(false); 
+                editors[\'webinar_tracker\'].setRequired(false); 
+                editors[\'emails_tracker\'].setVisible(false); 
+                editors[\'emails_tracker\'].setRequired(false);
+              }
+              else if (sender.getValue() == \'WBN\'){
+                editors[\'import_total\'].setVisible(false); 
+                editors[\'import_total\'].setRequired(false); 
+                editors[\'campaign_time_start\'].setVisible(true); 
+                editors[\'campaign_time_start\'].setRequired(true);
+                editors[\'campaign_time_end\'].setVisible(true); 
+                editors[\'campaign_time_end\'].setRequired(true);
+                editors[\'campaign_publish_date\'].setRequired(true); 
+                editors[\'short_description\'].setValue(\'[Enter Webinar Description]\'); 
+                editors[\'create_import_list\'].setVisible(false);  
+                editors[\'webinar_tracker\'].setVisible(false); 
+                editors[\'webinar_tracker\'].setRequired(false);
+              }
+              else if (sender.getValue() == \'WBS\'){
+                editors[\'import_total\'].setVisible(false); 
+                editors[\'import_total\'].setRequired(false); 
+                editors[\'campaign_time_start\'].setVisible(false); 
+                editors[\'campaign_time_start\'].setRequired(false);
+                editors[\'campaign_time_end\'].setVisible(false); 
+                editors[\'campaign_time_end\'].setRequired(false);
+                editors[\'campaign_publish_date\'].setRequired(true); 
+                editors[\'short_description\'].setValue(\'[Enter Webinar Series Description]\'); 
+                editors[\'create_import_list\'].setVisible(false); 
+                editors[\'webinar_tracker\'].setVisible(true); 
+                editors[\'webinar_tracker\'].setRequired(true);
+                editors[\'emails_tracker\'].setVisible(false); 
+                editors[\'emails_tracker\'].setRequired(false);
               }
               else{
                 editors[\'import_total\'].setVisible(false); 
                 $(\'#import_total_edit\').next().hide();   
                 editors[\'import_total\'].setRequired(false); 
+                editors[\'campaign_time_start\'].setVisible(false); 
+                editors[\'campaign_time_end\'].setVisible(false);
                 editors[\'short_description\'].setRequired(true);  
                 editors[\'campaign_publish_date\'].setRequired(true);  
                 editors[\'create_import_list\'].setVisible(false); 
-                $(\'#create_import_list_edit\').next().hide();
+                $(\'#create_import_list_edit\').next().hide(); 
+                editors[\'webinar_tracker\'].setVisible(false); 
+                editors[\'webinar_tracker\'].setRequired(false);
               }
             }
             
+            
             if (sender.getFieldName() == \'pregion\'){
-              if ((sender.getValue() == \'WW-ALL\') || (sender.getValue() == \'CH-ALL\') || (sender.getValue() == \'JP-ALL\') || (sender.getValue() == \'KO-ALL\')){
-              editors[\'sub_region\'].setRequired(false);
-              editors[\'territory\'].setRequired(false);
-              }
-              else{
-              editors[\'sub_region\'].enabled(true);
-              editors[\'territory\'].setRequired(true);
-              }
+                if (sender.getValue() == \'AM-ALL\'){
+                    editors[\'sub_region\'].enabled(true);
+                    editors[\'sub_region\'].setRequired(true);
+                    editors[\'territory\'].enabled(false);
+                    editors[\'territory\'].setRequired(false);
+                    }
+                else if (sender.getValue() == \'EM-ALL\' || sender.getValue() == \'IN-ALL\'){
+                    editors[\'sub_region\'].enabled(true);
+                    editors[\'sub_region\'].setRequired(true);
+                    editors[\'territory\'].enabled(true);
+                    editors[\'territory\'].setRequired(true);
+                }
+                else if (sender.getValue() == \'WW-ALL\') {
+                    editors[\'sub_region\'].enabled(false);
+                    editors[\'sub_region\'].setRequired(false);
+                    editors[\'territory\'].enabled(false);
+                    editors[\'territory\'].setRequired(false);
+                }
+                else if (sender.getValue() == \'CH-ALL\' || sender.getValue() == \'JA-ALL\' || sender.getValue() == \'KO-ALL\'){
+                    editors[\'sub_region\'].enabled(false);
+                    editors[\'sub_region\'].setRequired(false);
+                    editors[\'territory\'].enabled(false);
+                    editors[\'territory\'].setRequired(false);
+                }
+                else{
+                     editors[\'sub_region\'].enabled(true);
+                     editors[\'sub_region\'].setRequired(false);
+                     editors[\'territory\'].enabled(true);
+                     editors[\'territory\'].setRequired(false);
+                }
             }
             
             
             if (sender.getFieldName() == \'sub_region\'){
-              if (sender.getValue() == \'EM-EUR\'){
-              editors[\'territory\'].setRequired(true);
-              }
-              else{
-              editors[\'territory\'].enabled(false);
-              }
+                if (sender.getValue() == \'EM-EUR\'){
+                   editors[\'territory\'].enabled(true);
+                   editors[\'territory\'].setRequired(true);
+                }
+                else{
+                    editors[\'territory\'].enabled(false);
+                    editors[\'territory\'].enabled(false);
+                }
             }');
             
             $grid->SetEditClientEditorValueChangedScript('console.log(sender);
@@ -6991,44 +8852,109 @@
                  $(\'#import_total_edit\').setVisible.show();
                  editors[\'create_import_list\'].setValue(null);
                  $(\'#create_import_list_edit\').setVisible.show();
+                 $(\'#create_webinar_tracker\').setVisible.false();
+                 $(\'#emails_tracker\').setVisible.false();
+              }
+              else if (sender.getValue() == \'WBN\') { 
+                 editors[\'import_total\'].setValue(null);
+                 $(\'#import_total_edit\').setVisible.false();
+                 editors[\'create_import_list\'].setValue(null);
+                 $(\'#create_import_list_edit\').setVisible.false();
+                 editors[\'campaign_time_start\'].setValue(null);
+                 $(\'#campaign_time_start\').setRequired(true);
+                 editors[\'campaign_time_end\'].setValue(null);
+                 $(\'#campaign_time_end\').setRequired(true);
+                 $(\'#webinar_tracker\').setRequired(false);
+                 $(\'#emails_tracker\').setRequired(true);
+                 $(\'#emails_tracker\').setVisible.true();
+              }
+              else if (sender.getValue() == \'WBS\') { 
+                 editors[\'import_total\'].setValue(null);
+                 $(\'#import_total_edit\').setVisible.false();
+                 editors[\'create_import_list\'].setValue(null);
+                 $(\'#create_import_list_edit\').setVisible.false();
+                 editors[\'campaign_time_start\'].setValue(null);
+                 $(\'#campaign_time_start\').setRequired(false);
+                 editors[\'campaign_time_end\'].setValue(null);
+                 $(\'#campaign_time_end\').setRequired(false);
+                 editors[\'webinar_tracker\'].setValue(12);
+                 $(\'#webinar_tracker\').setRequired(true);
+                 $(\'#emails_tracker\').setRequired(false);
+                 $(\'#emails_tracker\').setVisible.false();
               }
               else{
                  $(\'#import_total_edit\').setVisible.hide();
                  $(\'#create_import_list\').setVisible.hide();
+                 $(\'#campaign_time_start\').setVisible.hide();
+                 $(\'#campaign_time_end\').setVisible.hide();
+                 $(\'#webinar_tracker\').setVisible.hide();
+                 $(\'#emails_tracker\').setRequired(true);
+                 $(\'#emails_tracker\').setVisible.true();
               }
             }
+            
             
             if (sender.getFieldName() == \'pregion\'){
-              if (sender.getValue() != \'WW-ALL\'){
-              editors[\'sub_region\'].setRequired(true);
-              editors[\'territory\'].setRequired(true);
-              }
-              else{
-              editors[\'sub_region\'].enabled(false);
-              editors[\'territory\'].setRequired(false);
-              }
+                if (sender.getValue() == \'AM-ALL\'){
+                    editors[\'sub_region\'].enabled(true);
+                    editors[\'sub_region\'].setRequired(true);
+                    editors[\'territory\'].enabled(false);
+                    editors[\'territory\'].setRequired(false);
+                    }
+                else if (sender.getValue() == \'EM-ALL\' || sender.getValue() == \'IN-ALL\'){
+                    editors[\'sub_region\'].enabled(true);
+                    editors[\'sub_region\'].setRequired(true);
+                    editors[\'territory\'].enabled(true);
+                    editors[\'territory\'].setRequired(true);
+                }
+                else if (sender.getValue() == \'WW-ALL\') {
+                    editors[\'sub_region\'].enabled(false);
+                    editors[\'sub_region\'].setRequired(false);
+                    editors[\'territory\'].enabled(false);
+                    editors[\'territory\'].setRequired(false);
+                }
+                else if (sender.getValue() == \'CH-ALL\' || sender.getValue() == \'JA-ALL\' || sender.getValue() == \'KO-ALL\'){
+                    editors[\'sub_region\'].enabled(false);
+                    editors[\'sub_region\'].setRequired(false);
+                    editors[\'territory\'].enabled(false);
+                    editors[\'territory\'].setRequired(false);
+                }
+                else{
+                     editors[\'sub_region\'].enabled(true);
+                     editors[\'sub_region\'].setRequired(false);
+                     editors[\'territory\'].enabled(true);
+                     editors[\'territory\'].setRequired(false);
+                }
             }
-            
             
             if (sender.getFieldName() == \'sub_region\'){
-              if (sender.getValue() == \'EM-EUR\'){
-              editors[\'territory\'].setRequired(true);
-              }
-              else{
-              editors[\'territory\'].enabled(false);
-              }
-            }
-            ');
+                if (sender.getValue() == \'EM-EUR\'){
+                   editors[\'territory\'].enabled(true);
+                   editors[\'territory\'].setRequired(true);
+                }
+                else{
+                    editors[\'territory\'].enabled(false);
+                    editors[\'territory\'].enabled(false);
+                }
+            }');
             
             $grid->SetInsertClientFormLoadedScript('if (editors[\'campaign_type\'].getValue() == \'\') {
                 editors[\'import_total\'].setVisible(true);
                 editors[\'import_total\'].setValue(\'\');  
+                editors[\'campaign_program_name\'].setValue(\'\'); 
+                editors[\'SFDC_child_campaign\'].setValue(\'\');
                 editors[\'create_import_list\'].setVisible(true);
                 editors[\'create_import_list\'].setValue(\'\'); 
+                editors[\'campaign_time_start\'].setVisible(false);
+                editors[\'campaign_time_end\'].setVisible(false);
+                editors[\'webinar_tracker\'].setVisible(false);
             }
             else {
                 editors[\'import_total\'].setVisible(false); 
                 editors[\'create_import_list\'].setVisible(false);
+                editors[\'campaign_program_name\'].setValue(\'\'); 
+                editors[\'SFDC_child_campaign\'].setValue(\'\');
+                editors[\'webinar_tracker\'].setVisible(false);
             }');
             
             $grid->SetEditClientFormLoadedScript('if (editors[\'campaign_type\'].getValue() == \'LIP\') {
@@ -7036,11 +8962,40 @@
                 editors[\'import_total\'].setVisible(true);  
                 editors[\'create_import_list\'].setValue(\'0\');
                 editors[\'create_import_list\'].setVisible(true); 
+                editors[\'webinar_tracker\'].setVisible(false);
+                editors[\'webinar_tracker\'].setRequired(false);
+            }
+            else if (editors[\'campaign_type\'].getValue() == \'WBN\') {
+                editors[\'import_total\'].setVisible(false);  
+                editors[\'create_import_list\'].setVisible(false);
+                editors[\'campaign_time_start\'].setVisible(true);
+                editors[\'campaign_time_start\'].setRequired(true);
+                editors[\'campaign_time_end\'].setVisible(true);
+                editors[\'campaign_time_end\'].setRequired(true);
+                editors[\'webinar_tracker\'].setVisible(false);
+                editors[\'webinar_tracker\'].setRequired(false);
+            }
+            else if (editors[\'campaign_type\'].getValue() == \'WBS\') {
+                editors[\'import_total\'].setVisible(false);  
+                editors[\'create_import_list\'].setVisible(false);
+                editors[\'campaign_time_start\'].setVisible(false);
+                editors[\'campaign_time_start\'].setRequired(false); 
+                editors[\'campaign_time_end\'].setVisible(false);
+                editors[\'campaign_time_end\'].setRequired(false);
+                editors[\'webinar_tracker\'].setVisible(true);
+                editors[\'webinar_tracker\'].setRequired(true);
             }
             else {
                 editors[\'import_total\'].setVisible(false);  
-                editors[\'create_import_list\'].setVisible(false); 
-            }');
+                editors[\'create_import_list\'].setVisible(false);
+                editors[\'campaign_time_start\'].setVisible(false);
+                editors[\'campaign_time_end\'].setVisible(false);
+                editors[\'webinar_tracker\'].setVisible(false);
+                editors[\'webinar_tracker\'].setRequired(false);
+            }
+            
+            
+            ');
         }
     
         protected function doRegisterHandlers() {
@@ -7048,6 +9003,12 @@
             $detailPage->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource('campaign_program_name_generator.campaign_tracker_comms_local'));
             $detailPage->SetHttpHandlerName('campaign_program_name_generator_campaign_tracker_comms_local_handler');
             $handler = new PageHTTPHandler('campaign_program_name_generator_campaign_tracker_comms_local_handler', $detailPage);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $detailPage = new campaign_program_name_generator_campaign_builder_webinar_seriesPage('campaign_program_name_generator_campaign_builder_webinar_series', $this, array('program_generator_name_id'), array('program_generator_name_id'), $this->GetForeignKeyFields(), $this->CreateMasterDetailRecordGrid(), $this->dataset, GetCurrentUserPermissionSetForDataSource('campaign_program_name_generator.campaign_builder_webinar_series'), 'UTF-8');
+            $detailPage->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource('campaign_program_name_generator.campaign_builder_webinar_series'));
+            $detailPage->SetHttpHandlerName('campaign_program_name_generator_campaign_builder_webinar_series_handler');
+            $handler = new PageHTTPHandler('campaign_program_name_generator_campaign_builder_webinar_series_handler', $detailPage);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -7282,22 +9243,6 @@
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_program_name_generator_sub_region_search', 'Sub_Region_Value', 'Sub_Region', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`lookup_territory`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('Territory_ID', true, true, true),
-                    new StringField('Territory'),
-                    new StringField('Territory_Value'),
-                    new StringField('Sub_Region_Value_ID', true)
-                )
-            );
-            $lookupDataset->setOrderByField('Territory', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_program_name_generator_territory_search', 'Territory_Value', 'Territory', null, 20);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
             $valuesDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
@@ -7373,33 +9318,29 @@
                 array(
                     new IntegerField('lookup_email_tracker_id', true, true, true),
                     new StringField('email_tracker_description'),
-                    new IntegerField('qty')
+                    new IntegerField('qty'),
+                    new StringField('tracker_filters')
                 )
             );
-            $lookupDataset->setOrderByField('email_tracker_description', 'ASC');
+            $lookupDataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'tracker_filters=\'edm\''));
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_program_name_generator_emails_tracker_search', 'qty', 'email_tracker_description', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
-                '`phpgen_users`');
+                '`lookup_email_tracker`');
             $lookupDataset->addFields(
                 array(
-                    new IntegerField('user_id', true, true, true),
-                    new StringField('user_name', true),
-                    new StringField('user_password', true),
-                    new StringField('user_email', true),
-                    new StringField('user_token'),
-                    new IntegerField('user_status', true),
-                    new StringField('user_level', true),
-                    new IntegerField('is_head_manager'),
-                    new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('lookup_email_tracker_id', true, true, true),
+                    new StringField('email_tracker_description'),
+                    new IntegerField('qty'),
+                    new StringField('tracker_filters')
                 )
             );
-            $lookupDataset->setOrderByField('user_name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_program_name_generator_created_by_search', 'user_id', 'user_name', null, 20);
+            $lookupDataset->setOrderByField('email_tracker_description', 'ASC');
+            $lookupDataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'tracker_filters=\'wbn\''));
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_campaign_program_name_generator_webinar_tracker_search', 'qty', 'email_tracker_description', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -7659,33 +9600,29 @@
                 array(
                     new IntegerField('lookup_email_tracker_id', true, true, true),
                     new StringField('email_tracker_description'),
-                    new IntegerField('qty')
+                    new IntegerField('qty'),
+                    new StringField('tracker_filters')
                 )
             );
-            $lookupDataset->setOrderByField('email_tracker_description', 'ASC');
+            $lookupDataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'tracker_filters=\'edm\''));
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_program_name_generator_emails_tracker_search', 'qty', 'email_tracker_description', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
-                '`phpgen_users`');
+                '`lookup_email_tracker`');
             $lookupDataset->addFields(
                 array(
-                    new IntegerField('user_id', true, true, true),
-                    new StringField('user_name', true),
-                    new StringField('user_password', true),
-                    new StringField('user_email', true),
-                    new StringField('user_token'),
-                    new IntegerField('user_status', true),
-                    new StringField('user_level', true),
-                    new IntegerField('is_head_manager'),
-                    new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('lookup_email_tracker_id', true, true, true),
+                    new StringField('email_tracker_description'),
+                    new IntegerField('qty'),
+                    new StringField('tracker_filters')
                 )
             );
-            $lookupDataset->setOrderByField('user_name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_program_name_generator_created_by_search', 'user_id', 'user_name', null, 20);
+            $lookupDataset->setOrderByField('email_tracker_description', 'ASC');
+            $lookupDataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'tracker_filters=\'wbn\''));
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_program_name_generator_webinar_tracker_search', 'qty', 'email_tracker_description', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             //
@@ -7880,22 +9817,6 @@
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_program_name_generator_sub_region_search', 'Sub_Region_Value', 'Sub_Region', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`lookup_territory`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('Territory_ID', true, true, true),
-                    new StringField('Territory'),
-                    new StringField('Territory_Value'),
-                    new StringField('Sub_Region_Value_ID', true)
-                )
-            );
-            $lookupDataset->setOrderByField('Territory', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_program_name_generator_territory_search', 'Territory_Value', 'Territory', null, 20);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
             $valuesDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
@@ -7971,11 +9892,29 @@
                 array(
                     new IntegerField('lookup_email_tracker_id', true, true, true),
                     new StringField('email_tracker_description'),
-                    new IntegerField('qty')
+                    new IntegerField('qty'),
+                    new StringField('tracker_filters')
+                )
+            );
+            $lookupDataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'tracker_filters=\'edm\''));
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_program_name_generator_emails_tracker_search', 'qty', 'email_tracker_description', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_email_tracker`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('lookup_email_tracker_id', true, true, true),
+                    new StringField('email_tracker_description'),
+                    new IntegerField('qty'),
+                    new StringField('tracker_filters')
                 )
             );
             $lookupDataset->setOrderByField('email_tracker_description', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_program_name_generator_emails_tracker_search', 'qty', 'email_tracker_description', null, 20);
+            $lookupDataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'tracker_filters=\'wbn\''));
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_campaign_program_name_generator_webinar_tracker_search', 'qty', 'email_tracker_description', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -8144,22 +10083,6 @@
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_program_name_generator_sub_region_search', 'Sub_Region_Value', 'Sub_Region', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            $lookupDataset = new TableDataset(
-                MySqlIConnectionFactory::getInstance(),
-                GetConnectionOptions(),
-                '`lookup_territory`');
-            $lookupDataset->addFields(
-                array(
-                    new IntegerField('Territory_ID', true, true, true),
-                    new StringField('Territory'),
-                    new StringField('Territory_Value'),
-                    new StringField('Sub_Region_Value_ID', true)
-                )
-            );
-            $lookupDataset->setOrderByField('Territory', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_program_name_generator_territory_search', 'Territory_Value', 'Territory', null, 20);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
             $valuesDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
@@ -8235,39 +10158,35 @@
                 array(
                     new IntegerField('lookup_email_tracker_id', true, true, true),
                     new StringField('email_tracker_description'),
-                    new IntegerField('qty')
+                    new IntegerField('qty'),
+                    new StringField('tracker_filters')
                 )
             );
-            $lookupDataset->setOrderByField('email_tracker_description', 'ASC');
+            $lookupDataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'tracker_filters=\'edm\''));
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_program_name_generator_emails_tracker_search', 'qty', 'email_tracker_description', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
-                '`phpgen_users`');
+                '`lookup_email_tracker`');
             $lookupDataset->addFields(
                 array(
-                    new IntegerField('user_id', true, true, true),
-                    new StringField('user_name', true),
-                    new StringField('user_password', true),
-                    new StringField('user_email', true),
-                    new StringField('user_token'),
-                    new IntegerField('user_status', true),
-                    new StringField('user_level', true),
-                    new IntegerField('is_head_manager'),
-                    new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('lookup_email_tracker_id', true, true, true),
+                    new StringField('email_tracker_description'),
+                    new IntegerField('qty'),
+                    new StringField('tracker_filters')
                 )
             );
-            $lookupDataset->setOrderByField('user_name', 'ASC');
-            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_program_name_generator_created_by_search', 'user_id', 'user_name', null, 20);
+            $lookupDataset->setOrderByField('email_tracker_description', 'ASC');
+            $lookupDataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'tracker_filters=\'wbn\''));
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_program_name_generator_webinar_tracker_search', 'qty', 'email_tracker_description', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             
             
-            new campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idModalViewPage($this, GetCurrentUserPermissionSetForDataSource('campaign_program_name_generator.campaign_tracker_comms_local.campaign_utm_id'));
             new campaign_program_name_generator_campaign_tracker_comms_local_program_generator_name_idModalViewPage($this, GetCurrentUserPermissionSetForDataSource('campaign_program_name_generator.campaign_tracker_comms_local.program_generator_name_id'));
+            new campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idModalViewPage($this, GetCurrentUserPermissionSetForDataSource('campaign_program_name_generator.campaign_tracker_comms_local.campaign_utm_id'));
             new campaign_program_name_generator_campaign_tracker_comms_local_campaign_utm_idNestedPage($this, GetCurrentUserPermissionSetForDataSource('campaign_program_name_generator.campaign_tracker_comms_local.campaign_utm_id'));
             new campaign_program_name_generator_master_campaign_idModalViewPage($this, GetCurrentUserPermissionSetForDataSource('campaign_program_name_generator.master_campaign_id'));
         }
@@ -8348,6 +10267,11 @@
                   "CALL campaignProgramNameGenerator($sprogram_generator_name_id, '$smaster_campaign_id', '$username', '$currentDateTime', '$trackerid', '$importlist');";
                   $this->GetConnection()->ExecSQL($sql);
                   
+               $sql =
+                                     
+                  "CALL campaignCampaignBuildertoGlobalCalendar($sprogram_generator_name_id, '$smaster_campaign_id', '$username', '$currentDateTime', '$trackerid');";
+                  $this->GetConnection()->ExecSQL($sql);
+                  
                   If ($emailcount != '0'){
                      $message = '<p>Record updated successfully, goto Comms Tracker (Local) to update the send dates .</p>';
                   }
@@ -8403,7 +10327,12 @@
             
                   "CALL campaignProgramNameGenerator($sprogram_generator_name_id, '$smaster_campaign_id', '$username', '$currentDateTime', $trackerid, '$importlist');";
                   $this->GetConnection()->ExecSQL($sql);
-                  
+                   
+               $sql =
+                                     
+                  "CALL campaignCampaignBuildertoGlobalCalendar($sprogram_generator_name_id, '$smaster_campaign_id', '$username', '$currentDateTime', '$trackerid');";
+                  $this->GetConnection()->ExecSQL($sql);
+                 
                   If ($emailcount != '0'){
                      $message = '<p>Record processed successfully, goto Comms Tracker (Local) to update the send dates or view the child campaign.</p>';
                   }
@@ -8514,8 +10443,12 @@
                     ->addCol($columns['import_total'], 4)
                     ->addCol($columns['create_import_list'], 8);
             $storageGroup->addRow()
-                    ->addCol($columns['campaign_publish_date'], 6)
-                    ->addCol($columns['emails_tracker'], 6);
+                    ->addCol($columns['campaign_publish_date'], 4)
+                    ->addCol($columns['emails_tracker'], 4)
+                    ->addCol($columns['webinar_tracker'], 4);
+            $storageGroup->addRow()
+                    ->addCol($columns['campaign_time_start'], 6)
+                    ->addCol($columns['campaign_time_end'], 6);
         }
     
         protected function doGetCustomColumnGroup(FixedKeysArray $columns, ViewColumnGroup $columnGroup)
@@ -8548,6 +10481,10 @@
             	  "FROM `phpgen_users` " .
             	  "WHERE user_id = %d";    
             	$result = $page->GetConnection()->fetchAll(sprintf($sql, $userId));
+            	
+            	// if (GetApplication()->IsLoggedInAsAdmin()) {
+                    // return;
+                    // } 
             
             	// iterating through retrieved roles
             	if (!empty($result)) {

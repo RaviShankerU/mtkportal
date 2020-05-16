@@ -54,7 +54,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -254,6 +257,32 @@
             // View column for campaign_event_id field
             //
             $column = new NumberViewColumn('campaign_event_id', 'campaign_event_id', 'Campaign Event Id', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for campaign_time_start field
+            //
+            $column = new DateTimeViewColumn('campaign_time_start', 'campaign_time_start', 'Campaign Time Start', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for campaign_time_end field
+            //
+            $column = new DateTimeViewColumn('campaign_time_end', 'campaign_time_end', 'Campaign Time End', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('H:i:s');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for webinar_tracker field
+            //
+            $column = new NumberViewColumn('webinar_tracker', 'webinar_tracker', 'Webinar Tracker', $this->dataset);
             $column->SetOrderable(true);
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
@@ -1564,7 +1593,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -1868,7 +1900,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -2172,7 +2207,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -3049,7 +3087,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -3206,7 +3247,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -3379,7 +3423,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),
@@ -3536,7 +3583,10 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new TimeField('campaign_time_start'),
+                    new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
+                    new IntegerField('webinar_tracker'),
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('modified_by'),

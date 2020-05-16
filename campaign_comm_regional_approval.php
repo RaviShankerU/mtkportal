@@ -626,16 +626,6 @@
             $column->SetDescription('');
             $column->SetFixedWidth(null);
             $grid->AddViewColumn($column);
-            
-            //
-            // View column for complete field
-            //
-            $column = new TextViewColumn('complete', 'complete', 'Complete', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setMinimalVisibility(ColumnVisibility::PHONE);
-            $column->SetDescription('');
-            $column->SetFixedWidth(null);
-            $grid->AddViewColumn($column);
         }
     
         protected function AddSingleRecordViewColumns(Grid $grid)
@@ -1602,8 +1592,8 @@
             $isHeadManager = (boolean) $result[0]['is_head_manager'];
             
             // Granting permissions according to the scenario
-            $allowEdit = $isHeadManager || !$rowData['completed'];
-            $allowDelete = $isHeadManager || !$rowData['completed'];
+            // $allowEdit = $isHeadManager || !$rowData['completed'];
+            // $allowDelete = $isHeadManager || !$rowData['completed'];
             
             // Specifying the condition to show only necessary records 
             if ($isHeadManager) {
