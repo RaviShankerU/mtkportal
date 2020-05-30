@@ -11,6 +11,7 @@ require_once 'components/security/grant_manager/table_based_user_grant_manager.p
 require_once 'components/security/table_based_user_manager.php';
 
 include_once 'components/security/user_identity_storage/user_identity_session_storage.php';
+include_once 'components/security/recaptcha.php';
 
 require_once 'database_engine/mysql_engine.php';
 
@@ -20,11 +21,18 @@ $appGrants = array();
 
 $dataSourceRecordPermissions = array('brief' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
   'brief01' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
+  'brief01.campaign_tracker_website' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
   'campaign_analysis' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
   'campaign_program_name_generator' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
-  'campaign_comm_regional_approval' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
+  'campaign_program_name_generator.campaign_tracker_comms_local' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
+  'campaign_program_name_generator.campaign_tracker_webcast' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
+  'campaign_program_name_generator.campaign_tracker_website' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
+  'campaign_tracker_comms_local' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
   'campaign_tracker_utm' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
   'campaign_import' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
+  'campaign_tracker_website' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
+  'campaign_comm_regional_approval' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
+  'portal_todo_list' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true),
   'portal_help' => new DataSourceRecordPermission('created_by', true, false, false, true, true, true));
 
 $tableCaptions = array('campaign_calendar' => 'Global Calendar',
@@ -44,13 +52,12 @@ $tableCaptions = array('campaign_calendar' => 'Global Calendar',
 'campaign_analysis' => 'Campaign Analysis',
 'campaign_group' => 'Campaign Tracker',
 'campaign_program_name_generator' => 'Campaign Builder',
-'campaign_program_name_generator.campaign_tracker_comms_local' => 'Campaign Builder->Campaign Tracker Comms',
-'campaign_program_name_generator.campaign_builder_webinar_series' => 'Campaign Builder->Campaign Builder Webinar Series',
+'campaign_program_name_generator.campaign_tracker_comms_local' => 'Campaign Builder->Comms Tracker',
+'campaign_program_name_generator.campaign_tracker_webcast' => 'Campaign Builder->Webcast Tracker',
+'campaign_program_name_generator.campaign_tracker_website' => 'Campaign Builder->Website Display Tracker',
 'campaign_tracker_comms_local' => 'Comms Tracker',
-'campaign_comm_regional_approval' => 'Comms Approval',
 'campaign_tracker_utm' => 'UTM Link Generator',
 'campaign_import' => 'Contact List Import',
-'campaign_tracker_website' => 'Website Listing',
 'campaign_tracker_comms' => 'Global Comms Tracker',
 'campaign_tracker_design' => 'Graphic Design',
 'campaign_tracker_content' => 'Web Content',
@@ -58,12 +65,15 @@ $tableCaptions = array('campaign_calendar' => 'Global Calendar',
 'campaign_tracker_paid' => 'Paid',
 'campaign_tracker_partner' => 'Partner Program',
 'campaign_tracker_pr' => 'Public Relations',
+'campaign_tracker_website' => 'Website Listing',
 'country_list' => 'Country List',
 'lookup_tracker_tactics' => 'Tactic Template',
+'phpgen_users' => 'Users & Permissions',
 'phpgen_user_roles' => 'User Roles',
 'activity_log' => 'Activity Log',
-'portal_help' => 'Portal Help',
-'phpgen_users' => 'System Users');
+'campaign_comm_regional_approval' => 'Campaign Approvals',
+'portal_todo_list' => 'Outstanding Tasks',
+'portal_help' => 'Portal Help');
 
 $usersTableInfo = array(
     'TableName' => 'phpgen_users',
@@ -105,6 +115,11 @@ function PasswordResetComplete($username, $email)
 
 }
 
+function VerifyPasswordStrength($password, &$result, &$passwordRuleMessage) 
+{
+
+}
+
 function CreatePasswordHasher()
 {
     $hasher = CreateHasher('');
@@ -122,13 +137,19 @@ function CreateTableBasedGrantManager()
     $userPermsTableInfo = array('TableName' => 'phpgen_user_perms', 'UserId' => 'user_id', 'PageName' => 'page_name', 'Grant' => 'perm_name');
     
     $tableBasedGrantManager = new TableBasedUserGrantManager(MySqlIConnectionFactory::getInstance(), GetGlobalConnectionOptions(),
-        $usersTableInfo, $userPermsTableInfo, $tableCaptions, true);
+        $usersTableInfo, $userPermsTableInfo, $tableCaptions, false);
     return $tableBasedGrantManager;
 }
 
 function CreateTableBasedUserManager() {
     global $usersTableInfo;
-    return new TableBasedUserManager(MySqlIConnectionFactory::getInstance(), GetGlobalConnectionOptions(), $usersTableInfo, CreatePasswordHasher(), true);
+    $userManager = new TableBasedUserManager(MySqlIConnectionFactory::getInstance(), GetGlobalConnectionOptions(), $usersTableInfo, CreatePasswordHasher(), true);
+    $userManager->OnVerifyPasswordStrength->AddListener('VerifyPasswordStrength');
+    return $userManager;
+}
+
+function GetReCaptcha($formId) {
+    return null;
 }
 
 function SetUpUserAuthorization()
@@ -147,7 +168,7 @@ function SetUpUserAuthorization()
         $grantManager->AddGrantManager($tableBasedGrantManager);
     }
 
-    $userAuthentication = new TableBasedUserAuthentication(new UserIdentitySessionStorage(), true, $hasher, CreateTableBasedUserManager(), true, true, true);
+    $userAuthentication = new TableBasedUserAuthentication(new UserIdentitySessionStorage(), false, $hasher, CreateTableBasedUserManager(), true, false, true);
 
     GetApplication()->SetUserAuthentication($userAuthentication);
     GetApplication()->SetUserGrantManager($grantManager);

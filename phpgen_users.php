@@ -35,8 +35,8 @@
     {
         protected function DoBeforeCreate()
         {
-            $this->SetTitle('System Users & Reports');
-            $this->SetMenuLabel('System Users');
+            $this->SetTitle('Users & Permissions');
+            $this->SetMenuLabel('Users & Permissions');
             $this->SetHeader(GetPagesHeader());
             $this->SetFooter(GetPagesFooter());
     
@@ -55,7 +55,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $this->dataset->AddLookupField('user_level', 'lookup_user_roles', new IntegerField('lookup_user_roleid'), new StringField('role_description', false, false, false, false, 'user_level_role_description', 'user_level_role_description_lookup_user_roles'), 'user_level_role_description_lookup_user_roles');
@@ -72,7 +74,7 @@
             $result = new CompositePageNavigator($this);
             
             $partitionNavigator = new PageNavigator('pnav', $this, $this->dataset);
-            $partitionNavigator->SetRowsPerPage(20);
+            $partitionNavigator->SetRowsPerPage(10);
             $result->AddPageNavigator($partitionNavigator);
             
             return $result;
@@ -100,7 +102,9 @@
                 new FilterColumn($this->dataset, 'user_level', 'user_level_role_description', 'User Level'),
                 new FilterColumn($this->dataset, 'is_head_manager', 'is_head_manager', 'Is Head Manager'),
                 new FilterColumn($this->dataset, 'region_id', 'region_id_user_approval_region_description', 'User Region'),
-                new FilterColumn($this->dataset, 'manager_id', 'manager_id_user_name', 'Reports Manager')
+                new FilterColumn($this->dataset, 'manager_id', 'manager_id_user_name', 'Reports Manager'),
+                new FilterColumn($this->dataset, 'modified_by', 'modified_by', 'Modified By'),
+                new FilterColumn($this->dataset, 'modified_date', 'modified_date', 'Modified Date')
             );
         }
     
@@ -113,7 +117,9 @@
                 ->addColumn($columns['user_level'])
                 ->addColumn($columns['is_head_manager'])
                 ->addColumn($columns['region_id'])
-                ->addColumn($columns['manager_id']);
+                ->addColumn($columns['manager_id'])
+                ->addColumn($columns['modified_by'])
+                ->addColumn($columns['modified_date']);
         }
     
         protected function setupColumnFilter(ColumnFilter $columnFilter)
@@ -121,7 +127,8 @@
             $columnFilter
                 ->setOptionsFor('user_level')
                 ->setOptionsFor('region_id')
-                ->setOptionsFor('manager_id');
+                ->setOptionsFor('manager_id')
+                ->setOptionsFor('modified_date');
         }
     
         protected function setupFilterBuilder(FilterBuilder $filterBuilder, FixedKeysArray $columns)
@@ -295,6 +302,52 @@
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
             );
+            
+            $main_editor = new TextEdit('modified_by_edit');
+            $main_editor->SetMaxLength(65);
+            
+            $filterBuilder->addColumn(
+                $columns['modified_by'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new DateTimeEdit('modified_date_edit', false, 'd-m-Y H:i:s');
+            
+            $filterBuilder->addColumn(
+                $columns['modified_date'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::DATE_EQUALS => $main_editor,
+                    FilterConditionOperator::DATE_DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::TODAY => null,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
         }
     
         protected function AddOperationsColumns(Grid $grid)
@@ -323,6 +376,26 @@
                 $actions->addOperation($operation);
                 $operation->OnShow->AddListener('ShowEditButtonHandler', $this);
             }
+            
+            if ($this->GetSecurityInfo()->HasDeleteGrant())
+            {
+                $operation = new LinkOperation($this->GetLocalizerCaptions()->GetMessageString('Delete'), OPERATION_DELETE, $this->dataset, $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+                $operation->OnShow->AddListener('ShowDeleteButtonHandler', $this);
+                $operation->SetAdditionalAttribute('data-modal-operation', 'delete');
+                $operation->SetAdditionalAttribute('data-delete-handler-name', $this->GetModalGridDeleteHandler());
+            }
+            
+            if ($this->GetSecurityInfo()->HasAddGrant())
+            {
+                $operation = new AjaxOperation(OPERATION_COPY,
+                    $this->GetLocalizerCaptions()->GetMessageString('Copy'),
+                    $this->GetLocalizerCaptions()->GetMessageString('Copy'), $this->dataset,
+                    $this->GetModalGridCopyHandler(), $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+            }
         }
     
         protected function AddFieldColumns(Grid $grid, $withDetails = true)
@@ -334,7 +407,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('phpgen_users_user_name_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -381,6 +453,27 @@
             $column = new TextViewColumn('manager_id', 'manager_id_user_name', 'Reports Manager', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -395,7 +488,6 @@
             $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('phpgen_users_user_name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -404,7 +496,6 @@
             $column = new TextViewColumn('user_email', 'user_email', 'User Email', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('phpgen_users_user_email_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -437,6 +528,21 @@
             $column = new TextViewColumn('manager_id', 'manager_id_user_name', 'Reports Manager', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $grid->AddSingleRecordViewColumn($column);
         }
     
         protected function AddEditColumns(Grid $grid)
@@ -449,8 +555,6 @@
             $editColumn->SetReadOnly(true);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
-            $editColumn->setAllowListCellEdit(false);
-            $editColumn->setAllowSingleViewCellEdit(false);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
@@ -461,8 +565,6 @@
             $editColumn = new CustomEditColumn('User Email', 'user_email', $editor, $this->dataset);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
-            $editColumn->setAllowListCellEdit(false);
-            $editColumn->setAllowSingleViewCellEdit(false);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
@@ -488,8 +590,6 @@
                 $this->dataset, 'lookup_user_roleid', 'role_description', $lookupDataset);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
-            $editColumn->setAllowListCellEdit(false);
-            $editColumn->setAllowSingleViewCellEdit(false);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
@@ -499,8 +599,6 @@
             $editor = new CheckBox('is_head_manager_edit');
             $editColumn = new CustomEditColumn('Is Head Manager', 'is_head_manager', $editor, $this->dataset);
             $editColumn->SetAllowSetToNull(true);
-            $editColumn->setAllowListCellEdit(false);
-            $editColumn->setAllowSingleViewCellEdit(false);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
@@ -523,8 +621,6 @@
             $lookupDataset->setOrderByField('user_approval_region_description', 'ASC');
             $editColumn = new DynamicLookupEditColumn('User Region', 'region_id', 'region_id_user_approval_region_description', 'edit_phpgen_users_region_id_search', $editor, $this->dataset, $lookupDataset, 'lookup_user_approval_regionid', 'user_approval_region_description', '');
             $editColumn->SetAllowSetToNull(true);
-            $editColumn->setAllowListCellEdit(false);
-            $editColumn->setAllowSingleViewCellEdit(false);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
             
@@ -549,14 +645,14 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
             $editColumn = new DynamicLookupEditColumn('Reports Manager', 'manager_id', 'manager_id_user_name', 'edit_phpgen_users_manager_id_search', $editor, $this->dataset, $lookupDataset, 'user_id', 'user_name', '');
             $editColumn->SetAllowSetToNull(true);
-            $editColumn->setAllowListCellEdit(false);
-            $editColumn->setAllowSingleViewCellEdit(false);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
         }
@@ -661,7 +757,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -771,7 +869,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -779,7 +879,7 @@
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
-            $grid->SetShowAddButton(false && $this->GetSecurityInfo()->HasAddGrant());
+            $grid->SetShowAddButton(true && $this->GetSecurityInfo()->HasAddGrant());
         }
     
         private function AddMultiUploadColumn(Grid $grid)
@@ -806,7 +906,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('phpgen_users_user_name_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -816,7 +915,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('phpgen_users_user_email_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -851,6 +949,21 @@
             $column = new TextViewColumn('manager_id', 'manager_id_user_name', 'Reports Manager', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddPrintColumn($column);
         }
     
@@ -873,7 +986,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('phpgen_users_user_name_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -883,7 +995,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('phpgen_users_user_email_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -918,6 +1029,21 @@
             $column = new TextViewColumn('manager_id', 'manager_id_user_name', 'Reports Manager', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddExportColumn($column);
         }
     
@@ -930,7 +1056,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('phpgen_users_user_name_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -940,7 +1065,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('phpgen_users_user_email_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -975,6 +1099,21 @@
             $column = new TextViewColumn('manager_id', 'manager_id_user_name', 'Reports Manager', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddCompareColumn($column);
         }
     
@@ -1009,15 +1148,21 @@
         {
             return ;
         }
+        
+        public function GetEnableModalGridInsert() { return true; }
         public function GetEnableModalSingleRecordView() { return true; }
         
         public function GetEnableModalGridEdit() { return true; }
+        
+        protected function GetEnableModalGridDelete() { return true; }
+        
+        public function GetEnableModalGridCopy() { return true; }
     
         protected function CreateGrid()
         {
             $result = new Grid($this, $this->dataset);
             if ($this->GetSecurityInfo()->HasDeleteGrant())
-               $result->SetAllowDeleteSelected(false);
+               $result->SetAllowDeleteSelected(true);
             else
                $result->SetAllowDeleteSelected(false);   
             
@@ -1032,7 +1177,7 @@
             $result->setAllowCompare(true);
             $this->AddCompareHeaderColumns($result);
             $this->AddCompareColumns($result);
-            $result->setMultiEditAllowed($this->GetSecurityInfo()->HasEditGrant() && false);
+            $result->setMultiEditAllowed($this->GetSecurityInfo()->HasEditGrant() && true);
             $result->setTableBordered(false);
             $result->setTableCondensed(false);
             
@@ -1069,6 +1214,7 @@
             	</div>
             </div>');
             $this->setShowFormErrorsOnTop(true);
+            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -1078,51 +1224,6 @@
         }
     
         protected function doRegisterHandlers() {
-            //
-            // View column for user_name field
-            //
-            $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_users_user_name_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for user_name field
-            //
-            $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_users_user_name_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for user_email field
-            //
-            $column = new TextViewColumn('user_email', 'user_email', 'User Email', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_users_user_email_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for user_name field
-            //
-            $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_users_user_name_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for user_email field
-            //
-            $column = new TextViewColumn('user_email', 'user_email', 'User Email', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_users_user_email_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
@@ -1152,7 +1253,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -1216,27 +1319,13 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_phpgen_users_manager_id_search', 'user_id', 'user_name', null, 20);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for user_name field
-            //
-            $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_users_user_name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for user_email field
-            //
-            $column = new TextViewColumn('user_email', 'user_email', 'User Email', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_users_user_email_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -1268,7 +1357,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -1304,7 +1395,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -1454,12 +1547,12 @@
     
         }
     
-        protected function doGetCustomPagePermissions(Page $page, PermissionSet &$permissions, &$handled)
+        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
         {
     
         }
     
-        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
+        protected function doAddEnvironmentVariables(Page $page, &$variables)
         {
     
         }
@@ -1470,7 +1563,7 @@
 
     try
     {
-        $Page = new phpgen_usersPage("phpgen_users", "phpgen_users.php", GetCurrentUserPermissionSetForDataSource("phpgen_users"), 'UTF-8');
+        $Page = new phpgen_usersPage("phpgen_users", "phpgen_users.php", GetCurrentUserPermissionsForPage("phpgen_users"), 'UTF-8');
         $Page->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource("phpgen_users"));
         GetApplication()->SetMainPage($Page);
         GetApplication()->Run();

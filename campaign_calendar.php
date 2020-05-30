@@ -49,7 +49,7 @@
                     new IntegerField('id', true, true, true),
                     new IntegerField('campaign_tracker_id'),
                     new IntegerField('master_campaign_id'),
-                    new StringField('trackerid'),
+                    new StringField('trackerid', true),
                     new StringField('tactic_name'),
                     new StringField('title'),
                     new StringField('description'),
@@ -72,7 +72,7 @@
             $result = new CompositePageNavigator($this);
             
             $partitionNavigator = new PageNavigator('pnav', $this, $this->dataset);
-            $partitionNavigator->SetRowsPerPage(20);
+            $partitionNavigator->SetRowsPerPage(10);
             $result->AddPageNavigator($partitionNavigator);
             
             return $result;
@@ -434,6 +434,37 @@
                 $operation->setUseImage(true);
                 $actions->addOperation($operation);
             }
+            
+            if ($this->GetSecurityInfo()->HasEditGrant())
+            {
+                $operation = new AjaxOperation(OPERATION_EDIT,
+                    $this->GetLocalizerCaptions()->GetMessageString('Edit'),
+                    $this->GetLocalizerCaptions()->GetMessageString('Edit'), $this->dataset,
+                    $this->GetGridEditHandler(), $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+                $operation->OnShow->AddListener('ShowEditButtonHandler', $this);
+            }
+            
+            if ($this->GetSecurityInfo()->HasDeleteGrant())
+            {
+                $operation = new LinkOperation($this->GetLocalizerCaptions()->GetMessageString('Delete'), OPERATION_DELETE, $this->dataset, $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+                $operation->OnShow->AddListener('ShowDeleteButtonHandler', $this);
+                $operation->SetAdditionalAttribute('data-modal-operation', 'delete');
+                $operation->SetAdditionalAttribute('data-delete-handler-name', $this->GetModalGridDeleteHandler());
+            }
+            
+            if ($this->GetSecurityInfo()->HasAddGrant())
+            {
+                $operation = new AjaxOperation(OPERATION_COPY,
+                    $this->GetLocalizerCaptions()->GetMessageString('Copy'),
+                    $this->GetLocalizerCaptions()->GetMessageString('Copy'), $this->dataset,
+                    $this->GetModalGridCopyHandler(), $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+            }
         }
     
         protected function AddFieldColumns(Grid $grid, $withDetails = true)
@@ -493,7 +524,6 @@
             $column = new TextViewColumn('tactic_name', 'tactic_name', 'Tactic Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_tactic_name_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -505,7 +535,6 @@
             $column = new TextViewColumn('title', 'title', 'Title', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_title_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -517,7 +546,6 @@
             $column = new TextViewColumn('description', 'description', 'Description', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_description_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -575,7 +603,6 @@
             $column = new TextViewColumn('URL', 'URL', 'URL', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_URL_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -587,7 +614,6 @@
             $column = new TextViewColumn('class', 'class', 'Class', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_class_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -639,7 +665,6 @@
             $column = new TextViewColumn('tactic_name', 'tactic_name', 'Tactic Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_tactic_name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -648,7 +673,6 @@
             $column = new TextViewColumn('title', 'title', 'Title', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_title_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -657,7 +681,6 @@
             $column = new TextViewColumn('description', 'description', 'Description', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_description_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -700,7 +723,6 @@
             $column = new TextViewColumn('URL', 'URL', 'URL', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_URL_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -709,7 +731,6 @@
             $column = new TextViewColumn('class', 'class', 'Class', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_class_handler_view');
             $grid->AddSingleRecordViewColumn($column);
         }
     
@@ -1086,7 +1107,7 @@
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
-            $grid->SetShowAddButton(false && $this->GetSecurityInfo()->HasAddGrant());
+            $grid->SetShowAddButton(true && $this->GetSecurityInfo()->HasAddGrant());
         }
     
         private function AddMultiUploadColumn(Grid $grid)
@@ -1139,7 +1160,6 @@
             $column = new TextViewColumn('tactic_name', 'tactic_name', 'Tactic Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_tactic_name_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -1148,7 +1168,6 @@
             $column = new TextViewColumn('title', 'title', 'Title', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_title_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -1157,7 +1176,6 @@
             $column = new TextViewColumn('description', 'description', 'Description', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_description_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -1200,7 +1218,6 @@
             $column = new TextViewColumn('URL', 'URL', 'URL', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_URL_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -1209,7 +1226,6 @@
             $column = new TextViewColumn('class', 'class', 'Class', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_class_handler_print');
             $grid->AddPrintColumn($column);
         }
     
@@ -1258,7 +1274,6 @@
             $column = new TextViewColumn('tactic_name', 'tactic_name', 'Tactic Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_tactic_name_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -1267,7 +1282,6 @@
             $column = new TextViewColumn('title', 'title', 'Title', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_title_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -1276,7 +1290,6 @@
             $column = new TextViewColumn('description', 'description', 'Description', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_description_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -1319,7 +1332,6 @@
             $column = new TextViewColumn('URL', 'URL', 'URL', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_URL_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -1328,7 +1340,6 @@
             $column = new TextViewColumn('class', 'class', 'Class', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_class_handler_export');
             $grid->AddExportColumn($column);
         }
     
@@ -1377,7 +1388,6 @@
             $column = new TextViewColumn('tactic_name', 'tactic_name', 'Tactic Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_tactic_name_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -1386,7 +1396,6 @@
             $column = new TextViewColumn('title', 'title', 'Title', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_title_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -1395,7 +1404,6 @@
             $column = new TextViewColumn('description', 'description', 'Description', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_description_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -1438,7 +1446,6 @@
             $column = new TextViewColumn('URL', 'URL', 'URL', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_URL_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -1447,7 +1454,6 @@
             $column = new TextViewColumn('class', 'class', 'Class', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_calendar_class_handler_compare');
             $grid->AddCompareColumn($column);
         }
     
@@ -1482,13 +1488,21 @@
         {
             return ;
         }
+        
+        public function GetEnableModalGridInsert() { return true; }
         public function GetEnableModalSingleRecordView() { return true; }
+        
+        public function GetEnableModalGridEdit() { return true; }
+        
+        protected function GetEnableModalGridDelete() { return true; }
+        
+        public function GetEnableModalGridCopy() { return true; }
     
         protected function CreateGrid()
         {
             $result = new Grid($this, $this->dataset);
             if ($this->GetSecurityInfo()->HasDeleteGrant())
-               $result->SetAllowDeleteSelected(false);
+               $result->SetAllowDeleteSelected(true);
             else
                $result->SetAllowDeleteSelected(false);   
             
@@ -1540,6 +1554,7 @@
                           </div>
                         </div>');
             $this->setShowFormErrorsOnTop(true);
+            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -1549,165 +1564,8 @@
         }
     
         protected function doRegisterHandlers() {
-            //
-            // View column for tactic_name field
-            //
-            $column = new TextViewColumn('tactic_name', 'tactic_name', 'Tactic Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_tactic_name_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
             
-            //
-            // View column for title field
-            //
-            $column = new TextViewColumn('title', 'title', 'Title', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_title_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
             
-            //
-            // View column for description field
-            //
-            $column = new TextViewColumn('description', 'description', 'Description', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_description_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for URL field
-            //
-            $column = new TextViewColumn('URL', 'URL', 'URL', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_URL_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for class field
-            //
-            $column = new TextViewColumn('class', 'class', 'Class', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_class_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for tactic_name field
-            //
-            $column = new TextViewColumn('tactic_name', 'tactic_name', 'Tactic Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_tactic_name_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for title field
-            //
-            $column = new TextViewColumn('title', 'title', 'Title', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_title_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for description field
-            //
-            $column = new TextViewColumn('description', 'description', 'Description', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_description_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for URL field
-            //
-            $column = new TextViewColumn('URL', 'URL', 'URL', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_URL_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for class field
-            //
-            $column = new TextViewColumn('class', 'class', 'Class', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_class_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for tactic_name field
-            //
-            $column = new TextViewColumn('tactic_name', 'tactic_name', 'Tactic Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_tactic_name_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for title field
-            //
-            $column = new TextViewColumn('title', 'title', 'Title', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_title_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for description field
-            //
-            $column = new TextViewColumn('description', 'description', 'Description', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_description_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for URL field
-            //
-            $column = new TextViewColumn('URL', 'URL', 'URL', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_URL_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for class field
-            //
-            $column = new TextViewColumn('class', 'class', 'Class', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_class_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for tactic_name field
-            //
-            $column = new TextViewColumn('tactic_name', 'tactic_name', 'Tactic Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_tactic_name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for title field
-            //
-            $column = new TextViewColumn('title', 'title', 'Title', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_title_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for description field
-            //
-            $column = new TextViewColumn('description', 'description', 'Description', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_description_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for URL field
-            //
-            $column = new TextViewColumn('URL', 'URL', 'URL', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_URL_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for class field
-            //
-            $column = new TextViewColumn('class', 'class', 'Class', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_calendar_class_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
         }
        
         protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
@@ -1842,12 +1700,12 @@
     
         }
     
-        protected function doGetCustomPagePermissions(Page $page, PermissionSet &$permissions, &$handled)
+        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
         {
     
         }
     
-        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
+        protected function doAddEnvironmentVariables(Page $page, &$variables)
         {
     
         }
@@ -1858,7 +1716,7 @@
 
     try
     {
-        $Page = new campaign_calendarPage("campaign_calendar", "campaign_calendar.php", GetCurrentUserPermissionSetForDataSource("campaign_calendar"), 'UTF-8');
+        $Page = new campaign_calendarPage("campaign_calendar", "campaign_calendar.php", GetCurrentUserPermissionsForPage("campaign_calendar"), 'UTF-8');
         $Page->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource("campaign_calendar"));
         GetApplication()->SetMainPage($Page);
         GetApplication()->Run();

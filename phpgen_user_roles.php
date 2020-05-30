@@ -45,7 +45,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
         }
@@ -62,7 +64,6 @@
             $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('phpgen_user_roles_user_idModalViewPage_user_name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -71,7 +72,6 @@
             $column = new TextViewColumn('user_password', 'user_password', 'User Password', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('phpgen_user_roles_user_idModalViewPage_user_password_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -80,7 +80,6 @@
             $column = new TextViewColumn('user_email', 'user_email', 'User Email', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('phpgen_user_roles_user_idModalViewPage_user_email_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -89,7 +88,6 @@
             $column = new TextViewColumn('user_token', 'user_token', 'User Token', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('phpgen_user_roles_user_idModalViewPage_user_token_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -131,6 +129,21 @@
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
             $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $grid->AddSingleRecordViewColumn($column);
         }
     
         function GetCustomClientScript()
@@ -150,37 +163,6 @@
         protected function doRegisterHandlers() {
             
             
-            //
-            // View column for user_name field
-            //
-            $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_user_roles_user_idModalViewPage_user_name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for user_password field
-            //
-            $column = new TextViewColumn('user_password', 'user_password', 'User Password', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_user_roles_user_idModalViewPage_user_password_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for user_email field
-            //
-            $column = new TextViewColumn('user_email', 'user_email', 'User Email', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_user_roles_user_idModalViewPage_user_email_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for user_token field
-            //
-            $column = new TextViewColumn('user_token', 'user_token', 'User Token', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'phpgen_user_roles_user_idModalViewPage_user_token_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
         }
     
         static public function getHandlerName() {
@@ -256,7 +238,7 @@
             $result = new CompositePageNavigator($this);
             
             $partitionNavigator = new PageNavigator('pnav', $this, $this->dataset);
-            $partitionNavigator->SetRowsPerPage(20);
+            $partitionNavigator->SetRowsPerPage(10);
             $result->AddPageNavigator($partitionNavigator);
             
             return $result;
@@ -561,7 +543,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -640,7 +624,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -719,7 +705,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -986,6 +974,7 @@
                           </div>
                         </div>');
             $this->setShowFormErrorsOnTop(true);
+            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -1010,7 +999,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -1047,7 +1038,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -1084,7 +1077,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -1121,7 +1116,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -1142,7 +1139,7 @@
             $lookupDataset->setOrderByField('Region', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_phpgen_user_roles_aregion_search', 'Region_ID', 'Region', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
-            new phpgen_user_roles_user_idModalViewPage($this, GetCurrentUserPermissionSetForDataSource('phpgen_user_roles.user_id'));
+            new phpgen_user_roles_user_idModalViewPage($this, GetCurrentUserPermissionsForPage('phpgen_user_roles.user_id'));
         }
        
         protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
@@ -1275,12 +1272,12 @@
     
         }
     
-        protected function doGetCustomPagePermissions(Page $page, PermissionSet &$permissions, &$handled)
+        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
         {
     
         }
     
-        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
+        protected function doAddEnvironmentVariables(Page $page, &$variables)
         {
     
         }
@@ -1291,7 +1288,7 @@
 
     try
     {
-        $Page = new phpgen_user_rolesPage("phpgen_user_roles", "phpgen_user_roles.php", GetCurrentUserPermissionSetForDataSource("phpgen_user_roles"), 'UTF-8');
+        $Page = new phpgen_user_rolesPage("phpgen_user_roles", "phpgen_user_roles.php", GetCurrentUserPermissionsForPage("phpgen_user_roles"), 'UTF-8');
         $Page->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource("phpgen_user_roles"));
         GetApplication()->SetMainPage($Page);
         GetApplication()->Run();

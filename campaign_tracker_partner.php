@@ -79,7 +79,7 @@
             $result = new CompositePageNavigator($this);
             
             $partitionNavigator = new PageNavigator('pnav', $this, $this->dataset);
-            $partitionNavigator->SetRowsPerPage(20);
+            $partitionNavigator->SetRowsPerPage(10);
             $result->AddPageNavigator($partitionNavigator);
             
             return $result;
@@ -675,7 +675,6 @@
             $column = new TextViewColumn('campaign_program_name', 'campaign_program_name', 'Campaign Program Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_campaign_program_name_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -687,7 +686,6 @@
             $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_industry_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -719,7 +717,6 @@
             $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_territory_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -795,7 +792,6 @@
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_campaign_description_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -902,7 +898,6 @@
             $column = new TextViewColumn('campaign_program_name', 'campaign_program_name', 'Campaign Program Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_campaign_program_name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -911,7 +906,6 @@
             $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_industry_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -934,7 +928,6 @@
             $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_territory_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -989,7 +982,6 @@
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_campaign_description_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1633,7 +1625,6 @@
             $column = new TextViewColumn('campaign_program_name', 'campaign_program_name', 'Campaign Program Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_campaign_program_name_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -1642,7 +1633,6 @@
             $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_industry_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -1665,7 +1655,6 @@
             $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_territory_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -1720,7 +1709,6 @@
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_campaign_description_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -1803,7 +1791,6 @@
             $column = new TextViewColumn('campaign_program_name', 'campaign_program_name', 'Campaign Program Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_campaign_program_name_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -1812,7 +1799,6 @@
             $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_industry_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -1835,7 +1821,6 @@
             $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_territory_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -1890,7 +1875,6 @@
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_campaign_description_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -1963,7 +1947,6 @@
             $column = new TextViewColumn('campaign_program_name', 'campaign_program_name', 'Campaign Program Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_campaign_program_name_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -1972,7 +1955,6 @@
             $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_industry_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -1995,7 +1977,6 @@
             $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_territory_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -2050,7 +2031,6 @@
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_partner_campaign_description_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -2212,6 +2192,7 @@
                           </div>
                         </div>');
             $this->setShowFormErrorsOnTop(true);
+            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -2221,133 +2202,8 @@
         }
     
         protected function doRegisterHandlers() {
-            //
-            // View column for campaign_program_name field
-            //
-            $column = new TextViewColumn('campaign_program_name', 'campaign_program_name', 'Campaign Program Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_campaign_program_name_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
             
-            //
-            // View column for industry field
-            //
-            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_industry_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
             
-            //
-            // View column for territory field
-            //
-            $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_territory_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_campaign_description_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for campaign_program_name field
-            //
-            $column = new TextViewColumn('campaign_program_name', 'campaign_program_name', 'Campaign Program Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_campaign_program_name_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for industry field
-            //
-            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_industry_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for territory field
-            //
-            $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_territory_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_campaign_description_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for campaign_program_name field
-            //
-            $column = new TextViewColumn('campaign_program_name', 'campaign_program_name', 'Campaign Program Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_campaign_program_name_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for industry field
-            //
-            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_industry_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for territory field
-            //
-            $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_territory_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_campaign_description_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for campaign_program_name field
-            //
-            $column = new TextViewColumn('campaign_program_name', 'campaign_program_name', 'Campaign Program Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_campaign_program_name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for industry field
-            //
-            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_industry_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for territory field
-            //
-            $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_territory_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_partner_campaign_description_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
         }
        
         protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
@@ -2480,45 +2336,12 @@
     
         }
     
-        protected function doGetCustomPagePermissions(Page $page, PermissionSet &$permissions, &$handled)
+        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
         {
-            // do not apply these rules for site admins
-            
-            if (!GetApplication()->HasAdminGrantForCurrentUser()) {
-            
-                // retrieving the ID of the current user
-                $userId = GetApplication()->GetCurrentUserId();
-            
-                // retrieving all user roles 
-                $sql =        
-                  "SELECT r.role_name " .
-                  "FROM `phpgen_users` ur " .
-                  "INNER JOIN `phpgen_user_roles` r ON r.user_id = ur.user_id " .
-                  "WHERE ur.user_id = %d";    
-                $result = $page->GetConnection()->fetchAll(sprintf($sql, $userId));
-            
-             
-            
-                // iterating through retrieved roles
-                if (!empty($result)) {
-                   foreach ($result as $row) {
-                       // is current user a member of the Sales role?
-                       if ($row['role_name'] === 'manager') {
-                         // if yes, allow all actions.
-                         // otherwise default permissions for this page will be applied
-                         $permissions->setGrants(true, true, true, true);
-                         break;
-                       }                 
-                   }
-                };    
-            
-                // apply the new permissions
-                $handled = true;
-            
-            }
+    
         }
     
-        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
+        protected function doAddEnvironmentVariables(Page $page, &$variables)
         {
     
         }
@@ -2529,7 +2352,7 @@
 
     try
     {
-        $Page = new campaign_tracker_partnerPage("campaign_tracker_partner", "campaign_tracker_partner.php", GetCurrentUserPermissionSetForDataSource("campaign_tracker_partner"), 'UTF-8');
+        $Page = new campaign_tracker_partnerPage("campaign_tracker_partner", "campaign_tracker_partner.php", GetCurrentUserPermissionsForPage("campaign_tracker_partner"), 'UTF-8');
         $Page->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource("campaign_tracker_partner"));
         GetApplication()->SetMainPage($Page);
         GetApplication()->Run();

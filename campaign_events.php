@@ -87,7 +87,9 @@
                     new StringField('SEO_Title'),
                     new StringField('finyear_date'),
                     new StringField('finmonth_date'),
-                    new IntegerField('show_events_cal')
+                    new IntegerField('show_events_cal'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $this->dataset->AddLookupField('master_campaign_id', 'brief', new IntegerField('master_campaign_id'), new StringField('campaign_name', false, false, false, false, 'master_campaign_id_campaign_name', 'master_campaign_id_campaign_name_brief'), 'master_campaign_id_campaign_name_brief');
@@ -122,7 +124,7 @@
             $result->AddPageNavigator($partitionNavigator);
             
             $partitionNavigator = new PageNavigator('pnav', $this, $this->dataset);
-            $partitionNavigator->SetRowsPerPage(20);
+            $partitionNavigator->SetRowsPerPage(10);
             $result->AddPageNavigator($partitionNavigator);
             
             return $result;
@@ -182,7 +184,9 @@
                 new FilterColumn($this->dataset, 'Est_Opportunity_value_in_Euros', 'Est_Opportunity_value_in_Euros', 'Est Opportunity Value In Euros'),
                 new FilterColumn($this->dataset, 'finyear_date', 'finyear_date', 'Quarter Filter'),
                 new FilterColumn($this->dataset, 'finmonth_date', 'finmonth_date', 'Month Filter'),
-                new FilterColumn($this->dataset, 'show_events_cal', 'show_events_cal', 'Show in Events Calendar?')
+                new FilterColumn($this->dataset, 'show_events_cal', 'show_events_cal', 'Show in Events Calendar?'),
+                new FilterColumn($this->dataset, 'modified_by', 'modified_by', 'Modified By'),
+                new FilterColumn($this->dataset, 'modified_date', 'modified_date', 'Modified Date')
             );
         }
     
@@ -227,7 +231,9 @@
                 ->addColumn($columns['Event_Title'])
                 ->addColumn($columns['SEO_Title'])
                 ->addColumn($columns['Est_Opportunity_value_in_Euros'])
-                ->addColumn($columns['show_events_cal']);
+                ->addColumn($columns['show_events_cal'])
+                ->addColumn($columns['modified_by'])
+                ->addColumn($columns['modified_date']);
         }
     
         protected function setupColumnFilter(ColumnFilter $columnFilter)
@@ -1294,6 +1300,52 @@
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
             );
+            
+            $main_editor = new TextEdit('modified_by_edit');
+            $main_editor->SetMaxLength(65);
+            
+            $filterBuilder->addColumn(
+                $columns['modified_by'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new DateTimeEdit('modified_date_edit', false, 'd-m-Y H:i:s');
+            
+            $filterBuilder->addColumn(
+                $columns['modified_date'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::DATE_EQUALS => $main_editor,
+                    FilterConditionOperator::DATE_DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::TODAY => null,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
         }
     
         protected function AddOperationsColumns(Grid $grid)
@@ -1366,7 +1418,6 @@
             $column->setAlign('left');
             $column->setCustomAttributes('width:30px;');
             $column->SetMaxLength(20);
-            $column->SetFullTextWindowHandlerName('campaign_events_eRegion_Region_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1380,7 +1431,6 @@
             $column->setAlign('left');
             $column->setCustomAttributes('width:30px;');
             $column->SetMaxLength(20);
-            $column->SetFullTextWindowHandlerName('campaign_events_Country_Country_Name_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1394,7 +1444,6 @@
             $column->setAlign('left');
             $column->setCustomAttributes('width:50px;');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Venue_handler_list');
             $column->SetWordWrap(false);
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
@@ -1431,7 +1480,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(65);
-            $column->SetFullTextWindowHandlerName('campaign_events_Event_Type_Event_Type_handler_list');
             $column->SetEscapeHTMLSpecialChars(true);
             $column->SetWordWrap(false);
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
@@ -1445,7 +1493,6 @@
             $column = new TextViewColumn('Business_Responsible', 'Business_Responsible_Brand_Name', 'Business Responsible', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Business_Responsible_Brand_Name_handler_list');
             $column->SetWordWrap(false);
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
@@ -1469,7 +1516,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Brands_Attending_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1506,7 +1552,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Objective_objective_name_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1569,7 +1614,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Industry_Industry_Name_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1582,7 +1626,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Strategic_Campaign_strategic_campaing_name_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1595,7 +1638,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Short_Description_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1624,7 +1666,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Planned_Booth_Area_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1688,7 +1729,6 @@
             $column->SetOrderable(true);
             $column->setCustomAttributes('width:30px;');
             $column->SetMaxLength(20);
-            $column->SetFullTextWindowHandlerName('campaign_events_eRegion_Region_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1698,7 +1738,6 @@
             $column->SetOrderable(true);
             $column->setCustomAttributes('width:30px;');
             $column->SetMaxLength(20);
-            $column->SetFullTextWindowHandlerName('campaign_events_Country_Country_Name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1717,7 +1756,6 @@
             $column->SetOrderable(true);
             $column->setCustomAttributes('width:50px;');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Venue_handler_view');
             $column->SetWordWrap(false);
             $grid->AddSingleRecordViewColumn($column);
             
@@ -1742,7 +1780,6 @@
             $column = new TextViewColumn('Event_Type', 'Event_Type_Event_Type', 'Event Type', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(65);
-            $column->SetFullTextWindowHandlerName('campaign_events_Event_Type_Event_Type_handler_view');
             $column->SetEscapeHTMLSpecialChars(true);
             $column->SetWordWrap(false);
             $grid->AddSingleRecordViewColumn($column);
@@ -1753,7 +1790,6 @@
             $column = new TextViewColumn('Business_Responsible', 'Business_Responsible_Brand_Name', 'Business Responsible', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Business_Responsible_Brand_Name_handler_view');
             $column->SetWordWrap(false);
             $grid->AddSingleRecordViewColumn($column);
             
@@ -1770,7 +1806,6 @@
             $column = new TextViewColumn('Brands_Attending', 'Brands_Attending', 'Brands Attending', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Brands_Attending_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1795,7 +1830,6 @@
             $column = new TextViewColumn('Objective', 'Objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Objective_objective_name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1839,7 +1873,6 @@
             $column = new TextViewColumn('Industry', 'Industry_Industry_Name', 'Industry', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Industry_Industry_Name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1848,7 +1881,6 @@
             $column = new TextViewColumn('Strategic_Campaign', 'Strategic_Campaign_strategic_campaing_name', 'Strategic Campaign', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Strategic_Campaign_strategic_campaing_name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1857,7 +1889,6 @@
             $column = new TextViewColumn('Short_Description', 'Short_Description', 'Short Description', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Short_Description_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1878,7 +1909,6 @@
             $column = new TextViewColumn('Planned_Booth_Area', 'Planned_Booth_Area', 'Planned Booth Area', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Planned_Booth_Area_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1887,7 +1917,6 @@
             $column = new TextViewColumn('Created_by', 'Created_by', 'Created By', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Created_by_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1904,7 +1933,6 @@
             $column = new TextViewColumn('Updated_by', 'Updated_by', 'Modified By', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Updated_by_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1956,7 +1984,6 @@
             $column = new TextViewColumn('Event_Title', 'Event_Title', 'Event Title', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Event_Title_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1965,7 +1992,6 @@
             $column = new TextViewColumn('SEO_Title', 'SEO_Title', 'SEO Title', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_SEO_Title_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1988,6 +2014,21 @@
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddSingleRecordViewColumn($column);
         }
     
@@ -2031,7 +2072,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -2071,6 +2114,7 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new DateField('campaign_publish_date_end'),
                     new TimeField('campaign_time_start'),
                     new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
@@ -2080,7 +2124,8 @@
                     new StringField('modified_by'),
                     new DateTimeField('modified_date'),
                     new IntegerField('import_total'),
-                    new IntegerField('create_import_list')
+                    new IntegerField('create_import_list'),
+                    new IntegerField('expired')
                 )
             );
             $lookupDataset->setOrderByField('campaign_program_name', 'ASC');
@@ -2142,7 +2187,9 @@
                     new StringField('Preferred_Langauge'),
                     new StringField('c_Region'),
                     new StringField('Sub_Region'),
-                    new StringField('Territories')
+                    new StringField('Territories'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('Country_Name', 'ASC');
@@ -2227,7 +2274,8 @@
             $lookupDataset->addFields(
                 array(
                     new IntegerField('Event_Type_ID', true, true, true),
-                    new StringField('Event_Type')
+                    new StringField('Event_Type'),
+                    new IntegerField('Event_website_listing')
                 )
             );
             $lookupDataset->setOrderByField('Event_Type', 'ASC');
@@ -2280,7 +2328,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -2639,7 +2689,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -2679,6 +2731,7 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new DateField('campaign_publish_date_end'),
                     new TimeField('campaign_time_start'),
                     new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
@@ -2688,7 +2741,8 @@
                     new StringField('modified_by'),
                     new DateTimeField('modified_date'),
                     new IntegerField('import_total'),
-                    new IntegerField('create_import_list')
+                    new IntegerField('create_import_list'),
+                    new IntegerField('expired')
                 )
             );
             $lookupDataset->setOrderByField('campaign_program_name', 'ASC');
@@ -2750,7 +2804,9 @@
                     new StringField('Preferred_Langauge'),
                     new StringField('c_Region'),
                     new StringField('Sub_Region'),
-                    new StringField('Territories')
+                    new StringField('Territories'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('Country_Name', 'ASC');
@@ -2835,7 +2891,8 @@
             $lookupDataset->addFields(
                 array(
                     new IntegerField('Event_Type_ID', true, true, true),
-                    new StringField('Event_Type')
+                    new StringField('Event_Type'),
+                    new IntegerField('Event_website_listing')
                 )
             );
             $lookupDataset->setOrderByField('Event_Type', 'ASC');
@@ -2888,7 +2945,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -3247,7 +3306,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -3287,6 +3348,7 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new DateField('campaign_publish_date_end'),
                     new TimeField('campaign_time_start'),
                     new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
@@ -3296,7 +3358,8 @@
                     new StringField('modified_by'),
                     new DateTimeField('modified_date'),
                     new IntegerField('import_total'),
-                    new IntegerField('create_import_list')
+                    new IntegerField('create_import_list'),
+                    new IntegerField('expired')
                 )
             );
             $lookupDataset->setOrderByField('campaign_program_name', 'ASC');
@@ -3358,7 +3421,9 @@
                     new StringField('Preferred_Langauge'),
                     new StringField('c_Region'),
                     new StringField('Sub_Region'),
-                    new StringField('Territories')
+                    new StringField('Territories'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('Country_Name', 'ASC');
@@ -3443,7 +3508,8 @@
             $lookupDataset->addFields(
                 array(
                     new IntegerField('Event_Type_ID', true, true, true),
-                    new StringField('Event_Type')
+                    new StringField('Event_Type'),
+                    new IntegerField('Event_website_listing')
                 )
             );
             $lookupDataset->setOrderByField('Event_Type', 'ASC');
@@ -3496,7 +3562,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -3875,7 +3943,6 @@
             $column->setAlign('left');
             $column->setCustomAttributes('width:30px;');
             $column->SetMaxLength(20);
-            $column->SetFullTextWindowHandlerName('campaign_events_eRegion_Region_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -3886,7 +3953,6 @@
             $column->setAlign('left');
             $column->setCustomAttributes('width:30px;');
             $column->SetMaxLength(20);
-            $column->SetFullTextWindowHandlerName('campaign_events_Country_Country_Name_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -3906,7 +3972,6 @@
             $column->setAlign('left');
             $column->setCustomAttributes('width:50px;');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Venue_handler_print');
             $column->SetWordWrap(false);
             $grid->AddPrintColumn($column);
             
@@ -3934,7 +3999,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(65);
-            $column->SetFullTextWindowHandlerName('campaign_events_Event_Type_Event_Type_handler_print');
             $column->SetEscapeHTMLSpecialChars(true);
             $column->SetWordWrap(false);
             $grid->AddPrintColumn($column);
@@ -3945,7 +4009,6 @@
             $column = new TextViewColumn('Business_Responsible', 'Business_Responsible_Brand_Name', 'Business Responsible', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Business_Responsible_Brand_Name_handler_print');
             $column->SetWordWrap(false);
             $grid->AddPrintColumn($column);
             
@@ -3963,7 +4026,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Brands_Attending_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -3991,7 +4053,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Objective_objective_name_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -4039,7 +4100,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Industry_Industry_Name_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -4049,7 +4109,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Strategic_Campaign_strategic_campaing_name_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -4059,7 +4118,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Short_Description_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -4082,7 +4140,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Planned_Booth_Area_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -4091,7 +4148,6 @@
             $column = new TextViewColumn('Created_by', 'Created_by', 'Created By', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Created_by_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -4108,7 +4164,6 @@
             $column = new TextViewColumn('Updated_by', 'Updated_by', 'Modified By', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Updated_by_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -4160,7 +4215,6 @@
             $column = new TextViewColumn('Event_Title', 'Event_Title', 'Event Title', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Event_Title_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -4169,7 +4223,6 @@
             $column = new TextViewColumn('SEO_Title', 'SEO_Title', 'SEO Title', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_SEO_Title_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -4207,6 +4260,21 @@
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddPrintColumn($column);
         }
     
@@ -4254,7 +4322,6 @@
             $column->setAlign('left');
             $column->setCustomAttributes('width:30px;');
             $column->SetMaxLength(20);
-            $column->SetFullTextWindowHandlerName('campaign_events_eRegion_Region_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -4265,7 +4332,6 @@
             $column->setAlign('left');
             $column->setCustomAttributes('width:30px;');
             $column->SetMaxLength(20);
-            $column->SetFullTextWindowHandlerName('campaign_events_Country_Country_Name_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -4285,7 +4351,6 @@
             $column->setAlign('left');
             $column->setCustomAttributes('width:50px;');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Venue_handler_export');
             $column->SetWordWrap(false);
             $grid->AddExportColumn($column);
             
@@ -4313,7 +4378,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(65);
-            $column->SetFullTextWindowHandlerName('campaign_events_Event_Type_Event_Type_handler_export');
             $column->SetEscapeHTMLSpecialChars(true);
             $column->SetWordWrap(false);
             $grid->AddExportColumn($column);
@@ -4324,7 +4388,6 @@
             $column = new TextViewColumn('Business_Responsible', 'Business_Responsible_Brand_Name', 'Business Responsible', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Business_Responsible_Brand_Name_handler_export');
             $column->SetWordWrap(false);
             $grid->AddExportColumn($column);
             
@@ -4342,7 +4405,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Brands_Attending_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -4370,7 +4432,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Objective_objective_name_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -4418,7 +4479,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Industry_Industry_Name_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -4428,7 +4488,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Strategic_Campaign_strategic_campaing_name_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -4438,7 +4497,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Short_Description_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -4461,7 +4519,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Planned_Booth_Area_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -4470,7 +4527,6 @@
             $column = new TextViewColumn('Created_by', 'Created_by', 'Created By', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Created_by_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -4487,7 +4543,6 @@
             $column = new TextViewColumn('Updated_by', 'Updated_by', 'Modified By', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Updated_by_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -4539,7 +4594,6 @@
             $column = new TextViewColumn('Event_Title', 'Event_Title', 'Event Title', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Event_Title_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -4548,7 +4602,6 @@
             $column = new TextViewColumn('SEO_Title', 'SEO_Title', 'SEO Title', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_SEO_Title_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -4586,6 +4639,21 @@
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddExportColumn($column);
         }
     
@@ -4623,7 +4691,6 @@
             $column->setAlign('left');
             $column->setCustomAttributes('width:30px;');
             $column->SetMaxLength(20);
-            $column->SetFullTextWindowHandlerName('campaign_events_eRegion_Region_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -4634,7 +4701,6 @@
             $column->setAlign('left');
             $column->setCustomAttributes('width:30px;');
             $column->SetMaxLength(20);
-            $column->SetFullTextWindowHandlerName('campaign_events_Country_Country_Name_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -4654,7 +4720,6 @@
             $column->setAlign('left');
             $column->setCustomAttributes('width:50px;');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Venue_handler_compare');
             $column->SetWordWrap(false);
             $grid->AddCompareColumn($column);
             
@@ -4682,7 +4747,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(65);
-            $column->SetFullTextWindowHandlerName('campaign_events_Event_Type_Event_Type_handler_compare');
             $column->SetEscapeHTMLSpecialChars(true);
             $column->SetWordWrap(false);
             $grid->AddCompareColumn($column);
@@ -4693,7 +4757,6 @@
             $column = new TextViewColumn('Business_Responsible', 'Business_Responsible_Brand_Name', 'Business Responsible', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Business_Responsible_Brand_Name_handler_compare');
             $column->SetWordWrap(false);
             $grid->AddCompareColumn($column);
             
@@ -4711,7 +4774,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Brands_Attending_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -4739,7 +4801,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Objective_objective_name_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -4787,7 +4848,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Industry_Industry_Name_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -4797,7 +4857,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Strategic_Campaign_strategic_campaing_name_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -4807,7 +4866,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Short_Description_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -4830,7 +4888,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Planned_Booth_Area_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -4839,7 +4896,6 @@
             $column = new TextViewColumn('Created_by', 'Created_by', 'Created By', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Created_by_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -4856,7 +4912,6 @@
             $column = new TextViewColumn('Updated_by', 'Updated_by', 'Modified By', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Updated_by_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -4908,7 +4963,6 @@
             $column = new TextViewColumn('Event_Title', 'Event_Title', 'Event Title', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_Event_Title_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -4917,7 +4971,6 @@
             $column = new TextViewColumn('SEO_Title', 'SEO_Title', 'SEO Title', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_events_SEO_Title_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -4955,6 +5008,21 @@
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddCompareColumn($column);
         }
     
@@ -5081,6 +5149,7 @@
                </div>
             </div>');
             $this->setShowFormErrorsOnTop(true);
+            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -5215,385 +5284,6 @@
         }
     
         protected function doRegisterHandlers() {
-            //
-            // View column for Region field
-            //
-            $column = new TextViewColumn('eRegion', 'eRegion_Region', 'Region', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $column->setCustomAttributes('width:30px;');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_eRegion_Region_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Country_Name field
-            //
-            $column = new TextViewColumn('Country', 'Country_Country_Name', 'Country', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $column->setCustomAttributes('width:30px;');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Country_Country_Name_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Venue field
-            //
-            $column = new TextViewColumn('Venue', 'Venue', 'Venue', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $column->setCustomAttributes('width:50px;');
-            $column->SetWordWrap(false);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Venue_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Event_Type field
-            //
-            $column = new TextViewColumn('Event_Type', 'Event_Type_Event_Type', 'Event Type', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $column->SetEscapeHTMLSpecialChars(true);
-            $column->SetWordWrap(false);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Event_Type_Event_Type_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Brand_Name field
-            //
-            $column = new TextViewColumn('Business_Responsible', 'Business_Responsible_Brand_Name', 'Business Responsible', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetWordWrap(false);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Business_Responsible_Brand_Name_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Brands_Attending field
-            //
-            $column = new TextViewColumn('Brands_Attending', 'Brands_Attending', 'Brands Attending', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Brands_Attending_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for objective_name field
-            //
-            $column = new TextViewColumn('Objective', 'Objective_objective_name', 'Objective', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Objective_objective_name_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Industry_Name field
-            //
-            $column = new TextViewColumn('Industry', 'Industry_Industry_Name', 'Industry', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Industry_Industry_Name_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for strategic_campaing_name field
-            //
-            $column = new TextViewColumn('Strategic_Campaign', 'Strategic_Campaign_strategic_campaing_name', 'Strategic Campaign', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Strategic_Campaign_strategic_campaing_name_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Short_Description field
-            //
-            $column = new TextViewColumn('Short_Description', 'Short_Description', 'Short Description', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Short_Description_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Planned_Booth_Area field
-            //
-            $column = new TextViewColumn('Planned_Booth_Area', 'Planned_Booth_Area', 'Planned Booth Area', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Planned_Booth_Area_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Region field
-            //
-            $column = new TextViewColumn('eRegion', 'eRegion_Region', 'Region', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $column->setCustomAttributes('width:30px;');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_eRegion_Region_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Country_Name field
-            //
-            $column = new TextViewColumn('Country', 'Country_Country_Name', 'Country', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $column->setCustomAttributes('width:30px;');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Country_Country_Name_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Venue field
-            //
-            $column = new TextViewColumn('Venue', 'Venue', 'Venue', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $column->setCustomAttributes('width:50px;');
-            $column->SetWordWrap(false);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Venue_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Event_Type field
-            //
-            $column = new TextViewColumn('Event_Type', 'Event_Type_Event_Type', 'Event Type', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $column->SetEscapeHTMLSpecialChars(true);
-            $column->SetWordWrap(false);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Event_Type_Event_Type_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Brand_Name field
-            //
-            $column = new TextViewColumn('Business_Responsible', 'Business_Responsible_Brand_Name', 'Business Responsible', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetWordWrap(false);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Business_Responsible_Brand_Name_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Brands_Attending field
-            //
-            $column = new TextViewColumn('Brands_Attending', 'Brands_Attending', 'Brands Attending', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Brands_Attending_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for objective_name field
-            //
-            $column = new TextViewColumn('Objective', 'Objective_objective_name', 'Objective', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Objective_objective_name_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Industry_Name field
-            //
-            $column = new TextViewColumn('Industry', 'Industry_Industry_Name', 'Industry', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Industry_Industry_Name_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for strategic_campaing_name field
-            //
-            $column = new TextViewColumn('Strategic_Campaign', 'Strategic_Campaign_strategic_campaing_name', 'Strategic Campaign', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Strategic_Campaign_strategic_campaing_name_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Short_Description field
-            //
-            $column = new TextViewColumn('Short_Description', 'Short_Description', 'Short Description', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Short_Description_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Planned_Booth_Area field
-            //
-            $column = new TextViewColumn('Planned_Booth_Area', 'Planned_Booth_Area', 'Planned Booth Area', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Planned_Booth_Area_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Created_by field
-            //
-            $column = new TextViewColumn('Created_by', 'Created_by', 'Created By', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Created_by_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Updated_by field
-            //
-            $column = new TextViewColumn('Updated_by', 'Updated_by', 'Modified By', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Updated_by_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Event_Title field
-            //
-            $column = new TextViewColumn('Event_Title', 'Event_Title', 'Event Title', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Event_Title_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for SEO_Title field
-            //
-            $column = new TextViewColumn('SEO_Title', 'SEO_Title', 'SEO Title', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_SEO_Title_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Region field
-            //
-            $column = new TextViewColumn('eRegion', 'eRegion_Region', 'Region', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $column->setCustomAttributes('width:30px;');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_eRegion_Region_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Country_Name field
-            //
-            $column = new TextViewColumn('Country', 'Country_Country_Name', 'Country', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $column->setCustomAttributes('width:30px;');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Country_Country_Name_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Venue field
-            //
-            $column = new TextViewColumn('Venue', 'Venue', 'Venue', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $column->setCustomAttributes('width:50px;');
-            $column->SetWordWrap(false);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Venue_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Event_Type field
-            //
-            $column = new TextViewColumn('Event_Type', 'Event_Type_Event_Type', 'Event Type', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $column->SetEscapeHTMLSpecialChars(true);
-            $column->SetWordWrap(false);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Event_Type_Event_Type_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Brand_Name field
-            //
-            $column = new TextViewColumn('Business_Responsible', 'Business_Responsible_Brand_Name', 'Business Responsible', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetWordWrap(false);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Business_Responsible_Brand_Name_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Brands_Attending field
-            //
-            $column = new TextViewColumn('Brands_Attending', 'Brands_Attending', 'Brands Attending', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Brands_Attending_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for objective_name field
-            //
-            $column = new TextViewColumn('Objective', 'Objective_objective_name', 'Objective', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Objective_objective_name_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Industry_Name field
-            //
-            $column = new TextViewColumn('Industry', 'Industry_Industry_Name', 'Industry', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Industry_Industry_Name_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for strategic_campaing_name field
-            //
-            $column = new TextViewColumn('Strategic_Campaign', 'Strategic_Campaign_strategic_campaing_name', 'Strategic Campaign', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Strategic_Campaign_strategic_campaing_name_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Short_Description field
-            //
-            $column = new TextViewColumn('Short_Description', 'Short_Description', 'Short Description', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Short_Description_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Planned_Booth_Area field
-            //
-            $column = new TextViewColumn('Planned_Booth_Area', 'Planned_Booth_Area', 'Planned Booth Area', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Planned_Booth_Area_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Created_by field
-            //
-            $column = new TextViewColumn('Created_by', 'Created_by', 'Created By', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Created_by_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Updated_by field
-            //
-            $column = new TextViewColumn('Updated_by', 'Updated_by', 'Modified By', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Updated_by_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Event_Title field
-            //
-            $column = new TextViewColumn('Event_Title', 'Event_Title', 'Event Title', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Event_Title_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for SEO_Title field
-            //
-            $column = new TextViewColumn('SEO_Title', 'SEO_Title', 'SEO Title', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_SEO_Title_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
@@ -5626,7 +5316,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -5657,6 +5349,7 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new DateField('campaign_publish_date_end'),
                     new TimeField('campaign_time_start'),
                     new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
@@ -5666,7 +5359,8 @@
                     new StringField('modified_by'),
                     new DateTimeField('modified_date'),
                     new IntegerField('import_total'),
-                    new IntegerField('create_import_list')
+                    new IntegerField('create_import_list'),
+                    new IntegerField('expired')
                 )
             );
             $lookupDataset->setOrderByField('campaign_program_name', 'ASC');
@@ -5701,7 +5395,9 @@
                     new StringField('Preferred_Langauge'),
                     new StringField('c_Region'),
                     new StringField('Sub_Region'),
-                    new StringField('Territories')
+                    new StringField('Territories'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('Country_Name', 'ASC');
@@ -5738,7 +5434,8 @@
             $lookupDataset->addFields(
                 array(
                     new IntegerField('Event_Type_ID', true, true, true),
-                    new StringField('Event_Type')
+                    new StringField('Event_Type'),
+                    new IntegerField('Event_website_listing')
                 )
             );
             $lookupDataset->setOrderByField('Event_Type', 'ASC');
@@ -5774,7 +5471,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -5886,7 +5585,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -5917,6 +5618,7 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new DateField('campaign_publish_date_end'),
                     new TimeField('campaign_time_start'),
                     new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
@@ -5926,7 +5628,8 @@
                     new StringField('modified_by'),
                     new DateTimeField('modified_date'),
                     new IntegerField('import_total'),
-                    new IntegerField('create_import_list')
+                    new IntegerField('create_import_list'),
+                    new IntegerField('expired')
                 )
             );
             $lookupDataset->setOrderByField('campaign_program_name', 'ASC');
@@ -5961,7 +5664,9 @@
                     new StringField('Preferred_Langauge'),
                     new StringField('c_Region'),
                     new StringField('Sub_Region'),
-                    new StringField('Territories')
+                    new StringField('Territories'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('Country_Name', 'ASC');
@@ -5998,7 +5703,8 @@
             $lookupDataset->addFields(
                 array(
                     new IntegerField('Event_Type_ID', true, true, true),
-                    new StringField('Event_Type')
+                    new StringField('Event_Type'),
+                    new IntegerField('Event_website_listing')
                 )
             );
             $lookupDataset->setOrderByField('Event_Type', 'ASC');
@@ -6034,7 +5740,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -6127,133 +5835,6 @@
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_events_Publish_Live_search', 'Status_Type_ID', 'Status_Type', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            //
-            // View column for Region field
-            //
-            $column = new TextViewColumn('eRegion', 'eRegion_Region', 'Region', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setCustomAttributes('width:30px;');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_eRegion_Region_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Country_Name field
-            //
-            $column = new TextViewColumn('Country', 'Country_Country_Name', 'Country', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setCustomAttributes('width:30px;');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Country_Country_Name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Venue field
-            //
-            $column = new TextViewColumn('Venue', 'Venue', 'Venue', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setCustomAttributes('width:50px;');
-            $column->SetWordWrap(false);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Venue_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Event_Type field
-            //
-            $column = new TextViewColumn('Event_Type', 'Event_Type_Event_Type', 'Event Type', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetEscapeHTMLSpecialChars(true);
-            $column->SetWordWrap(false);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Event_Type_Event_Type_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Brand_Name field
-            //
-            $column = new TextViewColumn('Business_Responsible', 'Business_Responsible_Brand_Name', 'Business Responsible', $this->dataset);
-            $column->SetOrderable(true);
-            $column->SetWordWrap(false);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Business_Responsible_Brand_Name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Brands_Attending field
-            //
-            $column = new TextViewColumn('Brands_Attending', 'Brands_Attending', 'Brands Attending', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Brands_Attending_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for objective_name field
-            //
-            $column = new TextViewColumn('Objective', 'Objective_objective_name', 'Objective', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Objective_objective_name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Industry_Name field
-            //
-            $column = new TextViewColumn('Industry', 'Industry_Industry_Name', 'Industry', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Industry_Industry_Name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for strategic_campaing_name field
-            //
-            $column = new TextViewColumn('Strategic_Campaign', 'Strategic_Campaign_strategic_campaing_name', 'Strategic Campaign', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Strategic_Campaign_strategic_campaing_name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Short_Description field
-            //
-            $column = new TextViewColumn('Short_Description', 'Short_Description', 'Short Description', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Short_Description_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Planned_Booth_Area field
-            //
-            $column = new TextViewColumn('Planned_Booth_Area', 'Planned_Booth_Area', 'Planned Booth Area', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Planned_Booth_Area_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Created_by field
-            //
-            $column = new TextViewColumn('Created_by', 'Created_by', 'Created By', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Created_by_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Updated_by field
-            //
-            $column = new TextViewColumn('Updated_by', 'Updated_by', 'Modified By', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Updated_by_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Event_Title field
-            //
-            $column = new TextViewColumn('Event_Title', 'Event_Title', 'Event Title', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_Event_Title_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for SEO_Title field
-            //
-            $column = new TextViewColumn('SEO_Title', 'SEO_Title', 'SEO Title', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_events_SEO_Title_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
@@ -6286,7 +5867,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -6317,6 +5900,7 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new DateField('campaign_publish_date_end'),
                     new TimeField('campaign_time_start'),
                     new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
@@ -6326,7 +5910,8 @@
                     new StringField('modified_by'),
                     new DateTimeField('modified_date'),
                     new IntegerField('import_total'),
-                    new IntegerField('create_import_list')
+                    new IntegerField('create_import_list'),
+                    new IntegerField('expired')
                 )
             );
             $lookupDataset->setOrderByField('campaign_program_name', 'ASC');
@@ -6361,7 +5946,9 @@
                     new StringField('Preferred_Langauge'),
                     new StringField('c_Region'),
                     new StringField('Sub_Region'),
-                    new StringField('Territories')
+                    new StringField('Territories'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('Country_Name', 'ASC');
@@ -6398,7 +5985,8 @@
             $lookupDataset->addFields(
                 array(
                     new IntegerField('Event_Type_ID', true, true, true),
-                    new StringField('Event_Type')
+                    new StringField('Event_Type'),
+                    new IntegerField('Event_website_listing')
                 )
             );
             $lookupDataset->setOrderByField('Event_Type', 'ASC');
@@ -6434,7 +6022,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -6546,7 +6136,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -6577,6 +6169,7 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new DateField('campaign_publish_date_end'),
                     new TimeField('campaign_time_start'),
                     new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
@@ -6586,7 +6179,8 @@
                     new StringField('modified_by'),
                     new DateTimeField('modified_date'),
                     new IntegerField('import_total'),
-                    new IntegerField('create_import_list')
+                    new IntegerField('create_import_list'),
+                    new IntegerField('expired')
                 )
             );
             $lookupDataset->setOrderByField('campaign_program_name', 'ASC');
@@ -6621,7 +6215,9 @@
                     new StringField('Preferred_Langauge'),
                     new StringField('c_Region'),
                     new StringField('Sub_Region'),
-                    new StringField('Territories')
+                    new StringField('Territories'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('Country_Name', 'ASC');
@@ -6658,7 +6254,8 @@
             $lookupDataset->addFields(
                 array(
                     new IntegerField('Event_Type_ID', true, true, true),
-                    new StringField('Event_Type')
+                    new StringField('Event_Type'),
+                    new IntegerField('Event_website_listing')
                 )
             );
             $lookupDataset->setOrderByField('Event_Type', 'ASC');
@@ -6694,7 +6291,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -7067,41 +6666,12 @@
     
         }
     
-        protected function doGetCustomPagePermissions(Page $page, PermissionSet &$permissions, &$handled)
+        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
         {
-            // do not apply these rules for site admins
-            
-            if (!GetApplication()->HasAdminGrantForCurrentUser()) {
-            
-            	// retrieving the ID of the current user
-            	$userId = GetApplication()->GetCurrentUserId();
-            
-            	// retrieving all user roles 
-            	$sql =        
-            	  "SELECT user_level " .
-            	  "FROM `phpgen_users` " .
-            	  "WHERE user_id = %d";    
-            	$result = $page->GetConnection()->fetchAll(sprintf($sql, $userId));
-            
-            	// iterating through retrieved roles
-            	if (!empty($result)) {
-            	   foreach ($result as $row) {
-            		   // is current user a member of the Sales role?
-            		   if (($row['user_level'] === '346')) {
-            			 // if yes, allow all actions.
-            			 // otherwise default permissions for this page will be applied
-            			 $permissions->setGrants(true, true, true, true);
-            			 break;
-            		   }                 
-            	   }
-            	};    
-            
-            	// apply the new permissions
-            	$handled = true;
-            }
+    
         }
     
-        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
+        protected function doAddEnvironmentVariables(Page $page, &$variables)
         {
     
         }
@@ -7112,7 +6682,7 @@
 
     try
     {
-        $Page = new campaign_eventsPage("campaign_events", "campaign_events.php", GetCurrentUserPermissionSetForDataSource("campaign_events"), 'UTF-8');
+        $Page = new campaign_eventsPage("campaign_events", "campaign_events.php", GetCurrentUserPermissionsForPage("campaign_events"), 'UTF-8');
         $Page->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource("campaign_events"));
         GetApplication()->SetMainPage($Page);
         GetApplication()->Run();

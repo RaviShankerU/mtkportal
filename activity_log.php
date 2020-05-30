@@ -66,7 +66,7 @@
             $result = new CompositePageNavigator($this);
             
             $partitionNavigator = new PageNavigator('pnav', $this, $this->dataset);
-            $partitionNavigator->SetRowsPerPage(20);
+            $partitionNavigator->SetRowsPerPage(10);
             $result->AddPageNavigator($partitionNavigator);
             
             return $result;
@@ -439,7 +439,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -506,7 +508,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -747,6 +751,7 @@
                           </div>
                         </div>');
             $this->setShowFormErrorsOnTop(true);
+            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -771,7 +776,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -793,7 +800,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -815,7 +824,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -953,12 +964,12 @@
     
         }
     
-        protected function doGetCustomPagePermissions(Page $page, PermissionSet &$permissions, &$handled)
+        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
         {
     
         }
     
-        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
+        protected function doAddEnvironmentVariables(Page $page, &$variables)
         {
     
         }
@@ -969,7 +980,7 @@
 
     try
     {
-        $Page = new activity_logPage("activity_log", "activity_log.php", GetCurrentUserPermissionSetForDataSource("activity_log"), 'UTF-8');
+        $Page = new activity_logPage("activity_log", "activity_log.php", GetCurrentUserPermissionsForPage("activity_log"), 'UTF-8');
         $Page->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource("activity_log"));
         GetApplication()->SetMainPage($Page);
         GetApplication()->Run();

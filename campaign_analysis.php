@@ -77,7 +77,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             if (!$this->GetSecurityInfo()->HasAdminGrant()) {
@@ -94,7 +96,7 @@
             $result = new CompositePageNavigator($this);
             
             $partitionNavigator = new PageNavigator('pnav', $this, $this->dataset);
-            $partitionNavigator->SetRowsPerPage(20);
+            $partitionNavigator->SetRowsPerPage(10);
             $result->AddPageNavigator($partitionNavigator);
             
             return $result;
@@ -148,14 +150,17 @@
              		WHEN `channel_types` LIKE \'%R Campaign%\' THEN \'PR Campaign\'
              		WHEN `channel_types` LIKE \'%Webinar Series Campaign%\' THEN \'Webinar Series Campaign\'
                     ELSE \'No Data or Incorrect\'
-                    END) DESC';$chart = new Chart('campaign_type', Chart::TYPE_PIE, $this->dataset, $sql);
+                    END) DESC';
+            $chart = new Chart('campaign_type', Chart::TYPE_PIE, $this->dataset, $sql);
             $chart->setTitle('Campaign by Type');
             $chart->setHeight(400);
             $chart->setDomainColumn('Campaign Type', 'Campaign Type', 'string');
             $chart->addDataColumn('COUNT', 'Campaign Type', 'int')
-                  ->setAnnotationColumn('Campaign Type')
-                  ->setAnnotationTextColumn('Campaign Type');
-            $this->addChart($chart, 0, ChartPosition::BEFORE_GRID, 6);$sql = 'SELECT (
+                ->setAnnotationColumn('Campaign Type')
+                ->setAnnotationTextColumn('Campaign Type');
+            $this->addChart($chart, 0, ChartPosition::BEFORE_GRID, 6);
+            
+            $sql = 'SELECT (
                 CASE 
                     WHEN `Industry` LIKE \'%Adams%\' THEN \'Adams\'
              		WHEN `Industry` LIKE \'%Additive%\' THEN \'Additive\'
@@ -213,12 +218,15 @@
              		WHEN `Industry` LIKE \'%Other%\' THEN \'Other\'
             		ELSE \'Invalid Data\'
                     END)
-            ORDER BY `Industry` ASC';$chart = new Chart('campaign_industry', Chart::TYPE_PIE, $this->dataset, $sql);
+            ORDER BY `Industry` ASC';
+            $chart = new Chart('campaign_industry', Chart::TYPE_PIE, $this->dataset, $sql);
             $chart->setTitle('Campaign by Industry');
             $chart->setHeight(400);
             $chart->setDomainColumn('Industry', 'Campaign by Industry', 'string');
             $chart->addDataColumn('Count', 'Industry', 'int');
-            $this->addChart($chart, 1, ChartPosition::BEFORE_GRID, 6);$sql = 'SELECT 
+            $this->addChart($chart, 1, ChartPosition::BEFORE_GRID, 6);
+            
+            $sql = 'SELECT 
                 t2.Country_Name,
                 COUNT(*) as \'COUNT\'
             FROM
@@ -226,12 +234,13 @@
             INNER JOIN country_list t2 
                 ON t1.b_country  = t2.Country_Name
             GROUP BY Country_Name
-            ORDER By COUNT(*) DESC';$chart = new Chart('campaign_by_country', Chart::TYPE_PIE, $this->dataset, $sql);
+            ORDER By COUNT(*) DESC';
+            $chart = new Chart('campaign_by_country', Chart::TYPE_PIE, $this->dataset, $sql);
             $chart->setTitle('Campaign by Country');
             $chart->setHeight(400);
             $chart->setDomainColumn('Country_Name', 'Campaign by Country', 'string');
             $chart->addDataColumn('COUNT', 'Country', 'int')
-                  ->setAnnotationColumn('Country_Name');
+                ->setAnnotationColumn('Country_Name');
             $this->addChart($chart, 2, ChartPosition::BEFORE_GRID, 6);
         }
     
@@ -264,7 +273,9 @@
                 new FilterColumn($this->dataset, 'industry', 'industry', 'Industry'),
                 new FilterColumn($this->dataset, 'campaign_name', 'campaign_name', 'Campaign Name'),
                 new FilterColumn($this->dataset, 'campaign_tier', 'campaign_tier', 'Campaign Tier'),
-                new FilterColumn($this->dataset, 'event_type', 'event_type', 'Event Type')
+                new FilterColumn($this->dataset, 'event_type', 'event_type', 'Event Type'),
+                new FilterColumn($this->dataset, 'modified_by', 'modified_by', 'Modified By'),
+                new FilterColumn($this->dataset, 'modified_date', 'modified_date', 'Modified Date')
             );
         }
     
@@ -297,12 +308,15 @@
                 ->addColumn($columns['industry'])
                 ->addColumn($columns['campaign_name'])
                 ->addColumn($columns['campaign_tier'])
-                ->addColumn($columns['event_type']);
+                ->addColumn($columns['event_type'])
+                ->addColumn($columns['modified_by'])
+                ->addColumn($columns['modified_date']);
         }
     
         protected function setupColumnFilter(ColumnFilter $columnFilter)
         {
-    
+            $columnFilter
+                ->setOptionsFor('modified_date');
         }
     
         protected function setupFilterBuilder(FilterBuilder $filterBuilder, FixedKeysArray $columns)
@@ -848,6 +862,51 @@
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
             );
+            
+            $main_editor = new TextEdit('modified_by_edit');
+            
+            $filterBuilder->addColumn(
+                $columns['modified_by'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new DateTimeEdit('modified_date_edit', false, 'd-m-Y H:i:s');
+            
+            $filterBuilder->addColumn(
+                $columns['modified_date'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::DATE_EQUALS => $main_editor,
+                    FilterConditionOperator::DATE_DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::TODAY => null,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
         }
     
         protected function AddOperationsColumns(Grid $grid)
@@ -862,6 +921,37 @@
                     $this->GetLocalizerCaptions()->GetMessageString('View'),
                     $this->GetLocalizerCaptions()->GetMessageString('View'), $this->dataset,
                     $this->GetModalGridViewHandler(), $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+            }
+            
+            if ($this->GetSecurityInfo()->HasEditGrant())
+            {
+                $operation = new AjaxOperation(OPERATION_EDIT,
+                    $this->GetLocalizerCaptions()->GetMessageString('Edit'),
+                    $this->GetLocalizerCaptions()->GetMessageString('Edit'), $this->dataset,
+                    $this->GetGridEditHandler(), $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+                $operation->OnShow->AddListener('ShowEditButtonHandler', $this);
+            }
+            
+            if ($this->GetSecurityInfo()->HasDeleteGrant())
+            {
+                $operation = new LinkOperation($this->GetLocalizerCaptions()->GetMessageString('Delete'), OPERATION_DELETE, $this->dataset, $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+                $operation->OnShow->AddListener('ShowDeleteButtonHandler', $this);
+                $operation->SetAdditionalAttribute('data-modal-operation', 'delete');
+                $operation->SetAdditionalAttribute('data-delete-handler-name', $this->GetModalGridDeleteHandler());
+            }
+            
+            if ($this->GetSecurityInfo()->HasAddGrant())
+            {
+                $operation = new AjaxOperation(OPERATION_COPY,
+                    $this->GetLocalizerCaptions()->GetMessageString('Copy'),
+                    $this->GetLocalizerCaptions()->GetMessageString('Copy'), $this->dataset,
+                    $this->GetModalGridCopyHandler(), $grid);
                 $operation->setUseImage(true);
                 $actions->addOperation($operation);
             }
@@ -992,6 +1082,27 @@
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1224,6 +1335,21 @@
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddSingleRecordViewColumn($column);
         }
     
@@ -1496,6 +1622,26 @@
             //
             $editor = new SpinEdit('event_type_edit');
             $editColumn = new CustomEditColumn('Event Type', 'event_type', $editor, $this->dataset);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for modified_by field
+            //
+            $editor = new TextEdit('modified_by_edit');
+            $editColumn = new CustomEditColumn('Modified By', 'modified_by', $editor, $this->dataset);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for modified_date field
+            //
+            $editor = new DateTimeEdit('modified_date_edit', false, 'd-m-Y H:i:s');
+            $editColumn = new CustomEditColumn('Modified Date', 'modified_date', $editor, $this->dataset);
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
@@ -1775,6 +1921,26 @@
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for modified_by field
+            //
+            $editor = new TextEdit('modified_by_edit');
+            $editColumn = new CustomEditColumn('Modified By', 'modified_by', $editor, $this->dataset);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for modified_date field
+            //
+            $editor = new DateTimeEdit('modified_date_edit', false, 'd-m-Y H:i:s');
+            $editColumn = new CustomEditColumn('Modified Date', 'modified_date', $editor, $this->dataset);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
         }
     
         protected function AddInsertColumns(Grid $grid)
@@ -2050,7 +2216,27 @@
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
-            $grid->SetShowAddButton(false && $this->GetSecurityInfo()->HasAddGrant());
+            
+            //
+            // Edit column for modified_by field
+            //
+            $editor = new TextEdit('modified_by_edit');
+            $editColumn = new CustomEditColumn('Modified By', 'modified_by', $editor, $this->dataset);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for modified_date field
+            //
+            $editor = new DateTimeEdit('modified_date_edit', false, 'd-m-Y H:i:s');
+            $editColumn = new CustomEditColumn('Modified Date', 'modified_date', $editor, $this->dataset);
+            $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
+            $editor->GetValidatorCollection()->AddValidator($validator);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            $grid->SetShowAddButton(true && $this->GetSecurityInfo()->HasAddGrant());
         }
     
         private function AddMultiUploadColumn(Grid $grid)
@@ -2285,6 +2471,21 @@
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
             $grid->AddPrintColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $grid->AddPrintColumn($column);
         }
     
         protected function AddExportColumns(Grid $grid)
@@ -2513,6 +2714,21 @@
             $column->setNumberAfterDecimal(0);
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddExportColumn($column);
         }
     
@@ -2743,6 +2959,21 @@
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
             $grid->AddCompareColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $grid->AddCompareColumn($column);
         }
     
         private function AddCompareHeaderColumns(Grid $grid)
@@ -2776,13 +3007,21 @@
         {
             return ;
         }
+        
+        public function GetEnableModalGridInsert() { return true; }
         public function GetEnableModalSingleRecordView() { return true; }
+        
+        public function GetEnableModalGridEdit() { return true; }
+        
+        protected function GetEnableModalGridDelete() { return true; }
+        
+        public function GetEnableModalGridCopy() { return true; }
     
         protected function CreateGrid()
         {
             $result = new Grid($this, $this->dataset);
             if ($this->GetSecurityInfo()->HasDeleteGrant())
-               $result->SetAllowDeleteSelected(false);
+               $result->SetAllowDeleteSelected(true);
             else
                $result->SetAllowDeleteSelected(false);   
             
@@ -2834,6 +3073,7 @@
                           </div>
                         </div>');
             $this->setShowFormErrorsOnTop(true);
+            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -3010,41 +3250,12 @@
     
         }
     
-        protected function doGetCustomPagePermissions(Page $page, PermissionSet &$permissions, &$handled)
+        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
         {
-            // do not apply these rules for site admins
-            
-            if (!GetApplication()->HasAdminGrantForCurrentUser()) {
-            
-            	// retrieving the ID of the current user
-            	$userId = GetApplication()->GetCurrentUserId();
-            
-            	// retrieving all user roles 
-            	$sql =        
-            	  "SELECT user_level " .
-            	  "FROM `phpgen_users` " .
-            	  "WHERE user_id = %d";    
-            	$result = $page->GetConnection()->fetchAll(sprintf($sql, $userId));
-            
-            	// iterating through retrieved roles
-            	if (!empty($result)) {
-            	   foreach ($result as $row) {
-            		   // is current user a member of the Sales role?
-            		   if (($row['user_level'] === '346')) {
-            			 // if yes, allow all actions.
-            			 // otherwise default permissions for this page will be applied
-            			 $permissions->setGrants(true, true, true, true);
-            			 break;
-            		   }                 
-            	   }
-            	};    
-            
-            	// apply the new permissions
-            	$handled = true;
-            }
+    
         }
     
-        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
+        protected function doAddEnvironmentVariables(Page $page, &$variables)
         {
     
         }
@@ -3055,7 +3266,7 @@
 
     try
     {
-        $Page = new campaign_analysisPage("campaign_analysis", "campaign_analysis.php", GetCurrentUserPermissionSetForDataSource("campaign_analysis"), 'UTF-8');
+        $Page = new campaign_analysisPage("campaign_analysis", "campaign_analysis.php", GetCurrentUserPermissionsForPage("campaign_analysis"), 'UTF-8');
         $Page->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource("campaign_analysis"));
         GetApplication()->SetMainPage($Page);
         GetApplication()->Run();

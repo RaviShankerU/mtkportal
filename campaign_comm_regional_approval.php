@@ -52,7 +52,9 @@
                     new IntegerField('show_events_cal'),
                     new IntegerField('region_approval'),
                     new StringField('region_approved_by'),
-                    new DateTimeField('region_approved_date')
+                    new DateTimeField('region_approved_date'),
+                    new StringField('created_by'),
+                    new DateTimeField('created_date')
                 )
             );
             $this->dataset->AddLookupField('program_generator_name_id', 'campaign_program_name_generator', new IntegerField('program_generator_name_id'), new StringField('campaign_program_name', false, false, false, false, 'program_generator_name_id_campaign_program_name', 'program_generator_name_id_campaign_program_name_campaign_program_name_generator'), 'program_generator_name_id_campaign_program_name_campaign_program_name_generator');
@@ -110,7 +112,6 @@
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_comm_regional_approval_campaign_tracker_local_idModalViewPage_campaign_description_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -144,6 +145,21 @@
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for created_by field
+            //
+            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for created_date field
+            //
+            $column = new DateTimeViewColumn('created_date', 'created_date', 'Created Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $grid->AddSingleRecordViewColumn($column);
         }
     
         function GetCustomClientScript()
@@ -163,13 +179,6 @@
         protected function doRegisterHandlers() {
             
             
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_comm_regional_approval_campaign_tracker_local_idModalViewPage_campaign_description_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
         }
     
         static public function getHandlerName() {
@@ -214,8 +223,8 @@
     {
         protected function DoBeforeCreate()
         {
-            $this->SetTitle('Campaign Comm Regional Approval');
-            $this->SetMenuLabel('Comms Approval');
+            $this->SetTitle('Campaign Regional Approval');
+            $this->SetMenuLabel('Campaign Approvals');
             $this->SetHeader(GetPagesHeader());
             $this->SetFooter(GetPagesFooter());
     
@@ -237,7 +246,7 @@
             );
             $this->dataset->AddLookupField('campaign_tracker_local_id', 'campaign_tracker_comms_local', new IntegerField('campaign_tracker_local_id'), new StringField('email_name', false, false, false, false, 'campaign_tracker_local_id_email_name', 'campaign_tracker_local_id_email_name_campaign_tracker_comms_local'), 'campaign_tracker_local_id_email_name_campaign_tracker_comms_local');
             $this->dataset->AddLookupField('approver', 'phpgen_users', new IntegerField('user_id'), new StringField('user_name', false, false, false, false, 'approver_user_name', 'approver_user_name_phpgen_users'), 'approver_user_name_phpgen_users');
-            $this->dataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'a_campaign_publish_date > CURDATE()'));
+            $this->dataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'a_campaign_publish_date > CURDATE()  '));
             if (!$this->GetSecurityInfo()->HasAdminGrant()) {
                 $this->dataset->setRlsPolicy(new RlsPolicy('created_by', GetApplication()->GetCurrentUserId()));
             }
@@ -259,7 +268,7 @@
             $result->AddPageNavigator($partitionNavigator);
             
             $partitionNavigator = new PageNavigator('pnav', $this, $this->dataset);
-            $partitionNavigator->SetRowsPerPage(20);
+            $partitionNavigator->SetRowsPerPage(10);
             $result->AddPageNavigator($partitionNavigator);
             
             return $result;
@@ -537,10 +546,30 @@
                 $operation = new AjaxOperation(OPERATION_EDIT,
                     $this->GetLocalizerCaptions()->GetMessageString('Edit'),
                     $this->GetLocalizerCaptions()->GetMessageString('Edit'), $this->dataset,
-                    $this->GetGridEditHandler(), $grid, AjaxOperation::INLINE);
+                    $this->GetGridEditHandler(), $grid);
                 $operation->setUseImage(true);
                 $actions->addOperation($operation);
                 $operation->OnShow->AddListener('ShowEditButtonHandler', $this);
+            }
+            
+            if ($this->GetSecurityInfo()->HasDeleteGrant())
+            {
+                $operation = new LinkOperation($this->GetLocalizerCaptions()->GetMessageString('Delete'), OPERATION_DELETE, $this->dataset, $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+                $operation->OnShow->AddListener('ShowDeleteButtonHandler', $this);
+                $operation->SetAdditionalAttribute('data-modal-operation', 'delete');
+                $operation->SetAdditionalAttribute('data-delete-handler-name', $this->GetModalGridDeleteHandler());
+            }
+            
+            if ($this->GetSecurityInfo()->HasAddGrant())
+            {
+                $operation = new AjaxOperation(OPERATION_COPY,
+                    $this->GetLocalizerCaptions()->GetMessageString('Copy'),
+                    $this->GetLocalizerCaptions()->GetMessageString('Copy'), $this->dataset,
+                    $this->GetModalGridCopyHandler(), $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
             }
         }
     
@@ -564,7 +593,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_comm_regional_approval_campaign_description_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -644,7 +672,6 @@
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Email Description', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_comm_regional_approval_campaign_description_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -810,7 +837,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -911,7 +940,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -942,7 +973,7 @@
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
-            $grid->SetShowAddButton(false && $this->GetSecurityInfo()->HasAddGrant());
+            $grid->SetShowAddButton(true && $this->GetSecurityInfo()->HasAddGrant());
         }
     
         private function AddMultiUploadColumn(Grid $grid)
@@ -966,7 +997,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_comm_regional_approval_campaign_description_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -1035,7 +1065,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_comm_regional_approval_campaign_description_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -1097,7 +1126,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_comm_regional_approval_campaign_description_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -1181,9 +1209,15 @@
         {
             return ;
         }
+        
+        public function GetEnableModalGridInsert() { return true; }
         public function GetEnableModalSingleRecordView() { return true; }
         
         public function GetEnableModalGridEdit() { return true; }
+        
+        protected function GetEnableModalGridDelete() { return true; }
+        
+        public function GetEnableModalGridCopy() { return true; }
         
         private $partitions = array(1 => array('\'Americas\''), 2 => array('\'EMEA\''), 3 => array('\'Global\''), 4 => array('\'IndoPAC\''), 5 => array('\'Japan\''), 6 => array('\'Korea\''), 7 => array('\'China\''));
         
@@ -1210,7 +1244,7 @@
         {
             $result = new Grid($this, $this->dataset);
             if ($this->GetSecurityInfo()->HasDeleteGrant())
-               $result->SetAllowDeleteSelected(false);
+               $result->SetAllowDeleteSelected(true);
             else
                $result->SetAllowDeleteSelected(false);   
             
@@ -1262,6 +1296,7 @@
             	</div>
             </div>');
             $this->setShowFormErrorsOnTop(true);
+            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -1271,33 +1306,6 @@
         }
     
         protected function doRegisterHandlers() {
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Email Description', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_comm_regional_approval_campaign_description_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Email Description', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_comm_regional_approval_campaign_description_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Email Description', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_comm_regional_approval_campaign_description_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
@@ -1313,7 +1321,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -1342,7 +1352,9 @@
                     new IntegerField('show_events_cal'),
                     new IntegerField('region_approval'),
                     new StringField('region_approved_by'),
-                    new DateTimeField('region_approved_date')
+                    new DateTimeField('region_approved_date'),
+                    new StringField('created_by'),
+                    new DateTimeField('created_date')
                 )
             );
             $lookupDataset->setOrderByField('email_name', 'ASC');
@@ -1364,19 +1376,13 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_comm_regional_approval_approver_search', 'user_id', 'user_name', null, 20);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Email Description', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_comm_regional_approval_campaign_description_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -1394,13 +1400,15 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_comm_regional_approval_approver_search', 'user_id', 'user_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
-            new campaign_comm_regional_approval_campaign_tracker_local_idModalViewPage($this, GetCurrentUserPermissionSetForDataSource('campaign_comm_regional_approval.campaign_tracker_local_id'));
+            new campaign_comm_regional_approval_campaign_tracker_local_idModalViewPage($this, GetCurrentUserPermissionsForPage('campaign_comm_regional_approval.campaign_tracker_local_id'));
         }
        
         protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
@@ -1536,40 +1544,6 @@
     
         }
     
-        protected function doGetCustomPagePermissions(Page $page, PermissionSet &$permissions, &$handled)
-        {
-            // do not apply these rules for site admins
-            
-            if (!GetApplication()->HasAdminGrantForCurrentUser()) {
-            
-            	// retrieving the ID of the current user
-            	$userId = GetApplication()->GetCurrentUserId();
-            
-            	// retrieving all user roles 
-            	$sql =        
-            	  "SELECT user_level " .
-            	  "FROM `phpgen_users` " .
-            	  "WHERE user_id = %d";    
-            	$result = $page->GetConnection()->fetchAll(sprintf($sql, $userId));
-            
-            	// iterating through retrieved roles
-            	if (!empty($result)) {
-            	   foreach ($result as $row) {
-            		   // is current user a member of the Sales role?
-            		   if (($row['user_level'] === '346')) {
-            			 // if yes, allow all actions.
-            			 // otherwise default permissions for this page will be applied
-            			 $permissions->setGrants(true, true, true, true);
-            			 break;
-            		   }                 
-            	   }
-            	};    
-            
-            	// apply the new permissions
-            	$handled = true;
-            }
-        }
-    
         protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
         {
             // do not apply these rules for site admins
@@ -1592,8 +1566,8 @@
             $isHeadManager = (boolean) $result[0]['is_head_manager'];
             
             // Granting permissions according to the scenario
-            // $allowEdit = $isHeadManager || !$rowData['completed'];
-            // $allowDelete = $isHeadManager || !$rowData['completed'];
+            $allowEdit = $isHeadManager;
+            $allowDelete = $isHeadManager;
             
             // Specifying the condition to show only necessary records 
             if ($isHeadManager) {
@@ -1610,7 +1584,12 @@
             // Do not merge the new record permissions with default ones (true by default).
             // We have to add this line, otherwise head managers will not be able to see
             // sales made by other managers of the department. 
-            $mergeWithDefault = false;
+            $mergeWithDefault = true;
+        }
+    
+        protected function doAddEnvironmentVariables(Page $page, &$variables)
+        {
+    
         }
     
     }
@@ -1619,7 +1598,7 @@
 
     try
     {
-        $Page = new campaign_comm_regional_approvalPage("campaign_comm_regional_approval", "campaign_comm_regional_approval.php", GetCurrentUserPermissionSetForDataSource("campaign_comm_regional_approval"), 'UTF-8');
+        $Page = new campaign_comm_regional_approvalPage("campaign_comm_regional_approval", "campaign_comm_regional_approval.php", GetCurrentUserPermissionsForPage("campaign_comm_regional_approval"), 'UTF-8');
         $Page->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource("campaign_comm_regional_approval"));
         GetApplication()->SetMainPage($Page);
         GetApplication()->Run();

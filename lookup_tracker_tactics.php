@@ -267,7 +267,9 @@
                     new StringField('tacticid'),
                     new StringField('channel_name'),
                     new StringField('campaign_description'),
-                    new StringField('tactic_name')
+                    new StringField('tactic_name'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modiefied_date')
                 )
             );
             $this->dataset->AddLookupField('channel_name', 'lookup_channels', new IntegerField('channel_ID'), new StringField('channnel_name', false, false, false, false, 'channel_name_channnel_name', 'channel_name_channnel_name_lookup_channels'), 'channel_name_channnel_name_lookup_channels');
@@ -290,7 +292,7 @@
             $result->AddPageNavigator($partitionNavigator);
             
             $partitionNavigator = new PageNavigator('pnav', $this, $this->dataset);
-            $partitionNavigator->SetRowsPerPage(20);
+            $partitionNavigator->SetRowsPerPage(10);
             $result->AddPageNavigator($partitionNavigator);
             
             return $result;
@@ -313,7 +315,9 @@
                 new FilterColumn($this->dataset, 'channel_name', 'channel_name_channnel_name', 'Channel Name'),
                 new FilterColumn($this->dataset, 'campaign_description', 'campaign_description', 'Campaign Description'),
                 new FilterColumn($this->dataset, 'tactic_name', 'tactic_name_tactic_description', 'Tactic Name'),
-                new FilterColumn($this->dataset, 'tacticid', 'tacticid', 'Tacticid')
+                new FilterColumn($this->dataset, 'tacticid', 'tacticid', 'Tacticid'),
+                new FilterColumn($this->dataset, 'modified_by', 'modified_by', 'Modified By'),
+                new FilterColumn($this->dataset, 'modiefied_date', 'modiefied_date', 'Modiefied Date')
             );
         }
     
@@ -324,14 +328,16 @@
                 ->addColumn($columns['channel_name'])
                 ->addColumn($columns['campaign_description'])
                 ->addColumn($columns['tactic_name'])
-                ->addColumn($columns['tacticid']);
+                ->addColumn($columns['modified_by'])
+                ->addColumn($columns['modiefied_date']);
         }
     
         protected function setupColumnFilter(ColumnFilter $columnFilter)
         {
             $columnFilter
                 ->setOptionsFor('channel_name')
-                ->setOptionsFor('tactic_name');
+                ->setOptionsFor('tactic_name')
+                ->setOptionsFor('modiefied_date');
         }
     
         protected function setupFilterBuilder(FilterBuilder $filterBuilder, FixedKeysArray $columns)
@@ -449,11 +455,11 @@
                 )
             );
             
-            $main_editor = new TextEdit('tacticid_edit');
+            $main_editor = new TextEdit('modified_by_edit');
             $main_editor->SetMaxLength(45);
             
             $filterBuilder->addColumn(
-                $columns['tacticid'],
+                $columns['modified_by'],
                 array(
                     FilterConditionOperator::EQUALS => $main_editor,
                     FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
@@ -469,6 +475,27 @@
                     FilterConditionOperator::ENDS_WITH => $main_editor,
                     FilterConditionOperator::IS_LIKE => $main_editor,
                     FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new DateTimeEdit('modiefied_date_edit', false, 'd-m-Y H:i:s');
+            
+            $filterBuilder->addColumn(
+                $columns['modiefied_date'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::DATE_EQUALS => $main_editor,
+                    FilterConditionOperator::DATE_DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::TODAY => null,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -543,7 +570,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('lookup_tracker_tactics_campaign_description_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -561,10 +587,21 @@
             $grid->AddViewColumn($column);
             
             //
-            // View column for tacticid field
+            // View column for modified_by field
             //
-            $column = new TextViewColumn('tacticid', 'tacticid', 'Tacticid', $this->dataset);
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
             $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for modiefied_date field
+            //
+            $column = new DateTimeViewColumn('modiefied_date', 'modiefied_date', 'Modiefied Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -596,7 +633,6 @@
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('lookup_tracker_tactics_campaign_description_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -607,10 +643,18 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for tacticid field
+            // View column for modified_by field
             //
-            $column = new TextViewColumn('tacticid', 'tacticid', 'Tacticid', $this->dataset);
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
             $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modiefied_date field
+            //
+            $column = new DateTimeViewColumn('modiefied_date', 'modiefied_date', 'Modiefied Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddSingleRecordViewColumn($column);
         }
     
@@ -676,16 +720,6 @@
             );
             $validator = new RequiredValidator(StringUtils::Format($this->GetLocalizerCaptions()->GetMessageString('RequiredValidationMessage'), $editColumn->GetCaption()));
             $editor->GetValidatorCollection()->AddValidator($validator);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddEditColumn($editColumn);
-            
-            //
-            // Edit column for tacticid field
-            //
-            $editor = new TextEdit('tacticid_edit');
-            $editor->SetMaxLength(45);
-            $editColumn = new CustomEditColumn('Tacticid', 'tacticid', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
         }
@@ -754,16 +788,6 @@
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
-            
-            //
-            // Edit column for tacticid field
-            //
-            $editor = new TextEdit('tacticid_edit');
-            $editor->SetMaxLength(45);
-            $editColumn = new CustomEditColumn('Tacticid', 'tacticid', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddMultiEditColumn($editColumn);
         }
     
         protected function AddInsertColumns(Grid $grid)
@@ -830,16 +854,6 @@
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
-            
-            //
-            // Edit column for tacticid field
-            //
-            $editor = new TextEdit('tacticid_edit');
-            $editor->SetMaxLength(45);
-            $editColumn = new CustomEditColumn('Tacticid', 'tacticid', $editor, $this->dataset);
-            $editColumn->SetAllowSetToNull(true);
-            $this->ApplyCommonColumnEditProperties($editColumn);
-            $grid->AddInsertColumn($editColumn);
             $grid->SetShowAddButton(true && $this->GetSecurityInfo()->HasAddGrant());
         }
     
@@ -875,7 +889,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('lookup_tracker_tactics_campaign_description_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -887,10 +900,18 @@
             $grid->AddPrintColumn($column);
             
             //
-            // View column for tacticid field
+            // View column for modified_by field
             //
-            $column = new TextViewColumn('tacticid', 'tacticid', 'Tacticid', $this->dataset);
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
             $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for modiefied_date field
+            //
+            $column = new DateTimeViewColumn('modiefied_date', 'modiefied_date', 'Modiefied Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddPrintColumn($column);
         }
     
@@ -921,7 +942,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('lookup_tracker_tactics_campaign_description_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -933,10 +953,18 @@
             $grid->AddExportColumn($column);
             
             //
-            // View column for tacticid field
+            // View column for modified_by field
             //
-            $column = new TextViewColumn('tacticid', 'tacticid', 'Tacticid', $this->dataset);
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
             $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for modiefied_date field
+            //
+            $column = new DateTimeViewColumn('modiefied_date', 'modiefied_date', 'Modiefied Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddExportColumn($column);
         }
     
@@ -957,7 +985,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('lookup_tracker_tactics_campaign_description_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -969,10 +996,18 @@
             $grid->AddCompareColumn($column);
             
             //
-            // View column for tacticid field
+            // View column for modified_by field
             //
-            $column = new TextViewColumn('tacticid', 'tacticid', 'Tacticid', $this->dataset);
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
             $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for modiefied_date field
+            //
+            $column = new DateTimeViewColumn('modiefied_date', 'modiefied_date', 'Modiefied Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddCompareColumn($column);
         }
     
@@ -1100,6 +1135,7 @@
                 </div>
             </div>');
             $this->setShowFormErrorsOnTop(true);
+            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -1109,33 +1145,6 @@
         }
     
         protected function doRegisterHandlers() {
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'lookup_tracker_tactics_campaign_description_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'lookup_tracker_tactics_campaign_description_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'lookup_tracker_tactics_campaign_description_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
@@ -1190,14 +1199,6 @@
             );
             $lookupDataset->setOrderByField('tactic_description', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_lookup_tracker_tactics_tactic_name_search', 'lookup_tactic_ID', 'tactic_description', null, 20);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'lookup_tracker_tactics_campaign_description_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -1285,8 +1286,8 @@
             GetApplication()->RegisterHTTPHandler($handler);
             
             
-            new lookup_tracker_tactics_channel_nameNestedPage($this, GetCurrentUserPermissionSetForDataSource('lookup_tracker_tactics.channel_name'));
-            new lookup_tracker_tactics_tactic_nameNestedPage($this, GetCurrentUserPermissionSetForDataSource('lookup_tracker_tactics.tactic_name'));
+            new lookup_tracker_tactics_channel_nameNestedPage($this, GetCurrentUserPermissionsForPage('lookup_tracker_tactics.channel_name'));
+            new lookup_tracker_tactics_tactic_nameNestedPage($this, GetCurrentUserPermissionsForPage('lookup_tracker_tactics.tactic_name'));
         }
        
         protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
@@ -1419,45 +1420,12 @@
     
         }
     
-        protected function doGetCustomPagePermissions(Page $page, PermissionSet &$permissions, &$handled)
+        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
         {
-            // do not apply these rules for site admins
-            
-            if (!GetApplication()->HasAdminGrantForCurrentUser()) {
-            
-                // retrieving the ID of the current user
-                $userId = GetApplication()->GetCurrentUserId();
-            
-                // retrieving all user roles 
-                $sql =        
-                  "SELECT r.role_name " .
-                  "FROM `phpgen_users` ur " .
-                  "INNER JOIN `phpgen_user_roles` r ON r.user_id = ur.user_id " .
-                  "WHERE ur.user_id = %d";    
-                $result = $page->GetConnection()->fetchAll(sprintf($sql, $userId));
-            
-             
-            
-                // iterating through retrieved roles
-                if (!empty($result)) {
-                   foreach ($result as $row) {
-                       // is current user a member of the Sales role?
-                       if ($row['role_name'] === 'manager') {
-                         // if yes, allow all actions.
-                         // otherwise default permissions for this page will be applied
-                         $permissions->setGrants(true, true, true, true);
-                         break;
-                       }                 
-                   }
-                };    
-            
-                // apply the new permissions
-                $handled = true;
-            
-            }
+    
         }
     
-        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
+        protected function doAddEnvironmentVariables(Page $page, &$variables)
         {
     
         }
@@ -1468,7 +1436,7 @@
 
     try
     {
-        $Page = new lookup_tracker_tacticsPage("lookup_tracker_tactics", "lookup_tracker_tactics.php", GetCurrentUserPermissionSetForDataSource("lookup_tracker_tactics"), 'UTF-8');
+        $Page = new lookup_tracker_tacticsPage("lookup_tracker_tactics", "lookup_tracker_tactics.php", GetCurrentUserPermissionsForPage("lookup_tracker_tactics"), 'UTF-8');
         $Page->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource("lookup_tracker_tactics"));
         GetApplication()->SetMainPage($Page);
         GetApplication()->Run();

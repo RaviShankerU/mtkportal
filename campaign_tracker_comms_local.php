@@ -54,6 +54,7 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new DateField('campaign_publish_date_end'),
                     new TimeField('campaign_time_start'),
                     new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
@@ -63,7 +64,8 @@
                     new StringField('modified_by'),
                     new DateTimeField('modified_date'),
                     new IntegerField('import_total'),
-                    new IntegerField('create_import_list')
+                    new IntegerField('create_import_list'),
+                    new IntegerField('expired')
                 )
             );
             $this->dataset->AddLookupField('master_campaign_id', 'brief', new IntegerField('master_campaign_id'), new StringField('campaign_name', false, false, false, false, 'master_campaign_id_campaign_name', 'master_campaign_id_campaign_name_brief'), 'master_campaign_id_campaign_name_brief');
@@ -95,7 +97,6 @@
             $column = new TextViewColumn('campaign_program_name', 'campaign_program_name', 'Marketo Program Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_program_generator_name_idModalViewPage_campaign_program_name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -128,7 +129,6 @@
             $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_program_generator_name_idModalViewPage_territory_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -144,7 +144,6 @@
             $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_program_generator_name_idModalViewPage_industry_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -288,6 +287,24 @@
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
             $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for campaign_publish_date_end field
+            //
+            $column = new DateTimeViewColumn('campaign_publish_date_end', 'campaign_publish_date_end', 'Campaign Publish Date End', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for expired field
+            //
+            $column = new NumberViewColumn('expired', 'expired', 'Expired', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setNumberAfterDecimal(0);
+            $column->setThousandsSeparator(',');
+            $column->setDecimalSeparator('');
+            $grid->AddSingleRecordViewColumn($column);
         }
     
         function GetCustomClientScript()
@@ -307,29 +324,6 @@
         protected function doRegisterHandlers() {
             
             
-            //
-            // View column for campaign_program_name field
-            //
-            $column = new TextViewColumn('campaign_program_name', 'campaign_program_name', 'Marketo Program Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_program_generator_name_idModalViewPage_campaign_program_name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for territory field
-            //
-            $column = new TextViewColumn('territory', 'territory', 'Territory', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_program_generator_name_idModalViewPage_territory_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for industry field
-            //
-            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_program_generator_name_idModalViewPage_industry_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
         }
     
         static public function getHandlerName() {
@@ -402,7 +396,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
         }
@@ -419,7 +415,6 @@
             $column = new TextViewColumn('campaign_name', 'campaign_name', 'Campaign Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_master_campaign_idModalViewPage_campaign_name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -428,7 +423,6 @@
             $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_master_campaign_idModalViewPage_objective_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -491,7 +485,6 @@
             $column = new TextViewColumn('b_region', 'b_region', 'B Region', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_master_campaign_idModalViewPage_b_region_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -500,7 +493,6 @@
             $column = new TextViewColumn('b_country', 'b_country', 'B Country', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_master_campaign_idModalViewPage_b_country_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -509,7 +501,6 @@
             $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_master_campaign_idModalViewPage_industry_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -578,7 +569,6 @@
             $column = new TextViewColumn('owner_person', 'owner_person', 'Owner Person', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_master_campaign_idModalViewPage_owner_person_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -603,7 +593,6 @@
             $column = new TextViewColumn('file_upload', 'file_upload', 'File Upload', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_master_campaign_idModalViewPage_file_upload_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -612,7 +601,6 @@
             $column = new TextViewColumn('asset_upload', 'asset_upload', 'Asset Upload', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_master_campaign_idModalViewPage_asset_upload_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -644,6 +632,21 @@
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $grid->AddSingleRecordViewColumn($column);
         }
     
         function GetCustomClientScript()
@@ -663,69 +666,6 @@
         protected function doRegisterHandlers() {
             
             
-            //
-            // View column for campaign_name field
-            //
-            $column = new TextViewColumn('campaign_name', 'campaign_name', 'Campaign Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_master_campaign_idModalViewPage_campaign_name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for objective field
-            //
-            $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_master_campaign_idModalViewPage_objective_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for b_region field
-            //
-            $column = new TextViewColumn('b_region', 'b_region', 'B Region', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_master_campaign_idModalViewPage_b_region_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for b_country field
-            //
-            $column = new TextViewColumn('b_country', 'b_country', 'B Country', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_master_campaign_idModalViewPage_b_country_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for industry field
-            //
-            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_master_campaign_idModalViewPage_industry_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for owner_person field
-            //
-            $column = new TextViewColumn('owner_person', 'owner_person', 'Owner Person', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_master_campaign_idModalViewPage_owner_person_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for file_upload field
-            //
-            $column = new TextViewColumn('file_upload', 'file_upload', 'File Upload', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_master_campaign_idModalViewPage_file_upload_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for asset_upload field
-            //
-            $column = new TextViewColumn('asset_upload', 'asset_upload', 'Asset Upload', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_master_campaign_idModalViewPage_asset_upload_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
         }
     
         static public function getHandlerName() {
@@ -797,7 +737,9 @@
                     new IntegerField('show_events_cal'),
                     new IntegerField('region_approval'),
                     new StringField('region_approved_by'),
-                    new DateTimeField('region_approved_date')
+                    new DateTimeField('region_approved_date'),
+                    new StringField('created_by'),
+                    new DateTimeField('created_date')
                 )
             );
             $this->dataset->AddLookupField('program_generator_name_id', 'campaign_program_name_generator', new IntegerField('program_generator_name_id'), new StringField('campaign_program_name', false, false, false, false, 'program_generator_name_id_campaign_program_name', 'program_generator_name_id_campaign_program_name_campaign_program_name_generator'), 'program_generator_name_id_campaign_program_name_campaign_program_name_generator');
@@ -806,6 +748,9 @@
             $this->dataset->AddLookupField('cregion', 'lookup_region', new StringField('Region_Value'), new StringField('Region', false, false, false, false, 'cregion_Region', 'cregion_Region_lookup_region'), 'cregion_Region_lookup_region');
             $this->dataset->AddLookupField('tracker_status', 'lookup_status_types', new IntegerField('Status_Type_ID'), new StringField('Status_Type', false, false, false, false, 'tracker_status_Status_Type', 'tracker_status_Status_Type_lookup_status_types'), 'tracker_status_Status_Type_lookup_status_types');
             $this->dataset->AddLookupField('campaign_utm_id', 'campaign_tracker_utm', new IntegerField('campaign_utm_id'), new StringField('campaign_name', false, false, false, false, 'campaign_utm_id_campaign_name', 'campaign_utm_id_campaign_name_campaign_tracker_utm'), 'campaign_utm_id_campaign_name_campaign_tracker_utm');
+            if (!$this->GetSecurityInfo()->HasAdminGrant()) {
+                $this->dataset->setRlsPolicy(new RlsPolicy('created_by', GetApplication()->GetCurrentUserId()));
+            }
         }
     
         protected function DoPrepare() {
@@ -824,7 +769,7 @@
             $result->AddPageNavigator($partitionNavigator);
             
             $partitionNavigator = new PageNavigator('pnav', $this, $this->dataset);
-            $partitionNavigator->SetRowsPerPage(20);
+            $partitionNavigator->SetRowsPerPage(10);
             $result->AddPageNavigator($partitionNavigator);
             
             return $result;
@@ -859,7 +804,9 @@
                 new FilterColumn($this->dataset, 'show_events_cal', 'show_events_cal', 'Show Events Cal'),
                 new FilterColumn($this->dataset, 'region_approval', 'region_approval', 'Region Approval'),
                 new FilterColumn($this->dataset, 'region_approved_by', 'region_approved_by', 'Region Approved By'),
-                new FilterColumn($this->dataset, 'region_approved_date', 'region_approved_date', 'Region Approved Date')
+                new FilterColumn($this->dataset, 'region_approved_date', 'region_approved_date', 'Region Approved Date'),
+                new FilterColumn($this->dataset, 'created_by', 'created_by', 'Created By'),
+                new FilterColumn($this->dataset, 'created_date', 'created_date', 'Created Date')
             );
         }
     
@@ -881,7 +828,9 @@
                 ->addColumn($columns['show_events_cal'])
                 ->addColumn($columns['region_approval'])
                 ->addColumn($columns['region_approved_by'])
-                ->addColumn($columns['region_approved_date']);
+                ->addColumn($columns['region_approved_date'])
+                ->addColumn($columns['created_by'])
+                ->addColumn($columns['created_date']);
         }
     
         protected function setupColumnFilter(ColumnFilter $columnFilter)
@@ -891,7 +840,8 @@
                 ->setOptionsFor('campaign_publish_date')
                 ->setOptionsFor('campaign_type')
                 ->setOptionsFor('tracker_status')
-                ->setOptionsFor('campaign_utm_id');
+                ->setOptionsFor('campaign_utm_id')
+                ->setOptionsFor('created_date');
         }
     
         protected function setupFilterBuilder(FilterBuilder $filterBuilder, FixedKeysArray $columns)
@@ -1281,6 +1231,52 @@
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
             );
+            
+            $main_editor = new TextEdit('created_by_edit');
+            $main_editor->SetMaxLength(45);
+            
+            $filterBuilder->addColumn(
+                $columns['created_by'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new DateTimeEdit('created_date_edit', false, 'd-m-Y H:i:s');
+            
+            $filterBuilder->addColumn(
+                $columns['created_date'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::DATE_EQUALS => $main_editor,
+                    FilterConditionOperator::DATE_DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::TODAY => null,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
         }
     
         protected function AddOperationsColumns(Grid $grid)
@@ -1350,7 +1346,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_campaign_description_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1362,7 +1357,6 @@
             $column = new TextViewColumn('email_name', 'email_name', 'Email Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_email_name_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1436,6 +1430,27 @@
             $column->SetDescription('');
             $column->SetFixedWidth(null);
             $grid->AddViewColumn($column);
+            
+            //
+            // View column for created_by field
+            //
+            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for created_date field
+            //
+            $column = new DateTimeViewColumn('created_date', 'created_date', 'Created Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
         }
     
         protected function AddSingleRecordViewColumns(Grid $grid)
@@ -1462,7 +1477,6 @@
             $column = new TextViewColumn('email_name', 'email_name', 'Email Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_email_name_handler_');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1479,7 +1493,6 @@
             $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_campaign_description_handler_');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1559,6 +1572,21 @@
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for created_by field
+            //
+            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for created_date field
+            //
+            $column = new DateTimeViewColumn('created_date', 'created_date', 'Created Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $grid->AddSingleRecordViewColumn($column);
         }
     
         protected function AddEditColumns(Grid $grid)
@@ -1593,6 +1621,7 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new DateField('campaign_publish_date_end'),
                     new TimeField('campaign_time_start'),
                     new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
@@ -1602,7 +1631,8 @@
                     new StringField('modified_by'),
                     new DateTimeField('modified_date'),
                     new IntegerField('import_total'),
-                    new IntegerField('create_import_list')
+                    new IntegerField('create_import_list'),
+                    new IntegerField('expired')
                 )
             );
             $lookupDataset->setOrderByField('campaign_program_name', 'ASC');
@@ -1650,7 +1680,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -1702,7 +1734,8 @@
                 array(
                     new IntegerField('Type_ID', true, true, true),
                     new StringField('Type'),
-                    new StringField('Type_Value')
+                    new StringField('Type_Value'),
+                    new IntegerField('Type_WebListing')
                 )
             );
             $lookupDataset->setOrderByField('Type', 'ASC');
@@ -1793,7 +1826,9 @@
                     new DateField('campaign_publish_date'),
                     new StringField('campaign_description'),
                     new StringField('short_url'),
-                    new IntegerField('clicks')
+                    new IntegerField('clicks'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -1866,6 +1901,25 @@
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for created_by field
+            //
+            $editor = new TextEdit('created_by_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Created By', 'created_by', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
+            
+            //
+            // Edit column for created_date field
+            //
+            $editor = new DateTimeEdit('created_date_edit', false, 'd-m-Y H:i:s');
+            $editColumn = new CustomEditColumn('Created Date', 'created_date', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddEditColumn($editColumn);
         }
     
         protected function AddMultiEditColumns(Grid $grid)
@@ -1900,6 +1954,7 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new DateField('campaign_publish_date_end'),
                     new TimeField('campaign_time_start'),
                     new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
@@ -1909,7 +1964,8 @@
                     new StringField('modified_by'),
                     new DateTimeField('modified_date'),
                     new IntegerField('import_total'),
-                    new IntegerField('create_import_list')
+                    new IntegerField('create_import_list'),
+                    new IntegerField('expired')
                 )
             );
             $lookupDataset->setOrderByField('campaign_program_name', 'ASC');
@@ -1957,7 +2013,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -2009,7 +2067,8 @@
                 array(
                     new IntegerField('Type_ID', true, true, true),
                     new StringField('Type'),
-                    new StringField('Type_Value')
+                    new StringField('Type_Value'),
+                    new IntegerField('Type_WebListing')
                 )
             );
             $lookupDataset->setOrderByField('Type', 'ASC');
@@ -2100,7 +2159,9 @@
                     new DateField('campaign_publish_date'),
                     new StringField('campaign_description'),
                     new StringField('short_url'),
-                    new IntegerField('clicks')
+                    new IntegerField('clicks'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -2173,6 +2234,25 @@
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for created_by field
+            //
+            $editor = new TextEdit('created_by_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Created By', 'created_by', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
+            
+            //
+            // Edit column for created_date field
+            //
+            $editor = new DateTimeEdit('created_date_edit', false, 'd-m-Y H:i:s');
+            $editColumn = new CustomEditColumn('Created Date', 'created_date', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddMultiEditColumn($editColumn);
         }
     
         protected function AddInsertColumns(Grid $grid)
@@ -2207,6 +2287,7 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new DateField('campaign_publish_date_end'),
                     new TimeField('campaign_time_start'),
                     new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
@@ -2216,7 +2297,8 @@
                     new StringField('modified_by'),
                     new DateTimeField('modified_date'),
                     new IntegerField('import_total'),
-                    new IntegerField('create_import_list')
+                    new IntegerField('create_import_list'),
+                    new IntegerField('expired')
                 )
             );
             $lookupDataset->setOrderByField('campaign_program_name', 'ASC');
@@ -2264,7 +2346,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -2316,7 +2400,8 @@
                 array(
                     new IntegerField('Type_ID', true, true, true),
                     new StringField('Type'),
-                    new StringField('Type_Value')
+                    new StringField('Type_Value'),
+                    new IntegerField('Type_WebListing')
                 )
             );
             $lookupDataset->setOrderByField('Type', 'ASC');
@@ -2407,7 +2492,9 @@
                     new DateField('campaign_publish_date'),
                     new StringField('campaign_description'),
                     new StringField('short_url'),
-                    new IntegerField('clicks')
+                    new IntegerField('clicks'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -2482,6 +2569,25 @@
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for created_by field
+            //
+            $editor = new TextEdit('created_by_edit');
+            $editor->SetMaxLength(45);
+            $editColumn = new CustomEditColumn('Created By', 'created_by', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
+            
+            //
+            // Edit column for created_date field
+            //
+            $editor = new DateTimeEdit('created_date_edit', false, 'd-m-Y H:i:s');
+            $editColumn = new CustomEditColumn('Created Date', 'created_date', $editor, $this->dataset);
+            $editColumn->SetAllowSetToNull(true);
+            $this->ApplyCommonColumnEditProperties($editColumn);
+            $grid->AddInsertColumn($editColumn);
             $grid->SetShowAddButton(true && $this->GetSecurityInfo()->HasAddGrant());
         }
     
@@ -2522,7 +2628,6 @@
             $column = new TextViewColumn('email_name', 'email_name', 'Email Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_email_name_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -2541,7 +2646,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_campaign_description_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -2619,6 +2723,21 @@
             // View column for region_approved_date field
             //
             $column = new DateTimeViewColumn('region_approved_date', 'region_approved_date', 'Region Approved Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for created_by field
+            //
+            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for created_date field
+            //
+            $column = new DateTimeViewColumn('created_date', 'created_date', 'Created Date', $this->dataset);
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddPrintColumn($column);
@@ -2656,7 +2775,6 @@
             $column = new TextViewColumn('email_name', 'email_name', 'Email Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_email_name_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -2675,7 +2793,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_campaign_description_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -2753,6 +2870,21 @@
             // View column for region_approved_date field
             //
             $column = new DateTimeViewColumn('region_approved_date', 'region_approved_date', 'Region Approved Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for created_by field
+            //
+            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for created_date field
+            //
+            $column = new DateTimeViewColumn('created_date', 'created_date', 'Created Date', $this->dataset);
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddExportColumn($column);
@@ -2780,7 +2912,6 @@
             $column = new TextViewColumn('email_name', 'email_name', 'Email Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_email_name_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -2799,7 +2930,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_comms_local_campaign_description_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -2877,6 +3007,21 @@
             // View column for region_approved_date field
             //
             $column = new DateTimeViewColumn('region_approved_date', 'region_approved_date', 'Region Approved Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for created_by field
+            //
+            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for created_date field
+            //
+            $column = new DateTimeViewColumn('created_date', 'created_date', 'Created Date', $this->dataset);
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddCompareColumn($column);
@@ -3003,6 +3148,7 @@
             	</div>
             </div>');
             $this->setShowFormErrorsOnTop(true);
+            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -3012,57 +3158,6 @@
         }
     
         protected function doRegisterHandlers() {
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_campaign_description_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for email_name field
-            //
-            $column = new TextViewColumn('email_name', 'email_name', 'Email Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_email_name_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for email_name field
-            //
-            $column = new TextViewColumn('email_name', 'email_name', 'Email Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_email_name_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_campaign_description_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for email_name field
-            //
-            $column = new TextViewColumn('email_name', 'email_name', 'Email Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_email_name_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_campaign_description_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
@@ -3087,6 +3182,7 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new DateField('campaign_publish_date_end'),
                     new TimeField('campaign_time_start'),
                     new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
@@ -3096,7 +3192,8 @@
                     new StringField('modified_by'),
                     new DateTimeField('modified_date'),
                     new IntegerField('import_total'),
-                    new IntegerField('create_import_list')
+                    new IntegerField('create_import_list'),
+                    new IntegerField('expired')
                 )
             );
             $lookupDataset->setOrderByField('campaign_program_name', 'ASC');
@@ -3135,7 +3232,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -3150,7 +3249,8 @@
                 array(
                     new IntegerField('Type_ID', true, true, true),
                     new StringField('Type'),
-                    new StringField('Type_Value')
+                    new StringField('Type_Value'),
+                    new IntegerField('Type_WebListing')
                 )
             );
             $lookupDataset->setOrderByField('Type', 'ASC');
@@ -3216,7 +3316,9 @@
                     new DateField('campaign_publish_date'),
                     new StringField('campaign_description'),
                     new StringField('short_url'),
-                    new IntegerField('clicks')
+                    new IntegerField('clicks'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -3247,6 +3349,7 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new DateField('campaign_publish_date_end'),
                     new TimeField('campaign_time_start'),
                     new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
@@ -3256,7 +3359,8 @@
                     new StringField('modified_by'),
                     new DateTimeField('modified_date'),
                     new IntegerField('import_total'),
-                    new IntegerField('create_import_list')
+                    new IntegerField('create_import_list'),
+                    new IntegerField('expired')
                 )
             );
             $lookupDataset->setOrderByField('campaign_program_name', 'ASC');
@@ -3295,7 +3399,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -3310,7 +3416,8 @@
                 array(
                     new IntegerField('Type_ID', true, true, true),
                     new StringField('Type'),
-                    new StringField('Type_Value')
+                    new StringField('Type_Value'),
+                    new IntegerField('Type_WebListing')
                 )
             );
             $lookupDataset->setOrderByField('Type', 'ASC');
@@ -3376,27 +3483,13 @@
                     new DateField('campaign_publish_date'),
                     new StringField('campaign_description'),
                     new StringField('short_url'),
-                    new IntegerField('clicks')
+                    new IntegerField('clicks'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_tracker_comms_local_campaign_utm_id_search', 'campaign_utm_id', 'campaign_name', null, 20);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for email_name field
-            //
-            $column = new TextViewColumn('email_name', 'email_name', 'Email Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_email_name_handler_', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for campaign_description field
-            //
-            $column = new TextViewColumn('campaign_description', 'campaign_description', 'Campaign Description', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_comms_local_campaign_description_handler_', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -3423,6 +3516,7 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new DateField('campaign_publish_date_end'),
                     new TimeField('campaign_time_start'),
                     new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
@@ -3432,7 +3526,8 @@
                     new StringField('modified_by'),
                     new DateTimeField('modified_date'),
                     new IntegerField('import_total'),
-                    new IntegerField('create_import_list')
+                    new IntegerField('create_import_list'),
+                    new IntegerField('expired')
                 )
             );
             $lookupDataset->setOrderByField('campaign_program_name', 'ASC');
@@ -3471,7 +3566,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -3486,7 +3583,8 @@
                 array(
                     new IntegerField('Type_ID', true, true, true),
                     new StringField('Type'),
-                    new StringField('Type_Value')
+                    new StringField('Type_Value'),
+                    new IntegerField('Type_WebListing')
                 )
             );
             $lookupDataset->setOrderByField('Type', 'ASC');
@@ -3552,7 +3650,9 @@
                     new DateField('campaign_publish_date'),
                     new StringField('campaign_description'),
                     new StringField('short_url'),
-                    new IntegerField('clicks')
+                    new IntegerField('clicks'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -3583,6 +3683,7 @@
                     new StringField('product'),
                     new StringField('m_ID'),
                     new DateField('campaign_publish_date'),
+                    new DateField('campaign_publish_date_end'),
                     new TimeField('campaign_time_start'),
                     new TimeField('campaign_time_end'),
                     new IntegerField('emails_tracker'),
@@ -3592,7 +3693,8 @@
                     new StringField('modified_by'),
                     new DateTimeField('modified_date'),
                     new IntegerField('import_total'),
-                    new IntegerField('create_import_list')
+                    new IntegerField('create_import_list'),
+                    new IntegerField('expired')
                 )
             );
             $lookupDataset->setOrderByField('campaign_program_name', 'ASC');
@@ -3631,7 +3733,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -3646,7 +3750,8 @@
                 array(
                     new IntegerField('Type_ID', true, true, true),
                     new StringField('Type'),
-                    new StringField('Type_Value')
+                    new StringField('Type_Value'),
+                    new IntegerField('Type_WebListing')
                 )
             );
             $lookupDataset->setOrderByField('Type', 'ASC');
@@ -3712,14 +3817,16 @@
                     new DateField('campaign_publish_date'),
                     new StringField('campaign_description'),
                     new StringField('short_url'),
-                    new IntegerField('clicks')
+                    new IntegerField('clicks'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_tracker_comms_local_campaign_utm_id_search', 'campaign_utm_id', 'campaign_name', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
-            new campaign_tracker_comms_local_program_generator_name_idModalViewPage($this, GetCurrentUserPermissionSetForDataSource('campaign_tracker_comms_local.program_generator_name_id'));
-            new campaign_tracker_comms_local_master_campaign_idModalViewPage($this, GetCurrentUserPermissionSetForDataSource('campaign_tracker_comms_local.master_campaign_id'));
+            new campaign_tracker_comms_local_program_generator_name_idModalViewPage($this, GetCurrentUserPermissionsForPage('campaign_tracker_comms_local.program_generator_name_id'));
+            new campaign_tracker_comms_local_master_campaign_idModalViewPage($this, GetCurrentUserPermissionsForPage('campaign_tracker_comms_local.master_campaign_id'));
         }
        
         protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
@@ -3803,14 +3910,19 @@
             
               if ($dataMofified) {
             
-                  $modified_by = $rowData['modified_by'];
-                  $modified_date = $rowData['modified_date'];
-                  $campaign_tracker_local_id = $rowData['campaign_tracker_local_id'];
-                  $trackerid = $rowData['trackerid'];
+                $modified_by = $rowData['modified_by'];
+                $modified_date = $rowData['modified_date'];
+                $program_generator_name_id = $rowData['program_generator_name_id'];
+                $master_campaign_id = $rowData['master_campaign_id'];
+                $trackerid = $rowData['trackerid'];
+                $emailname = $rowData['email_name'];
+                $cregion = $rowData['cregion'];
+                $description = $rowData['campaign_description'];
+                $startdate = $rowData['campaign_publish_date'];
             
                 $sql = 
             
-                  "CALL campaignCommsLocaltoGlobalCalendar('$modified_by', '$modified_date', $campaign_tracker_local_id, $trackerid);";
+                  "CALL campaignCommsLocaltoGlobalCalendar($program_generator_name_id, '$modified_by', '$modified_date', $master_campaign_id, $trackerid, '$emailname', '$cregion', '$description', '$startdate', '$startdate');";
                   $this->GetConnection()->ExecSQL($sql);
                   
                   $message = '<p>Record processed successfully, goto Comms Tracker (Local) to update the send dates .</p>';
@@ -3898,41 +4010,12 @@
     
         }
     
-        protected function doGetCustomPagePermissions(Page $page, PermissionSet &$permissions, &$handled)
+        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
         {
-            // do not apply these rules for site admins
-            
-            if (!GetApplication()->HasAdminGrantForCurrentUser()) {
-            
-            	// retrieving the ID of the current user
-            	$userId = GetApplication()->GetCurrentUserId();
-            
-            	// retrieving all user roles 
-            	$sql =        
-            	  "SELECT user_level " .
-            	  "FROM `phpgen_users` " .
-            	  "WHERE user_id = %d";    
-            	$result = $page->GetConnection()->fetchAll(sprintf($sql, $userId));
-            
-            	// iterating through retrieved roles
-            	if (!empty($result)) {
-            	   foreach ($result as $row) {
-            		   // is current user a member of the Sales role?
-            		   if (($row['user_level'] === '346')) {
-            			 // if yes, allow all actions.
-            			 // otherwise default permissions for this page will be applied
-            			 $permissions->setGrants(true, true, true, true);
-            			 break;
-            		   }                 
-            	   }
-            	};    
-            
-            	// apply the new permissions
-            	$handled = true;
-            }
+    
         }
     
-        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
+        protected function doAddEnvironmentVariables(Page $page, &$variables)
         {
     
         }
@@ -3943,7 +4026,7 @@
 
     try
     {
-        $Page = new campaign_tracker_comms_localPage("campaign_tracker_comms_local", "campaign_tracker_comms_local.php", GetCurrentUserPermissionSetForDataSource("campaign_tracker_comms_local"), 'UTF-8');
+        $Page = new campaign_tracker_comms_localPage("campaign_tracker_comms_local", "campaign_tracker_comms_local.php", GetCurrentUserPermissionsForPage("campaign_tracker_comms_local"), 'UTF-8');
         $Page->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource("campaign_tracker_comms_local"));
         GetApplication()->SetMainPage($Page);
         GetApplication()->Run();

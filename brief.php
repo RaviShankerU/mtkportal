@@ -45,7 +45,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
         }
@@ -62,7 +64,6 @@
             $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_owner_personModalViewPage_user_name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -71,7 +72,6 @@
             $column = new TextViewColumn('user_email', 'user_email', 'User Email', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_owner_personModalViewPage_user_email_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -113,6 +113,21 @@
             $column->setThousandsSeparator(',');
             $column->setDecimalSeparator('');
             $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $grid->AddSingleRecordViewColumn($column);
         }
     
         function GetCustomClientScript()
@@ -132,21 +147,6 @@
         protected function doRegisterHandlers() {
             
             
-            //
-            // View column for user_name field
-            //
-            $column = new TextViewColumn('user_name', 'user_name', 'User Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_owner_personModalViewPage_user_name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for user_email field
-            //
-            $column = new TextViewColumn('user_email', 'user_email', 'User Email', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_owner_personModalViewPage_user_email_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
         }
     
         static public function getHandlerName() {
@@ -228,7 +228,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $this->dataset->AddLookupField('campaign_type', 'lookup_brief_campaign_types', new IntegerField('brief_campaign_types_ID'), new StringField('campaign_types', false, false, false, false, 'campaign_type_campaign_types', 'campaign_type_campaign_types_lookup_brief_campaign_types'), 'campaign_type_campaign_types_lookup_brief_campaign_types');
@@ -253,7 +255,7 @@
             $result = new CompositePageNavigator($this);
             
             $partitionNavigator = new PageNavigator('pnav', $this, $this->dataset);
-            $partitionNavigator->SetRowsPerPage(20);
+            $partitionNavigator->SetRowsPerPage(10);
             $result->AddPageNavigator($partitionNavigator);
             
             return $result;
@@ -298,7 +300,9 @@
                 new FilterColumn($this->dataset, 'created_by', 'created_by', 'Created By'),
                 new FilterColumn($this->dataset, 'created_date', 'created_date', 'Created Date'),
                 new FilterColumn($this->dataset, 'updated_by', 'updated_by', 'Updated By'),
-                new FilterColumn($this->dataset, 'updated_date', 'updated_date', 'Updated Date')
+                new FilterColumn($this->dataset, 'updated_date', 'updated_date', 'Updated Date'),
+                new FilterColumn($this->dataset, 'modified_by', 'modified_by', 'Modified By'),
+                new FilterColumn($this->dataset, 'modified_date', 'modified_date', 'Modified Date')
             );
         }
     
@@ -1039,7 +1043,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_campaign_name_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1051,7 +1054,6 @@
             $column = new TextViewColumn('b_country', 'b_country_Country_Name', 'Country', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_b_country_Country_Name_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1063,7 +1065,6 @@
             $column = new TextViewColumn('b_region', 'b_region_c_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_b_region_c_Region_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1076,6 +1077,7 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->setLookupRecordModalViewHandlerName(brief_owner_personModalViewPage::getHandlerName());
+            $column->SetMaxLength(75);
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1155,7 +1157,6 @@
             $column = new TextViewColumn('campaign_name', 'campaign_name', 'Campaign Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_campaign_name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1164,7 +1165,6 @@
             $column = new TextViewColumn('short_description', 'short_description', 'Short Description', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_short_description_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1197,7 +1197,6 @@
             $column = new TextViewColumn('b_country', 'b_country_Country_Name', 'Country', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_b_country_Country_Name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1206,7 +1205,6 @@
             $column = new TextViewColumn('b_region', 'b_region_c_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_b_region_c_Region_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1222,7 +1220,6 @@
             $column = new TextViewColumn('objective', 'objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(500);
-            $column->SetFullTextWindowHandlerName('brief_objective_objective_name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1231,6 +1228,7 @@
             $column = new TextViewColumn('owner_person', 'owner_person_user_name', 'Project Owner', $this->dataset);
             $column->SetOrderable(true);
             $column->setLookupRecordModalViewHandlerName(brief_owner_personModalViewPage::getHandlerName());
+            $column->SetMaxLength(75);
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1239,7 +1237,6 @@
             $column = new TextViewColumn('industry', 'industry_Industry_Name', 'Industry', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_industry_Industry_Name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1329,7 +1326,6 @@
             $column->setHrefTemplate('%file_upload%');
             $column->setTarget('_blank');
             $column->SetMaxLength(2500);
-            $column->SetFullTextWindowHandlerName('brief_file_upload_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1375,6 +1371,21 @@
             $column = new DateTimeViewColumn('updated_date', 'updated_date', 'Updated Date', $this->dataset);
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddSingleRecordViewColumn($column);
         }
     
@@ -1468,7 +1479,9 @@
                     new StringField('Preferred_Langauge'),
                     new StringField('c_Region'),
                     new StringField('Sub_Region'),
-                    new StringField('Territories')
+                    new StringField('Territories'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('Country_Name', 'ASC');
@@ -1515,7 +1528,8 @@
             $lookupDataset->addFields(
                 array(
                     new IntegerField('Event_Type_ID', true, true, true),
-                    new StringField('Event_Type')
+                    new StringField('Event_Type'),
+                    new IntegerField('Event_website_listing')
                 )
             );
             $lookupDataset->setOrderByField('Event_Type', 'ASC');
@@ -1569,7 +1583,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -1842,7 +1858,9 @@
                     new StringField('Preferred_Langauge'),
                     new StringField('c_Region'),
                     new StringField('Sub_Region'),
-                    new StringField('Territories')
+                    new StringField('Territories'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('Country_Name', 'ASC');
@@ -1889,7 +1907,8 @@
             $lookupDataset->addFields(
                 array(
                     new IntegerField('Event_Type_ID', true, true, true),
-                    new StringField('Event_Type')
+                    new StringField('Event_Type'),
+                    new IntegerField('Event_website_listing')
                 )
             );
             $lookupDataset->setOrderByField('Event_Type', 'ASC');
@@ -1943,7 +1962,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -2238,7 +2259,9 @@
                     new StringField('Preferred_Langauge'),
                     new StringField('c_Region'),
                     new StringField('Sub_Region'),
-                    new StringField('Territories')
+                    new StringField('Territories'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('Country_Name', 'ASC');
@@ -2285,7 +2308,8 @@
             $lookupDataset->addFields(
                 array(
                     new IntegerField('Event_Type_ID', true, true, true),
-                    new StringField('Event_Type')
+                    new StringField('Event_Type'),
+                    new IntegerField('Event_website_listing')
                 )
             );
             $lookupDataset->setOrderByField('Event_Type', 'ASC');
@@ -2339,7 +2363,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -2558,7 +2584,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_campaign_name_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -2567,7 +2592,6 @@
             $column = new TextViewColumn('short_description', 'short_description', 'Short Description', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_short_description_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -2601,7 +2625,6 @@
             $column = new TextViewColumn('b_country', 'b_country_Country_Name', 'Country', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_b_country_Country_Name_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -2610,7 +2633,6 @@
             $column = new TextViewColumn('b_region', 'b_region_c_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_b_region_c_Region_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -2627,7 +2649,6 @@
             $column = new TextViewColumn('objective', 'objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(500);
-            $column->SetFullTextWindowHandlerName('brief_objective_objective_name_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -2637,7 +2658,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_owner_person_user_name_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -2646,7 +2666,6 @@
             $column = new TextViewColumn('industry', 'industry_Industry_Name', 'Industry', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_industry_Industry_Name_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -2736,7 +2755,6 @@
             $column->setHrefTemplate('%file_upload%');
             $column->setTarget('_blank');
             $column->SetMaxLength(2500);
-            $column->SetFullTextWindowHandlerName('brief_file_upload_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -2805,7 +2823,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_campaign_name_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -2814,7 +2831,6 @@
             $column = new TextViewColumn('short_description', 'short_description', 'Short Description', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_short_description_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -2848,7 +2864,6 @@
             $column = new TextViewColumn('b_country', 'b_country_Country_Name', 'Country', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_b_country_Country_Name_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -2857,7 +2872,6 @@
             $column = new TextViewColumn('b_region', 'b_region_c_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_b_region_c_Region_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -2874,7 +2888,6 @@
             $column = new TextViewColumn('objective', 'objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(500);
-            $column->SetFullTextWindowHandlerName('brief_objective_objective_name_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -2884,7 +2897,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_owner_person_user_name_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -2893,7 +2905,6 @@
             $column = new TextViewColumn('industry', 'industry_Industry_Name', 'Industry', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_industry_Industry_Name_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -2983,7 +2994,6 @@
             $column->setHrefTemplate('%file_upload%');
             $column->setTarget('_blank');
             $column->SetMaxLength(2500);
-            $column->SetFullTextWindowHandlerName('brief_file_upload_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -3042,7 +3052,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_campaign_name_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -3051,7 +3060,6 @@
             $column = new TextViewColumn('short_description', 'short_description', 'Short Description', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_short_description_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -3085,7 +3093,6 @@
             $column = new TextViewColumn('b_country', 'b_country_Country_Name', 'Country', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_b_country_Country_Name_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -3094,7 +3101,6 @@
             $column = new TextViewColumn('b_region', 'b_region_c_Region', 'Region', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_b_region_c_Region_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -3111,7 +3117,6 @@
             $column = new TextViewColumn('objective', 'objective_objective_name', 'Objective', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(500);
-            $column->SetFullTextWindowHandlerName('brief_objective_objective_name_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -3121,7 +3126,6 @@
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_owner_person_user_name_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -3130,7 +3134,6 @@
             $column = new TextViewColumn('industry', 'industry_Industry_Name', 'Industry', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('brief_industry_Industry_Name_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -3220,7 +3223,6 @@
             $column->setHrefTemplate('%file_upload%');
             $column->setTarget('_blank');
             $column->SetMaxLength(2500);
-            $column->SetFullTextWindowHandlerName('brief_file_upload_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -3406,6 +3408,7 @@
                           </div>
                         </div>');
             $this->setShowFormErrorsOnTop(true);
+            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -3490,167 +3493,6 @@
         }
     
         protected function doRegisterHandlers() {
-            //
-            // View column for campaign_name field
-            //
-            $column = new TextViewColumn('campaign_name', 'campaign_name', 'Campaign Name', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_campaign_name_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Country_Name field
-            //
-            $column = new TextViewColumn('b_country', 'b_country_Country_Name', 'Country', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_b_country_Country_Name_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for c_Region field
-            //
-            $column = new TextViewColumn('b_region', 'b_region_c_Region', 'Region', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_b_region_c_Region_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for campaign_name field
-            //
-            $column = new TextViewColumn('campaign_name', 'campaign_name', 'Campaign Name', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_campaign_name_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for short_description field
-            //
-            $column = new TextViewColumn('short_description', 'short_description', 'Short Description', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_short_description_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Country_Name field
-            //
-            $column = new TextViewColumn('b_country', 'b_country_Country_Name', 'Country', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_b_country_Country_Name_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for c_Region field
-            //
-            $column = new TextViewColumn('b_region', 'b_region_c_Region', 'Region', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_b_region_c_Region_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for objective_name field
-            //
-            $column = new TextViewColumn('objective', 'objective_objective_name', 'Objective', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_objective_objective_name_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for user_name field
-            //
-            $column = new TextViewColumn('owner_person', 'owner_person_user_name', 'Project Owner', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_owner_person_user_name_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Industry_Name field
-            //
-            $column = new TextViewColumn('industry', 'industry_Industry_Name', 'Industry', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_industry_Industry_Name_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for file_upload field
-            //
-            $column = new TextViewColumn('file_upload', 'file_upload', 'Content Brief Document', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setHrefTemplate('%file_upload%');
-            $column->setTarget('_blank');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_file_upload_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for campaign_name field
-            //
-            $column = new TextViewColumn('campaign_name', 'campaign_name', 'Campaign Name', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_campaign_name_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for short_description field
-            //
-            $column = new TextViewColumn('short_description', 'short_description', 'Short Description', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_short_description_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Country_Name field
-            //
-            $column = new TextViewColumn('b_country', 'b_country_Country_Name', 'Country', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_b_country_Country_Name_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for c_Region field
-            //
-            $column = new TextViewColumn('b_region', 'b_region_c_Region', 'Region', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_b_region_c_Region_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for objective_name field
-            //
-            $column = new TextViewColumn('objective', 'objective_objective_name', 'Objective', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_objective_objective_name_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for user_name field
-            //
-            $column = new TextViewColumn('owner_person', 'owner_person_user_name', 'Project Owner', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setAlign('left');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_owner_person_user_name_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Industry_Name field
-            //
-            $column = new TextViewColumn('industry', 'industry_Industry_Name', 'Industry', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_industry_Industry_Name_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for file_upload field
-            //
-            $column = new TextViewColumn('file_upload', 'file_upload', 'Content Brief Document', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setHrefTemplate('%file_upload%');
-            $column->setTarget('_blank');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_file_upload_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
@@ -3694,7 +3536,9 @@
                     new StringField('Preferred_Langauge'),
                     new StringField('c_Region'),
                     new StringField('Sub_Region'),
-                    new StringField('Territories')
+                    new StringField('Territories'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('Country_Name', 'ASC');
@@ -3725,7 +3569,8 @@
             $lookupDataset->addFields(
                 array(
                     new IntegerField('Event_Type_ID', true, true, true),
-                    new StringField('Event_Type')
+                    new StringField('Event_Type'),
+                    new IntegerField('Event_website_listing')
                 )
             );
             $lookupDataset->setOrderByField('Event_Type', 'ASC');
@@ -3761,7 +3606,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -3842,7 +3689,9 @@
                     new StringField('Preferred_Langauge'),
                     new StringField('c_Region'),
                     new StringField('Sub_Region'),
-                    new StringField('Territories')
+                    new StringField('Territories'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('Country_Name', 'ASC');
@@ -3873,7 +3722,8 @@
             $lookupDataset->addFields(
                 array(
                     new IntegerField('Event_Type_ID', true, true, true),
-                    new StringField('Event_Type')
+                    new StringField('Event_Type'),
+                    new IntegerField('Event_website_listing')
                 )
             );
             $lookupDataset->setOrderByField('Event_Type', 'ASC');
@@ -3909,7 +3759,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -3945,64 +3797,6 @@
             $lookupDataset->setOrderByField('Status_Type', 'ASC');
             $lookupDataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'Status_Filters="brief"'));
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_brief_campaign_status_search', 'Status_Type_ID', 'Status_Type', null, 20);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for campaign_name field
-            //
-            $column = new TextViewColumn('campaign_name', 'campaign_name', 'Campaign Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_campaign_name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for short_description field
-            //
-            $column = new TextViewColumn('short_description', 'short_description', 'Short Description', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_short_description_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Country_Name field
-            //
-            $column = new TextViewColumn('b_country', 'b_country_Country_Name', 'Country', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_b_country_Country_Name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for c_Region field
-            //
-            $column = new TextViewColumn('b_region', 'b_region_c_Region', 'Region', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_b_region_c_Region_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for objective_name field
-            //
-            $column = new TextViewColumn('objective', 'objective_objective_name', 'Objective', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_objective_objective_name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for Industry_Name field
-            //
-            $column = new TextViewColumn('industry', 'industry_Industry_Name', 'Industry', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_industry_Industry_Name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for file_upload field
-            //
-            $column = new TextViewColumn('file_upload', 'file_upload', 'Content Brief Document', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setHrefTemplate('%file_upload%');
-            $column->setTarget('_blank');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'brief_file_upload_handler_view', $column);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -4048,7 +3842,9 @@
                     new StringField('Preferred_Langauge'),
                     new StringField('c_Region'),
                     new StringField('Sub_Region'),
-                    new StringField('Territories')
+                    new StringField('Territories'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('Country_Name', 'ASC');
@@ -4079,7 +3875,8 @@
             $lookupDataset->addFields(
                 array(
                     new IntegerField('Event_Type_ID', true, true, true),
-                    new StringField('Event_Type')
+                    new StringField('Event_Type'),
+                    new IntegerField('Event_website_listing')
                 )
             );
             $lookupDataset->setOrderByField('Event_Type', 'ASC');
@@ -4115,7 +3912,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -4196,7 +3995,9 @@
                     new StringField('Preferred_Langauge'),
                     new StringField('c_Region'),
                     new StringField('Sub_Region'),
-                    new StringField('Territories')
+                    new StringField('Territories'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('Country_Name', 'ASC');
@@ -4227,7 +4028,8 @@
             $lookupDataset->addFields(
                 array(
                     new IntegerField('Event_Type_ID', true, true, true),
-                    new StringField('Event_Type')
+                    new StringField('Event_Type'),
+                    new IntegerField('Event_website_listing')
                 )
             );
             $lookupDataset->setOrderByField('Event_Type', 'ASC');
@@ -4263,7 +4065,9 @@
                     new StringField('user_level', true),
                     new IntegerField('is_head_manager'),
                     new IntegerField('region_id'),
-                    new IntegerField('manager_id')
+                    new IntegerField('manager_id'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('user_name', 'ASC');
@@ -4300,7 +4104,7 @@
             $lookupDataset->AddCustomCondition(EnvVariablesUtils::EvaluateVariableTemplate($this->GetColumnVariableContainer(), 'Status_Filters="brief"'));
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_brief_campaign_status_search', 'Status_Type_ID', 'Status_Type', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
-            new brief_owner_personModalViewPage($this, GetCurrentUserPermissionSetForDataSource('brief.owner_person'));
+            new brief_owner_personModalViewPage($this, GetCurrentUserPermissionsForPage('brief.owner_person'));
         }
        
         protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
@@ -4565,44 +4369,12 @@
     
         }
     
-        protected function doGetCustomPagePermissions(Page $page, PermissionSet &$permissions, &$handled)
+        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
         {
-            // do not apply these rules for site admins
-            
-            if (!GetApplication()->HasAdminGrantForCurrentUser()) {
-            
-            	// retrieving the ID of the current user
-            	$userId = GetApplication()->GetCurrentUserId();
-            
-            	// retrieving all user roles 
-            	$sql =        
-            	  "SELECT user_level " .
-            	  "FROM `phpgen_users` " .
-            	  "WHERE user_id = %d";    
-            	$result = $page->GetConnection()->fetchAll(sprintf($sql, $userId));
-            
-             
-            
-            	// iterating through retrieved roles
-            	if (!empty($result)) {
-            	   foreach ($result as $row) {
-            		   // is current user a member of the Sales role?
-            		   if (($row['user_level'] === '346')) {
-            			 // if yes, allow all actions.
-            			 // otherwise default permissions for this page will be applied
-            			 $permissions->setGrants(true, true, true, true);
-            			 break;
-            		   }                 
-            	   }
-            	};    
-            
-            	// apply the new permissions
-            	$handled = true;
-            
-            }
+    
         }
     
-        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
+        protected function doAddEnvironmentVariables(Page $page, &$variables)
         {
     
         }
@@ -4613,7 +4385,7 @@
 
     try
     {
-        $Page = new briefPage("brief", "brief.php", GetCurrentUserPermissionSetForDataSource("brief"), 'UTF-8');
+        $Page = new briefPage("brief", "brief.php", GetCurrentUserPermissionsForPage("brief"), 'UTF-8');
         $Page->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource("brief"));
         GetApplication()->SetMainPage($Page);
         GetApplication()->Run();

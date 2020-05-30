@@ -53,9 +53,12 @@
                     new StringField('Preferred_Langauge'),
                     new StringField('c_Region'),
                     new StringField('Sub_Region'),
-                    new StringField('Territories')
+                    new StringField('Territories'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
+            $this->dataset->AddLookupField('Preferred_Langauge', 'lookup_language', new StringField('langauge'), new StringField('langauge', false, false, false, false, 'Preferred_Langauge_langauge', 'Preferred_Langauge_langauge_lookup_language'), 'Preferred_Langauge_langauge_lookup_language');
             $this->dataset->AddLookupField('c_Region', 'lookup_region', new StringField('Region'), new StringField('Region', false, false, false, false, 'c_Region_Region', 'c_Region_Region_lookup_region'), 'c_Region_Region_lookup_region');
             $this->dataset->AddLookupField('Sub_Region', 'lookup_sub_regions', new StringField('Sub_Region'), new StringField('Sub_Region', false, false, false, false, 'Sub_Region_Sub_Region', 'Sub_Region_Sub_Region_lookup_sub_regions'), 'Sub_Region_Sub_Region_lookup_sub_regions');
             $this->dataset->AddLookupField('Territories', 'lookup_territory', new StringField('Territory'), new StringField('Territory', false, false, false, false, 'Territories_Territory', 'Territories_Territory_lookup_territory'), 'Territories_Territory_lookup_territory');
@@ -77,7 +80,7 @@
             $result->AddPageNavigator($partitionNavigator);
             
             $partitionNavigator = new PageNavigator('pnav', $this, $this->dataset);
-            $partitionNavigator->SetRowsPerPage(20);
+            $partitionNavigator->SetRowsPerPage(10);
             $result->AddPageNavigator($partitionNavigator);
             
             return $result;
@@ -100,10 +103,12 @@
                 new FilterColumn($this->dataset, 'Country_Name', 'Country_Name', 'Country Name'),
                 new FilterColumn($this->dataset, 'Dialing_Code', 'Dialing_Code', 'Dialing Code'),
                 new FilterColumn($this->dataset, '2_ISO', '2_ISO', '2 ISO'),
-                new FilterColumn($this->dataset, 'Preferred_Langauge', 'Preferred_Langauge', 'Preferred Langauge'),
+                new FilterColumn($this->dataset, 'Preferred_Langauge', 'Preferred_Langauge_langauge', 'Preferred Langauge'),
                 new FilterColumn($this->dataset, 'c_Region', 'c_Region_Region', 'Region'),
                 new FilterColumn($this->dataset, 'Sub_Region', 'Sub_Region_Sub_Region', 'Sub Region'),
-                new FilterColumn($this->dataset, 'Territories', 'Territories_Territory', 'Territories')
+                new FilterColumn($this->dataset, 'Territories', 'Territories_Territory', 'Territories'),
+                new FilterColumn($this->dataset, 'modified_by', 'modified_by', 'Modified By'),
+                new FilterColumn($this->dataset, 'modified_date', 'modified_date', 'Modified Date')
             );
         }
     
@@ -116,15 +121,19 @@
                 ->addColumn($columns['Preferred_Langauge'])
                 ->addColumn($columns['c_Region'])
                 ->addColumn($columns['Sub_Region'])
-                ->addColumn($columns['Territories']);
+                ->addColumn($columns['Territories'])
+                ->addColumn($columns['modified_by'])
+                ->addColumn($columns['modified_date']);
         }
     
         protected function setupColumnFilter(ColumnFilter $columnFilter)
         {
             $columnFilter
+                ->setOptionsFor('Preferred_Langauge')
                 ->setOptionsFor('c_Region')
                 ->setOptionsFor('Sub_Region')
-                ->setOptionsFor('Territories');
+                ->setOptionsFor('Territories')
+                ->setOptionsFor('modified_date');
         }
     
         protected function setupFilterBuilder(FilterBuilder $filterBuilder, FixedKeysArray $columns)
@@ -204,8 +213,16 @@
                 )
             );
             
-            $main_editor = new TextEdit('preferred_langauge_edit');
-            $main_editor->SetMaxLength(10);
+            $main_editor = new DynamicCombobox('preferred_langauge_edit', $this->CreateLinkBuilder());
+            $main_editor->setAllowClear(true);
+            $main_editor->setMinimumInputLength(0);
+            $main_editor->SetAllowNullValue(false);
+            $main_editor->SetHandlerName('filter_builder_country_list_Preferred_Langauge_search');
+            
+            $multi_value_select_editor = new RemoteMultiValueSelect('Preferred_Langauge', $this->CreateLinkBuilder());
+            $multi_value_select_editor->SetHandlerName('filter_builder_country_list_Preferred_Langauge_search');
+            
+            $text_editor = new TextEdit('Preferred_Langauge');
             
             $filterBuilder->addColumn(
                 $columns['Preferred_Langauge'],
@@ -218,12 +235,14 @@
                     FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
                     FilterConditionOperator::IS_BETWEEN => $main_editor,
                     FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
-                    FilterConditionOperator::CONTAINS => $main_editor,
-                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
-                    FilterConditionOperator::BEGINS_WITH => $main_editor,
-                    FilterConditionOperator::ENDS_WITH => $main_editor,
-                    FilterConditionOperator::IS_LIKE => $main_editor,
-                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::CONTAINS => $text_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $text_editor,
+                    FilterConditionOperator::BEGINS_WITH => $text_editor,
+                    FilterConditionOperator::ENDS_WITH => $text_editor,
+                    FilterConditionOperator::IS_LIKE => $text_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $text_editor,
+                    FilterConditionOperator::IN => $multi_value_select_editor,
+                    FilterConditionOperator::NOT_IN => $multi_value_select_editor,
                     FilterConditionOperator::IS_BLANK => null,
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
@@ -333,6 +352,52 @@
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
             );
+            
+            $main_editor = new TextEdit('modified_by_edit');
+            $main_editor->SetMaxLength(65);
+            
+            $filterBuilder->addColumn(
+                $columns['modified_by'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new DateTimeEdit('modified_date_edit', false, 'd-m-Y H:i:s');
+            
+            $filterBuilder->addColumn(
+                $columns['modified_date'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::DATE_EQUALS => $main_editor,
+                    FilterConditionOperator::DATE_DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::TODAY => null,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
         }
     
         protected function AddOperationsColumns(Grid $grid)
@@ -419,9 +484,9 @@
             $grid->AddViewColumn($column);
             
             //
-            // View column for Preferred_Langauge field
+            // View column for langauge field
             //
-            $column = new TextViewColumn('Preferred_Langauge', 'Preferred_Langauge', 'Preferred Langauge', $this->dataset);
+            $column = new TextViewColumn('Preferred_Langauge', 'Preferred_Langauge_langauge', 'Preferred Langauge', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
@@ -456,6 +521,27 @@
             $column = new TextViewColumn('Territories', 'Territories_Territory', 'Territories', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -486,9 +572,9 @@
             $grid->AddSingleRecordViewColumn($column);
             
             //
-            // View column for Preferred_Langauge field
+            // View column for langauge field
             //
-            $column = new TextViewColumn('Preferred_Langauge', 'Preferred_Langauge', 'Preferred Langauge', $this->dataset);
+            $column = new TextViewColumn('Preferred_Langauge', 'Preferred_Langauge_langauge', 'Preferred Langauge', $this->dataset);
             $column->SetOrderable(true);
             $grid->AddSingleRecordViewColumn($column);
             
@@ -511,6 +597,21 @@
             //
             $column = new TextViewColumn('Territories', 'Territories_Territory', 'Territories', $this->dataset);
             $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddSingleRecordViewColumn($column);
         }
     
@@ -549,9 +650,21 @@
             //
             // Edit column for Preferred_Langauge field
             //
-            $editor = new TextEdit('preferred_langauge_edit');
-            $editor->SetMaxLength(10);
-            $editColumn = new CustomEditColumn('Preferred Langauge', 'Preferred_Langauge', $editor, $this->dataset);
+            $editor = new DynamicCombobox('preferred_langauge_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_language`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('language_id', true, true, true),
+                    new StringField('langauge', true)
+                )
+            );
+            $lookupDataset->setOrderByField('langauge', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Preferred Langauge', 'Preferred_Langauge', 'Preferred_Langauge_langauge', 'edit_country_list_Preferred_Langauge_search', $editor, $this->dataset, $lookupDataset, 'langauge', 'langauge', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddEditColumn($editColumn);
@@ -663,9 +776,21 @@
             //
             // Edit column for Preferred_Langauge field
             //
-            $editor = new TextEdit('preferred_langauge_edit');
-            $editor->SetMaxLength(10);
-            $editColumn = new CustomEditColumn('Preferred Langauge', 'Preferred_Langauge', $editor, $this->dataset);
+            $editor = new DynamicCombobox('preferred_langauge_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_language`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('language_id', true, true, true),
+                    new StringField('langauge', true)
+                )
+            );
+            $lookupDataset->setOrderByField('langauge', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Preferred Langauge', 'Preferred_Langauge', 'Preferred_Langauge_langauge', 'multi_edit_country_list_Preferred_Langauge_search', $editor, $this->dataset, $lookupDataset, 'langauge', 'langauge', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddMultiEditColumn($editColumn);
@@ -777,9 +902,21 @@
             //
             // Edit column for Preferred_Langauge field
             //
-            $editor = new TextEdit('preferred_langauge_edit');
-            $editor->SetMaxLength(10);
-            $editColumn = new CustomEditColumn('Preferred Langauge', 'Preferred_Langauge', $editor, $this->dataset);
+            $editor = new DynamicCombobox('preferred_langauge_edit', $this->CreateLinkBuilder());
+            $editor->setAllowClear(true);
+            $editor->setMinimumInputLength(0);
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_language`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('language_id', true, true, true),
+                    new StringField('langauge', true)
+                )
+            );
+            $lookupDataset->setOrderByField('langauge', 'ASC');
+            $editColumn = new DynamicLookupEditColumn('Preferred Langauge', 'Preferred_Langauge', 'Preferred_Langauge_langauge', 'insert_country_list_Preferred_Langauge_search', $editor, $this->dataset, $lookupDataset, 'langauge', 'langauge', '');
             $editColumn->SetAllowSetToNull(true);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
@@ -889,9 +1026,9 @@
             $grid->AddPrintColumn($column);
             
             //
-            // View column for Preferred_Langauge field
+            // View column for langauge field
             //
-            $column = new TextViewColumn('Preferred_Langauge', 'Preferred_Langauge', 'Preferred Langauge', $this->dataset);
+            $column = new TextViewColumn('Preferred_Langauge', 'Preferred_Langauge_langauge', 'Preferred Langauge', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $grid->AddPrintColumn($column);
@@ -917,6 +1054,21 @@
             $column = new TextViewColumn('Territories', 'Territories_Territory', 'Territories', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddPrintColumn($column);
         }
     
@@ -947,9 +1099,9 @@
             $grid->AddExportColumn($column);
             
             //
-            // View column for Preferred_Langauge field
+            // View column for langauge field
             //
-            $column = new TextViewColumn('Preferred_Langauge', 'Preferred_Langauge', 'Preferred Langauge', $this->dataset);
+            $column = new TextViewColumn('Preferred_Langauge', 'Preferred_Langauge_langauge', 'Preferred Langauge', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $grid->AddExportColumn($column);
@@ -975,6 +1127,21 @@
             $column = new TextViewColumn('Territories', 'Territories_Territory', 'Territories', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddExportColumn($column);
         }
     
@@ -1005,9 +1172,9 @@
             $grid->AddCompareColumn($column);
             
             //
-            // View column for Preferred_Langauge field
+            // View column for langauge field
             //
-            $column = new TextViewColumn('Preferred_Langauge', 'Preferred_Langauge', 'Preferred Langauge', $this->dataset);
+            $column = new TextViewColumn('Preferred_Langauge', 'Preferred_Langauge_langauge', 'Preferred Langauge', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
             $grid->AddCompareColumn($column);
@@ -1033,6 +1200,21 @@
             $column = new TextViewColumn('Territories', 'Territories_Territory', 'Territories', $this->dataset);
             $column->SetOrderable(true);
             $column->setAlign('left');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddCompareColumn($column);
         }
     
@@ -1156,6 +1338,7 @@
                           </div>
                         </div>');
             $this->setShowFormErrorsOnTop(true);
+            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -1165,6 +1348,20 @@
         }
     
         protected function doRegisterHandlers() {
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_language`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('language_id', true, true, true),
+                    new StringField('langauge', true)
+                )
+            );
+            $lookupDataset->setOrderByField('langauge', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_country_list_Preferred_Langauge_search', 'langauge', 'langauge', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
@@ -1210,6 +1407,20 @@
             );
             $lookupDataset->setOrderByField('Territory', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'insert_country_list_Territories_search', 'Territory', 'Territory', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_language`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('language_id', true, true, true),
+                    new StringField('langauge', true)
+                )
+            );
+            $lookupDataset->setOrderByField('langauge', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_country_list_Preferred_Langauge_search', 'langauge', 'langauge', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -1262,6 +1473,20 @@
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
+                '`lookup_language`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('language_id', true, true, true),
+                    new StringField('langauge', true)
+                )
+            );
+            $lookupDataset->setOrderByField('langauge', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_country_list_Preferred_Langauge_search', 'langauge', 'langauge', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
                 '`lookup_region`');
             $lookupDataset->addFields(
                 array(
@@ -1304,6 +1529,20 @@
             );
             $lookupDataset->setOrderByField('Territory', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'edit_country_list_Territories_search', 'Territory', 'Territory', null, 20);
+            GetApplication()->RegisterHTTPHandler($handler);
+            
+            $lookupDataset = new TableDataset(
+                MySqlIConnectionFactory::getInstance(),
+                GetConnectionOptions(),
+                '`lookup_language`');
+            $lookupDataset->addFields(
+                array(
+                    new IntegerField('language_id', true, true, true),
+                    new StringField('langauge', true)
+                )
+            );
+            $lookupDataset->setOrderByField('langauge', 'ASC');
+            $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_country_list_Preferred_Langauge_search', 'langauge', 'langauge', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
             $lookupDataset = new TableDataset(
@@ -1484,12 +1723,12 @@
     
         }
     
-        protected function doGetCustomPagePermissions(Page $page, PermissionSet &$permissions, &$handled)
+        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
         {
     
         }
     
-        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
+        protected function doAddEnvironmentVariables(Page $page, &$variables)
         {
     
         }
@@ -1500,7 +1739,7 @@
 
     try
     {
-        $Page = new country_listPage("country_list", "country_list.php", GetCurrentUserPermissionSetForDataSource("country_list"), 'UTF-8');
+        $Page = new country_listPage("country_list", "country_list.php", GetCurrentUserPermissionsForPage("country_list"), 'UTF-8');
         $Page->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource("country_list"));
         GetApplication()->SetMainPage($Page);
         GetApplication()->Run();

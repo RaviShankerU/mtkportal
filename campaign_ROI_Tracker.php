@@ -62,7 +62,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
         }
@@ -79,7 +81,6 @@
             $column = new TextViewColumn('campaign_name', 'campaign_name', 'Campaign Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_ROI_Tracker_master_campaign_idModalViewPage_campaign_name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -88,7 +89,6 @@
             $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_ROI_Tracker_master_campaign_idModalViewPage_objective_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -151,7 +151,6 @@
             $column = new TextViewColumn('b_region', 'b_region', 'B Region', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_ROI_Tracker_master_campaign_idModalViewPage_b_region_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -160,7 +159,6 @@
             $column = new TextViewColumn('b_country', 'b_country', 'B Country', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_ROI_Tracker_master_campaign_idModalViewPage_b_country_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -169,7 +167,6 @@
             $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_ROI_Tracker_master_campaign_idModalViewPage_industry_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -238,7 +235,6 @@
             $column = new TextViewColumn('owner_person', 'owner_person', 'Owner Person', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_ROI_Tracker_master_campaign_idModalViewPage_owner_person_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -263,7 +259,6 @@
             $column = new TextViewColumn('file_upload', 'file_upload', 'File Upload', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_ROI_Tracker_master_campaign_idModalViewPage_file_upload_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -272,7 +267,6 @@
             $column = new TextViewColumn('asset_upload', 'asset_upload', 'Asset Upload', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_ROI_Tracker_master_campaign_idModalViewPage_asset_upload_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -304,6 +298,21 @@
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $grid->AddSingleRecordViewColumn($column);
         }
     
         function GetCustomClientScript()
@@ -323,69 +332,6 @@
         protected function doRegisterHandlers() {
             
             
-            //
-            // View column for campaign_name field
-            //
-            $column = new TextViewColumn('campaign_name', 'campaign_name', 'Campaign Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_ROI_Tracker_master_campaign_idModalViewPage_campaign_name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for objective field
-            //
-            $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_ROI_Tracker_master_campaign_idModalViewPage_objective_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for b_region field
-            //
-            $column = new TextViewColumn('b_region', 'b_region', 'B Region', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_ROI_Tracker_master_campaign_idModalViewPage_b_region_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for b_country field
-            //
-            $column = new TextViewColumn('b_country', 'b_country', 'B Country', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_ROI_Tracker_master_campaign_idModalViewPage_b_country_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for industry field
-            //
-            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_ROI_Tracker_master_campaign_idModalViewPage_industry_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for owner_person field
-            //
-            $column = new TextViewColumn('owner_person', 'owner_person', 'Owner Person', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_ROI_Tracker_master_campaign_idModalViewPage_owner_person_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for file_upload field
-            //
-            $column = new TextViewColumn('file_upload', 'file_upload', 'File Upload', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_ROI_Tracker_master_campaign_idModalViewPage_file_upload_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for asset_upload field
-            //
-            $column = new TextViewColumn('asset_upload', 'asset_upload', 'Asset Upload', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_ROI_Tracker_master_campaign_idModalViewPage_asset_upload_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
         }
     
         static public function getHandlerName() {
@@ -466,8 +412,8 @@
                     new IntegerField('Total Equiries'),
                     new IntegerField('Opportunities'),
                     new IntegerField('Opportunity Value'),
-                    new StringField('ROI'),
-                    new StringField('Days Lapsed'),
+                    new IntegerField('ROI'),
+                    new IntegerField('Days Lapsed'),
                     new StringField('Region'),
                     new StringField('Country'),
                     new IntegerField('Campaign Type'),
@@ -495,7 +441,7 @@
             $result->AddPageNavigator($partitionNavigator);
             
             $partitionNavigator = new PageNavigator('pnav', $this, $this->dataset);
-            $partitionNavigator->SetRowsPerPage(20);
+            $partitionNavigator->SetRowsPerPage(10);
             $result->AddPageNavigator($partitionNavigator);
             
             return $result;
@@ -874,6 +820,37 @@
                 $operation->setUseImage(true);
                 $actions->addOperation($operation);
             }
+            
+            if ($this->GetSecurityInfo()->HasEditGrant())
+            {
+                $operation = new AjaxOperation(OPERATION_EDIT,
+                    $this->GetLocalizerCaptions()->GetMessageString('Edit'),
+                    $this->GetLocalizerCaptions()->GetMessageString('Edit'), $this->dataset,
+                    $this->GetGridEditHandler(), $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+                $operation->OnShow->AddListener('ShowEditButtonHandler', $this);
+            }
+            
+            if ($this->GetSecurityInfo()->HasDeleteGrant())
+            {
+                $operation = new LinkOperation($this->GetLocalizerCaptions()->GetMessageString('Delete'), OPERATION_DELETE, $this->dataset, $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+                $operation->OnShow->AddListener('ShowDeleteButtonHandler', $this);
+                $operation->SetAdditionalAttribute('data-modal-operation', 'delete');
+                $operation->SetAdditionalAttribute('data-delete-handler-name', $this->GetModalGridDeleteHandler());
+            }
+            
+            if ($this->GetSecurityInfo()->HasAddGrant())
+            {
+                $operation = new AjaxOperation(OPERATION_COPY,
+                    $this->GetLocalizerCaptions()->GetMessageString('Copy'),
+                    $this->GetLocalizerCaptions()->GetMessageString('Copy'), $this->dataset,
+                    $this->GetModalGridCopyHandler(), $grid);
+                $operation->setUseImage(true);
+                $actions->addOperation($operation);
+            }
         }
     
         protected function AddFieldColumns(Grid $grid, $withDetails = true)
@@ -1194,7 +1171,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -1309,7 +1288,8 @@
                 array(
                     new IntegerField('Type_ID', true, true, true),
                     new StringField('Type'),
-                    new StringField('Type_Value')
+                    new StringField('Type_Value'),
+                    new IntegerField('Type_WebListing')
                 )
             );
             $lookupDataset->setOrderByField('Type', 'ASC');
@@ -1380,7 +1360,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -1495,7 +1477,8 @@
                 array(
                     new IntegerField('Type_ID', true, true, true),
                     new StringField('Type'),
-                    new StringField('Type_Value')
+                    new StringField('Type_Value'),
+                    new IntegerField('Type_WebListing')
                 )
             );
             $lookupDataset->setOrderByField('Type', 'ASC');
@@ -1566,7 +1549,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -1681,7 +1666,8 @@
                 array(
                     new IntegerField('Type_ID', true, true, true),
                     new StringField('Type'),
-                    new StringField('Type_Value')
+                    new StringField('Type_Value'),
+                    new IntegerField('Type_WebListing')
                 )
             );
             $lookupDataset->setOrderByField('Type', 'ASC');
@@ -1710,7 +1696,7 @@
             $editor->GetValidatorCollection()->AddValidator($validator);
             $this->ApplyCommonColumnEditProperties($editColumn);
             $grid->AddInsertColumn($editColumn);
-            $grid->SetShowAddButton(false && $this->GetSecurityInfo()->HasAddGrant());
+            $grid->SetShowAddButton(true && $this->GetSecurityInfo()->HasAddGrant());
         }
     
         private function AddMultiUploadColumn(Grid $grid)
@@ -2121,7 +2107,15 @@
         {
             return ;
         }
+        
+        public function GetEnableModalGridInsert() { return true; }
         public function GetEnableModalSingleRecordView() { return true; }
+        
+        public function GetEnableModalGridEdit() { return true; }
+        
+        protected function GetEnableModalGridDelete() { return true; }
+        
+        public function GetEnableModalGridCopy() { return true; }
         
         private $partitions = array(1 => array('\'Americas\''), 2 => array('\'EMEA\''), 3 => array('\'IndoPac\''), 4 => array('\'Japan\''), 5 => array('\'China\''), 6 => array('\'Korea\''));
         
@@ -2147,7 +2141,7 @@
         {
             $result = new Grid($this, $this->dataset);
             if ($this->GetSecurityInfo()->HasDeleteGrant())
-               $result->SetAllowDeleteSelected(false);
+               $result->SetAllowDeleteSelected(true);
             else
                $result->SetAllowDeleteSelected(false);   
             
@@ -2205,6 +2199,7 @@
                           </div>
                         </div>');
             $this->setShowFormErrorsOnTop(true);
+            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -2246,7 +2241,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -2261,7 +2258,8 @@
                 array(
                     new IntegerField('Type_ID', true, true, true),
                     new StringField('Type'),
-                    new StringField('Type_Value')
+                    new StringField('Type_Value'),
+                    new IntegerField('Type_WebListing')
                 )
             );
             $lookupDataset->setOrderByField('Type', 'ASC');
@@ -2300,7 +2298,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -2315,7 +2315,8 @@
                 array(
                     new IntegerField('Type_ID', true, true, true),
                     new StringField('Type'),
-                    new StringField('Type_Value')
+                    new StringField('Type_Value'),
+                    new IntegerField('Type_WebListing')
                 )
             );
             $lookupDataset->setOrderByField('Type', 'ASC');
@@ -2354,7 +2355,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -2369,7 +2372,8 @@
                 array(
                     new IntegerField('Type_ID', true, true, true),
                     new StringField('Type'),
-                    new StringField('Type_Value')
+                    new StringField('Type_Value'),
+                    new IntegerField('Type_WebListing')
                 )
             );
             $lookupDataset->setOrderByField('Type', 'ASC');
@@ -2408,7 +2412,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -2423,13 +2429,14 @@
                 array(
                     new IntegerField('Type_ID', true, true, true),
                     new StringField('Type'),
-                    new StringField('Type_Value')
+                    new StringField('Type_Value'),
+                    new IntegerField('Type_WebListing')
                 )
             );
             $lookupDataset->setOrderByField('Type', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_ROI_Tracker_Campaign Type_search', 'Type_ID', 'Type', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
-            new campaign_ROI_Tracker_master_campaign_idModalViewPage($this, GetCurrentUserPermissionSetForDataSource('campaign_ROI_Tracker.master_campaign_id'));
+            new campaign_ROI_Tracker_master_campaign_idModalViewPage($this, GetCurrentUserPermissionsForPage('campaign_ROI_Tracker.master_campaign_id'));
         }
        
         protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
@@ -2562,41 +2569,12 @@
     
         }
     
-        protected function doGetCustomPagePermissions(Page $page, PermissionSet &$permissions, &$handled)
+        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
         {
-            // do not apply these rules for site admins
-            
-            if (!GetApplication()->HasAdminGrantForCurrentUser()) {
-            
-            	// retrieving the ID of the current user
-            	$userId = GetApplication()->GetCurrentUserId();
-            
-            	// retrieving all user roles 
-            	$sql =        
-            	  "SELECT user_level " .
-            	  "FROM `phpgen_users` " .
-            	  "WHERE user_id = %d";    
-            	$result = $page->GetConnection()->fetchAll(sprintf($sql, $userId));
-            
-            	// iterating through retrieved roles
-            	if (!empty($result)) {
-            	   foreach ($result as $row) {
-            		   // is current user a member of the Sales role?
-            		   if (($row['user_level'] === '346')) {
-            			 // if yes, allow all actions.
-            			 // otherwise default permissions for this page will be applied
-            			 $permissions->setGrants(true, true, true, true);
-            			 break;
-            		   }                 
-            	   }
-            	};    
-            
-            	// apply the new permissions
-            	$handled = true;
-            }
+    
         }
     
-        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
+        protected function doAddEnvironmentVariables(Page $page, &$variables)
         {
     
         }
@@ -2607,7 +2585,7 @@
 
     try
     {
-        $Page = new campaign_ROI_TrackerPage("campaign_ROI_Tracker", "campaign_ROI_Tracker.php", GetCurrentUserPermissionSetForDataSource("campaign_ROI_Tracker"), 'UTF-8');
+        $Page = new campaign_ROI_TrackerPage("campaign_ROI_Tracker", "campaign_ROI_Tracker.php", GetCurrentUserPermissionsForPage("campaign_ROI_Tracker"), 'UTF-8');
         $Page->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource("campaign_ROI_Tracker"));
         GetApplication()->SetMainPage($Page);
         GetApplication()->Run();

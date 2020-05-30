@@ -5,6 +5,7 @@
 
 //  error_reporting(E_ALL ^ E_NOTICE);
 //  ini_set('display_errors', 'On');
+ini_set('post_max_size', '200M');
 
 set_include_path('.' . PATH_SEPARATOR . get_include_path());
 
@@ -59,6 +60,7 @@ function GetPageGroups()
     $result[] = array('caption' => 'Campaign Manager', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.');
     $result[] = array('caption' => 'Global Marketing', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.');
     $result[] = array('caption' => 'Admin Tools', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque.');
+    $result[] = array('caption' => 'My Stuff', 'description' => '');
     $result[] = array('caption' => 'Default', 'description' => '');
     return $result;
 }
@@ -165,7 +167,6 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
-    $result[] = array('caption' => 'Comms Approval', 'short_caption' => 'Campaign Comm Regional Approval', 'filename' => 'campaign_comm_regional_approval.php', 'name' => 'campaign_comm_regional_approval', 'group_name' => 'Campaign Tools', 'add_separator' => false, 'description' => '');
     $result[] = array('caption' => 'UTM Link Generator', 'short_caption' => 'Campaign Tracker: UTM Link Generator', 'filename' => 'campaign_tracker_utm.php', 'name' => 'campaign_tracker_utm', 'group_name' => 'Campaign Tools', 'add_separator' => false, 'description' => '<a href="campaign_tracker_utm.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
@@ -185,17 +186,6 @@ function GetPageInfos()
       <div class="text-content">
         <span class=card-title><strong>List Import</strong></span>
         <p>List import is the centralised managed import register to comply with GDPR and quality data being imported into Salesforce via Marketo.</p>
-      </div>
-    </div>
-    </a>');
-    $result[] = array('caption' => 'Website Listing', 'short_caption' => 'Campaign Tracker: Website', 'filename' => 'campaign_tracker_website.php', 'name' => 'campaign_tracker_website', 'group_name' => 'Global Marketing', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/campaign_tracker_website.php" style="text-decoration:none;">
-    <div class="card">
-        <div class="card-circle">
-          <img src="apps/icons/website-list.png" class="icon-size-desk">
-      </div>
-      <div class="text-content">
-        <span class=card-title><strong>Website Listing</strong></span>
-        <p>Approved campaigns, lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. </p>
       </div>
     </div>
     </a>');
@@ -276,6 +266,17 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
+    $result[] = array('caption' => 'Website Listing', 'short_caption' => 'Campaign Tracker: Website', 'filename' => 'campaign_tracker_website.php', 'name' => 'campaign_tracker_website', 'group_name' => 'Global Marketing', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/campaign_tracker_website.php" style="text-decoration:none;">
+    <div class="card">
+        <div class="card-circle">
+          <img src="apps/icons/website-list.png" class="icon-size-desk">
+      </div>
+      <div class="text-content">
+        <span class=card-title><strong>Website Listing</strong></span>
+        <p>Approved campaigns, lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat mattis metus at porta. Fusce arcu felis, mollis ac neque. </p>
+      </div>
+    </div>
+    </a>');
     $result[] = array('caption' => 'Country List', 'short_caption' => 'Country List', 'filename' => 'country_list.php', 'name' => 'country_list', 'group_name' => 'Admin Tools', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/country_list.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
@@ -298,6 +299,7 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
+    $result[] = array('caption' => 'Users & Permissions', 'short_caption' => 'Users & Permissions', 'filename' => 'phpgen_users.php', 'name' => 'phpgen_users', 'group_name' => 'Admin Tools', 'add_separator' => false, 'description' => '');
     $result[] = array('caption' => 'Activity Log', 'short_caption' => 'Activity Log', 'filename' => 'activity_log.php', 'name' => 'activity_log', 'group_name' => 'Admin Tools', 'add_separator' => false, 'description' => '<a href="http://mktportal.mscsoftware.com/activity_log.php" style="text-decoration:none;">
     <div class="card">
         <div class="card-circle">
@@ -309,8 +311,9 @@ function GetPageInfos()
       </div>
     </div>
     </a>');
+    $result[] = array('caption' => 'Campaign Approvals', 'short_caption' => 'Campaign Regional Approval', 'filename' => 'campaign_comm_regional_approval.php', 'name' => 'campaign_comm_regional_approval', 'group_name' => 'My Stuff', 'add_separator' => false, 'description' => '');
+    $result[] = array('caption' => 'Outstanding Tasks', 'short_caption' => 'Portal Todo List', 'filename' => 'portal_todo_list.php', 'name' => 'portal_todo_list', 'group_name' => 'My Stuff', 'add_separator' => false, 'description' => '');
     $result[] = array('caption' => 'Portal Help', 'short_caption' => 'Portal Help', 'filename' => 'portal_help.php', 'name' => 'portal_help', 'group_name' => 'Default', 'add_separator' => true, 'description' => '');
-    $result[] = array('caption' => 'System Users', 'short_caption' => 'System Users & Reports', 'filename' => 'phpgen_users.php', 'name' => 'phpgen_users', 'group_name' => 'Admin Tools', 'add_separator' => false, 'description' => '');
     return $result;
 }
 
@@ -323,7 +326,7 @@ function GetPagesHeader()
 function GetPagesFooter()
 {
     return
-        '<p align="right">(C) <span>2020-<script type="text/javascript">document.write(new Date().getFullYear().toString())</script></span><a href="#"> MSC Group Marketing</a>. Release Version v2.18</p>';
+        '<p align="right">(C) <span>2020-<script type="text/javascript">document.write(new Date().getFullYear().toString())</script></span><a href="#"> MSC Group Marketing</a>. Release Version v2.19.3</p>';
 }
 
 function ApplyCommonPageSettings(Page $page, Grid $grid)
@@ -345,42 +348,9 @@ function ApplyCommonPageSettings(Page $page, Grid $grid)
 
 function GetAnsiEncoding() { return 'windows-1252'; }
 
-function Global_OnGetCustomPagePermissionsHandler(Page $page, PermissionSet &$permissions, &$handled)
+function Global_AddEnvironmentVariablesHandler(Page $page, &$variables)
 {
-    // do not apply these rules for site admins
-    
-    if (!GetApplication()->HasAdminGrantForCurrentUser()) {
-    
-        // retrieving the ID of the current user
-        $userId = GetApplication()->GetCurrentUserId();
-    
-        // retrieving all user roles 
-        $sql =        
-          "SELECT r.role_name " .
-          "FROM `phpgen_users` ur " .
-          "INNER JOIN `phpgen_user_roles` r ON r.user_id = ur.user_id " .
-          "WHERE ur.user_id = %d";    
-        $result = $page->GetConnection()->fetchAll(sprintf($sql, $userId));
-    
-     
-    
-        // iterating through retrieved roles
-        if (!empty($result)) {
-           foreach ($result as $row) {
-               // is current user a member of the Sales role?
-               if ($row['role_name'] === 'manager') {
-                 // if yes, allow all actions.
-                 // otherwise default permissions for this page will be applied
-                 $permissions->setGrants(true, true, true, true);
-                 break;
-               }                 
-           }
-        };    
-    
-        // apply the new permissions
-        $handled = true;
-    
-    }
+
 }
 
 function Global_CustomHTMLHeaderHandler($page, &$customHtmlHeaderText)
@@ -417,7 +387,12 @@ function Global_BeforeInsertHandler($page, &$rowData, $tableName, &$cancel, &$me
 
 function Global_BeforeUpdateHandler($page, $oldRowData, &$rowData, $tableName, &$cancel, &$message, &$messageDisplayTime)
 {
-
+    $rowData['modified_by'] = $page->GetEnvVar('CURRENT_USER_NAME');
+    $rowData['modified_date'] = SMDateTime::Now();
+    
+    if (empty($rowData['created_by'])){
+       $rowData['created_by'] = $page->GetEnvVar('CURRENT_USER_NAME');
+    }
 }
 
 function Global_BeforeDeleteHandler($page, &$rowData, $tableName, &$cancel, &$message, &$messageDisplayTime)
@@ -477,7 +452,7 @@ function GetInactivityTimeout()
 
 function GetMailer()
 {
-    $smtpOptions = new SMTPOptions('10.60.226.38', 25, false, '', '', '');
+    $smtpOptions = new SMTPOptions('smtp.gmail.com', 587, true, 'lance.spurgeon@gmail.com', 'Messent22#', 'tls');
     $mailerOptions = new MailerOptions(MailerType::SMTP, 'mktportal@mscsoftware.com', 'MSC Marketing Portal', $smtpOptions);
     
     return PHPMailerBasedMailer::getInstance($mailerOptions);
@@ -495,4 +470,711 @@ function createConnection()
 
     $connectionFactory = MySqlIConnectionFactory::getInstance();
     return $connectionFactory->CreateConnection($connectionOptions);
+}
+
+/**
+ * @param string $pageName
+ * @param int|null $userId
+ * @param string $userName
+ * @param EngConnection $connection
+ * @param PermissionSet $permissions
+ */
+function CustomizePagePermissions($pageName, $userId, $userName, $connection, &$permissions)
+{
+    if ($pageName == 'brief') {
+        // do not apply these rules for site admins
+        
+        if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+        
+        	// retrieving the ID of the current user
+        	$userId = GetApplication()->GetCurrentUserId();
+        
+        	// retrieving all user roles 
+        	$sql =        
+        	  "SELECT user_level " .
+        	  "FROM `phpgen_users` " .
+        	  "WHERE user_id = %d";    
+        	$result = $connection->fetchAll(sprintf($sql, $userId));
+        
+         
+        
+        	// iterating through retrieved roles
+        	if (!empty($result)) {
+        	   foreach ($result as $row) {
+        		   // is current user a member of the Sales role?
+        		   if (($row['user_level'] === '346')) {
+        			 // if yes, allow all actions.
+        			 // otherwise default permissions for this page will be applied
+        			 $permissions->setGrants(true, true, true, true);
+        			 break;
+        		   }                 
+        	   }
+        	};    
+        
+        	// apply the new permissions
+        	$handled = true;
+        
+        }
+    }
+    
+    if ($pageName == 'brief01') {
+        // do not apply these rules for site admins
+        
+        if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+        
+        	// retrieving the ID of the current user
+        	$userId = GetApplication()->GetCurrentUserId();
+        
+        	// retrieving all user roles 
+        	$sql =        
+        	  "SELECT user_level " .
+        	  "FROM `phpgen_users` " .
+        	  "WHERE user_id = %d";    
+        	$result = $connection->fetchAll(sprintf($sql, $userId));
+        
+        	// iterating through retrieved roles
+        	if (!empty($result)) {
+        	   foreach ($result as $row) {
+        		   // is current user a member of the Sales role?
+        		   if (($row['user_level'] === '346')) {
+        			 // if yes, allow all actions.
+        			 // otherwise default permissions for this page will be applied
+        			 $permissions->setGrants(true, true, true, true);
+        			 break;
+        		   }                 
+        	   }
+        	};    
+        
+        	// apply the new permissions
+        	$handled = true;
+        }
+    }
+    
+    if ($pageName == 'campaign_ROI_Tracker') {
+        // do not apply these rules for site admins
+        
+        if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+        
+        	// retrieving the ID of the current user
+        	$userId = GetApplication()->GetCurrentUserId();
+        
+        	// retrieving all user roles 
+        	$sql =        
+        	  "SELECT user_level " .
+        	  "FROM `phpgen_users` " .
+        	  "WHERE user_id = %d";    
+        	$result = $connection->fetchAll(sprintf($sql, $userId));
+        
+        	// iterating through retrieved roles
+        	if (!empty($result)) {
+        	   foreach ($result as $row) {
+        		   // is current user a member of the Sales role?
+        		   if (($row['user_level'] === '346')) {
+        			 // if yes, allow all actions.
+        			 // otherwise default permissions for this page will be applied
+        			 $permissions->setGrants(true, true, true, true);
+        			 break;
+        		   }                 
+        	   }
+        	};    
+        
+        	// apply the new permissions
+        	$handled = true;
+        }
+    }
+    
+    if ($pageName == 'campaign_analysis') {
+        // do not apply these rules for site admins
+        
+        if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+        
+        	// retrieving the ID of the current user
+        	$userId = GetApplication()->GetCurrentUserId();
+        
+        	// retrieving all user roles 
+        	$sql =        
+        	  "SELECT user_level " .
+        	  "FROM `phpgen_users` " .
+        	  "WHERE user_id = %d";    
+        	$result = $connection->fetchAll(sprintf($sql, $userId));
+        
+        	// iterating through retrieved roles
+        	if (!empty($result)) {
+        	   foreach ($result as $row) {
+        		   // is current user a member of the Sales role?
+        		   if (($row['user_level'] === '346')) {
+        			 // if yes, allow all actions.
+        			 // otherwise default permissions for this page will be applied
+        			 $permissions->setGrants(true, true, true, true);
+        			 break;
+        		   }                 
+        	   }
+        	};    
+        
+        	// apply the new permissions
+        	$handled = true;
+        }
+    }
+    
+    if ($pageName == 'campaign_approvals') {
+        // do not apply these rules for site admins
+        
+        if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+        
+        	// retrieving the ID of the current user
+        	$userId = GetApplication()->GetCurrentUserId();
+        
+        	// retrieving all user roles 
+        	$sql =        
+        	  "SELECT user_level " .
+        	  "FROM `phpgen_users` " .
+        	  "WHERE user_id = %d";    
+        	$result = $connection->fetchAll(sprintf($sql, $userId));
+        
+        	// iterating through retrieved roles
+        	if (!empty($result)) {
+        	   foreach ($result as $row) {
+        		   // is current user a member of the Sales role?
+        		   if (($row['user_level'] === '346')) {
+        			 // if yes, allow all actions.
+        			 // otherwise default permissions for this page will be applied
+        			 $permissions->setGrants(true, true, true, true);
+        			 break;
+        		   }                 
+        	   }
+        	};    
+        
+        	// apply the new permissions
+        	$handled = true;
+        }
+    }
+    
+    if ($pageName == 'campaign_events') {
+        // do not apply these rules for site admins
+        
+        if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+        
+        	// retrieving the ID of the current user
+        	$userId = GetApplication()->GetCurrentUserId();
+        
+        	// retrieving all user roles 
+        	$sql =        
+        	  "SELECT user_level " .
+        	  "FROM `phpgen_users` " .
+        	  "WHERE user_id = %d";    
+        	$result = $connection->fetchAll(sprintf($sql, $userId));
+        
+        	// iterating through retrieved roles
+        	if (!empty($result)) {
+        	   foreach ($result as $row) {
+        		   // is current user a member of the Sales role?
+        		   if (($row['user_level'] === '346')) {
+        			 // if yes, allow all actions.
+        			 // otherwise default permissions for this page will be applied
+        			 $permissions->setGrants(true, true, true, true);
+        			 break;
+        		   }                 
+        	   }
+        	};    
+        
+        	// apply the new permissions
+        	$handled = true;
+        }
+    }
+    
+    if ($pageName == 'campaign_group') {
+        if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+        
+            // retrieving the ID of the current user
+            $userId = GetApplication()->GetCurrentUserId();
+        
+            // retrieving all user roles 
+            $sql =        
+              "SELECT r.role_name " .
+              "FROM `phpgen_users` ur " .
+              "INNER JOIN `phpgen_user_roles` r ON r.user_id = ur.user_id " .
+              "WHERE ur.user_id = %d";    
+            $result = $connection->fetchAll(sprintf($sql, $userId));
+        
+         
+        
+            // iterating through retrieved roles
+            if (!empty($result)) {
+               foreach ($result as $row) {
+                   // is current user a member of the Marketing role?
+                   if ($row['role_name'] === 'marketing') {
+                     // if yes, allow all actions.
+                     // otherwise default permissions for this page will be applied
+                     $permissions->setGrants(true, true, true, true);
+                     break;
+                   }   
+                    // is current user a member of the Manager role?
+                   if ($row['role_name'] === 'manager') {
+                     // if yes, allow all actions.
+                     // otherwise default permissions for this page will be applied
+                     $permissions->setGrants(true, true, true, true);
+                     break;
+                   }               
+               }
+            };    
+        
+            // apply the new permissions
+            $handled = true;
+        
+        }
+    }
+    
+    if ($pageName == 'campaign_import') {
+        // do not apply these rules for site admins
+        
+        if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+        
+        	// retrieving the ID of the current user
+        	$userId = GetApplication()->GetCurrentUserId();
+        
+        	// retrieving all user roles 
+        	$sql =        
+        	  "SELECT user_level " .
+        	  "FROM `phpgen_users` " .
+        	  "WHERE user_id = %d";    
+        	$result = $connection->fetchAll(sprintf($sql, $userId));
+        
+        	// iterating through retrieved roles
+        	if (!empty($result)) {
+        	   foreach ($result as $row) {
+        		   // is current user a member of the Sales role?
+        		   if (($row['user_level'] === '346')) {
+        			 // if yes, allow all actions.
+        			 // otherwise default permissions for this page will be applied
+        			 $permissions->setGrants(true, true, true, true);
+        			 break;
+        		   }                 
+        	   }
+        	};    
+        
+        	// apply the new permissions
+        	$handled = true;
+        }
+    }
+    
+    if ($pageName == 'campaign_tracker_comms') {
+        // do not apply these rules for site admins
+        
+        if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+        
+            // retrieving the ID of the current user
+            $userId = GetApplication()->GetCurrentUserId();
+        
+            // retrieving all user roles 
+            $sql =        
+              "SELECT r.role_name " .
+              "FROM `phpgen_users` ur " .
+              "INNER JOIN `phpgen_user_roles` r ON r.user_id = ur.user_id " .
+              "WHERE ur.user_id = %d";    
+            $result = $connection->fetchAll(sprintf($sql, $userId));
+        
+         
+        
+            // iterating through retrieved roles
+            if (!empty($result)) {
+               foreach ($result as $row) {
+                   // is current user a member of the Sales role?
+                   if ($row['role_name'] === 'manager') {
+                     // if yes, allow all actions.
+                     // otherwise default permissions for this page will be applied
+                     $permissions->setGrants(true, true, true, true);
+                     break;
+                   }                 
+               }
+            };    
+        
+            // apply the new permissions
+            $handled = true;
+        
+        }
+    }
+    
+    if ($pageName == 'campaign_tracker_content') {
+        // do not apply these rules for site admins
+        
+        if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+        
+            // retrieving the ID of the current user
+            $userId = GetApplication()->GetCurrentUserId();
+        
+            // retrieving all user roles 
+            $sql =        
+              "SELECT r.role_name " .
+              "FROM `phpgen_users` ur " .
+              "INNER JOIN `phpgen_user_roles` r ON r.user_id = ur.user_id " .
+              "WHERE ur.user_id = %d";    
+            $result = $connection->fetchAll(sprintf($sql, $userId));
+        
+         
+        
+            // iterating through retrieved roles
+            if (!empty($result)) {
+               foreach ($result as $row) {
+                   // is current user a member of the Sales role?
+                   if ($row['role_name'] === 'manager') {
+                     // if yes, allow all actions.
+                     // otherwise default permissions for this page will be applied
+                     $permissions->setGrants(true, true, true, true);
+                     break;
+                   }                 
+               }
+            };    
+        
+            // apply the new permissions
+            $handled = true;
+        
+        }
+    }
+    
+    if ($pageName == 'campaign_tracker_design') {
+        // do not apply these rules for site admins
+        
+        if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+        
+            // retrieving the ID of the current user
+            $userId = GetApplication()->GetCurrentUserId();
+        
+            // retrieving all user roles 
+            $sql =        
+              "SELECT r.role_name " .
+              "FROM `phpgen_users` ur " .
+              "INNER JOIN `phpgen_user_roles` r ON r.user_id = ur.user_id " .
+              "WHERE ur.user_id = %d";    
+            $result = $connection->fetchAll(sprintf($sql, $userId));
+        
+         
+        
+            // iterating through retrieved roles
+            if (!empty($result)) {
+               foreach ($result as $row) {
+                   // is current user a member of the Sales role?
+                   if ($row['role_name'] === 'manager') {
+                     // if yes, allow all actions.
+                     // otherwise default permissions for this page will be applied
+                     $permissions->setGrants(true, true, true, true);
+                     break;
+                   }                 
+               }
+            };    
+        
+            // apply the new permissions
+            $handled = true;
+        
+        }
+    }
+    
+    if ($pageName == 'campaign_tracker_paid') {
+        // do not apply these rules for site admins
+        
+        if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+        
+            // retrieving the ID of the current user
+            $userId = GetApplication()->GetCurrentUserId();
+        
+            // retrieving all user roles 
+            $sql =        
+              "SELECT r.role_name " .
+              "FROM `phpgen_users` ur " .
+              "INNER JOIN `phpgen_user_roles` r ON r.user_id = ur.user_id " .
+              "WHERE ur.user_id = %d";    
+            $result = $connection->fetchAll(sprintf($sql, $userId));
+        
+         
+        
+            // iterating through retrieved roles
+            if (!empty($result)) {
+               foreach ($result as $row) {
+                   // is current user a member of the Sales role?
+                   if ($row['role_name'] === 'manager') {
+                     // if yes, allow all actions.
+                     // otherwise default permissions for this page will be applied
+                     $permissions->setGrants(true, true, true, true);
+                     break;
+                   }                 
+               }
+            };    
+        
+            // apply the new permissions
+            $handled = true;
+        
+        }
+    }
+    
+    if ($pageName == 'campaign_tracker_partner') {
+        // do not apply these rules for site admins
+        
+        if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+        
+            // retrieving the ID of the current user
+            $userId = GetApplication()->GetCurrentUserId();
+        
+            // retrieving all user roles 
+            $sql =        
+              "SELECT r.role_name " .
+              "FROM `phpgen_users` ur " .
+              "INNER JOIN `phpgen_user_roles` r ON r.user_id = ur.user_id " .
+              "WHERE ur.user_id = %d";    
+            $result = $connection->fetchAll(sprintf($sql, $userId));
+        
+         
+        
+            // iterating through retrieved roles
+            if (!empty($result)) {
+               foreach ($result as $row) {
+                   // is current user a member of the Sales role?
+                   if ($row['role_name'] === 'manager') {
+                     // if yes, allow all actions.
+                     // otherwise default permissions for this page will be applied
+                     $permissions->setGrants(true, true, true, true);
+                     break;
+                   }                 
+               }
+            };    
+        
+            // apply the new permissions
+            $handled = true;
+        
+        }
+    }
+    
+    if ($pageName == 'campaign_tracker_pr') {
+        // do not apply these rules for site admins
+        
+        if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+        
+            // retrieving the ID of the current user
+            $userId = GetApplication()->GetCurrentUserId();
+        
+            // retrieving all user roles 
+            $sql =        
+              "SELECT r.role_name " .
+              "FROM `phpgen_users` ur " .
+              "INNER JOIN `phpgen_user_roles` r ON r.user_id = ur.user_id " .
+              "WHERE ur.user_id = %d";    
+            $result = $connection->fetchAll(sprintf($sql, $userId));
+        
+         
+        
+            // iterating through retrieved roles
+            if (!empty($result)) {
+               foreach ($result as $row) {
+                   // is current user a member of the Sales role?
+                   if ($row['role_name'] === 'manager') {
+                     // if yes, allow all actions.
+                     // otherwise default permissions for this page will be applied
+                     $permissions->setGrants(true, true, true, true);
+                     break;
+                   }                 
+               }
+            };    
+        
+            // apply the new permissions
+            $handled = true;
+        
+        }
+    }
+    
+    if ($pageName == 'campaign_tracker_social') {
+        // do not apply these rules for site admins
+        
+        if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+        
+            // retrieving the ID of the current user
+            $userId = GetApplication()->GetCurrentUserId();
+        
+            // retrieving all user roles 
+            $sql =        
+              "SELECT r.role_name " .
+              "FROM `phpgen_users` ur " .
+              "INNER JOIN `phpgen_user_roles` r ON r.user_id = ur.user_id " .
+              "WHERE ur.user_id = %d";    
+            $result = $connection->fetchAll(sprintf($sql, $userId));
+        
+         
+        
+            // iterating through retrieved roles
+            if (!empty($result)) {
+               foreach ($result as $row) {
+                   // is current user a member of the Sales role?
+                   if ($row['role_name'] === 'manager') {
+                     // if yes, allow all actions.
+                     // otherwise default permissions for this page will be applied
+                     $permissions->setGrants(true, true, true, true);
+                     break;
+                   }                 
+               }
+            };    
+        
+            // apply the new permissions
+            $handled = true;
+        
+        }
+    }
+    
+    if ($pageName == 'campaign_tracker_utm') {
+        // do not apply these rules for site admins
+        
+        if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+        
+        	// retrieving the ID of the current user
+        	$userId = GetApplication()->GetCurrentUserId();
+        
+        	// retrieving all user roles 
+        	$sql =        
+        	  "SELECT user_level " .
+        	  "FROM `phpgen_users` " .
+        	  "WHERE user_id = %d";    
+        	$result = $connection->fetchAll(sprintf($sql, $userId));
+        
+        	// iterating through retrieved roles
+        	if (!empty($result)) {
+        	   foreach ($result as $row) {
+        		   // is current user a member of the Sales role?
+        		   if (($row['user_level'] === '346')) {
+        			 // if yes, allow all actions.
+        			 // otherwise default permissions for this page will be applied
+        			 $permissions->setGrants(true, true, true, true);
+        			 break;
+        		   }                 
+        	   }
+        	};    
+        
+        	// apply the new permissions
+        	$handled = true;
+        }
+    }
+    
+    if ($pageName == 'campaign_tracker_website') {
+        // do not apply these rules for site admins
+        
+        if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+        
+        	// retrieving the ID of the current user
+        	$userId = GetApplication()->GetCurrentUserId();
+        
+        	// retrieving all user roles 
+        	$sql =        
+        	  "SELECT user_level " .
+        	  "FROM `phpgen_users` " .
+        	  "WHERE user_id = %d";    
+        	$result = $connection->fetchAll(sprintf($sql, $userId));
+        
+        	// iterating through retrieved roles
+        	if (!empty($result)) {
+        	   foreach ($result as $row) {
+        		   // is current user a member of the Sales role?
+        		   if (($row['role_name'] === '346') || ($row['role_name'] === '347')) {
+        			 // if yes, allow all actions.
+        			 // otherwise default permissions for this page will be applied
+        			 $permissions->setGrants(true, true, true, true);
+        			 break;
+        		   }                 
+        	   }
+        	};    
+        
+        	// apply the new permissions
+        	$handled = true;
+        }
+    }
+    
+    if ($pageName == 'lookup_tracker_tactics') {
+        // do not apply these rules for site admins
+        
+        if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+        
+            // retrieving the ID of the current user
+            $userId = GetApplication()->GetCurrentUserId();
+        
+            // retrieving all user roles 
+            $sql =        
+              "SELECT r.role_name " .
+              "FROM `phpgen_users` ur " .
+              "INNER JOIN `phpgen_user_roles` r ON r.user_id = ur.user_id " .
+              "WHERE ur.user_id = %d";    
+            $result = $connection->fetchAll(sprintf($sql, $userId));
+        
+         
+        
+            // iterating through retrieved roles
+            if (!empty($result)) {
+               foreach ($result as $row) {
+                   // is current user a member of the Sales role?
+                   if ($row['role_name'] === 'manager') {
+                     // if yes, allow all actions.
+                     // otherwise default permissions for this page will be applied
+                     $permissions->setGrants(true, true, true, true);
+                     break;
+                   }                 
+               }
+            };    
+        
+            // apply the new permissions
+            $handled = true;
+        
+        }
+    }
+    
+    if ($pageName == 'portal_help') {
+        // do not apply these rules for site admins
+        
+        if (!GetApplication()->HasAdminGrantForCurrentUser()) {
+        
+            // retrieving the ID of the current user
+            $userId = GetApplication()->GetCurrentUserId();
+        
+            // retrieving all user roles 
+            $sql =        
+              "SELECT r.role_name " .
+              "FROM `phpgen_users` ur " .
+              "INNER JOIN `phpgen_user_roles` r ON r.user_id = ur.user_id " .
+              "WHERE ur.user_id = %d";    
+            $result = $connection->fetchAll(sprintf($sql, $userId));
+        
+         
+        
+            // iterating through retrieved roles
+            if (!empty($result)) {
+               foreach ($result as $row) {
+                   // is current user a member of the Sales role?
+                   if ($row['role_name'] === 'manager') {
+                     // if yes, allow all actions.
+                     // otherwise default permissions for this page will be applied
+                     $permissions->setGrants(true, true, true, true);
+                     break;
+                   }                 
+               }
+            };    
+        
+            // apply the new permissions
+            $handled = true;
+        
+        }
+    }
+}
+
+/**
+ * @param string $pageName
+ * @return IPermissionSet
+ */
+function GetCurrentUserPermissionsForPage($pageName) 
+{
+    $originalPermissions = GetApplication()->GetCurrentUserPermissionSet($pageName);
+    $customPermissions = new PermissionSet(
+        $originalPermissions->HasViewGrant(), 
+        $originalPermissions->HasEditGrant(),
+        $originalPermissions->HasAddGrant(),
+        $originalPermissions->HasDeleteGrant(),
+        $originalPermissions->HasAdminGrant()
+    );
+    $connection = createConnection();
+    $connection->Connect();
+    $userId = GetApplication()->GetCurrentUserId();
+    $userName = GetApplication()->GetCurrentUser();
+    CustomizePagePermissions($pageName, $userId, $userName, $connection, $customPermissions);
+    return $customPermissions;
 }

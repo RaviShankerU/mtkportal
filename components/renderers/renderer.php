@@ -283,7 +283,6 @@ abstract class Renderer
     public function RenderTextViewColumn(TextViewColumn $column)
     {
         $value = $column->GetValue();
-        $dataset = $column->GetDataset();
 
         if (!isset($value)) {
             $this->result = $this->GetNullValuePresentation($column);
@@ -313,7 +312,7 @@ abstract class Renderer
             $value = $this->getWrappedViewColumnValue(
                 $column,
                 $value
-                . '... <a class="js-more-hint" href="' . $column->GetMoreLink() . '">'
+                . '... <a class="js-more-hint" href="#">'
                 . $this->captions->GetMessageString('more') . '</a>'
                 . '<div class="js-more-box hide">' . $originalValue . '</div>'
             );
@@ -490,7 +489,8 @@ abstract class Renderer
      */
     public function RenderDownloadDataViewColumn(DownloadDataColumn $column)
     {
-        if (is_null($column->GetValue())) {
+        $value = $column->GetValue();
+        if ($value == null) {
             $this->result = $this->GetNullValuePresentation($column);
             return;
         }
@@ -654,13 +654,41 @@ abstract class Renderer
             array(
                 'common' => $loginPage->getCommonViewData(),
                 'Page' => $loginPage,
-                'LoginControl' => $loginPage->GetLoginControl()
+                'LoginControl' => $loginPage->GetLoginControl(),
+                'ReCaptcha' => $loginPage->getReCaptcha()
             ),
-            array_merge($customParams, array(
-                'Title' => $loginPage->GetTitle(),
-                'layoutTemplate' => $layoutTemplate,
-                'InactivityTimeoutExpired' => $loginPage->getInactivityTimeoutExpired()
-            ))
+            array_merge(
+                $customParams,
+                array(
+                    'Title' => $loginPage->GetTitle(),
+                    'layoutTemplate' => $layoutTemplate,
+                    'InactivityTimeoutExpired' => $loginPage->getInactivityTimeoutExpired()
+                )
+            )
+        );
+    }
+
+    /**
+     * @param LoginControl $loginControl
+     */
+    public function RenderLoginControl($loginControl)  {
+        $customParams = array();
+        $template = $loginControl->getPage()->GetCustomTemplate(
+            PagePart::LoginControl,
+            null,
+            'login_control.tpl',
+            $customParams
+        );
+
+        $this->DisplayTemplate(
+            $template,
+            array(
+                'LoginControl' => $loginControl,
+                'SecurityFeedbackPositive' => $loginControl->getSecurityFeedbackPositive(),
+                'SecurityFeedbackNegative' => $loginControl->getSecurityFeedbackNegative(),
+                'ReCaptcha' => $loginControl->getReCaptcha()
+            ),
+            $customParams
         );
     }
 
@@ -738,11 +766,15 @@ abstract class Renderer
             array(
                 'common' => $page->getCommonViewData()->setEntryPoint('register'),
                 'Page' => $page,
-                'RegistrationForm' => $page->getRegistrationForm()
+                'RegistrationForm' => $page->getRegistrationForm(),
+                'ReCaptcha' => $page->getReCaptcha()
             ),
-            array_merge($customParams, array(
-                'layoutTemplate' => $layoutTemplate
-            ))
+            array_merge(
+                $customParams,
+                array(
+                    'layoutTemplate' => $layoutTemplate
+                )
+            )
         );
     }
 
@@ -762,6 +794,7 @@ abstract class Renderer
             $template,
             array(
                 'RegistrationForm' => $form,
+                'ReCaptcha' => $form->getRegistrationPage()->getReCaptcha()
             ),
             $customParams
         );
@@ -798,6 +831,7 @@ abstract class Renderer
             array(
                 'common' => $page->getCommonViewData()->setEntryPoint('form'),
                 'Page' => $page,
+                'ReCaptcha' => $page->getReCaptcha()
             ),
             array_merge($customParams, array(
                 'layoutTemplate' => $layoutTemplate
@@ -874,6 +908,7 @@ abstract class Renderer
             array(
                 'common' => $page->getCommonViewData()->setEntryPoint('form'),
                 'Page' => $page,
+                'ReCaptcha' => $page->getReCaptcha()
             ),
             array_merge($customParams, array(
                 'layoutTemplate' => $layoutTemplate
@@ -884,18 +919,6 @@ abstract class Renderer
     #endregion
 
     #region Page parts
-
-    /**
-     * @param ShowTextBlobHandler $textBlobViewer
-     */
-    public function RenderTextBlobViewer($textBlobViewer)
-    {
-        $this->DisplayTemplate('text_blob_viewer.tpl',
-            array(
-                'Viewer' => $textBlobViewer,
-                'Page' => $textBlobViewer->GetParentPage()),
-            array());
-    }
 
     public abstract function RenderGrid(Grid $Grid);
 
@@ -1142,30 +1165,6 @@ abstract class Renderer
         );
     }
 
-
-    /**
-     * @param LoginControl $loginControl
-     */
-    public function RenderLoginControl($loginControl)  {
-        $customParams = array();
-        $template = $loginControl->getPage()->GetCustomTemplate(
-            PagePart::LoginControl,
-            null,
-            'login_control.tpl',
-            $customParams
-        );
-
-        $this->DisplayTemplate(
-            $template,
-            array(
-                'LoginControl' => $loginControl,
-                'SecurityFeedbackPositive' => $loginControl->getSecurityFeedbackPositive(),
-                'SecurityFeedbackNegative' => $loginControl->getSecurityFeedbackNegative(),
-            ),
-            $customParams
-        );
-    }
-
     #endregion
 
     /**
@@ -1176,7 +1175,7 @@ abstract class Renderer
         $this->DisplayTemplate('charts/chart.tpl', array(), array(
             'type' => $chart->getChartType(),
             'chart' => $chart->getViewData(),
-            'uniqueId' => uniqid(),
+            'uniqueId' => 'chart_' . uniqid(),
         ));
     }
 

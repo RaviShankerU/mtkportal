@@ -62,7 +62,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
         }
@@ -79,7 +81,6 @@
             $column = new TextViewColumn('campaign_name', 'campaign_name', 'Campaign Name', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_master_campaign_idModalViewPage_campaign_name_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -88,7 +89,6 @@
             $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_master_campaign_idModalViewPage_objective_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -151,7 +151,6 @@
             $column = new TextViewColumn('b_region', 'b_region', 'B Region', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_master_campaign_idModalViewPage_b_region_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -160,7 +159,6 @@
             $column = new TextViewColumn('b_country', 'b_country', 'B Country', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_master_campaign_idModalViewPage_b_country_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -169,7 +167,6 @@
             $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_master_campaign_idModalViewPage_industry_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -238,7 +235,6 @@
             $column = new TextViewColumn('owner_person', 'owner_person', 'Owner Person', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_master_campaign_idModalViewPage_owner_person_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -263,7 +259,6 @@
             $column = new TextViewColumn('file_upload', 'file_upload', 'File Upload', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_master_campaign_idModalViewPage_file_upload_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -272,7 +267,6 @@
             $column = new TextViewColumn('asset_upload', 'asset_upload', 'Asset Upload', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_master_campaign_idModalViewPage_asset_upload_handler_view');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -304,6 +298,21 @@
             $column->SetOrderable(true);
             $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
+            $grid->AddSingleRecordViewColumn($column);
         }
     
         function GetCustomClientScript()
@@ -323,69 +332,6 @@
         protected function doRegisterHandlers() {
             
             
-            //
-            // View column for campaign_name field
-            //
-            $column = new TextViewColumn('campaign_name', 'campaign_name', 'Campaign Name', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_master_campaign_idModalViewPage_campaign_name_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for objective field
-            //
-            $column = new TextViewColumn('objective', 'objective', 'Objective', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_master_campaign_idModalViewPage_objective_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for b_region field
-            //
-            $column = new TextViewColumn('b_region', 'b_region', 'B Region', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_master_campaign_idModalViewPage_b_region_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for b_country field
-            //
-            $column = new TextViewColumn('b_country', 'b_country', 'B Country', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_master_campaign_idModalViewPage_b_country_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for industry field
-            //
-            $column = new TextViewColumn('industry', 'industry', 'Industry', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_master_campaign_idModalViewPage_industry_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for owner_person field
-            //
-            $column = new TextViewColumn('owner_person', 'owner_person', 'Owner Person', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_master_campaign_idModalViewPage_owner_person_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for file_upload field
-            //
-            $column = new TextViewColumn('file_upload', 'file_upload', 'File Upload', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_master_campaign_idModalViewPage_file_upload_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for asset_upload field
-            //
-            $column = new TextViewColumn('asset_upload', 'asset_upload', 'Asset Upload', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_master_campaign_idModalViewPage_asset_upload_handler_view', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
         }
     
         static public function getHandlerName() {
@@ -462,7 +408,9 @@
                     new DateField('campaign_publish_date'),
                     new StringField('campaign_description'),
                     new StringField('short_url'),
-                    new IntegerField('clicks')
+                    new IntegerField('clicks'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $this->dataset->AddLookupField('master_campaign_id', 'brief', new IntegerField('master_campaign_id'), new StringField('campaign_name', false, false, false, false, 'master_campaign_id_campaign_name', 'master_campaign_id_campaign_name_brief'), 'master_campaign_id_campaign_name_brief');
@@ -491,7 +439,7 @@
             $result->AddPageNavigator($partitionNavigator);
             
             $partitionNavigator = new PageNavigator('pnav', $this, $this->dataset);
-            $partitionNavigator->SetRowsPerPage(20);
+            $partitionNavigator->SetRowsPerPage(10);
             $result->AddPageNavigator($partitionNavigator);
             
             return $result;
@@ -531,7 +479,9 @@
                 new FilterColumn($this->dataset, 'created_by', 'created_by', 'Created By'),
                 new FilterColumn($this->dataset, 'short_url', 'short_url', 'Short Url'),
                 new FilterColumn($this->dataset, 'clicks', 'clicks', 'Clicks'),
-                new FilterColumn($this->dataset, 'trackerid', 'trackerid', 'Trackerid')
+                new FilterColumn($this->dataset, 'trackerid', 'trackerid', 'Trackerid'),
+                new FilterColumn($this->dataset, 'modified_by', 'modified_by', 'Modified By'),
+                new FilterColumn($this->dataset, 'modified_date', 'modified_date', 'Modified Date')
             );
         }
     
@@ -555,7 +505,9 @@
                 ->addColumn($columns['url'])
                 ->addColumn($columns['full_url'])
                 ->addColumn($columns['created_date'])
-                ->addColumn($columns['created_by']);
+                ->addColumn($columns['created_by'])
+                ->addColumn($columns['modified_by'])
+                ->addColumn($columns['modified_date']);
         }
     
         protected function setupColumnFilter(ColumnFilter $columnFilter)
@@ -566,7 +518,8 @@
                 ->setOptionsFor('medium')
                 ->setOptionsFor('source')
                 ->setOptionsFor('term')
-                ->setOptionsFor('created_date');
+                ->setOptionsFor('created_date')
+                ->setOptionsFor('modified_date');
         }
     
         protected function setupFilterBuilder(FilterBuilder $filterBuilder, FixedKeysArray $columns)
@@ -1063,6 +1016,52 @@
                     FilterConditionOperator::IS_NOT_BLANK => null
                 )
             );
+            
+            $main_editor = new TextEdit('modified_by_edit');
+            $main_editor->SetMaxLength(65);
+            
+            $filterBuilder->addColumn(
+                $columns['modified_by'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::CONTAINS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_CONTAIN => $main_editor,
+                    FilterConditionOperator::BEGINS_WITH => $main_editor,
+                    FilterConditionOperator::ENDS_WITH => $main_editor,
+                    FilterConditionOperator::IS_LIKE => $main_editor,
+                    FilterConditionOperator::IS_NOT_LIKE => $main_editor,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
+            
+            $main_editor = new DateTimeEdit('modified_date_edit', false, 'd-m-Y H:i:s');
+            
+            $filterBuilder->addColumn(
+                $columns['modified_date'],
+                array(
+                    FilterConditionOperator::EQUALS => $main_editor,
+                    FilterConditionOperator::DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN => $main_editor,
+                    FilterConditionOperator::IS_GREATER_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN => $main_editor,
+                    FilterConditionOperator::IS_LESS_THAN_OR_EQUAL_TO => $main_editor,
+                    FilterConditionOperator::IS_BETWEEN => $main_editor,
+                    FilterConditionOperator::IS_NOT_BETWEEN => $main_editor,
+                    FilterConditionOperator::DATE_EQUALS => $main_editor,
+                    FilterConditionOperator::DATE_DOES_NOT_EQUAL => $main_editor,
+                    FilterConditionOperator::TODAY => null,
+                    FilterConditionOperator::IS_BLANK => null,
+                    FilterConditionOperator::IS_NOT_BLANK => null
+                )
+            );
         }
     
         protected function AddOperationsColumns(Grid $grid)
@@ -1195,7 +1194,6 @@
             $column = new TextViewColumn('notes', 'notes', 'Notes', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_notes_handler_list');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1218,7 +1216,27 @@
             $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_created_by_handler_list');
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $column->setMinimalVisibility(ColumnVisibility::PHONE);
+            $column->SetDescription('');
+            $column->SetFixedWidth(null);
+            $grid->AddViewColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $column->setMinimalVisibility(ColumnVisibility::PHONE);
             $column->SetDescription('');
             $column->SetFixedWidth(null);
@@ -1300,7 +1318,6 @@
             $column = new TextViewColumn('notes', 'notes', 'Notes', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_notes_handler_');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1316,7 +1333,6 @@
             $column = new TextViewColumn('marketo_page_name', 'marketo_page_name_page_description', 'Marketo Page Type', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_marketo_page_name_page_description_handler_');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1325,7 +1341,6 @@
             $column = new TextViewColumn('marketo_page', 'marketo_page', 'Marketo Page', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_marketo_page_handler_');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1342,7 +1357,6 @@
             $column = new TextViewColumn('url', 'url', 'External URL', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_url_handler_');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1352,7 +1366,6 @@
             $column->SetOrderable(true);
             $column->setCustomAttributes('full-url-style');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_full_url_handler_');
             $grid->AddSingleRecordViewColumn($column);
             
             //
@@ -1369,7 +1382,21 @@
             $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_created_by_handler_');
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddSingleRecordViewColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddSingleRecordViewColumn($column);
         }
     
@@ -1425,7 +1452,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -1709,7 +1738,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -1983,7 +2014,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -2298,7 +2331,6 @@
             $column = new TextViewColumn('notes', 'notes', 'Notes', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_notes_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -2314,7 +2346,6 @@
             $column = new TextViewColumn('marketo_page_name', 'marketo_page_name_page_description', 'Marketo Page Type', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_marketo_page_name_page_description_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -2323,7 +2354,6 @@
             $column = new TextViewColumn('marketo_page', 'marketo_page', 'Marketo Page', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_marketo_page_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -2340,7 +2370,6 @@
             $column = new TextViewColumn('url', 'url', 'External URL', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_url_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -2350,7 +2379,6 @@
             $column->SetOrderable(true);
             $column->setCustomAttributes('full-url-style');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_full_url_handler_print');
             $grid->AddPrintColumn($column);
             
             //
@@ -2367,7 +2395,21 @@
             $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_created_by_handler_print');
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddPrintColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddPrintColumn($column);
         }
     
@@ -2446,7 +2488,6 @@
             $column = new TextViewColumn('notes', 'notes', 'Notes', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_notes_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -2462,7 +2503,6 @@
             $column = new TextViewColumn('marketo_page_name', 'marketo_page_name_page_description', 'Marketo Page Type', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_marketo_page_name_page_description_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -2471,7 +2511,6 @@
             $column = new TextViewColumn('marketo_page', 'marketo_page', 'Marketo Page', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_marketo_page_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -2488,7 +2527,6 @@
             $column = new TextViewColumn('url', 'url', 'External URL', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_url_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -2498,7 +2536,6 @@
             $column->SetOrderable(true);
             $column->setCustomAttributes('full-url-style');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_full_url_handler_export');
             $grid->AddExportColumn($column);
             
             //
@@ -2515,7 +2552,21 @@
             $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_created_by_handler_export');
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddExportColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddExportColumn($column);
         }
     
@@ -2594,7 +2645,6 @@
             $column = new TextViewColumn('notes', 'notes', 'Notes', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_notes_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -2610,7 +2660,6 @@
             $column = new TextViewColumn('marketo_page_name', 'marketo_page_name_page_description', 'Marketo Page Type', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_marketo_page_name_page_description_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -2619,7 +2668,6 @@
             $column = new TextViewColumn('marketo_page', 'marketo_page', 'Marketo Page', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_marketo_page_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -2636,7 +2684,6 @@
             $column = new TextViewColumn('url', 'url', 'External URL', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_url_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -2646,7 +2693,6 @@
             $column->SetOrderable(true);
             $column->setCustomAttributes('full-url-style');
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_full_url_handler_compare');
             $grid->AddCompareColumn($column);
             
             //
@@ -2663,7 +2709,21 @@
             $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
             $column->SetOrderable(true);
             $column->SetMaxLength(75);
-            $column->SetFullTextWindowHandlerName('campaign_tracker_utm_created_by_handler_compare');
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for modified_by field
+            //
+            $column = new TextViewColumn('modified_by', 'modified_by', 'Modified By', $this->dataset);
+            $column->SetOrderable(true);
+            $grid->AddCompareColumn($column);
+            
+            //
+            // View column for modified_date field
+            //
+            $column = new DateTimeViewColumn('modified_date', 'modified_date', 'Modified Date', $this->dataset);
+            $column->SetOrderable(true);
+            $column->SetDateTimeFormat('d-m-Y H:i:s');
             $grid->AddCompareColumn($column);
         }
     
@@ -2787,6 +2847,7 @@
                           </div>
                         </div>');
             $this->setShowFormErrorsOnTop(true);
+            $this->setShowFormErrorsAtBottom(false);
     
             return $result;
         }
@@ -2918,120 +2979,6 @@
         }
     
         protected function doRegisterHandlers() {
-            //
-            // View column for notes field
-            //
-            $column = new TextViewColumn('notes', 'notes', 'Notes', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_notes_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for created_by field
-            //
-            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_created_by_handler_list', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for notes field
-            //
-            $column = new TextViewColumn('notes', 'notes', 'Notes', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_notes_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for page_description field
-            //
-            $column = new TextViewColumn('marketo_page_name', 'marketo_page_name_page_description', 'Marketo Page Type', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_marketo_page_name_page_description_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for marketo_page field
-            //
-            $column = new TextViewColumn('marketo_page', 'marketo_page', 'Marketo Page', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_marketo_page_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for url field
-            //
-            $column = new TextViewColumn('url', 'url', 'External URL', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_url_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for full_url field
-            //
-            $column = new TextViewColumn('full_url', 'full_url', 'Full Url', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setCustomAttributes('full-url-style');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_full_url_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for created_by field
-            //
-            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_created_by_handler_print', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for notes field
-            //
-            $column = new TextViewColumn('notes', 'notes', 'Notes', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_notes_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for page_description field
-            //
-            $column = new TextViewColumn('marketo_page_name', 'marketo_page_name_page_description', 'Marketo Page Type', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_marketo_page_name_page_description_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for marketo_page field
-            //
-            $column = new TextViewColumn('marketo_page', 'marketo_page', 'Marketo Page', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_marketo_page_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for url field
-            //
-            $column = new TextViewColumn('url', 'url', 'External URL', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_url_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for full_url field
-            //
-            $column = new TextViewColumn('full_url', 'full_url', 'Full Url', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setCustomAttributes('full-url-style');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_full_url_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for created_by field
-            //
-            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_created_by_handler_compare', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
@@ -3064,7 +3011,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -3166,7 +3115,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -3205,7 +3156,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -3275,55 +3228,6 @@
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'filter_builder_campaign_tracker_utm_marketo_page_name_search', 'pages_value', 'page_description', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
             
-            //
-            // View column for notes field
-            //
-            $column = new TextViewColumn('notes', 'notes', 'Notes', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_notes_handler_', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for page_description field
-            //
-            $column = new TextViewColumn('marketo_page_name', 'marketo_page_name_page_description', 'Marketo Page Type', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_marketo_page_name_page_description_handler_', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for marketo_page field
-            //
-            $column = new TextViewColumn('marketo_page', 'marketo_page', 'Marketo Page', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_marketo_page_handler_', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for url field
-            //
-            $column = new TextViewColumn('url', 'url', 'External URL', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_url_handler_', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for full_url field
-            //
-            $column = new TextViewColumn('full_url', 'full_url', 'Full Url', $this->dataset);
-            $column->SetOrderable(true);
-            $column->setCustomAttributes('full-url-style');
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_full_url_handler_', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
-            //
-            // View column for created_by field
-            //
-            $column = new TextViewColumn('created_by', 'created_by', 'Created By', $this->dataset);
-            $column->SetOrderable(true);
-            $handler = new ShowTextBlobHandler($this->dataset, $this, 'campaign_tracker_utm_created_by_handler_', $column);
-            GetApplication()->RegisterHTTPHandler($handler);
-            
             $lookupDataset = new TableDataset(
                 MySqlIConnectionFactory::getInstance(),
                 GetConnectionOptions(),
@@ -3356,7 +3260,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -3458,7 +3364,9 @@
                     new StringField('created_by'),
                     new DateTimeField('created_date'),
                     new StringField('updated_by'),
-                    new DateTimeField('updated_date')
+                    new DateTimeField('updated_date'),
+                    new StringField('modified_by'),
+                    new DateTimeField('modified_date')
                 )
             );
             $lookupDataset->setOrderByField('campaign_name', 'ASC');
@@ -3527,7 +3435,7 @@
             $lookupDataset->setOrderByField('page_description', 'ASC');
             $handler = new DynamicSearchHandler($lookupDataset, $this, 'multi_edit_campaign_tracker_utm_marketo_page_name_search', 'pages_value', 'page_description', null, 20);
             GetApplication()->RegisterHTTPHandler($handler);
-            new campaign_tracker_utm_master_campaign_idModalViewPage($this, GetCurrentUserPermissionSetForDataSource('campaign_tracker_utm.master_campaign_id'));
+            new campaign_tracker_utm_master_campaign_idModalViewPage($this, GetCurrentUserPermissionsForPage('campaign_tracker_utm.master_campaign_id'));
         }
        
         protected function doCustomRenderColumn($fieldName, $fieldData, $rowData, &$customText, &$handled)
@@ -3725,41 +3633,12 @@
     
         }
     
-        protected function doGetCustomPagePermissions(Page $page, PermissionSet &$permissions, &$handled)
+        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
         {
-            // do not apply these rules for site admins
-            
-            if (!GetApplication()->HasAdminGrantForCurrentUser()) {
-            
-            	// retrieving the ID of the current user
-            	$userId = GetApplication()->GetCurrentUserId();
-            
-            	// retrieving all user roles 
-            	$sql =        
-            	  "SELECT user_level " .
-            	  "FROM `phpgen_users` " .
-            	  "WHERE user_id = %d";    
-            	$result = $page->GetConnection()->fetchAll(sprintf($sql, $userId));
-            
-            	// iterating through retrieved roles
-            	if (!empty($result)) {
-            	   foreach ($result as $row) {
-            		   // is current user a member of the Sales role?
-            		   if (($row['user_level'] === '346')) {
-            			 // if yes, allow all actions.
-            			 // otherwise default permissions for this page will be applied
-            			 $permissions->setGrants(true, true, true, true);
-            			 break;
-            		   }                 
-            	   }
-            	};    
-            
-            	// apply the new permissions
-            	$handled = true;
-            }
+    
         }
     
-        protected function doGetCustomRecordPermissions(Page $page, &$usingCondition, $rowData, &$allowEdit, &$allowDelete, &$mergeWithDefault, &$handled)
+        protected function doAddEnvironmentVariables(Page $page, &$variables)
         {
     
         }
@@ -3770,7 +3649,7 @@
 
     try
     {
-        $Page = new campaign_tracker_utmPage("campaign_tracker_utm", "campaign_tracker_utm.php", GetCurrentUserPermissionSetForDataSource("campaign_tracker_utm"), 'UTF-8');
+        $Page = new campaign_tracker_utmPage("campaign_tracker_utm", "campaign_tracker_utm.php", GetCurrentUserPermissionsForPage("campaign_tracker_utm"), 'UTF-8');
         $Page->SetRecordPermission(GetCurrentUserRecordPermissionsForDataSource("campaign_tracker_utm"));
         GetApplication()->SetMainPage($Page);
         GetApplication()->Run();

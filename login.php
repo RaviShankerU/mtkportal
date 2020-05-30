@@ -21,8 +21,7 @@ function GetConnectionOptions() {
 }
 
 function OnAfterLogin($userName, EngConnection $connection, &$canLogin, &$errorMessage) {
-    $connection->ExecSQL("INSERT INTO activity_user_login(user_name, log_date, status) 
-      VALUES ('$userName', CURRENT_TIMESTAMP, 'login')");
+    $connection->ExecSQL("INSERT INTO activity_user_login(user_name, log_date, status) VALUES ('$userName', CURRENT_TIMESTAMP, 'login')");
 }
 
 function OnAfterFailedLoginAttempt($userName, EngConnection $connection, &$errorMessage) {
@@ -41,7 +40,9 @@ $page = new LoginPage(
     dirname(__FILE__),
     GetApplication()->GetUserAuthentication(),
     MySqlIConnectionFactory::getInstance(),
-    Captions::getInstance('UTF-8')
+    Captions::getInstance('UTF-8'),
+    GetReCaptcha('login'),
+    ''
 );
 
 
